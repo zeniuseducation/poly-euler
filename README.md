@@ -39,7 +39,7 @@ Note: I need to learn more about optimizing haskell codes.
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2014 PT Zenius Education
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
