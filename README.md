@@ -23,7 +23,7 @@ Haskell averaging 10 msecs
 
 Prob: Find the sum of even-valued fibo numbers less than 4,000,000
 
-Clojure 0.08msecs
+Clojure 0.08msecs  
 SBCL less than 0.01msecs  
 Haskell ~10msecs  
 
