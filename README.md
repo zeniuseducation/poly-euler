@@ -15,9 +15,9 @@ In every source, I will list the time-elapsed for each solution.
 
 Prob: Find the first fibo element that reach 1000 digits.
 
-Clojure averaging 2.9 msecs
-Clisp averaging 1.3 msecs
-Haskell averaging 20 msecs
+Clojure averaging 2.9 msecs  
+Clisp averaging 1.3 msecs  
+Haskell averaging 20 msecs  
 
 Note: I need to learn more about optimizing haskell codes.
 
