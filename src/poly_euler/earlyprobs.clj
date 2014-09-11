@@ -9,3 +9,16 @@
 
 ;; poly-euler.earlyprobs> (time (euler1 3 5 1000))
 ;; "Elapsed time: 3.394 msecs"
+
+(defn euler2
+  [[a b] lim res]
+  (if (>= a lim)
+    res
+    (euler2 [(+ a b) a]
+            lim
+            (if (even? a)
+              (+ res a)
+              res))))
+
+;; poly-euler.earlyprobs> (time (euler2 [1 2] 4000000 0))
+;; "Elapsed time: 0.08507 msecs"
