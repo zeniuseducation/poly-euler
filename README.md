@@ -11,6 +11,14 @@ In every source, I will list the time-elapsed for each solution.
 
 ## Performance Comparison in my MBA i5 1.6GHz
 
+##### Problem no 1
+
+Prob: Find the sum of all multiples of 3 or 5 that less than 1000
+
+Clojure averaging 3.2 msecs  
+Clisp averaging 0.3 msecs  
+Haskell averaging 10 msecs  
+
 ##### Problem no 25
 
 Prob: Find the first fibo element that reach 1000 digits.
