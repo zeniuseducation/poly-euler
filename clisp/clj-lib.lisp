@@ -82,4 +82,10 @@
 		      (if (prime? a) (cons a res) res))
 	    (lcm-list xs (cons a res))))))
 
+(defun take (n ls)
+  (cond ((>= n (length ls)) ls)
+	((= n 1) (list (first ls)))
+	(:else (append (list (first ls))
+		       (take (1- n) (rest ls))))))
+
 

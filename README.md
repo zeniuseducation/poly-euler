@@ -70,6 +70,22 @@ Clojure 0.3-0.4 msecs
 SBCL 0.01 msecs  
 Haskell (it seems that GHCi cannot time under 10msecs)
 
+##### Problem no 7
+
+Prob: Find the 10,001st prime 
+
+Clojure 40-50 msecs  
+SBCL 90-110 msecs  
+Haskell 2400 msecs  
+
+##### Problem no 8
+
+Prob: Find the largest product of 13 digits in a 1000 digits series
+
+Clojure 45-65 msecs  
+SBCL 100 msecs  
+Haskell 100 msecs  
+
 ##### Problem no 25
 
 Prob: Find the first fibo element that reach 1000 digits.
