@@ -1,9 +1,8 @@
 ;; PROBLEM NO 1 
 
 (defun range (i j)
-  (if (= i j)
-      nil
-      (cons i (range (1+ i) j))))
+  (loop for x from i to j
+       collect x))
 
 (defun euler1 (a b lim)
   (reduce '+ (remove-if-not #'(lambda (x) (or (zerop (rem x a))
@@ -101,7 +100,10 @@
 ;;   0.000035 seconds of total run time
 ;; NOTES: SBCL is REALLY FAST for this kind of thing
 
+;; Some utilities
 
+(defun filter (f ls)
+  (remove-if-not f ls))
 
 
 

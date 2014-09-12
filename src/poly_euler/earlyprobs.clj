@@ -129,6 +129,11 @@
 ;; This is a Tail-recursion using loop
 ;; elapsed time 0.4 msecs
 
+(defn divisible?
+  "Returns true if a is evenly divisible by m"
+  [a m]
+  (zero? (rem a m)))
+
 
 
 

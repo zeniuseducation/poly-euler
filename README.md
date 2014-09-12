@@ -1,7 +1,8 @@
 # Polyglottic Euler in 3 Lambdas
 
-Personal polyglottic attempts to euler in Clojure, Common Lisp (SBCL), and
-Haskell. I will refactor from time to time without deleting old codes. 
+Polyglottic attempts to euler in Clojure, Common Lisp (SBCL), and
+Haskell. The codes will be refactored from time to time without 
+deleting old codes. 
 
 <img src="https://sites.google.com/site/adidozsa2/KeepLisping.jpg">
 
@@ -15,9 +16,9 @@ better programmer for the rest of your days, even if you never
 actually use Lisp itself a lot*." - Eric Raymond, "How to Become a
 Hacker"
 
-In every source code, I will list the time-elapsed for each solution. 
+In every source code, time-elapsed for each solution will be listed.
 
-## Performance Comparison in my MBA i5 1.6GHz
+## Performance Comparison in MBA i5 1.6GHz
 
 ##### Problem no 1
 

@@ -1,6 +1,6 @@
 (defproject poly-euler "0.1.0"
   :description "Polyglottic euler playground in Clojure, CLisp, & Haskell"
-  :url "http://example.com/FIXME"
+  :url "http://github.com/zeniuseducation/poly-euler"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
