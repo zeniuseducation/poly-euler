@@ -97,7 +97,17 @@ euler8Helper ls mx
 
 euler8 ls = euler8Helper ls (prod (take 13 ls))
 
+sqr x = x * x
 
+euler9 n = take 1 [(a * b * c) | a <- [1..n], b <- [1..a], let c = (n - a - b),
+                   sqr c == (sqr a) + (sqr b)]
+
+-- 240 msecs
+
+-- This euler10 took 155 secs to complete... very slow
+euler10 n = sum $ takeWhile (\x -> x < n) (iterate nextPrime 2)
+
+euler10a n = sum [x | x <- [2..n], prime x]
 
 
 

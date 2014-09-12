@@ -108,12 +108,41 @@
       (list n)
       (cons (rem n 10) (numcol (quot n 10)))))
 
-(defconstant nums (numcol numbers))
+
 
 (defun euler8 (ls n mx)
   (if (= n (length ls))
       (max mx (product ls))
       (euler8 (rest ls) n (max mx (product (take n ls))))))
+
+;; PROBLEM NO 9
+
+(defun euler9 (n)
+  (loop for a from 1 to n
+     append (loop for b from a to n
+	       when (= (* (- n a b) (- n a b))
+		       (+ (* a a) (* b b)))
+	       collect (* a b (- n a b)))))
+
+;; CL-USER> (time (euler9 1000))
+;; Evaluation took:
+;;   0.021 seconds of real time
+;;   0.021759 seconds of total run time (0.021686 user, 0.000073 system)
+;;   104.76% CPU
+;;   34,766,596 processor cycles
+;;   0 bytes consed
+
+
+(defun sum-primes (n p res)
+  (if (>= p n)
+      res
+      (sum-primes n (next-prime p) (+ res p))))
+
+(defun euler10 (n)
+  (sum-primes n 2 0))
+
+
+
 
 
 

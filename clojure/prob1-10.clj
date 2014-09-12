@@ -1,4 +1,6 @@
-(ns poly-euler.earlyprobs)
+(ns euler.prob1-10)
+
+(load-file "math.clj")
 
 (defn euler1
   "Returns the sum of all multiplies of a or b which less than lim"
@@ -25,30 +27,6 @@
 
 ;; Problem no 3
 
-;; first the classic prime?
-
-(defn prime?
-  [p]
-  (cond (<= p 20) (if (some #(= % p) [2 3 5 7 11 13 17 19]) true false)
-        (even? p) false
-        :else (let [lim (inc (Math/sqrt p))]
-                (loop [i 3]
-                  (if (> i lim)
-                    true
-                    (if (zero? (rem p i))
-                      false
-                      (recur (+ 2 i))))))))
-
-(defn factors
-  [n]
-  (let [lim (inc (Math/sqrt n))]
-    (loop [i 2 res []]
-      (if (> i lim)
-        res
-        (recur (inc i)
-               (if (= 0 (rem n i))
-                 (conj res i (quot n i))
-                 res))))))
 
 (defn euler3
   [n]
@@ -94,15 +72,7 @@
 
 ;; Elapsed time
 
-(defn rude-lcm
-  [[a & xs] res]
-  (if (empty? xs)
-    (conj res a)
-    (if (some #(zero? (rem % a)) xs)
-      (-> #(if (zero? (rem % a)) (quot % a) %)
-          (map xs)
-          (rude-lcm (if (prime? a) (conj res a) res)))
-      (rude-lcm xs (conj res a)))))
+
 
 (defn euler5a
   [n]
@@ -129,38 +99,13 @@
 ;; This is a Tail-recursion using loop
 ;; elapsed time 0.4 msecs
 
-(defn div?
-  "Returns true if a is evenly divisible by m"
-  [a m]
-  (zero? (rem a m)))
-
-;; PROBLEM NO 6
-
-(defn sum
-  [ls]
-  (apply +' ls))
-
-(defn product
-  [ls]
-  (apply *' ls))
-
-(defn square [x] (* x x))
 
 (defn euler6
   [n]
   (- (sum (map square (range 1 (inc n))))
      (square (sum (range 1 (inc n))))))
 
-;; Problem no 7
-;; The 10,001st prime
-
-(defn next-prime
-  "Returns the next prime larger than x, assuming x is prime"
-  [x]
-  (cond (= 2 x) 3
-        (even? x) (next-prime (inc x))
-        :else (loop [i (+ 2 x)]
-                (if (prime? i) i (recur (+ 2 i))))))
+;; Problem no 7 The 10,001st prime
 
 (defn euler7
   [n]
@@ -190,6 +135,37 @@
 
 "Elapsed time 46-65msecs"
 
+(defn sqr [x] (* x x ))
+
+(defn triangles ; euler 9
+  [n]
+  (for [a (range 1 (inc n))
+        b (range 1 a)
+        :let [c (- n a b)]
+        :when (= (sqr c)
+                 (+ (sqr a) (sqr b)))] (* a b c)))
+
+;; This one clojure really won head and shoulders above the rest!!
+;; poly-euler.earlyprobs> (time (triangles 1000))
+"Elapsed time: 0.085 msecs"
+
+;; Naive clojure
+
+(defn euler10
+  [n]
+  (reduce + (take-while #(< % n)
+                        (iterate next-prime 2))))
+
+;; a bit tricky but the speed turns out to be the same
+
+(defn euler10a
+  [n]
+  (loop [p 2 res 0]
+    (if (>= p n)
+      res
+      (recur (next-prime p) (+ res p)))))
+
+"Elapsed time around 2500msecs"
 
 
 
