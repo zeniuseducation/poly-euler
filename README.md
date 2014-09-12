@@ -5,6 +5,8 @@ Haskell. I will refactor from time to time without deleting old codes.
 
 <img src="https://sites.google.com/site/adidozsa2/KeepLisping.jpg">
 
+Note: The logo was taken from <a href="https://sites.google.com/site/adidozsa2/lisp">This blog</a>.
+
 ## Usage
 
 You can run lein autoexpects for clojure.
