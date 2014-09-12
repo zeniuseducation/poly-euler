@@ -22,3 +22,48 @@
 
 ;; poly-euler.earlyprobs> (time (euler2 [1 2] 4000000 0))
 ;; "Elapsed time: 0.08507 msecs"
+
+;; Problem no 3
+
+;; first the classic prime?
+
+(defn prime?
+  [p]
+  (cond (<= p 20) (if (some #(= % p) [2 3 5 7 11 13 17 19]) true false)
+        (even? p) false
+        :else (let [lim (inc (Math/sqrt p))]
+                (loop [i 3]
+                  (if (> i lim)
+                    true
+                    (if (zero? (rem p i))
+                      false
+                      (recur (+ 2 i))))))))
+
+(defn factors
+  [n]
+  (let [lim (inc (Math/sqrt n))]
+    (loop [i 2 res []]
+      (if (> i lim)
+        res
+        (recur (inc i)
+               (if (= 0 (rem n i))
+                 (conj res i (quot n i))
+                 res))))))
+
+(defn euler3
+  [n]
+  (->> (factors n)
+       (filter prime?)
+       (apply max)))
+
+;; poly-euler.earlyprobs> (time (euler3 600851475143))
+;; "Elapsed time: 33.237 msecs"
+
+
+
+
+
+
+
+
+

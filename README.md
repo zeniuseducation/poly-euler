@@ -29,6 +29,14 @@ Clojure 0.08msecs
 SBCL less than 0.01msecs  
 Haskell ~10msecs  
 
+##### Problem no 3
+
+Prob: Find the largest prime factor of 600851475143
+
+Clojure 32 msecs  
+SBCL 37-42 msecs  
+Haskell 1,420 msecs  
+
 ##### Problem no 25
 
 Prob: Find the first fibo element that reach 1000 digits.
