@@ -129,11 +129,27 @@
 ;; This is a Tail-recursion using loop
 ;; elapsed time 0.4 msecs
 
-(defn divisible?
+(defn div?
   "Returns true if a is evenly divisible by m"
   [a m]
   (zero? (rem a m)))
 
+;; PROBLEM NO 6
+
+(defn sum
+  [ls]
+  (apply +' ls))
+
+(defn product
+  [ls]
+  (apply *' ls))
+
+(defn square [x] (* x x))
+
+(defn euler6
+  [n]
+  (- (sum (map square (range 1 (inc n))))
+     (square (sum (range 1 (inc n))))))
 
 
 

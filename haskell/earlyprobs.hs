@@ -59,7 +59,9 @@ rudeLCM (a:xs) res
 
 euler5a n = product $ rudeLCM [1..n] []
                 
-                                    
+-- Problem no 6
+
+euler6 n = sum (map sqr [1..n]) - sqr (sum [1..n]) where sqr x = x * x
 
 
 

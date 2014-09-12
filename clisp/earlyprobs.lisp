@@ -81,6 +81,7 @@
 
 ;; Some utilities
 
-
+(defun euler6 (n)
+  (- (sum (mapcar 'sqr (range 1 (1+ n)))) (sqr (sum (range 1 (1+ n))))))
 
 

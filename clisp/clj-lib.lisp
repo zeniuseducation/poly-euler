@@ -30,6 +30,8 @@
 (defun square (x)
   (* x x))
 
+(defun sqr (x) (* x x))
+
 (defun range (&rest args)
   "Clojure range behaviour"
   (cond ((= 1 (length args))

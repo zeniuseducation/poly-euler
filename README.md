@@ -62,6 +62,14 @@ Clojure 0.3 msecs
 SBCL 0.04 msecs  
 Haskel ~10msecs  
 
+##### Problem no 6
+
+Prob: Calculate the difference between the sum of squares of the first 100 natural numbers and the square of sum those numbers.
+
+Clojure 0.3-0.4 msecs  
+SBCL 0.01 msecs  
+Haskell (it seems that GHCi cannot time under 10msecs)
+
 ##### Problem no 25
 
 Prob: Find the first fibo element that reach 1000 digits.
