@@ -3,6 +3,8 @@
 Personal polyglottic attempts to euler in Clojure, Common Lisp (SBCL), and
 Haskell. I will refactor from time to time without deleting old codes. 
 
+<img src="https://sites.google.com/site/adidozsa2/KeepLisping.jpg">
+
 ## Usage
 
 You can run lein autoexpects for clojure.
