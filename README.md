@@ -9,10 +9,10 @@ Note: The logo was taken from <a href="https://sites.google.com/site/adidozsa2/l
 
 ## About the Lisps
 
-"Lisp is worth learning for the profound enlightenment experience you
+"*Lisp is worth learning for the profound enlightenment experience you
 will have when you finally get it; that experience will make you a
 better programmer for the rest of your days, even if you never
-actually use Lisp itself a lot." - Eric Raymond, "How to Become a
+actually use Lisp itself a lot*." - Eric Raymond, "How to Become a
 Hacker"
 
 In every source code, I will list the time-elapsed for each solution. 
