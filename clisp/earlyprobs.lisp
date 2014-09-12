@@ -61,7 +61,20 @@
 
 ;; elapsed time 37-42 msecs
 
+(defun palin? (n)
+  (let ((st (write-to-string n)))
+    (equal st (reverse st))))
 
+(defun euler4 (start end)
+  (apply 'max
+	 (loop for x from start to end
+	    append (loop for y from start to end
+		      when (palin? (* x y))
+		      collect (* x y)))))
+
+;; CL-USER> (time (euler4 900 1000))
+;; Evaluation took:
+;;   0.019 seconds of real time
 
 
 

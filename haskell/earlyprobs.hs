@@ -38,8 +38,13 @@ factors n = factorsHelper n 2 (ceiling (sqrt (fromInteger n))) []
 
 euler3 n = maximum $ filter prime (factors n)
 
-;; elapsed time 1.43 seconds
+-- elapsed time 1.43 seconds
 
+isPalin p = (show p) == (reverse $ show p)
+
+euler4 i j = maximum [x*y | x <- [i..j], y <- [x..j], isPalin (x*y)]
+
+-- elapsed time 30msecs
 
 
 

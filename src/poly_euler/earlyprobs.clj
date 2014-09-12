@@ -8,7 +8,7 @@
                     (range 1 lim))))
 
 ;; poly-euler.earlyprobs> (time (euler1 3 5 1000))
-;; "Elapsed time: 3.394 msecs"
+"Elapsed time: 3.394 msecs"
 
 (defn euler2
   [[a b] lim res]
@@ -21,7 +21,7 @@
               res))))
 
 ;; poly-euler.earlyprobs> (time (euler2 [1 2] 4000000 0))
-;; "Elapsed time: 0.08507 msecs"
+"Elapsed time: 0.08507 msecs"
 
 ;; Problem no 3
 
@@ -57,8 +57,25 @@
        (apply max)))
 
 ;; poly-euler.earlyprobs> (time (euler3 600851475143))
-;; "Elapsed time: 33.237 msecs"
+"Elapsed time: 33.237 msecs"
 
+;; PROBLEM NO 4
+
+(defn palin?
+  [p]
+  (let [st (str p)]
+    (= st (apply str (reverse st)))))
+
+(defn euler4
+  [start end]
+  (->> (* a b)
+       (for [a (range start end)
+             b (range a end)
+             :when (palin? (* a b))])
+       (apply max)))
+
+;; poly-euler.earlyprobs> (time (euler4 900 1000))
+"Elapsed time: 16.868 msecs"
 
 
 

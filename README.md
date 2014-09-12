@@ -39,6 +39,15 @@ Clojure 32 msecs
 SBCL 37-42 msecs  
 Haskell 1,420 msecs  
 
+##### Problem no 4
+
+Prob: Find the largest palindrom that is a product of two 3 digits
+number (can be different numbers).
+
+Clojure 16-18 msecs  
+SBCL 18-20 msecs  
+Haskell 30 msecs  
+
 ##### Problem no 25
 
 Prob: Find the first fibo element that reach 1000 digits.
@@ -55,3 +64,7 @@ Copyright © 2014 PT Zenius Education
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
+
+
+
+
