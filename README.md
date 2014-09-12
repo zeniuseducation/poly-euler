@@ -49,8 +49,17 @@ Prob: Find the largest palindrom that is a product of two 3 digits
 number (can be different numbers).
 
 Clojure 16-18 msecs  
-SBCL 18-20 msecs  
+SBCL 11-20 msecs  
 Haskell 30 msecs  
+
+##### Problem no 5
+
+Prob: Find the smallest number that can be evenly divided by all
+integers from 1 to 20.
+
+Clojure 0.3 msecs  
+SBCL 0.04 msecs  
+Haskel ~10msecs  
 
 ##### Problem no 25
 

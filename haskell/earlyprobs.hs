@@ -46,6 +46,27 @@ euler4 i j = maximum [x*y | x <- [i..j], y <- [x..j], isPalin (x*y)]
 
 -- elapsed time 30msecs
 
+-- This is the most naive implementation, really slow
+euler5 n = head [x | x <- [(product [2,3,5,7,11,13,17,19])..],
+                 (all (\i -> 0 == (rem x i)) [1..n])]
+
+rudeLCM (a:xs) res
+  | null xs = a:res
+  | any (\x -> 0 == (rem x a)) xs = rudeLCM newXs newRes
+  | otherwise = rudeLCM xs (a:res)
+  where newXs = map (\x -> (if (0 == (rem x a)) then (quot x a) else x)) xs
+        newRes = if (prime a) then a:res else res
+
+euler5a n = product $ rudeLCM [1..n] []
+                
+                                    
+
+
+
+
+
+
+
 
 
 

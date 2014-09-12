@@ -77,6 +77,60 @@
 ;; poly-euler.earlyprobs> (time (euler4 900 1000))
 "Elapsed time: 16.868 msecs"
 
+;; PROBLEM NO 5 can be seen as finding LCM (Least common
+;; multiple)
+
+;; The first one is the most naive implementation
+
+(defn euler5
+  "Returns the smallest number that can be evely divided by all
+  integers from 1 to n"
+  [n]
+  (loop [i (apply * (filter prime? (range 1 (inc n))))]
+    (if (every? #(zero? (rem i %))
+                (range 1 (inc n)))
+      i
+      (recur (inc i)))))
+
+;; Elapsed time
+
+(defn rude-lcm
+  [[a & xs] res]
+  (if (empty? xs)
+    (conj res a)
+    (if (some #(zero? (rem % a)) xs)
+      (-> #(if (zero? (rem % a)) (quot % a) %)
+          (map xs)
+          (rude-lcm (if (prime? a) (conj res a) res)))
+      (rude-lcm xs (conj res a)))))
+
+(defn euler5a
+  [n]
+  (reduce *' (rude-lcm (range 1 (inc n)) [])))
+
+;; This is a pure recursion version
+;; elapsed time 0.3 msecs
+
+(defn raw-lcm
+  [n]
+  (loop [[a & xs] (range 1 (inc n)) res []]
+    (if (empty? xs)
+      (conj res a)
+      (if (some #(zero? (rem % a)) xs)
+        (recur (-> #(if (zero? (rem % a)) (quot % a) %)
+                   (map xs))
+               (if (prime? a) (conj res a) res))
+        (recur xs (conj res a))))))
+
+(defn euler5b
+  [n]
+  (reduce *' (raw-lcm n)))
+
+;; This is a Tail-recursion using loop
+;; elapsed time 0.4 msecs
+
+
+
 
 
 
