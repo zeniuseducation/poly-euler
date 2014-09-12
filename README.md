@@ -7,11 +7,15 @@ Haskell. I will refactor from time to time without deleting old codes.
 
 Note: The logo was taken from <a href="https://sites.google.com/site/adidozsa2/lisp">This blog</a>.
 
-## Usage
+## About the Lisps
 
-You can run lein autoexpects for clojure.
+"Lisp is worth learning for the profound enlightenment experience you
+will have when you finally get it; that experience will make you a
+better programmer for the rest of your days, even if you never
+actually use Lisp itself a lot." - Eric Raymond, "How to Become a
+Hacker"
 
-In every source, I will list the time-elapsed for each solution. 
+In every source code, I will list the time-elapsed for each solution. 
 
 ## Performance Comparison in my MBA i5 1.6GHz
 
