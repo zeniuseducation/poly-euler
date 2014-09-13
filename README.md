@@ -27,6 +27,7 @@ Prob: Find the sum of all multiples of 3 or 5 that less than 1000
 Clojure averaging 3.2 msecs  
 SBCL averaging 0.3 msecs  
 Haskell averaging 10 msecs  
+Racket 1 msec
 
 ##### Problem no 2
 
@@ -35,6 +36,7 @@ Prob: Find the sum of even-valued fibo numbers less than 4,000,000
 Clojure 0.08msecs  
 SBCL less than 0.01msecs  
 Haskell ~10msecs  
+Racket less than 1 msec
 
 ##### Problem no 3
 
@@ -43,6 +45,7 @@ Prob: Find the largest prime factor of 600851475143
 Clojure 32 msecs  
 SBCL 37-42 msecs  
 Haskell 1,420 msecs  
+Racket 5-6 msecs
 
 ##### Problem no 4
 
@@ -85,6 +88,19 @@ Prob: Find the largest product of 13 digits in a 1000 digits series
 Clojure 45-65 msecs  
 SBCL 100 msecs  
 Haskell 100 msecs  
+
+##### Problem no 9
+
+Clojure 0.08 msecs  
+SBCL 210 msecs  
+Haskell 240 msecs  
+
+##### Problem no 10
+
+Clojure 2,500 msecs  (2.5 secs)  
+SBCL 6,300 msecs  (6.3 secs)  
+Haskell 155,000 msecs (155 secs)  
+Racket 4-6K msecs (5-6 secs)  
 
 ##### Problem no 25
 
