@@ -1,6 +1,6 @@
-# Polyglottic Euler in 3 Lambdas
+# Polyglottic Euler in 4 Lambdas
 
-Polyglottic attempts to euler in Clojure, Common Lisp (SBCL), and
+Polyglottic attempts to euler in Clojure, Common Lisp (SBCL), Racket, and
 Haskell. The codes will be refactored from time to time without 
 deleting old codes. 
 
