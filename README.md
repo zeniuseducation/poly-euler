@@ -86,19 +86,19 @@ Haskell 2400 msecs
 Prob: Find the largest product of 13 digits in a 1000 digits series
 
 Clojure 45-65 msecs  
-SBCL 100 msecs  
+SBCL 23 msecs  
 Haskell 100 msecs  
 
 ##### Problem no 9
 
 Clojure 0.08 msecs  
-SBCL 210 msecs  
+SBCL 21 msecs  
 Haskell 240 msecs  
 
 ##### Problem no 10
 
 Clojure 2,500 msecs  (2.5 secs)  
-SBCL 6,300 msecs  (6.3 secs)  
+SBCL 5,800 msecs  (5.8 secs)  
 Haskell 155,000 msecs (155 secs)  
 Racket 4-6K msecs (5-6 secs)  
 
