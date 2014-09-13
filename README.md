@@ -6,7 +6,7 @@ deleting old codes.
 
 <img src="https://sites.google.com/site/adidozsa2/KeepLisping.jpg">
 
-Note: The logo was taken from <a href="https://sites.google.com/site/adidozsa2/lisp">This blog</a>.
+Note: The logo was taken from <a href="https://sites.google.com/site/adidozsa2/lisp">This blog</a>. Unfortunately nobody noticed that the Johnnie posture is lambda-shaped :)
 
 ## About the Lisps
 
@@ -116,8 +116,7 @@ Note: I need to learn more about optimizing haskell codes.
 
 Copyright © 2014 PT Zenius Education
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the Eclipse Public License either version 1.0.
 
 
 
