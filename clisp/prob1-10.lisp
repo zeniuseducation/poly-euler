@@ -1,6 +1,6 @@
 ;; PROBLEM NO 1
 
-(load "clj-lib.lisp")
+(load "math.lisp")
 
 (defun euler1 (a b lim)
   (reduce '+ (remove-if-not #'(lambda (x) (or (zerop (rem x a))
@@ -85,12 +85,7 @@
   (- (sum (mapcar 'sqr (range 1 (1+ n)))) (sqr (sum (range 1 (1+ n))))))
 
 
-(defun next-prime (x)
-  "Returns the next positive prime number larger than x"
-  (cond ((= 2 x) 3)
-	((evenp x) (next-prime (1+ x)))
-	((prime? (+ 2 x)) (+ 2 x))
-	(:else (next-prime (+ 2 x)))))
+
 
 (defun euler7-helper (n i p)
   (if (= n i) p (euler7-helper n (1+ i) (next-prime p))))
