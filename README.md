@@ -45,7 +45,7 @@ Prob: Find the largest prime factor of 600851475143
 Clojure 32 msecs  
 SBCL 37-42 msecs  
 Haskell 1,420 msecs  
-Racket 5-6 msecs
+Racket 50-60 msecs
 
 ##### Problem no 4
 
@@ -63,7 +63,7 @@ integers from 1 to 20.
 
 Clojure 0.3 msecs  
 SBCL 0.04 msecs  
-Haskel ~10msecs  
+Haskell ~10msecs  
 
 ##### Problem no 6
 
