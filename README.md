@@ -18,7 +18,7 @@ Hacker"
 
 In every source code, time-elapsed for each solution will be listed.
 
-## Performance Comparison in MBA i5 1.6GHz
+## Performance Comparison on MBA i5 1.6GHz
 
 ##### Problem no 1
 
