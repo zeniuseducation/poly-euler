@@ -104,7 +104,7 @@ Racket 4-6K msecs (5-6 secs)
 
 ##### Problem no 12
 
-Clojure 1.7 seconds 
+Clojure 1.7 seconds   
 SBCL 2.4 seconds  
 Haskell 85 seconds  
 
