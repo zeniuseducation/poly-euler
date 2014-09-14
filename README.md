@@ -102,6 +102,17 @@ SBCL 5,800 msecs  (5.8 secs)
 Haskell 155,000 msecs (155 secs)  
 Racket 4-6K msecs (5-6 secs)  
 
+##### Problem no 12
+
+Clojure 1.7 seconds 
+SBCL 2.4 seconds  
+Haskell 85 seconds  
+
+##### Problem no 14
+
+Clojure 5.3 seconds  
+SBCL 29-32 seconds  
+
 ##### Problem no 25
 
 Prob: Find the first fibo element that reach 1000 digits.
