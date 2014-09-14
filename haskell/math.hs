@@ -6,6 +6,7 @@ primeHelper p i lim
   | 0 == (rem p i) = False
   | otherwise = primeHelper p (i + 2) lim
 
+-- it returns true if p is prime and false otherwise
 prime :: Int -> Bool
 prime p
   | p <= 10 = elem p [2,3,5,7]
@@ -19,9 +20,16 @@ factorsHelper n i lim res
   | otherwise = factorsHelper n (succ i) lim res
   where newRes = if i == (quot n i) then i:res else i:(quot n i):res
 
+-- it returns the list of integer factors of n
 factors :: Int -> [Int]
-factors n = factorsHelper n 2 (ceiling $ sqrt $ fromIntegral n) []
+factors 1 = [1]
+factors 2 = [1,2]
+factors 3 = [1,3]
+factors 6 = [1,2,3,6]
+factors 12 = [1,2,3,4,6,12]
+factors n = factorsHelper n 1 (ceiling $ sqrt $ fromIntegral n) []
 
+-- returns true if p is a palindrom
 isPalin :: Int -> Bool
 isPalin p = (show p) == (reverse $ show p)
 

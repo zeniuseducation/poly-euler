@@ -1,5 +1,3 @@
-(ns euler.math)
-
 (defn div?
   "Returns true if a is evenly divisible by m"
   [a m]
@@ -37,22 +35,6 @@
   [a m]
   (if (zero? m) 1 (* a (expt a (dec m)))))
 
-(defn rude-lcm
-  [[a & xs] res]
-  (if (empty? xs)
-    (conj res a)
-    (if (some #(zero? (rem % a)) xs)
-      (-> #(if (zero? (rem % a)) (quot % a) %)
-          (map xs)
-          (rude-lcm (if (prime? a) (conj res a) res)))
-      (rude-lcm xs (conj res a)))))
-
-(defn lcm
-  "Accepts a seq/coll of numbers and returns the least common multiple
-  of all numbers in the seq/coll"
-  [ls]
-  (product (rude-lcm ls [])))
-
 (defn gcd
   "Accepts two numbers and returns the greatest common divisors of
   those numbers"
@@ -76,6 +58,22 @@
                     (if (zero? (rem p i))
                       false
                       (recur (+ 2 i))))))))
+
+(defn rude-lcm
+  [[a & xs] res]
+  (if (empty? xs)
+    (conj res a)
+    (if (some #(zero? (rem % a)) xs)
+      (-> #(if (zero? (rem % a)) (quot % a) %)
+          (map xs)
+          (rude-lcm (if (prime? a) (conj res a) res)))
+      (rude-lcm xs (conj res a)))))
+
+(defn lcm
+  "Accepts a seq/coll of numbers and returns the least common multiple
+  of all numbers in the seq/coll"
+  [ls]
+  (product (rude-lcm ls [])))
 
 (defn factors
   "Accepts a number n and returns the factors of n"

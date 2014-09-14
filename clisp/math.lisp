@@ -68,7 +68,7 @@
 	(t (factors-helper n (1+ i) res lim))))
 
 (defun factors (n)
-  (factors-helper n 2 '() (1+ (sqrt n))))
+  (factors-helper n 2 '() (1+ (sqrt n)))) 
 
 (defun lcm-list (ls res) 
   (let ((a (first ls))
