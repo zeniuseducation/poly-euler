@@ -17,3 +17,5 @@ solution12Helper n i
 -- it returns the first triangle number that has n or more number of factors
 euler12 :: Int -> Int
 euler12 n = solution12Helper n 1
+
+-- Elapsed time 85 seconds!???
