@@ -44,6 +44,28 @@
 
 ;; PROBLEM 108 FOR 110
 
-(defun palin? (n)
-  (let ((tmp (numcol n)))
-    (equal tmp (reverse tmp))))
+
+;; PROBLEM 125
+
+(defun squares-inner (n i sumn lim res)
+  (let ((tsqr (+ sumn (sqr i))))
+    (if (>= tsqr lim)
+	res
+	(squares-inner n
+		       (inc i)
+		       tsqr
+		       lim
+		       (if (palin? tsqr)
+			   (cons tsqr res)
+			   res)))))
+
+(defun squares-outer (n lim res)
+  (let ((tmp (sqr (dec n))))
+    (if (>= tmp lim)
+	(sum (remove-duplicates res))
+	(squares-outer (inc n)
+		       lim
+		       (append res (squares-inner n n tmp lim  nil))))))
+
+(defun sol125 (lim)
+  (time (squares-outer 2 lim nil)))

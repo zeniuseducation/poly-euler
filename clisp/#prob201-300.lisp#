@@ -21,5 +21,6 @@
 (defun sol234 (lim)
   (time (outer-collector 2 3 lim 0)))
 
+(sum (numcol (product (range 1 101))))
 
 
