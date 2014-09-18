@@ -3,6 +3,11 @@
   [a m]
   (zero? (rem a m)))
 
+(defn psqr?
+  [n]
+  (let [x (Math/sqrt n)]
+    (== (int x) x)))
+
 (defn sum
   "Accepts a seq/coll and returns the sum of all elements in the
   seq/coll"
@@ -39,11 +44,12 @@
   "Accepts two numbers and returns the greatest common divisors of
   those numbers"
   [a b]
-  (if (= a b)
-    a
-    (if (> a b)
-      (gcd b (- a b))
-      (gcd a (- b a)))))
+  (loop [i a j b]
+    (if (= i j)
+      i
+      (if (> i j)
+        (recur j (- i j))
+        (recur i (- j i))))))
 
 (defn prime?
   "Accepts a number and returns true if it is a prime, and false
@@ -78,16 +84,69 @@
 (defn factors
   "Accepts a number n and returns the factors of n"
   [n]
-  (let [lim (inc (Math/sqrt n))]
-    (loop [i 2 res []]
-      (if (> i lim)
-        res
-        (recur (inc i)
-               (if (= 0 (rem n i))
-                 (if (= i (quot n i))
-                   (conj res i)
-                   (conj res i (quot n i)))
-                 res))))))
+  (loop [i 1 res []]
+    (if (>= (* i i) n)
+      (if (= (* i i) n)
+        (conj res i)
+        res)
+      (recur (inc i)
+             (if (= 0 (rem n i))
+               (if (= i (quot n i))
+                 (conj res i)
+                 (conj res i (quot n i)))
+               res)))))
+
+(defn count-factors
+  "Accepts a number n and returns the factors of n"
+  [n]
+  (loop [i 1 res 0]
+    (if (>= (* i i) n)
+      (if (= (* i i) n)
+        (inc res)
+        res)
+      (recur (inc i)
+             (if (= 0 (rem n i))
+               (if (= i (quot n i))
+                 (inc res)
+                 (+ 2 res))
+               res)))))
+
+(defn count-divs
+  "Return the number of divisors of n"
+  [n]
+  (if (= n 1)
+    1
+    (let [plim (inc (Math/sqrt n))]
+      (if (even? n)
+        (loop [i 2 lim (quot n 2) res 2]
+          (if (or (> i plim) (>= i lim))
+            (if (= 4 n)
+              3
+              res)
+            (if (zero? (rem n i))
+              (let [tmp (quot n i)]
+                (if (= tmp i)
+                  (inc res)
+                  (recur (inc i)
+                         tmp
+                         (+ 2 res))))
+              (recur (inc i)
+                     lim
+                     res))))
+        (loop [i 3 lim (quot n 3) res 2]
+          (if (or (> i plim) (>= i lim))
+            res
+            (if (zero? (rem n i))
+              (let [tmp (quot n i)]
+                (if (= tmp i)
+                  (inc res)
+                  (recur (+ 2 i)
+                         tmp
+                         (+ 2 res))))
+              (recur (+ 2 i)
+                     lim
+                     res))))))))
+
 
 (defn next-prime
   "Returns the smallest prime that is larger than x"
@@ -118,12 +177,105 @@
              (next-prime cur)
              (conj res cur)))))
 
+(defn primes-under
+  "Returns all positive primes less than n"
+  [n]
+  (loop [i 2 res []]
+    (if (> i n)
+      res
+      (recur (next-prime i) (conj res i)))))
+
 (defn suma-prima
   "Returns the sum of n first positive prime numbers"
   [n ctype]
   (if (= :list ctype)
     (reduce + (prime-list n))
     (reduce + (prime-list-vector n))))
+
+(defn abs
+  [n]
+  (if (neg? n) (- n) n))
+
+(defn now
+  []
+  (java.util.Date.))
+
+(defn numcol
+  "Returns a vector of digits of a number n"
+  [n]
+  (loop [i n res '()]
+    (if (< i 10)
+      (cons i res)
+      (recur (quot i 10) (cons (rem i 10) res)))))
+
+
+(defn colnum
+  "Returns a number made from a vector of digits"
+  [ls]
+  (loop [[x & xs] ls res 0]
+    (if (empty? xs)
+      (+ (* 10 res) x)
+      (recur xs (+ (* 10 res) x)))))
+
+(defn palin?
+  "Returns true if n is a palindromic number"
+  [n]
+  (let [col (numcol n)]
+    (= col (reverse col))))
+
+(defn palins [n]
+  (let [gen-pal (fn gen-pal [n mcol]
+                  (let [nn (inc n)
+                        ncol (numcol nn)
+                        stat (if (odd? (count mcol))
+                               (not= (* 2 (count ncol))
+                                     (inc (count mcol)))
+                               (not= (* 2 (count ncol))
+                                     (count mcol)))]
+                    (if stat
+                      (colnum (concat ncol
+                                      (if (odd? (count mcol))
+                                        (reverse (butlast (butlast ncol)))
+                                        (reverse (butlast ncol)))))
+                      (colnum (concat ncol
+                                      (if (odd? (count mcol))
+                                        (reverse (butlast ncol))
+                                        (reverse ncol)))))))
+        npal (fn [n]
+               (let [mcol (numcol n)
+                     lcol (vec (take (quot (count mcol) 2) mcol))
+                     rlcol (reverse lcol)
+                     rcol (take-last (quot (count mcol) 2) mcol)
+                     midnum (first (drop (quot (count mcol) 2) mcol))
+                     stat (odd? (count mcol))]
+                 (if (<= (count mcol) 2)
+                   (loop [i (inc n)]
+                     (if (palin? i)
+                       i
+                       (recur (inc i))))
+                   (if (palin? n)
+                     (gen-pal (colnum (if stat
+                                        (conj lcol midnum)
+                                        lcol)) mcol)
+                     (if (> (colnum rlcol)
+                            (colnum rcol))
+                       (colnum (concat lcol
+                                       (if stat
+                                         [midnum]
+                                         [])
+                                       rlcol))
+                       (gen-pal (colnum (if stat
+                                          (conj lcol midnum)
+                                          lcol)) mcol))))))
+        m (if (palin? n)
+            n
+            (npal n))]
+    (iterate npal m)))
+
+(defn palins-under
+  "Returns all palindromic numbers less than n"
+  [n]
+  (take-while #(< % n) (palins 1)))
 
 
 

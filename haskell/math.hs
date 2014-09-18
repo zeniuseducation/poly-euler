@@ -1,23 +1,23 @@
 module Math where
 
-primeHelper :: Int -> Int -> Int -> Bool
-primeHelper p i lim
-  | i >= lim = True
+primeHelper :: Int -> Int -> Bool
+primeHelper p i
+  | (i*i) > p = True
   | 0 == (rem p i) = False
-  | otherwise = primeHelper p (i + 2) lim
+  | otherwise = primeHelper p (i + 2)
 
 -- it returns true if p is prime and false otherwise
 prime :: Int -> Bool
 prime p
   | p <= 10 = elem p [2,3,5,7]
   | even p = False
-  | otherwise = primeHelper p 3 (ceiling $ sqrt $ fromIntegral p)
+  | otherwise = primeHelper p 3
 
-factorsHelper :: Int -> Int -> Int -> [Int] -> [Int]
-factorsHelper n i lim res
-  | i > lim = res
-  | 0 == (rem n i) = factorsHelper n (succ i) lim newRes
-  | otherwise = factorsHelper n (succ i) lim res
+factorsHelper :: Int -> Int -> [Int] -> [Int]
+factorsHelper n i res
+  | (i * i) > n = res
+  | 0 == (rem n i) = factorsHelper n (succ i) newRes
+  | otherwise = factorsHelper n (succ i) res
   where newRes = if i == (quot n i) then i:res else i:(quot n i):res
 
 -- it returns the list of integer factors of n
@@ -27,12 +27,14 @@ factors 2 = [1,2]
 factors 3 = [1,3]
 factors 6 = [1,2,3,6]
 factors 12 = [1,2,3,4,6,12]
-factors n = factorsHelper n 1 (ceiling $ sqrt $ fromIntegral n) []
+factors n = factorsHelper n 1 []
 
--- returns true if p is a palindrom
+-- it returns true if p is a palindrom
 isPalin :: Int -> Bool
 isPalin p = (show p) == (reverse $ show p)
 
+-- it returns the list of prime factors which multiplied to produce
+-- lcm of all numbers in the list
 rudeLCM :: [Int] -> [Int] -> [Int]
 rudeLCM (a:xs) res
   | null xs = a:res
@@ -41,6 +43,7 @@ rudeLCM (a:xs) res
   where newXs = map (\x -> (if (0 == (rem x a)) then (quot x a) else x)) xs
         newRes = if (prime a) then a:res else res
 
+-- it returns the first positive prime number greater than x
 nextPrime :: Int -> Int
 nextPrime x
   | x == 2 = 3
@@ -52,6 +55,7 @@ primeListHelper n i cur res
   | n == i = cur:res
   | otherwise = primeListHelper n (succ i) (nextPrime cur) (cur:res)
 
+-- it returns n first positive prime numbers
 primeList :: Int -> [Int]
 primeList n = primeListHelper n 1 2 []
 
@@ -65,12 +69,19 @@ sumaPrimaHelper n i cur res
 sumaPrima :: Int -> Int
 sumaPrima n = sumaPrimaHelper n 1 2 0
 
+<<<<<<< HEAD
 primesUnder :: Int -> [Int]
 primesUnder n = takeWhile (< n) $ iterate nextPrime 2 
 
 sumPrimesHelper n i res
   | i > n = res
   | otherwise = sumPrimesHelper n (nextPrime i) (i + res)
+=======
+-- Returns true if n is a perfect square
+
+psquare n = ceiling x == floor x
+  where x = sqrt.fromIntegral $ n
+>>>>>>> origin/master
 
 -- it returns the sum of all primes less than n
 sumPrimes :: Int -> Int

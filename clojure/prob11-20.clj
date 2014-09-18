@@ -19,6 +19,9 @@
       i
       (recur (inc i)))))
 
+;; the input shall be 500
+
+"Elapsed time 1.7secs"
 
 ;; PROBLEM 14
 
@@ -63,4 +66,35 @@
   [n]
   (time (solution 1 n)))
 
+;; The input should be 1 million
+
 "Elapsed time 5.3 seconds!"
+
+;; Problem no 15
+
+(defn pascal-row
+  [res]
+  (cons 1 (conj (map #(+ %1 %2)
+                     res (rest res)) 1)))
+
+(defn pascal
+  [n]
+  (loop [i 1 res [1 1]]
+    (if (= i n)
+      res
+      (recur (inc i)
+             (vec (pascal-row res))))))
+
+(defn pascal-recur
+  [n i res]
+  (if (= i n)
+    res
+    (pascal-recur n (inc i) (pascal-row res))))
+
+(defn euler15
+  [n]
+  (time (sum (map square (pascal-recur n 1 [1 1])))))
+
+;; The input should be 20
+
+"Elapsed time 0.3msecs"
