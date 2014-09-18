@@ -1,3 +1,8 @@
+;; PROBLEM NO 25
+
+;; Suppose F(n) is the n-th element of fibonacci sequence starting
+;; from 1,1. Find n in which F(n) is the first element to reach 1000 digits.
+
 (defun euler25 (lim ls i)
   "Returns the i-th element of fibonacci that first reach 1000 digits"
   (if (>= (first ls) lim)

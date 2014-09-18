@@ -73,6 +73,29 @@
 
 "Elapsed time 29-32 seconds!!"
 
+;; PROBLEM NO 15
+
+;; square path, basically summing the square of pascal triangle elements
+
+(defun manual-pascal-row (res)
+  (cons 1
+	(reverse (cons 1
+		       (mapcar #'(lambda (x y) (+ x y))
+			       res (rest res))))))
+
+(defun manual-pascal-helper (n i res)
+  (if (= n i)
+      (manual-pascal-row res)
+      (manual-pascal-helper n (1+ i) (manual-pascal-row res))))
+
+(defun manual-pascal (n)
+  "Returns the n-th row of pascal triangle"
+  (cond ((= n 1) '(1))
+	((= n 2) '(1 1))
+	(:else (manual-pascal-helper n 2 '(1 1)))))
+
+(defun euler15 (n)
+  (sum (mapcar 'sqr (manual-pascal n))))
 
 
 

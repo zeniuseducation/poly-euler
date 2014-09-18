@@ -47,9 +47,7 @@
 
 "Elapsed time 37-42 msecs"
 
-(defun palin? (n)
-  (let ((st (write-to-string n)))
-    (equal st (reverse st))))
+
 
 (defun euler4 (start end)
   (apply 'max
@@ -153,6 +151,10 @@
   (sum-primes n 2 0))
 
 "Elapsed time 5,750 msecs or 5.7 secs"
+
+
+
+
 
 
 
