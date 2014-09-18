@@ -131,15 +131,11 @@
   "Returns the sum of n first positive prime numbers"
   (sum (prime-list n)))
 
-<<<<<<< HEAD
+
 (defun primes-under (n)
   "Returns the sum of all primes under n"
   (loop for i from 2 to n when (prime? i) collect i))
 
-(defun suma-prima (lim)
-  (setq res 0)
-  (loop for i from 2 to n when (prime? i) (collect res (+ res i))))
-=======
 "Elapsed time 3secs for n=100,000"
 
 (defun sum-primes-helper (n i cur res)
@@ -159,7 +155,7 @@
       res
       (primes-under-helper n (next-prime i) (cons i res))))
 
-(defun primes-under (n)
+(defun primes-under-1 (n)
   "Returns all positive primes less than n"
   (cond ((<= n 2) '())
 	(:else (reverse (primes-under-helper n 2 nil)))))
@@ -212,5 +208,5 @@
 
 
 
->>>>>>> origin/master
+
 

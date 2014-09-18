@@ -1,5 +1,7 @@
 (load "math.lisp")
 
+;; Problem 234
+
 (defun primes-in-range (p1 p2 sp1 sp2)
   (- (+ (sum (range (+ p1 sp1) sp2 p1))
 	(sum (range (- sp2 p2) sp1 (- p2))))
@@ -20,6 +22,7 @@
 
 (defun sol234 (lim)
   (time (outer-collector 2 3 lim 0)))
+
 
 
 
