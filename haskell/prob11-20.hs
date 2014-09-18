@@ -19,3 +19,5 @@ euler12 :: Int -> Int
 euler12 n = solution12Helper n 1
 
 -- Elapsed time 85 seconds!???
+
+

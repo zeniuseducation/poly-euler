@@ -110,3 +110,12 @@
 (defun suma-prima (n)
   "Returns the sum of n first positive prime numbers"
   (sum (prime-list n)))
+
+(defun primes-under (n)
+  "Returns the sum of all primes under n"
+  (loop for i from 2 to n when (prime? i) collect i))
+
+(defun suma-prima (lim)
+  (setq res 0)
+  (loop for i from 2 to n when (prime? i) (collect res (+ res i))))
+

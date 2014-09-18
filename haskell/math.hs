@@ -55,14 +55,26 @@ primeListHelper n i cur res
 primeList :: Int -> [Int]
 primeList n = primeListHelper n 1 2 []
 
+
 sumaPrimaHelper :: Int -> Int -> Int -> Int -> Int
 sumaPrimaHelper n i cur res
   | n == i = cur + res
   | otherwise = sumaPrimaHelper n (succ i) (nextPrime cur) (cur+res)
 
+-- it returns the sum of n first positive prime numbers
 sumaPrima :: Int -> Int
 sumaPrima n = sumaPrimaHelper n 1 2 0
 
+primesUnder :: Int -> [Int]
+primesUnder n = takeWhile (< n) $ iterate nextPrime 2 
+
+sumPrimesHelper n i res
+  | i > n = res
+  | otherwise = sumPrimesHelper n (nextPrime i) (i + res)
+
+-- it returns the sum of all primes less than n
+sumPrimes :: Int -> Int
+sumPrimes n = sumPrimesHelper n 2 0
 
 
 
@@ -73,5 +85,4 @@ sumaPrima n = sumaPrimaHelper n 1 2 0
 
 
 
-
-
+               

@@ -1,4 +1,4 @@
-(load "math.lisp")
+(load "i:\\lambdas\\poly-euler\\clisp\\math.lisp")
 
 ;; PROBLEM NO 12
 ;; What is the first triangle number that has more than 500 factors
