@@ -20,6 +20,19 @@
             (recur (inc i) 
                    (conj res (first raw))
                    (rest ls)))))
+                 
+;;drop
+(defn drop' [n col]
+  (if (= n 0)
+    col
+    (drop' (dec n) (rest col))))
+
+(defn drop'' [n col]
+  (loop [i n
+         res col]
+    (if (= i 0)
+      res
+      (recur (dec i) (rest res)))))
                          
 
 ;; Reimplementing Clojure in pure recursion
