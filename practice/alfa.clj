@@ -60,6 +60,19 @@
     (if (= n j)
       (reverse res)
       (recur (inc n) (cons n res)))))
+
+;;butlast
+(defn butlast' [col]
+  (if (<= (count col) 1)
+    nil
+    (cons (first col) (butlast' (rest col)))))
+
+(defn butlast'' [col]
+  (loop [i col
+         res '()]
+    (if (= (count i) 1)
+      (reverse res)
+      (recur (rest i) (cons (first i) res)))))
     
 (defn butlast$$ [col]
   (loop [ls col res []]
