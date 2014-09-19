@@ -1,6 +1,11 @@
 (ns euler.practice.alfa)
 
-;;take''
+;;take
+(defn take' [a b]
+  (if (= (count b) a)
+    b
+    (take' a (butlast b))))
+
 (defn take'' [a b]
   (loop [la (dec a)
          lb '()]
