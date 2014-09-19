@@ -73,6 +73,12 @@
 			     (cons i (cons (/ n i) res)))))
 	(t (factors-helper n (1+ i) res))))
 
+(defun factors (n)
+  (factors-helper n 1 '()))
+
+(defun sum-factors (n)
+  (- (sum (factors n)) n))
+
 (defun count-factors-helper (n i res)
   (cond ((> (* i i) n)
 	 res)
@@ -83,9 +89,6 @@
 			     (inc res)
 			     (+ 2 res))))
 	(t (factors-helper n (1+ i) res))))
-
-(defun factors (n)
-  (factors-helper n 1 '()))
 
 (defun count-factors (n)
   (count-factors-helper n 1 0))
@@ -109,14 +112,14 @@
 	(:else (append (list (first ls))
 		       (take (1- n) (rest ls))))))
 
+;; Some performance test
+
 (defun next-prime (x)
   "Returns the next positive prime number larger than x"
   (cond ((= 2 x) 3)
 	((evenp x) (next-prime (1+ x)))
 	((prime? (+ 2 x)) (+ 2 x))
 	(:else (next-prime (+ 2 x)))))
-
-;; Some performance test
 
 (defun prime-list-helper (n i cur res)
   (if (= n i)
@@ -127,10 +130,10 @@
   "Returns the n first positive integers"
   (prime-list-helper n 1 2 '()))
 
+
 (defun suma-prima (n)
   "Returns the sum of n first positive prime numbers"
   (sum (prime-list n)))
-
 
 (defun primes-under (n)
   "Returns the sum of all primes under n"
@@ -198,7 +201,6 @@
 (defun palin? (n)
   (let ((tmp (numcol n)))
     (equal tmp (reverse tmp))))
-
 
 
 

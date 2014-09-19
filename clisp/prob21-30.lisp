@@ -20,3 +20,17 @@
 ;;   100.00% CPU
 ;;   2,321,798 processor cycles
 ;;   1,239,936 bytes consed
+
+
+;; PROBLEM 21
+;; Sum of all amicable numbers less than 10000
+
+(defun sum-divisors (n)
+  (sum (filter #'(lambda (x) (= 0 (rem n x))) (range 1 (inc (quot n 2))))))
+
+(defun amics (a)
+  (let ((pair (sum-factors a)))
+    (if (and (/= a pair) (= a (sum-factors pair))) a nil)))
+
+(defun sol21 (lim)
+  (time (sum (filter 'amics (range 2 lim)))))

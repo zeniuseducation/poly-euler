@@ -86,14 +86,10 @@
   [n]
   (loop [i 1 res []]
     (if (>= (* i i) n)
-      (if (= (* i i) n)
-        (conj res i)
-        res)
+      (if (= (* i i) n) (conj res i) res)
       (recur (inc i)
              (if (= 0 (rem n i))
-               (if (= i (quot n i))
-                 (conj res i)
-                 (conj res i (quot n i)))
+               (if (= i (quot n i)) (conj res i) (conj res i (quot n i)))
                res)))))
 
 (defn count-factors

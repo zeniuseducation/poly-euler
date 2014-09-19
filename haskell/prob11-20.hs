@@ -20,12 +20,11 @@ solution12Helper n i
 euler12 :: Int -> Int
 euler12 n = solution12Helper n 1
 
-<<<<<<< HEAD
 pascalRow :: Num a => [a] -> [a]
 pascalRow res = [1] ++ zipResult ++ [1]
   where zipResult = zipWith (+) res (tail res)
 
-pascal :: Int -> Int -> [a] -> [a]
+pascal :: Num a => Int -> Int -> [a] -> [a]
 pascal n i res
   | n == i = res
   | otherwise = pascal n (succ i) (pascalRow res)
@@ -35,12 +34,14 @@ sqr rs = rs * rs
 euler15 :: Int -> Int
 euler15 n = sum $ map sqr (pascal n 1 [1,1])
 
-
-=======
 -- Elapsed time 85 seconds!???
-<<<<<<< HEAD
+
+-- problem no 20 : it returns the sum of digits of n!
+sol_20 n = sum . numcol . product $ [1..n]
 
 
-=======
->>>>>>> FETCH_HEAD
->>>>>>> origin/master
+
+
+
+
+
