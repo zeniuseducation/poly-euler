@@ -1,7 +1,7 @@
 (ns euler.practice.alfa)
 
 ;;take''
-(defn a-take [a b]
+(defn take'' [a b]
   (loop [la (dec a)
          lb '()]
     (if (= la -1)
