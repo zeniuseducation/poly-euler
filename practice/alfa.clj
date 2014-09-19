@@ -61,5 +61,11 @@
       (reverse res)
       (recur (inc n) (cons n res)))))
     
+(defn butlast$$ [col]
+  (loop [ls col res []]
+        (if (= 1 (count ls))
+            res
+            (recur (rest ls) (conj res (first ls))))))
+    
 ;; Reimplementing Clojure in pure recursion
 ;; last, butlast, keep, map, take, take-while, remove, drop, drop-while, distinct, range, for
