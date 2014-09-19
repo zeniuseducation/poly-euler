@@ -47,5 +47,19 @@
       (first res)
       (recur (dec i) (rest res)))))
     
+;;range
+(defn range' [i j]
+  (if (< i j)
+    (if (= i j)
+      '()
+      (cons i (range' (inc i) j)))))
+
+(defn range'' [i j]
+  (loop [n i
+         res '()]
+    (if (= n j)
+      (reverse res)
+      (recur (inc n) (cons n res)))))
+    
 ;; Reimplementing Clojure in pure recursion
 ;; last, butlast, keep, map, take, take-while, remove, drop, drop-while, distinct, range, for
