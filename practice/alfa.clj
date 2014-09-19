@@ -1,17 +1,17 @@
 (ns euler.practice.alfa)
 
 ;;take
-(defn take' [a b]
-  (if (= (count b) a)
-    b
-    (take' a (butlast b))))
-
-(defn take'' [a b]
-  (loop [la (dec a)
-         lb '()]
-    (if (= la -1)
-      lb
-      (recur (dec la) (conj lb (nth b la))))))
+(defn take' [n col]
+  (if (= (count col) n)
+    col
+    (take' n (butlast col))))
+  
+(defn take'' [n col]
+  (loop [i (dec n)
+         res '()]
+    (if (= i -1)
+      res
+      (recur (dec i) (conj res (nth col i))))))
     
 (defn take$$ [n ls]
   (loop [i 1 res [] raw ls]
