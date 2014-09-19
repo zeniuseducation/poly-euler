@@ -79,6 +79,19 @@
         (if (= 1 (count ls))
             res
             (recur (rest ls) (conj res (first ls))))))
+
+;;keep
+(defn keep' [f col]
+  (if (= (count col) 0)
+    '()
+    (cons (f (first col)) (keep' f (rest col)))))
+ 
+(defn keep'' [f col]
+  (loop [i col
+         res []]
+    (if (= (count i) 0)
+      res
+      (recur (rest i) (conj res (f (first i)))))))
     
 ;; Reimplementing Clojure in pure recursion
 ;; last, butlast, keep, map, take, take-while, remove, drop, drop-while, distinct, range, for
