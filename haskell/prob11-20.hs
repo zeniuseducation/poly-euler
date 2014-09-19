@@ -1,5 +1,6 @@
 import Math
 import Data.List
+import Data.Ord
 
 -- PROBLEM NO 12
 
@@ -19,6 +20,28 @@ solution12Helper n i
 -- it returns the first triangle number that has n or more number of factors
 euler12 :: Int -> Int
 euler12 n = solution12Helper n 1
+
+-- PROBLEM NO 14
+
+-- it returns the next element in collatz sequence immediately after n
+collatz :: Int -> Int
+collatz n
+  | even n = div n 2
+  | otherwise = succ (3 * n)
+
+-- it returns the collatz sequence starting from i
+collatzSeq :: Int -> [Int]
+collatzSeq 1 = []
+collatzSeq i = res: (collatzSeq res)
+  where res = collatz i
+
+countCollatz :: Int -> Int
+countCollatz i = length $ collatzSeq i
+
+sol14 :: Int -> Int
+sol14 lim = countCollatz $ maximumBy (comparing countCollatz) [n | n <- [2.. (pred lim)]]
+
+-- PROBLEM NO 15
 
 pascalRow :: Num a => [a] -> [a]
 pascalRow res = [1] ++ zipResult ++ [1]
