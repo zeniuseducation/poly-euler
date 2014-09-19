@@ -34,3 +34,42 @@
 
 (defun sol21 (lim)
   (time (sum (filter 'amics (range 2 lim)))))
+
+"Elapsed time 0.052 seconds!"
+
+;; Problem 24
+
+(defun step24 (n dig res raw)
+  (if (= 0 dig)
+      res
+      (let ((fak (product (range 1 dig))))
+	(step24 (rem n fak)
+		(dec dig)
+		(cons (nth (quot n fak) raw) res)
+		(remove (nth (quot n fak) raw) raw)))))
+
+(defun sol24 (n)
+  (time (colnum (reverse (step24 n 10 nil (range 10))))))
+
+"Elapsed time 0.000038 seconds!!, input value n = 999999"
+
+;; Problem 29
+
+(defun sol29 (n)
+  (time (length (remove-duplicates
+		 (loop for i from 2 to n
+		    append (loop for j from 2 to n
+			      collect (expt i j)))))))
+
+"elapsed time 0.019 sec"
+
+;; Problem 30
+
+(defun sol30 (n)
+  (time (sum (loop for i from 2 to (* n (expt 9 n))
+		when (= i (sum (mapcar #'(lambda (x) (expt x n))
+				       (numcol i))))
+		collect i))))
+
+
+

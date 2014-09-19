@@ -81,3 +81,14 @@
   (time (concat (zero-selector n) (selector n))))
 
 ;; This one is very very slow but beautiful
+
+(defn sol24
+  [n]
+  (loop [x n dig 10 res [] raw (range 10)]
+    (if (= 0 dig)
+      res
+      (let [fak (product (range 1 dig))]
+        (recur (rem x fak)
+               (dec dig)
+               (conj res (nth raw (quot x fak)))
+               (remove #(= % (nth raw (quot x fak))) raw))))))
