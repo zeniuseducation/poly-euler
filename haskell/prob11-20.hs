@@ -30,13 +30,20 @@ collatz n
   | otherwise = succ (3 * n)
 
 -- it returns the collatz sequence starting from i
-collatzSeq :: Int -> [Int]
 collatzSeq 1 = []
 collatzSeq i = res: (collatzSeq res)
   where res = collatz i
 
-countCollatz :: Int -> Int
+-- it returns the number of elements in collatz seq starting from i
 countCollatz i = length $ collatzSeq i
+
+step14a n (x,i) lim
+  | n > lim = (x,i)
+  | otherwise = step14a (succ n) (if tmp > i then (n,tmp) else (x,i)) lim
+  where tmp = countCollatz n
+
+sol14a lim = step14a 2 (1,1) lim
+
 
 sol14 :: Int -> Int
 sol14 lim = countCollatz $ maximumBy (comparing countCollatz) [n | n <- [2.. (pred lim)]]
@@ -56,6 +63,10 @@ sqr rs = rs * rs
 
 euler15 :: Int -> Int
 euler15 n = sum $ map sqr (pascal n 1 [1,1])
+
+
+-- PROBLEM NO 16
+sol_16 x = sum $ numcol (2^x)
 
 -- Elapsed time 85 seconds!???
 

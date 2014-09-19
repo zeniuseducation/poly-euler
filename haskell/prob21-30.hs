@@ -1,13 +1,6 @@
 import Data.List
 import Math
 
-euler25 lim (a:b:rest) i
-  | a >= lim = i
-  | otherwise = euler25 lim ((a+b):a:[]) (succ i)
-
--- *Main> euler25 (10^999) [1,1] 2
--- it :: (Num a1, Enum a1) => a1
--- (0.02 secs, 6870128 bytes)
 
 -- PROBLEM no 21
 
@@ -25,6 +18,12 @@ sol_21 :: Int -> Int
 sol_21 lim = sum $ map amicable [2..lim]
 
 
+-- PROBLEM 23
+
+abundant' x = x > sumPropDivisors x
+
+nonabundant' x = x <= sumPropDivisors x
+
 -- PROBLEM 24
 
 -- very naive
@@ -40,6 +39,20 @@ step_24 n digs res raw
 
 sol_24 :: Int -> [Int]
 sol_24 n = reverse $ step_24 n 10 [] [0..9]
+
+-- PROBLEM 25
+
+euler25 lim (a:b:rest) i
+  | a >= lim = i
+  | otherwise = euler25 lim ((a+b):a:[]) (succ i)
+
+-- *Main> euler25 (10^999) [1,1] 2
+-- it :: (Num a1, Enum a1) => a1
+-- (0.02 secs, 6870128 bytes)
+
+-- PROBLEM 28
+
+
 
 -- Problem 29
 
