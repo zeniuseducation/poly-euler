@@ -34,6 +34,18 @@
       res
       (recur (dec i) (rest res)))))
                          
+;;last
+(defn last' [col]
+  (if (<= (count col) 1)
+    (first col)
+    (last' (rest col))))
 
+(defn last'' [col]
+  (loop [i (count col)
+         res col]
+    (if (<= i 1)
+      (first res)
+      (recur (dec i) (rest res)))))
+    
 ;; Reimplementing Clojure in pure recursion
 ;; last, butlast, keep, map, take, take-while, remove, drop, drop-while, distinct, range, for
