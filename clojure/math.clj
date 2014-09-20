@@ -153,6 +153,13 @@
         :else (loop [i (+ 2 x)]
                 (if (prime? i) i (recur (+ 2 i))))))
 
+
+;; (defn sum-primes
+;;   "Returns the smallest prime that is larger than x"
+;;   [lim]
+;;   (+ 2 (loop [i (+ 2 x)]
+;;          (if (prime? i) i (recur (+ 2 i))))))
+
 (defn prime-list
   "Returns the n first positive prime numbers"
   [n]

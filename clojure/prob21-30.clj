@@ -92,3 +92,16 @@
                (dec dig)
                (conj res (nth raw (quot x fak)))
                (remove #(= % (nth raw (quot x fak))) raw))))))
+
+
+;; Problem 29
+
+(defn sol29
+  [n]
+  (-> [i (range 2 (inc n)) j (range 2 (inc n))] (for (expt i j)) (distinct) (count) (time)))
+
+(defn sol30
+  [n]
+  (-> [i (range 2 (* n (expt 9 n)))
+       :when (= i (sum (map #(expt % n) (numcol i))))]
+      (for i) sum time))

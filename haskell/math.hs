@@ -1,5 +1,7 @@
 module Math where
 
+import Data.List
+
 primeHelper :: Int -> Int -> Bool
 primeHelper p i
   | (i*i) > p = True
@@ -100,6 +102,14 @@ colnum ls
   | null ls = 0
   | otherwise = (10 * (toInteger (colnum $ init ls))) + (toInteger $ last ls)
 
+-- yeah... just to simplify things
+div' a b = (0 == rem a b)
+
+-- it returns a list of primes less than lim
+sieve lim = takeWhile (< lim) (2 : primes [3,5..])
+
+-- the helper for sieve
+primes (x:xs) = x : deleteBy (\x n -> div' n x) x (primes xs)
 
 
 

@@ -52,7 +52,9 @@ euler25 lim (a:b:rest) i
 
 -- PROBLEM 28
 
-
+sumRec 1 = 1
+sumRec n = sum (take 4 $ iterate (+ (pred x)) x)
+  where x = pred (2 * n)
 
 -- Problem 29
 
