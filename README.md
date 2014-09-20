@@ -16,6 +16,12 @@ better programmer for the rest of your days, even if you never
 actually use Lisp itself a lot*." - Eric Raymond, "How to Become a
 Hacker"
 
+## Rationales
+
+1. The need for benchmark for a particular euler problem in terms of speed
+2. Encouraging others to come up with faster/better solutions
+3. PE problems are good practice for optimising codes, which is critical skill in the era of big-data
+
 In every source code, time-elapsed for each solution will be listed.
 
 ## Performance Comparison on MBA i5 1.6GHz
