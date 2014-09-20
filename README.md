@@ -169,6 +169,10 @@ Clojure 0.73 sec
 SBCL 1.3 sec  
 Haskell 6.9 sec
 
+##### Problem 33 
+
+SBCL 0.8 msec  
+
 ##### Problem no 85
 
 Clojure 1.5 sec  
