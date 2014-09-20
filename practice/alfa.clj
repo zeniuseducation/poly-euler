@@ -92,6 +92,33 @@
     (if (= (count i) 0)
       res
       (recur (rest i) (conj res (f (first i)))))))
+
+;;take-while
+(defn take-while' [f col]
+  (if (= (count col) 0)
+    '()
+    (distinct (flatten (concat (filter f (list (first col))) (take-while' f (rest col)))))))
+
+(defn take-while'' [f col]
+  (loop [i col
+         res '()]
+    (if (= (count i) 0)
+      res
+      (recur (rest i) (distinct (flatten (concat res (filter f (list (first i))))))))))
+
+;;remove
+(defn remove' [f col]
+  (if (= (count col) 0)
+    '()
+    (concat (if-not (f (first col)) (list (first col)) '()) (remove' f (rest col)))))
+
+(defn remove'' [f col]
+  (loop [i col
+         res '()]
+    (if (= (count i) 0)
+      res
+      (recur (rest i) (concat res (if-not (f (first i)) (list (first i)) '()))))))
+
     
 ;; Reimplementing Clojure in pure recursion
 ;; last, butlast, keep, map, take, take-while, remove, drop, drop-while, distinct, range, for
