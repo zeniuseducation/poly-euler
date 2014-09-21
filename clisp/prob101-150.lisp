@@ -45,8 +45,12 @@
 ;; PROBLEM 108 FOR 110
 
 
+<<<<<<< HEAD
 
 ;; problem 125
+=======
+;; PROBLEM 125
+>>>>>>> origin/master
 
 (defun squares-inner (n i sumn lim res)
   (let ((tsqr (+ sumn (sqr i))))

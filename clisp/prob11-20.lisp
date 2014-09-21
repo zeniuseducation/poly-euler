@@ -1,4 +1,4 @@
-(load "i:\\lambdas\\poly-euler\\clisp\\math.lisp")
+(load "math.lisp")
 
 ;; PROBLEM NO 12
 ;; What is the first triangle number that has more than 500 factors
@@ -95,7 +95,9 @@
 	(:else (manual-pascal-helper n 2 '(1 1)))))
 
 (defun euler15 (n)
-  (sum (mapcar 'sqr (manual-pascal n))))
+  (time (sum (mapcar 'sqr (manual-pascal n)))))
+
+;; PRoblem 16
 
 
 

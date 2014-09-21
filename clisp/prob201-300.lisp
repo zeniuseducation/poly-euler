@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 
 (load "math.lisp")
 
+=======
+(load "math.lisp")
+
+;; Problem 234
+
+>>>>>>> origin/master
 (defun primes-in-range (p1 p2 sp1 sp2)
   (- (+ (sum (range (+ p1 sp1) sp2 p1))
 	(sum (range (- sp2 p2) sp1 (- p2))))
@@ -9,7 +16,11 @@
 (defun outer-collector (p1 p2 lim res)
   (let ((sp1 (sqr p1))
 	(sp2 (sqr p2)))
+<<<<<<< HEAD
     (if (>= sp2 lim)
+=======
+    (if (> sp2 lim)
+>>>>>>> origin/master
 	(+ res (- (+ (sum (range (+ p1 sp1) (inc lim) p1))
 		     (sum (remove #'(lambda (x) (> x lim))
 				  (range (- sp2 p2) sp1 (- p2)))))
@@ -25,6 +36,7 @@
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -37,3 +49,5 @@
 
 
 
+=======
+>>>>>>> origin/master

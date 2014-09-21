@@ -86,14 +86,10 @@
   [n]
   (loop [i 1 res []]
     (if (>= (* i i) n)
-      (if (= (* i i) n)
-        (conj res i)
-        res)
+      (if (= (* i i) n) (conj res i) res)
       (recur (inc i)
              (if (= 0 (rem n i))
-               (if (= i (quot n i))
-                 (conj res i)
-                 (conj res i (quot n i)))
+               (if (= i (quot n i)) (conj res i) (conj res i (quot n i)))
                res)))))
 
 (defn count-factors
@@ -156,6 +152,13 @@
         (even? x) (next-prime (inc x))
         :else (loop [i (+ 2 x)]
                 (if (prime? i) i (recur (+ 2 i))))))
+
+
+;; (defn sum-primes
+;;   "Returns the smallest prime that is larger than x"
+;;   [lim]
+;;   (+ 2 (loop [i (+ 2 x)]
+;;          (if (prime? i) i (recur (+ 2 i))))))
 
 (defn prime-list
   "Returns the n first positive prime numbers"

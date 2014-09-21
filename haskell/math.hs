@@ -1,5 +1,7 @@
 module Math where
 
+import Data.List
+
 primeHelper :: Int -> Int -> Bool
 primeHelper p i
   | (i*i) > p = True
@@ -15,8 +17,8 @@ prime p
 
 factorsHelper :: Int -> Int -> [Int] -> [Int]
 factorsHelper n i res
-  | (i * i) > n = res
-  | 0 == (rem n i) = factorsHelper n (succ i) newRes
+  | i * i > n = res
+  | 0 == rem n i = factorsHelper n (succ i) newRes
   | otherwise = factorsHelper n (succ i) res
   where newRes = if i == (quot n i) then i:res else i:(quot n i):res
 
@@ -28,6 +30,7 @@ factors 3 = [1,3]
 factors 6 = [1,2,3,6]
 factors 12 = [1,2,3,4,6,12]
 factors n = factorsHelper n 1 []
+
 
 -- it returns true if p is a palindrom
 isPalin :: Int -> Bool
@@ -69,25 +72,46 @@ sumaPrimaHelper n i cur res
 sumaPrima :: Int -> Int
 sumaPrima n = sumaPrimaHelper n 1 2 0
 
-<<<<<<< HEAD
 primesUnder :: Int -> [Int]
 primesUnder n = takeWhile (< n) $ iterate nextPrime 2 
 
+sumPrimesHelper :: Int -> Int -> Int -> Int
 sumPrimesHelper n i res
   | i > n = res
   | otherwise = sumPrimesHelper n (nextPrime i) (i + res)
-=======
+
 -- Returns true if n is a perfect square
 
+psquare :: Int -> Bool
 psquare n = ceiling x == floor x
   where x = sqrt.fromIntegral $ n
->>>>>>> origin/master
 
 -- it returns the sum of all primes less than n
 sumPrimes :: Int -> Int
 sumPrimes n = sumPrimesHelper n 2 0
 
+-- it returns the list of digits of a number n
+numcol :: Integer -> [Int]
+numcol n = if n < 10
+           then [fromInteger n]
+           else (numcol $ quot n 10) ++ [rem (fromInteger n) 10]
 
+-- it returns a number from a list of digits
+colnum :: [Int] -> Integer
+colnum ls
+  | null ls = 0
+  | otherwise = (10 * (toInteger (colnum $ init ls))) + (toInteger $ last ls)
+
+-- yeah... just to simplify things
+div' a b = (0 == rem a b)
+
+-- it returns a list of primes less than lim
+sieve lim = takeWhile (< lim) (2 : primes [3,5..])
+
+-- the helper for sieve
+primes (x:xs) = x : deleteBy (\x n -> div' n x) x (primes xs)
+
+distinct lst =  map head.group.sort $ lst
 
 
 
@@ -97,3 +121,5 @@ sumPrimes n = sumPrimesHelper n 2 0
 
 
                
+
+

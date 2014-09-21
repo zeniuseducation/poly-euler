@@ -16,6 +16,12 @@ better programmer for the rest of your days, even if you never
 actually use Lisp itself a lot*." - Eric Raymond, "How to Become a
 Hacker"
 
+## Rationales
+
+1. The need for benchmark for a particular euler problem in terms of speed
+2. Encouragement for others to come up with faster/better solutions
+3. PE problems are good practice for optimising codes, which is critical skill in the era of big-data
+
 In every source code, time-elapsed for each solution will be listed.
 
 ## Performance Comparison on MBA i5 1.6GHz
@@ -104,6 +110,8 @@ Racket 4-6K msecs (5-6 secs)
 
 ##### Problem no 12
 
+Prob: Triangle number that has more than 500 factors
+
 Clojure 1.7 seconds   
 SBCL 2.4 seconds  
 Haskell 85 seconds  
@@ -112,6 +120,34 @@ Haskell 85 seconds
 
 Clojure 5.3 seconds  
 SBCL 29-32 seconds  
+Haskell 271 seconds  
+
+##### Problem no 15
+
+Clojure 0.53 msec  
+SBCL 0.018 msec  
+
+##### Problem no 16
+
+Too easy to measure, all in one lines and took less than 1 ms
+
+##### Problem no 20
+
+Too easy to measure, all in one lines and took less than 1 ms
+
+##### Problem no 21
+
+Clojure 0.07 sec  
+SBCL 0.05 sec  
+Haskell 2.3 sec  
+
+##### Problem 24
+
+Problem: Very nice problem, highly recommended!!
+
+Clojure 0.23 msec  
+SBCL 0.02 msec  
+Haskell 1 msec  
 
 ##### Problem no 25
 
@@ -121,7 +157,54 @@ Clojure averaging 2.9 msecs
 SBCL averaging 1.3 msecs  
 Haskell averaging 20 msecs  
 
-Note: I need to learn more about optimizing haskell codes.
+##### Problem 29
+
+Clojure 0.065 msec  
+SBCL 0.019 msec  
+Haskell (one liner) 1.2 sec
+
+##### Problem no 30
+
+Clojure 0.73 sec  
+SBCL 1.3 sec  
+Haskell 6.9 sec
+
+##### Problem 33 
+
+SBCL 0.8 msec  
+
+##### Problem no 85
+
+Clojure 1.5 sec  
+SBCL 0.53 sec  
+
+##### Problem no 100
+
+Clojure 0.039 msec  
+SBCL 1.2 msec  
+
+##### Problem no 125
+
+Clojure 0.5 sec  
+SBCL 0.6-0.8 sec  
+
+##### Problem no 173 
+
+Clojure 0.163 sec  
+Haskell 8.3 sec  
+
+##### Problem no 174
+
+Clojure 1.2 sec  
+
+##### Problem no 234
+
+Clojure 2.3 sec  
+SBCL 1.4 sec  
+
+#####
+
+Note: Haskell on emacs is an interpreted version, when compiled using advance optimisation, the speed could be 10-30times faster.
 
 ## License
 

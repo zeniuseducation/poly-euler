@@ -1,5 +1,6 @@
 import Math
 import Data.List
+import Data.Ord
 
 -- PROBLEM NO 12
 
@@ -20,12 +21,40 @@ solution12Helper n i
 euler12 :: Int -> Int
 euler12 n = solution12Helper n 1
 
-<<<<<<< HEAD
+-- PROBLEM NO 14
+
+-- it returns the next element in collatz sequence immediately after n
+collatz :: Int -> Int
+collatz n
+  | even n = div n 2
+  | otherwise = succ (3 * n)
+
+-- it returns the collatz sequence starting from i
+collatzSeq 1 = []
+collatzSeq i = res: (collatzSeq res)
+  where res = collatz i
+
+-- it returns the number of elements in collatz seq starting from i
+countCollatz i = length $ collatzSeq i
+
+step14a n (x,i) lim
+  | n > lim = (x,i)
+  | otherwise = step14a (succ n) (if tmp > i then (n,tmp) else (x,i)) lim
+  where tmp = countCollatz n
+
+sol14a lim = step14a 2 (1,1) lim
+
+
+sol14 :: Int -> Int
+sol14 lim = countCollatz $ maximumBy (comparing countCollatz) [n | n <- [2.. (pred lim)]]
+
+-- PROBLEM NO 15
+
 pascalRow :: Num a => [a] -> [a]
 pascalRow res = [1] ++ zipResult ++ [1]
   where zipResult = zipWith (+) res (tail res)
 
-pascal :: Int -> Int -> [a] -> [a]
+pascal :: Num a => Int -> Int -> [a] -> [a]
 pascal n i res
   | n == i = res
   | otherwise = pascal n (succ i) (pascalRow res)
@@ -36,11 +65,17 @@ euler15 :: Int -> Int
 euler15 n = sum $ map sqr (pascal n 1 [1,1])
 
 
-=======
+-- PROBLEM NO 16
+sol_16 x = sum $ numcol (2^x)
+
 -- Elapsed time 85 seconds!???
-<<<<<<< HEAD
+
+-- problem no 20 : it returns the sum of digits of n!
+sol_20 n = sum . numcol . product $ [1..n]
 
 
-=======
->>>>>>> FETCH_HEAD
->>>>>>> origin/master
+
+
+
+
+

@@ -125,7 +125,7 @@
                                      (iterate #(- % p2))
                                      (take-while #(> % sp1)))
                             res1 (concat mp1 mp2)]
-                        (- (sum res1) (* p1 p2)))))))))
+                        (- (sum res1) (* 2 p1 p2)))))))))
 
 
 
