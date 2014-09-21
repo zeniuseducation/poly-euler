@@ -111,6 +111,7 @@ sieve lim = takeWhile (< lim) (2 : primes [3,5..])
 -- the helper for sieve
 primes (x:xs) = x : deleteBy (\x n -> div' n x) x (primes xs)
 
+distinct lst =  map head.group.sort $ lst
 
 
 
@@ -120,3 +121,5 @@ primes (x:xs) = x : deleteBy (\x n -> div' n x) x (primes xs)
 
 
                
+
+

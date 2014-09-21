@@ -18,7 +18,7 @@ laminas_2 x y res lim
 
 sol_174a lim = laminas_2 1 3 0 lim
 
-distinct lst =  map (head.group.sort) lst
+
 
 lamina_3 lim = [[d^2 + 2*x*d | d <- [2,4..limx], d^2 + 2*x*d <= lim] | x <- [1..limx]]
   where limx = quot lim 4
