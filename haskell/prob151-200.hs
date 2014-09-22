@@ -29,3 +29,13 @@ laminas_4 x d res lim
   where tiles = d^2 + 2*x*d
 
 sol_174b lim = laminas_2 1 2 0 lim
+
+
+
+
+
+
+
+
+
+

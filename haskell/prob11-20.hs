@@ -79,3 +79,7 @@ sol_20 n = sum . numcol . product $ [1..n]
 
 
 
+
+
+
+
