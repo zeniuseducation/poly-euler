@@ -39,3 +39,27 @@
 
 "Elapsed time: 1.5seconds"
 
+;; PROBLEM 82
+
+(defn adhoc82
+  [fname]
+  (let [sf (slurp fname)
+        tmp (str "[" sf "]")]
+    (do (spit "brako.txt" tmp)
+        (->> (read-string tmp)
+             (partition 80)
+             (map #(cons 9999999 %))
+             (cons (repeat 81 9999999))))))
+
+(defn getcell
+  [a b bahan]
+  (nth (nth bahan b) a))
+
+(def bahan (adhoc82 "matrix.txt"))
+
+(defn up [[a b]] [a (dec b)])
+(defn down [[a b]] [a (inc b)])
+(defn right [[a b]] [(inc a) b])
+
+
+

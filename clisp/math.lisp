@@ -38,6 +38,8 @@
 
 (defun sqr (x) (* x x))
 
+(defun cube (x) (* x x x))
+
 (defun range (&rest args)
   "Clojure range behaviour"
   (cond ((= 1 (length args))
@@ -202,6 +204,10 @@
   (let ((tmp (numcol n)))
     (equal tmp (reverse tmp))))
 
+(defun drop (n col)
+  (if (= n 0)
+      col
+      (drop (dec n) (rest col))))
 
 
 
@@ -211,5 +217,8 @@
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/master
