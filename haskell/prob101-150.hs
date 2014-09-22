@@ -21,3 +21,6 @@ findPrimes i n lim res
         p = i^3 - n^3
 
 sol_131 lim = length $ findPrimes 1 0 lim []
+
+-- Problem 134
+

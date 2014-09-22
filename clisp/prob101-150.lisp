@@ -45,12 +45,7 @@
 ;; PROBLEM 108 FOR 110
 
 
-<<<<<<< HEAD
-
-;; problem 125
-=======
 ;; PROBLEM 125
->>>>>>> origin/master
 
 (defun squares-inner (n i sumn lim res)
   (let ((tsqr (+ sumn (sqr i))))
@@ -101,3 +96,29 @@
 
 (defun sol131 (lim)
   (time (find-primes (reverse (cubes 0 1 lim nil)) 1 0 lim nil)))
+
+;; PROBLEM NO 134
+
+(defun digc (p1 p2)
+  (first (loop for i in '(1 3 5 7 9)
+	    when (= (rem p1 10)
+		    (rem (* p2 i) 10))
+	    collect i)))
+
+(defun pair134 (p1 p2 d)
+  (let* ((tmp (numcol (* d p2)))
+	 (nc (numcol p1))
+	 (pp (drop (- (length tmp) (length nc)) tmp)))
+    (if (equal pp nc)
+	(* d p2)
+	(pair134 p1 p2 (+ 10 d)))))
+
+(defun fpairs (p1 p2 lim res)
+  (if (> p1 lim)
+      res
+      (let ((d (digc p1 p2)))
+	(fpairs p2 (next-prime p2) lim (cons (pair134 p1 p2 d) res)))))
+
+(defun sol134 (lim)
+  (time (fpairs 5 7 lim nil)))
+

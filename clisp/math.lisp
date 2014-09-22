@@ -137,18 +137,10 @@
   "Returns the sum of n first positive prime numbers"
   (sum (prime-list n)))
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 (defun primes-under (n)
   "Returns the sum of all primes under n"
   (loop for i from 2 to n when (prime? i) collect i))
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 "Elapsed time 3secs for n=100,000"
 
 (defun sum-primes-helper (n i cur res)
@@ -212,6 +204,10 @@
   (let ((tmp (numcol n)))
     (equal tmp (reverse tmp))))
 
+(defun drop (n col)
+  (if (= n 0)
+      col
+      (drop (dec n) (rest col))))
 
 
 
@@ -220,10 +216,4 @@
 
 
 
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 
