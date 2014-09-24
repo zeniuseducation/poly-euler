@@ -6,22 +6,7 @@
 
 ;; Problem 211
 
-(defn resil?
-  [a m]
-  (= m (denominator (/ a m))))
-
-(defn nresils
-  [n]
-  (->> (range 1 n)
-       (filter #(resil? % n))
-       (map #(/ % n))))
-
-(defn resil
-  [n]
-  (/ (->> (range 1 n)
-          (filter #(resil? % n))
-          (count))
-     (dec n)))
+(declare resil)
 
 (defn sol211a
   [n lim]
@@ -130,6 +115,34 @@
 
 
 
+;; PROBLEM 243
 
+(def base-primes (primes-under 1000))
+(def target 15499/94744)
+
+(def useful-primes (primes-under 25))
+
+(defn rtotient
+  [n]
+  (let [pfacts (pfactors n)]
+    [n (/ (* n (product (map #(- 1 (/ 1 %)) pfacts))) (dec n))]))
+
+(defn prime-target
+  [lim]
+  (time
+   (loop [n 2]
+     (let [raw (take n base-primes)
+           num (product raw)
+           res (second (rtotient num))]
+       (do (println [num res])
+           (if (< res lim)
+             [n res]
+             (recur (inc n))))))))
+
+
+
+(defn resil
+  [n]
+  (second (totient n)))
 
 

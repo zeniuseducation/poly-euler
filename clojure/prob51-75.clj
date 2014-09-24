@@ -38,52 +38,19 @@
 
 ;; PROBLEM 69 -> Totient Maximum
 
-(defn coprime?
-  [a b]
-  (= 1 (gcd a b)))
-
-(defn coprimes
-  [n]
-  (filter #(coprime? n %)
-          (range 1 n)))
-
-(defn totient
-  [n]
-  [n (/ n (count (coprimes n)))])
-
-(defn sol69
-  [m n]
-  (time (loop [i m [ns ts] [0 0]]
-          (if (> i n)
-            [ns ts]
-            (recur (inc i)
-                   (if (prime? i)
-                     [ns ts]
-                     (let [[nc tc] (totient i)]
-                       (if (> tc ts) [nc tc] [ns ts]))))))))
-
-(defn sol69a
-  [fname]
-  (->> (slurp fname)
-       (read-string)
-       (map first)
-       (map totient)
-       (sort-by second)
-       (take-last 10)))
-
 (defn candidates
-  "Takes numbers from i to j, and returns n numbers with most number
-  of factors"
-  [i j n]
-  (->> (range i (inc j))
-       (map #(vector % (/ % (count-factors %))))
-       (sort-by second)
-       (take n)
-       vec))
+  [lim]
+  (let [rawmat (reverse (prime-list 20))]
+    (loop [n 1 res []]
+      (let [rm (take n rawmat)
+            num (product rm)]
+        (if (> num lim)
+          res
+          (recur (inc n) (conj res num)))))))
 
-(defn save-candidates
-  [fname i j n]
-  (spit fname (candidates i j n)))
+(defn maxtot
+  [lim]
+  (time (sort-by second (map totient (candidates lim)))))
 
 
 ;; PROBLEM 75
@@ -177,6 +144,29 @@
        frequencies
        (filter #(= 1 (val %))) 
        count))
+
+(def base-primes (primes-under 100))
+
+(defn conds70?
+  [n]
+  (let [tot (totient n)
+        ntot (str tot)
+        ncol (str n)]
+    (if (= (sort ntot) (sort ncol))
+      [n (/ n tot)]
+      nil)))
+
+(defn cand70
+  [lim]
+  (->> (range 10 lim)
+       (keep conds70?)
+       (sort-by second)
+       (first)
+       (time)))
+
+
+
+
 
 
 

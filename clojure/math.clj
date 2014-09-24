@@ -281,7 +281,23 @@
   (take-while #(< % n) (palins 1)))
 
 
+(defn pfactors
+  [nt]
+  (let [lim (Math/sqrt nt)]
+    (loop [p 2 n nt res []]
+      (let [d (quot n p) r (rem n p)]
+        (if (> p lim)
+          (sort (distinct (conj res p d)))
+          (if (zero? r)
+            (if (or (= 1 d) (prime? d))
+              (sort (distinct (conj res p d)))
+              (recur 2 d (conj res p)))
+            (recur (next-prime p) n res)))))))
 
+(defn totient
+  [n]
+  (let [pfacts (pfactors n)]
+    (* n (product (map #(- 1 (/ 1 %)) pfacts)))))
 
 
 

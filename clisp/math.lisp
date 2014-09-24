@@ -51,8 +51,8 @@
 	((= 3 (length args))
 	 (let* ((i (first args)) (j (second args)) (k (third args)))
 	   (if (>= i j)
-	       (loop for x from i downto j by (abs k) collect x)
-	       (loop for x from i to j by k collect x))))))
+	       (loop for x from i downto (inc j) by (abs k) collect x)
+	       (loop for x from i to (dec j) by k collect x))))))
 
 (defun prime-helper (p i)
   (cond ((> (* i i) p) t)

@@ -1,4 +1,5 @@
-(ns euler.exp)
+(ns euler.exp
+  (:require [clojure.contrib.combinatorics :as cc]))
 
 ;; (load-file "math.clj")
 
@@ -31,4 +32,10 @@
                                      (recur ls)))))]
                  (conj res res1)
                  res))))))
+
+
+
+
+
+
 
