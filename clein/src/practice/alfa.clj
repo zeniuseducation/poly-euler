@@ -93,18 +93,19 @@
       res
       (recur (rest i) (conj res (f (first i)))))))
 
-;;take-while
-(defn take-while' [f col]
-  (if (= (count col) 0)
-    '()
-    (distinct (flatten (concat (filter f (list (first col))) (take-while' f (rest col)))))))
+;;check
+(defn check [f a]
+  (if (= (f a) true)
+    a
+    false))
 
+;;take-while
 (defn take-while'' [f col]
   (loop [i col
-         res '()]
-    (if (= (count i) 0)
+         res []]
+    (if (or (= (count i) 0) (= (f (first i)) false))
       res
-      (recur (rest i) (distinct (flatten (concat res (filter f (list (first i))))))))))
+      (recur (rest i) (conj res (check f (first i)))))))
 
 ;;remove
 (defn remove' [f col]
