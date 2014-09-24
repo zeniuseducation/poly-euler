@@ -55,3 +55,5 @@ sol36 lim = sum $ filter palin [1..lim]
 
 
 
+
+

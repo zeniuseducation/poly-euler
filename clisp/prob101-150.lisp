@@ -44,9 +44,12 @@
 
 ;; PROBLEM 108 FOR 110
 
+<<<<<<< HEAD
+=======
 
 ;; PROBLEM 125
 
+>>>>>>> origin/master
 (defun squares-inner (n i sumn lim res)
   (let ((tsqr (+ sumn (sqr i))))
     (if (>= tsqr lim)
@@ -71,6 +74,12 @@
   (time (squares-outer 2 lim nil)))
 
 
+<<<<<<< HEAD
+
+
+
+
+=======
 ;; PROBLEM NO 131
 ;; n^3 + n^2p = m^3 -> p = (m^3 - n^3)/ n^2
 ;; m3/n2 - n = p => (n+d)^3/n2 - n = p
@@ -121,4 +130,5 @@
 
 (defun sol134 (lim)
   (time (fpairs 5 7 lim nil)))
+>>>>>>> origin/master
 
