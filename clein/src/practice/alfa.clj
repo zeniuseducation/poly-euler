@@ -93,19 +93,13 @@
       res
       (recur (rest i) (conj res (f (first i)))))))
 
-;;check
-(defn check [f a]
-  (if (= (f a) true)
-    a
-    false))
-
 ;;take-while
 (defn take-while'' [f col]
   (loop [i col
          res []]
     (if (or (= (count i) 0) (= (f (first i)) false))
       res
-      (recur (rest i) (conj res (check f (first i)))))))
+      (recur (rest i) (conj res (first i))))))
     
 (defn take-while$
   [f col]
