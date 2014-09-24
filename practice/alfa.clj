@@ -127,6 +127,16 @@
           (drop-while$ f (rest col))
           col)))
 
+(defn drop-while$$
+  [f col]
+  (if (empty? col)
+      col
+      (loop [ls col]
+            (if (empty? ls)
+                ls
+                (if (f (first ls))
+                    (recur (rest ls))
+                    ls)))))
     
 ;; Reimplementing Clojure in pure recursion
 ;; last, butlast, keep, map, take, take-while, remove, drop, drop-while, distinct, range, for
