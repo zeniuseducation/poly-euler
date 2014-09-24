@@ -106,6 +106,15 @@
     (if (or (= (count i) 0) (= (f (first i)) false))
       res
       (recur (rest i) (conj res (check f (first i)))))))
+    
+(defn take-while$
+  [f col]
+  (loop [ls col res []]
+        (if (empty? ls) 
+            res
+            (if (f (first ls)) 
+                (recur (rest ls) (conj res (first ls)))
+                res))))
 
 ;;remove
 (defn remove' [f col]
