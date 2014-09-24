@@ -139,6 +139,25 @@
       (if (f (first ls))
         (recur (rest ls) res)
         ls))))
+      
+(defn drop-while$
+  [f col]
+  (if (empty? col)
+      col
+      (if (f (first col))
+          (drop-while$ f (rest col))
+          col)))
+
+(defn drop-while$$
+  [f col]
+  (if (empty? col)
+      col
+      (loop [ls col]
+            (if (empty? ls)
+                ls
+                (if (f (first ls))
+                    (recur (rest ls))
+                    ls)))))
 
     
 ;; Reimplementing Clojure in pure recursion
