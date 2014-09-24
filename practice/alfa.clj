@@ -118,6 +118,14 @@
     (if (= (count i) 0)
       res
       (recur (rest i) (concat res (if-not (f (first i)) (list (first i)) '()))))))
+    
+(defn drop-while$
+  [f col]
+  (if (empty? col)
+      col
+      (if (f (first col))
+          (drop-while$ f (rest col))
+          col)))
 
     
 ;; Reimplementing Clojure in pure recursion
