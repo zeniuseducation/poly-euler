@@ -122,6 +122,23 @@
     (if (= (count i) 0)
       res
       (recur (rest i) (concat res (if-not (f (first i)) (list (first i)) '()))))))
+    
+;;drop-while
+(defn drop-while' [f col]
+  (if (= (count col) 0)
+    []
+    (if (f (first col))
+      (drop-while' f (rest col))
+      col)))
+
+(defn drop-while'' [f col]
+  (loop [ls col
+         res []]
+    (if (zero? (count ls))
+      res
+      (if (f (first ls))
+        (recur (rest ls) res)
+        ls))))
 
     
 ;; Reimplementing Clojure in pure recursion
