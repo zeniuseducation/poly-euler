@@ -132,12 +132,11 @@
       col)))
 
 (defn drop-while'' [f col]
-  (loop [ls col
-         res []]
+  (loop [ls col]
     (if (zero? (count ls))
-      res
+      ls
       (if (f (first ls))
-        (recur (rest ls) res)
+        (recur (rest ls))
         ls))))
       
 (defn drop-while$
