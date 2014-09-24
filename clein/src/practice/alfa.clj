@@ -158,6 +158,15 @@
                     (recur (rest ls))
                     ls)))))
 
+;;distinct
+
+(defn distinct' [col]
+  (if (empty? col)
+    []
+    (if (some true? (map #(= % (last col)) (butlast col)))
+      (distinct' (butlast col))
+      (conj (distinct' (butlast col)) (last col)))))
+
     
 ;; Reimplementing Clojure in pure recursion
 ;; last, butlast, keep, map, take, take-while, remove, drop, drop-while, distinct, range, for
