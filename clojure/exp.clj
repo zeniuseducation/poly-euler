@@ -1,5 +1,4 @@
-(ns euler.exp
-  (:require [clojure.contrib.combinatorics :as cc]))
+(ns euler.exp)
 
 ;; (load-file "math.clj")
 
@@ -32,6 +31,27 @@
                                      (recur ls)))))]
                  (conj res res1)
                  res))))))
+
+(defn removes
+  [e ls]
+  (remove #(= e %) ls))
+
+(defn elm-permute
+  [elm ])
+
+(defn permute
+  [ls]
+  (loop [l ls res [[]]]
+    (if (empty? l)
+      res
+      (recur (rest ls)
+             (mapcat #(elm-permute l %) res)))))
+
+(defn irange
+  ([] (iterate inc 0))
+  ([i] (take (inc i) (iterate inc 0)))
+  ([i j] (take (inc (- j i)) (iterate inc i)))
+  ([i j k] (take-while #(<= % j) (iterate #(+ k %) i))))
 
 
 
