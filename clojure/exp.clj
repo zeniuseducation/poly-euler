@@ -36,16 +36,6 @@
   [e ls]
   (remove #(= e %) ls))
 
-(defn elm-permute
-  [elm ])
-
-(defn permute
-  [ls]
-  (loop [l ls res [[]]]
-    (if (empty? l)
-      res
-      (recur (rest ls)
-             (mapcat #(elm-permute l %) res)))))
 
 (defn irange
   ([] (iterate inc 0))
@@ -54,8 +44,25 @@
   ([i j k] (take-while #(<= % j) (iterate #(+ k %) i))))
 
 
+(defn permute
+  [ls]
+  (if (empty? ls)
+    [[]]
+    (for [i ls :let [rl (removes i ls)]]
+      (map #(cons i %) (permute rl)))))
 
+(defn permutate
+  [ls]
+  (if (every? #(not (coll? %)) ls)
+    (first ls)
+    (if (every? coll? ls)
+      (mapcat permute ls)
+      (mapcat #(cons (first ls) %)
+             (permutate (rest ls))))))
 
+(defn permutations
+  [ls]
+  (permutate (apply concat (permute ls))))
 
 
 

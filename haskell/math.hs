@@ -114,6 +114,11 @@ primes (x:xs) = x : deleteBy (\x n -> div' n x) x (primes xs)
 distinct lst =  map head.group.sort $ lst
 
 
+combine ls k = filter (\x -> k == length x) (subsequences ls)
+
+lgcd (x:xs) = foldl gcd x xs
+
+llcm (x:xs) = foldl lcm x xs
 
 
 
