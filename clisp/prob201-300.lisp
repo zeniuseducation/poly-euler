@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-(load "clojure.lisp")
-
-=======
-
 (load "clojure.lisp")
 
 ;; Problem 234
 
->>>>>>> origin/master
 (defun primes-in-range (p1 p2 sp1 sp2)
   (- (+ (sum (range (+ p1 sp1) sp2 p1))
 	(sum (range (- sp2 p2) sp1 (- p2))))
@@ -30,10 +24,7 @@
 
 (defun sol234 (lim)
   (time (outer-collector 2 3 lim 0)))
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 
 ;; PROBLEM 243
 
@@ -63,4 +54,10 @@
 
 (defun sol243a (lim)
   (time (resil 2 lim)))
+
+
+
+
+
+
 

@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 (load "clojure.lisp")
 
 ;; PROBLEM 85

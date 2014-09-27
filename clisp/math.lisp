@@ -243,15 +243,3 @@
       (loop for i in ls
 	 append (loop for rs in (permute (remove i ls))
 		   collect (cons i rs)))))
-
-
-
-
-
-
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> FETCH_HEAD

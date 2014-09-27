@@ -1,8 +1,5 @@
 (load "clojure.lisp")
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 
 (defun pandig? (n)
   "Returns true if n is pandigital (containing all digits exactly once)"
