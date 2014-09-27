@@ -299,7 +299,29 @@
 
 (defun cmap (fn &rest args)
   "Clojure's map behaviour"
-  (cmap-helper fn nil args))
+  (if (= 1 (length args))
+      (mapcar fn (first args))
+      (reverse (cmap-helper fn nil args))))
+
+(defun comp-helper (ls)
+  (if (= 1 (length ls))
+      (lambda (x) (funcall (first ls) x))
+      (lambda (x) (funcall (comp-helper (rest ls))
+		      (funcall (first ls) x)))))
+
+(defun comp (&rest args)
+  "Clojure's comp with standard clisp behaviour (you need to call it with funcall)"
+  (comp-helper (reverse args)))
+
+(defun juxt-helper (ls x)
+  (if (empty? ls)
+      nil
+      (cons (funcall (first ls) x)
+	    (juxt-helper (rest ls) x))))
+
+(defun juxt (&rest ls)
+  "Clojure's juxt with clisp behaviour"
+  (lambda (x) (juxt-helper ls x)))
 
 
 
