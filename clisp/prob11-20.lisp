@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+(load "clojure.lisp")
+>>>>>>> origin/master
 
 (load "clojure.lisp")
 ;; PROBLEM NO 12

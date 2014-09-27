@@ -25,6 +25,7 @@
   (if (< a m) 0 (1+ (div (- a m) m))))
 
 (defun filter (f ls)
+  "Remove-if-not f ls"
   (remove-if-not f ls))
 
 (defun sum (ls)
@@ -106,6 +107,7 @@
   (count-factors-helper n 1 0))
 
 (defun lcm-list (ls res)
+  "Returns raw materials for lcm"
   (let ((a (first ls))
 	(xs (rest ls)))
     (if (null xs)
@@ -135,6 +137,7 @@
 	  (cons (first ls) (take-while fn (rest ls))))))
 
 (defun drop (n col)
+  "Drop n first elements in col"
   (if (= n 0)
       col
       (drop (dec n) (rest col))))
@@ -176,15 +179,13 @@
 
 "Elapsed time 3secs for n=100,000"
 
-(defun sum-primes-helper (n i cur res)
-  "Helper function using res as sum accumulator, and i as the current prime"
-  (if (<= n i)
-      (+ cur res)
-      (sum-primes-helper n (+ i 1) (next-prime i) (+ res cur))))
-
 (defun sum-primes (n)
   "Returns the sum of n first positive prime numbers"
-  (sum-primes-helper n 1 2 0))
+  (labels ((sum-primes-helper (n i cur res)
+	     (if (<= n i)
+		 (+ cur res)
+		 (sum-primes-helper n (+ i 1) (next-prime i) (+ res cur)))))
+    (sum-primes-helper n 1 2 0)))
 
 "Elapsed time 1sec for n=100,000"
 
@@ -198,60 +199,138 @@
   (cond ((<= n 2) '())
 	(:else (reverse (primes-under-helper n 2 nil)))))
 
-(defun numcol-helper (n res)
-  (if (< n 10)
-      (cons n res)
-      (numcol-helper (quot n 10) (cons (rem n 10) res))))
-
 (defun numcol (n)
   "Returns the list of digits in a number n"
+  (labels ((numcol-helper (n res)
+	     (if (< n 10)
+		 (cons n res)
+		 (numcol-helper (quot n 10) (cons (rem n 10) res))))))
   (numcol-helper n nil))
-
-(defun colnum-helper (ls res)
-  (if (nil? ls)
-      res
-      (colnum-helper (rest ls) (+ (* 10 res) (first ls)))))
 
 (defun colnum (ls)
   "Construct a number based on digits in a list"
-  (colnum-helper ls 0))
+  (labels ((colnum-helper (ls res)
+	     (if (nil? ls)
+		 res
+		 (colnum-helper (rest ls)
+				(+ (* 10 res) (first ls))))))
+    (colnum-helper ls 0)))
 
-(defun manual-pascal-row (res)
-  (cons 1
-	(reverse (cons 1
-		       (mapcar #'(lambda (x y) (+ x y))
-			       res (rest res))))))
-
-(defun manual-pascal-helper (n i res)
-  (if (= n i)
-      (manual-pascal-row res)
-      (manual-pascal-helper n (1+ i) (manual-pascal-row res))))
-
-(defun manual-pascal (n)
+(defun pascal (n)
   "Returns the n-th row of pascal triangle"
   (cond ((= n 1) '(1))
 	((= n 2) '(1 1))
-	(:else (manual-pascal-helper n 2 '(1 1)))))
+	(:else (labels ((mph (n i res)
+			  (labels ((mpr (res)
+				     (cons 1
+					   (reverse (cons 1
+							  (mapcar #'(lambda (x y) (+ x y))
+								  res (rest res)))))))
+			    (if (= n i)
+				(mpr res)
+				(mph n (1+ i) (mpr res))))))
+		 (mph n 2 '(1 1))))))
 
 (defun palin? (n)
+  "Accepts an integer n and returns a list of its digits"
   (let ((tmp (numcol n)))
     (equal tmp (reverse tmp))))
 
 (defun permute (ls)
+  "Returns all possible permutations of ls"
   (if (= 1 (length ls))
       (mapcar 'list ls)
       (loop for i in ls
 	 append (loop for rs in (permute (remove i ls))
 		   collect (cons i rs)))))
 
+(defun combine (ls n)
+  "Takes n combinations of ls"
+  (if (= 0 n)
+      '(())
+      (loop for i in ls
+	    for j from 1 to (length ls)
+	 append (loop for rs in (combine (drop j ls)
+					 (dec n))
+		   collect (cons i rs)))))
+
+(defun iterate (fn i gn)
+  "Returns non-lazy iterate while (gn i) is true"
+  (if (not (funcall gn i))
+      nil
+      (cons i (iterate fn (funcall fn i) gn))))
+
+(defun pfactors (n)
+  "Returns all prime factors of n"
+  (labels ((phelpers (p1 p2 res)
+	     (if (prime? p2)
+		 (cons p2 res)
+		 (if (div? p2 p1)
+		     (phelpers 2 (div p2 p1) (cons p1 res))
+		     (phelpers (next-prime p1) p2 res)))))
+    (reverse (phelpers 2 n nil))))
+
+(defun every? (fn ls)
+  "Returns true if every element in ls satisfies fn"
+  (if (empty? ls)
+      true
+      (if (not (funcall fn (first ls)))
+	  false
+	  (every? fn (rest ls)))))
+
+(defun some? (fn ls)
+  "Returns true if at least one  element in ls satisfies fn"
+  (if (empty? ls)
+      false
+      (if (funcall fn (first ls))
+	  true
+	  (every? fn (rest ls)))))
+
+(defun partial (fn &rest args)
+  "Returns a curried version of fn"
+  (lambda (&rest xs) (apply fn (append args xs))))
+
+(defun cmap-helper (fn res args)
+  (if (some? 'empty? args)
+      res
+      (cmap-helper fn
+		   (cons (apply fn (mapcar 'first args)) res)
+		   (mapcar 'rest args))))
+
+(defun cmap (fn &rest args)
+  "Clojure's map behaviour"
+  (if (= 1 (length args))
+      (mapcar fn (first args))
+      (reverse (cmap-helper fn nil args))))
+
+(defun comp-helper (ls)
+  (if (= 1 (length ls))
+      (lambda (x) (funcall (first ls) x))
+      (lambda (x) (funcall (comp-helper (rest ls))
+		      (funcall (first ls) x)))))
+
+(defun comp (&rest args)
+  "Clojure's comp with standard clisp behaviour (you need to call it with funcall)"
+  (comp-helper (reverse args)))
+
+(defun juxt-helper (ls x)
+  (if (empty? ls)
+      nil
+      (cons (funcall (first ls) x)
+	    (juxt-helper (rest ls) x))))
+
+(defun juxt (&rest ls)
+  "Clojure's juxt with clisp behaviour"
+  (lambda (x) (juxt-helper ls x)))
 
 
 
 
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> FETCH_HEAD
+
+
+
+

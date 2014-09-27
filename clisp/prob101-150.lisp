@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 (load "clojure.lisp")
 
 (defun psqr-helper (n i)

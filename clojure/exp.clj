@@ -1,6 +1,6 @@
 (ns euler.exp)
 
-;; (load-file "math.clj")
+(load-file "math.clj")
 
 (defn div? [a b] (zero? (rem a b)))
 
@@ -32,37 +32,15 @@
                  (conj res res1)
                  res))))))
 
-(defn removes
-  [e ls]
-  (remove #(= e %) ls))
-
-
-(defn irange
-  ([] (iterate inc 0))
-  ([i] (take (inc i) (iterate inc 0)))
-  ([i j] (take (inc (- j i)) (iterate inc i)))
-  ([i j k] (take-while #(<= % j) (iterate #(+ k %) i))))
-
-
-(defn permute
-  [ls]
-  (if (empty? ls)
-    [[]]
-    (for [i ls :let [rl (removes i ls)]]
-      (map #(cons i %) (permute rl)))))
-
-(defn permutate
-  [ls]
-  (if (every? #(not (coll? %)) ls)
-    (first ls)
-    (if (every? coll? ls)
-      (mapcat permute ls)
-      (mapcat #(cons (first ls) %)
-             (permutate (rest ls))))))
-
 (defn permutations
   [ls]
-  (permutate (apply concat (permute ls))))
+  (if (= 1 (count ls))
+    (map vector ls)
+    (for [mat ls
+          pres (permutations (removes mat ls))]
+      (cons mat pres))))
+
+
 
 
 
