@@ -1,5 +1,5 @@
 
-(load "math.lisp")
+(load "clojure.lisp")
 
 
 (defun find-blue (b tot)

@@ -1,5 +1,5 @@
-(load "math.lisp")
 
+(load "clojure.lisp")
 ;; PROBLEM NO 12
 ;; What is the first triangle number that has more than 500 factors
 
