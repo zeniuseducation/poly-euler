@@ -1,4 +1,4 @@
-(load "math.lisp")
+(load "clojure.lisp")
 
 ;; PROBLEM 85
 

@@ -21,6 +21,7 @@
   (apply *' ls))
 
 (defn square [x] (* x x))
+(defn sqr [x] (* x x))
 (defn cube [x] (* x x x))
 
 (defn expt-big
@@ -298,6 +299,38 @@
   [n]
   (let [pfacts (pfactors n)]
     (* n (product (map #(- 1 (/ 1 %)) pfacts)))))
+
+(defn removes
+  [e ls]
+  (remove #(= e %) ls))
+
+(defn fact [n] (reduce * (range 1 (inc n))))
+
+(defn irange
+  ([] (iterate inc 0))
+  ([i] (take (inc i) (iterate inc 0)))
+  ([i j] (take (inc (- j i)) (iterate inc i)))
+  ([i j k] (take-while #(<= % j) (iterate #(+ k %) i))))
+
+(defn permute
+  [ls]
+  (if (= 1 (count ls))
+    [[(first ls)]]
+    (for [i (range (count ls))
+          prest (permute (rest ls))]
+      (concat (take i prest) [(first ls)] (drop i prest)))))
+
+(defn permutations
+  [ls]
+  (if (= 1 (count ls))
+    (map vector ls)
+    (for [mat ls
+          pres (permutations (removes mat ls))]
+      (cons mat pres))))
+
+
+
+
 
 
 

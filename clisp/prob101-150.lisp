@@ -1,4 +1,4 @@
-(load "math.lisp")
+(load "clojure.lisp")
 
 (defun psqr-helper (n i)
   (cond ((> (* i i) n)

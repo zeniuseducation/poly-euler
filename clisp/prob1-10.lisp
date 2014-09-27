@@ -1,7 +1,7 @@
 
 ;; Load the basic math functionalities
 
-(load "math.lisp")
+(load "clojure.lisp")
 
 
 ;; PROBLEM NO 1

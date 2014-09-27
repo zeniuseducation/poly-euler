@@ -1,4 +1,4 @@
-(load "math.lisp")
+(load "clojure.lisp")
 
 (defun pandig? (n)
   "Returns true if n is pandigital (containing all digits exactly once)"

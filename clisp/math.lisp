@@ -1,6 +1,5 @@
 ;; This is an attempt to make some of clojure functions runs on SBCL
 
-
 (defconstant true t)
 (defconstant false nil)
 
@@ -11,12 +10,19 @@
 
 (defun true? (x) (equal true x))
 
+(defun false? (x) (not x))
+
 (defun nil? (x) (null x))
 
 (defun empty? (x) (null x))
 
 (defun quot (a m)
+  "Integer division, div"
   (floor (/ a m)))
+
+(defun div (a m)
+  "Integer division"
+  (if (< a m) 0 (1+ (div (- a m) m))))
 
 (defun filter (f ls)
   (remove-if-not f ls))
@@ -60,6 +66,7 @@
 	(t (prime-helper p (+ 2 i)))))
 
 (defun prime? (p)
+  "Prime checking function"
   (cond ((<= p 20) (if (member p '(2 3 5 7 11 13 17 19)) t nil))
 	((evenp p) nil)
 	(t (prime-helper p 3))))
@@ -76,9 +83,11 @@
 	(t (factors-helper n (1+ i) res))))
 
 (defun factors (n)
+  "Returns the positive integer factors of n"
   (factors-helper n 1 '()))
 
 (defun sum-factors (n)
+  "Returns the sum of n positive integer factors"
   (- (sum (factors n)) n))
 
 (defun count-factors-helper (n i res)
@@ -93,9 +102,10 @@
 	(t (factors-helper n (1+ i) res))))
 
 (defun count-factors (n)
+  "Returns the number of positive integer factors of n"
   (count-factors-helper n 1 0))
 
-(defun lcm-list (ls res) 
+(defun lcm-list (ls res)
   (let ((a (first ls))
 	(xs (rest ls)))
     (if (null xs)
@@ -109,12 +119,35 @@
 	    (lcm-list xs (cons a res))))))
 
 (defun take (n ls)
-  (cond ((>= n (length ls)) ls)
-	((= n 1) (list (first ls)))
-	(:else (append (list (first ls))
-		       (take (1- n) (rest ls))))))
+  "Returns a list containing n first elements of ls"
+  (if (= n 0)
+      '()
+      (if (empty? ls)
+	  ls
+	  (cons (first ls) (take (dec n) (rest ls))))))
+
+(defun take-while (fn ls)
+  "Returns the elements of ls starting from first while (fn elmt) is true"
+  (if (empty? ls)
+      ls
+      (if (not (funcall fn (first ls)))
+	  nil
+	  (cons (first ls) (take-while fn (rest ls))))))
+
+(defun drop (n col)
+  (if (= n 0)
+      col
+      (drop (dec n) (rest col))))
 
 ;; Some performance test
+
+(defun drop-while (fn ls)
+  "Returns the elements of ls starting from first while (fn elmt) is true"
+  (if (empty? ls)
+      ls
+      (if (funcall fn (first ls))
+	  (drop-while fn (rest ls))
+	  ls)))
 
 (defun next-prime (x)
   "Returns the next positive prime number larger than x"
@@ -128,10 +161,10 @@
       (cons cur res)
       (prime-list-helper n (+ 1 i) (next-prime cur) (cons cur res))))
 
+
 (defun prime-list (n)
   "Returns the n first positive integers"
   (prime-list-helper n 1 2 '()))
-
 
 (defun suma-prima (n)
   "Returns the sum of n first positive prime numbers"
@@ -204,10 +237,12 @@
   (let ((tmp (numcol n)))
     (equal tmp (reverse tmp))))
 
-(defun drop (n col)
-  (if (= n 0)
-      col
-      (drop (dec n) (rest col))))
+(defun permute (ls)
+  (if (= 1 (length ls))
+      (mapcar 'list ls)
+      (loop for i in ls
+	 append (loop for rs in (permute (remove i ls))
+		   collect (cons i rs)))))
 
 
 
@@ -217,8 +252,3 @@
 
 
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> origin/master
