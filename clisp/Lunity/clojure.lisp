@@ -204,8 +204,8 @@
   (labels ((numcol-helper (n res)
 	     (if (< n 10)
 		 (cons n res)
-		 (numcol-helper (quot n 10) (cons (rem n 10) res))))))
-  (numcol-helper n nil))
+		 (numcol-helper (quot n 10) (cons (rem n 10) res)))))
+    (numcol-helper n nil)))
 
 (defun colnum (ls)
   "Construct a number based on digits in a list"
