@@ -89,7 +89,19 @@
 	when (<= x lim)
       collect (range x lim x))) '<))
 
+(defun trip (a)
+  (let* ((facs (sorted-factors a))
+	 (asqr (sqr a)))
+    (loop for i in facs
+       for b = (/ (- (/ asqr i) i) 2)
+       while (>= b (/ a 4))
+       when (integerp b)
+       collect (list a b (+ b i)))))
 
-
+(defun trips (lim)
+  (sort (apply 'append
+	       (loop for a from 3 to (/ lim 3)
+		  collect (filter #'(lambda (x) (<= x lim))
+				  (mapcar 'sum (trip a))))) '<))
 
 
