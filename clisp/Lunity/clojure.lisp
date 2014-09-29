@@ -361,7 +361,13 @@
   "Clojure's juxt with clisp behaviour"
   (lambda (x) (juxt-helper ls x)))
 
-
+(defun spit (fname obj)
+  "Clojure spit to file behaviour"
+  (with-open-file (outfile fname
+			   :direction :output
+			   :if-exists :supersede
+			   :if-does-not-exist :create)
+    (prin1 obj outfile)))
 
 
 

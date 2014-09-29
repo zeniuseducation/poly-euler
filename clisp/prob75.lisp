@@ -73,13 +73,7 @@
 			   :if-does-not-exist :create)
     (prin1 (pita lim) outfile)))
 
-(defun spit (fname obj)
-  "Clojure spit to file behaviour"
-  (with-open-file (outfile fname
-			   :direction :output
-			   :if-exists :supersede
-			   :if-does-not-exist :create)
-    (prin1 obj outfile)))
+
 
 (defun triplet (a)
   (let ((b (/ (dec (sqr a)) 2)))
