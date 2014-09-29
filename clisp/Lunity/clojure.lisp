@@ -43,6 +43,10 @@
 (defun square (x)
   (* x x))
 
+(defun psqr? (n)
+  (multiple-value-bind (x y) (truncate (sqrt n))
+    (zerop y)))
+
 (defun sqr (x) (* x x))
 
 (defun cube (x) (* x x x))
@@ -158,6 +162,14 @@
 	((evenp x) (next-prime (1+ x)))
 	((prime? (+ 2 x)) (+ 2 x))
 	(:else (next-prime (+ 2 x)))))
+
+(defun prev-prime (x)
+  "Returns the next positive prime number less than x"
+  (cond ((<= x 2) nil)
+	((= x 3) 2)
+	((evenp x) (prev-prime (1- x)))
+	((prime? (- x 2)) (- x 2))
+	(:else (prev-prime (- x 2)))))
 
 (defun prime-list-helper (n i cur res)
   (if (= n i)
