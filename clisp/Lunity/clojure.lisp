@@ -45,7 +45,8 @@
 
 (defun psqr? (n)
   (multiple-value-bind (x y) (truncate (sqrt n))
-    (zerop y)))
+    (progn (evenp x)
+	   (zerop y))))
 
 (defun sqr (x) (* x x))
 

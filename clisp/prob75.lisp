@@ -47,7 +47,6 @@
 (defun pita (lim)
   (loop for a from 1 to (quot lim 3)
      for asqr = (sqr a)
-     do (print a)
      append (loop for b from (inc a) to (inc (quot lim 2))
 	       for bsqr = (sqr b)
 	       for csqr = (+ (sqr a) (sqr b))
@@ -55,6 +54,17 @@
 	       while (<= (- (sqr (inc b)) bsqr) asqr)
 	       when (and (<= (+ a b c) lim) (psqr? csqr))
 	       collect (+ a b c))))
+
+(defun pitalist (lim)
+  (loop for a from 1 to (quot lim 3)
+     for asqr = (sqr a)
+     append (loop for b from (inc a) to (inc (quot lim 2))
+	       for bsqr = (sqr b)
+	       for csqr = (+ (sqr a) (sqr b))
+	       for c = (round (sqrt csqr))
+	       while (<= (- (sqr (inc b)) bsqr) asqr)
+	       when (and (<= (+ a b c) lim) (psqr? csqr))
+	       collect (list a b c))))
 
 (defun savefile (fname lim)
   (with-open-file (outfile fname
@@ -71,9 +81,19 @@
 			   :if-does-not-exist :create)
     (prin1 obj outfile)))
 
+(defun triplet (a)
+  (let ((b (/ (dec (sqr a)) 2)))
+    (list a b (inc b))))
 
+(defun triplets (lim)
+  (mapcar 'sum (mapcar 'triplet (range 3 lim 2))))
 
-
+(defun tripletss (lim)
+  (sort (apply 'append
+	  (loop for i from 3 to (+ 100 (sqrt lim)) by 2
+	     for x = (sum (triplet i))
+	when (<= x lim)
+      collect (range x lim x))) '<))
 
 
 
