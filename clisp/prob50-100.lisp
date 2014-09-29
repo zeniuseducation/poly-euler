@@ -1,5 +1,5 @@
 
-(load "lunity/clojure.lisp")
+(load "clojure.lisp")
 
 ;; PROBLEM 85
 
@@ -69,6 +69,26 @@ plotted into m by n plane"
 
 (defun find-y (d x)
   (sqrt (/ (dec (sqr x)) d)))
+
+;; PROBLEM 76 SUMMATIONS
+
+(defun partition76 (n)
+  (div n 2))
+
+(defun sol76 (n)
+  (if (= n 2)
+      2
+      (+ (partition76 n)
+	 (div (sum (cmap 'sol76 (range (dec n) (dec (div n 2)) -1))) 2))))
+
+;; PROBLEM 24
+
+(defun lpfactors (n)
+  (remove-duplicates
+   (let ((pfacts (pfactors n)))
+     (mapcar 'product
+	     (mapcan #'(lambda (x) (combine pfacts x))
+		     (range 1 (inc (length pfacts))))))))
 
 
 
