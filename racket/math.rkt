@@ -1,9 +1,14 @@
-#lang racket
+#lang racket 
 
-(provide square prime? sum product take-while cube factors)
+(provide square sqr cube primes-under prime-list inc dec
+         prime? sum next-prime suma-prima product take-while cube factors)
 
 (define (square x) (* x x))
+(define (sqr x) (* x x))
 (define (cube x) (* x x x))
+(define (div a m) (quotient a m))
+(define (quot a m) (quotient a m))
+(define (rem a m) (remainder a m))
 
 (define true #t)
 (define false #f)
@@ -24,7 +29,7 @@
 (define (prime-helper n i lim)
   (if (> i lim)
       true 
-      (if (zero? (remainder n i))
+      (if (zero? (rem n i))
           false 
           (prime-helper n (+ 2 i) lim))))
 
@@ -52,6 +57,17 @@
   "Returns the first n positive prime numbers"
   (prime-list-helper n 1 2 '()))
 
+(define (primes-under-helper n i res)
+  (if (>= i n) 
+      res 
+      (primes-under-helper n (next-prime i) (cons i res))))
+
+(define (primes-under n)
+  "Returns all positive primes less than n"
+  (if (<= n 2) 
+      null
+      (primes-under-helper n 2 '())))
+
 (define (suma-prima n)
   "Returns the sum of n first positive primes"
   (sum (prime-list n)))
@@ -59,7 +75,7 @@
 (define (factors-helper n lim i res)
   (if (> i lim)
       res 
-      (let [(rem (remainder n i)) (div (quotient n i))]
+      (let [(rem (rem n i)) (div (quot n i))]
         (factors-helper n 
                         lim 
                         (inc i) 
@@ -91,6 +107,7 @@
 (define (colnum col)
   "Accepts a list of digits and convert it into number"
   (colnum-helper col 0))
+
 
 
 
