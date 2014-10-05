@@ -1,4 +1,5 @@
 open Math;
+open List;
 val sample = [1,2,3,4,5,6,7,8,9];
 
 val inc = fn x => x + 1;
@@ -14,13 +15,23 @@ fun expt (a:int, m:int) =
     if (m = 0) then 1 else a * expt (a, dec m);
 
 fun range (i:int) (j:int) =
-    if i = j then []
+    if i >= j then []
     else i :: (range (inc i) j);
 
-fun filter f nil = []
-  | filter f (x::xs) =
-    if f x then x :: (filter f xs)
-    else (filter f xs);
+fun srange (i:int) (j:int) (k:int) =
+    if i > j
+    then
+	let fun bigger i =
+		if i <= j then []
+		else i :: (bigger (i+k))
+	in bigger i
+	end
+    else
+	let fun smaller i =
+		if i >= j then []
+		else i :: (smaller (i+k))
+	in smaller i
+	end;
 
 fun is_prime (p:int) =
     if p < 2 then false
@@ -82,8 +93,8 @@ fun factors 1 = [1]
 			 if rpair=rdiv then rdiv :: res
 			 else
 			     if is_even n
-			     then helper ( inc i, append [rdiv, rpair] res)
-			     else helper ( i+2, append [rdiv, rpair] res)
+			     then helper ( inc i,  [rdiv, rpair] @ res)
+			     else helper ( i+2, [rdiv, rpair] @ res)
 		     else
 			 if is_even n
 			 then helper (inc i, res)
@@ -93,6 +104,13 @@ fun factors 1 = [1]
 	if is_even n
 	then helper (2, [1,n])
 	else helper (3, [1,n])
+    end;
+
+fun sqr x = x * x;
+
+fun is_psquare x =
+    let val xsqrt = sqrt (real x)
+    in (ceil xsqrt) = (floor xsqrt)
     end;
 	
 
