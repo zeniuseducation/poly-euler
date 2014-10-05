@@ -3,7 +3,7 @@
 (require "math.rkt")
 
 (define (sorted-factors n)
-  "returns the sorted factors of n starting from the smallest"
+  "Returns the sorted factors of n starting from the smallest"
   (sort (factors n) <))
 
 (define (psqr? x)
@@ -11,7 +11,8 @@
     (= xsqrt (truncate xsqrt))))
 
 (define (pita lim)
-  "Returns all possible combination of pitagorean triplets with peripheral at most lim"
+  "Returns all possible combination of pitagorean triplets with
+  peripheral at most lim"
   (for*/list ([a (in-range 3 (/ lim 3))])
     (let ((asqr (sqr a)))
       (for*/list ([b (in-range a (/ lim 2))]
