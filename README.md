@@ -86,6 +86,7 @@ Prob: Find the 10,001st prime
 Clojure 40-50 msecs  
 SBCL 90-110 msecs  
 Haskell 2400 msecs  
+SML 17 msecs!!!  Again the FASTEST one!!!  
 
 ##### Problem no 8
 
@@ -103,9 +104,12 @@ Haskell 240 msecs
 
 ##### Problem no 10
 
+Prob : The sum of all positive primes that less than 2,000,000  
+
 Clojure 2,500 msecs  (2.5 secs)  
 SBCL 5,800 msecs  (5.8 secs)  
 Haskell 155,000 msecs (155 secs)  
+SML 736 msecs!! (0.736 secs) FASTEST!  
 Racket 4-6K msecs (5-6 secs)  
 
 ##### Problem no 12
