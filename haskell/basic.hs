@@ -63,9 +63,8 @@ triplets lim = [ [a+b+c,a,b,c] | a <- [3..(div lim 4)],
                  b <- [a..(div lim 2)], c <- [b..(div lim 2)],
                  a^2 + b^2 == c^2, a+b+c <= lim]
 
-
-
-
+ceil :: Float -> Int
+ceil x = succ (truncate x)
 
 
 

@@ -143,13 +143,9 @@
   "Returns the positive integer factors of n"
   (sort (factors-helper n 1 '()) '<))
 
-
-
 (defun sum-factors (n)
   "Returns the sum of n positive integer factors"
   (- (sum (factors n)) n))
-
-
 
 (defun count-factors-helper (n i res)
   (cond ((> (* i i) n)
