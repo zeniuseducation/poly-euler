@@ -131,6 +131,16 @@ fun suma_prima (x:int) =
 	helper 2 0
     end;
 
+fun prima_lista (i:int) =
+(* Returns the i-th first positive prime *)
+    let
+	fun helper (n : int) res =
+	    if n >= i then res
+	    else helper (inc n) (next_prime res)
+    in
+	helper 1 2
+    end;
+
 fun div' a b = 0 = (a mod b);
 
 fun pfactors 2 = [2]
