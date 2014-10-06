@@ -11,7 +11,7 @@ fun filter' f [] = []
 
 fun sol2 x = sum' (filter' is_even (fibo_under x));
 
-fun sol10 x = sum' (primes_under x);
+fun sol10 x = suma_prima x;
 
 fun res x =
     let

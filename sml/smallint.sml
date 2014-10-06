@@ -89,22 +89,20 @@ fun is_psquare x =
     in (ceil xsqrt) = (floor xsqrt)
     end;
 
-fun is_prime (p:IntInf.int) =
+fun is_prime (p:int) =
     if p < 2 then false
     else if (p = 2) then true
-    else if is_even p then false
+    else if even p then false
     else
-        let val lim = ceil (sqrt (real (Int.fromLarge p)))
+        let val lim = ceil (sqrt (real p))
             fun prime_helper i =
                 if i > lim then true
-                else if (p mod (Int.toLarge i)) = 0
+                else if (p mod i) = 0
                 then false
                 else prime_helper (i + 2)
         in
             prime_helper (3)
         end;
-
-fun primes_under x = filter is_prime (range 1 x);
 
 fun next_prime 2 = 3
   | next_prime n =
@@ -122,6 +120,16 @@ fun next_prime 2 = 3
 	in
 	    helper (n + 2)
 	end;
+
+fun suma_prima (x:int) =
+(* returns the sum of primes under x *)
+    let
+	fun helper (i:int) (res:IntInf.int) =
+	    if i > x then res
+	    else helper (next_prime i) ((Int.toLarge i) + res)
+    in
+	helper 2 0
+    end;
 
 fun div' a b = 0 = (a mod b);
 
