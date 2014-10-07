@@ -203,9 +203,14 @@
   "Returns the n first positive integers"
   (prime-list-helper n 1 2 '()))
 
-(defun suma-prima (n)
-  "Returns the sum of n first positive prime numbers"
-  (sum (prime-list n)))
+(defun suma-prima (lim)
+  "Returns the sum of all primes less than lim"
+  (labels ((helper (cur res)
+	     (if (>= cur lim)
+		 res
+		 (helper (next-prime cur)
+			 (+ res cur)))))
+    (helper 2 0)))
 
 (defun primes-under (n)
   "Returns the sum of all primes under n"
@@ -257,9 +262,10 @@
 	(:else (labels ((mph (n i res)
 			  (labels ((mpr (res)
 				     (cons 1
-					   (reverse (cons 1
-							  (mapcar #'(lambda (x y) (+ x y))
-								  res (rest res)))))))
+					   (reverse
+					    (cons 1
+						  (mapcar #'(lambda (x y) (+ x y))
+							  res (rest res)))))))
 			    (if (= n i)
 				(mpr res)
 				(mph n (1+ i) (mpr res))))))
@@ -365,9 +371,49 @@
 			   :if-does-not-exist :create)
     (prin1 obj outfile)))
 
+(defun takelim (n ls)
+  "Returns the elements in ls that less than n"
+  (labels ((helper (ls res)
+	     (if (> (first ls) n)
+		 res
+		 (helper (rest ls) (append res (list (first ls)))))))
+    (helper ls nil)))
 
+;; Dont use it, it's slow
+(defun prima-lista1 (lim)
+  "Returns the positive primes less than lim, lim should be greater than 10"
+  (labels
+      ((helper (prm n res)
+	 (if (> n lim)
+	     res
+	     (if (empty? prm)
+		 (helper (takelim (ceiling (sqrt (+ n 2))) res)
+			 (+ n 2)
+			 (append res (list n)))
+		 (if (div? n (first prm))
+		     (helper (takelim (ceiling (sqrt (+ n 2))) res)
+			     (+ n 2)
+			     res)
+		     (helper (rest prm) n res))))))
+    (cons 2 (helper '(3 5 7) 11 '(3 5 7)))))
 
-
+;; Dont use it, it's slow
+(defun prima-lista (lim)
+  "Sieves less than lim"
+  (labels
+      ((hprime? (res p)
+	 (if (> (sqr (first res)) p)
+	     true
+	     (if (div? p (first res))
+		 false
+		 (hprime? (rest res) p))))
+       (helper (n res)
+	 (if (> n lim)
+	     res
+	     (if (hprime? res n)
+		 (helper (+ n 2) (append res (list n)))
+		 (helper (+ n 2) res)))))
+    (cons 2 (helper 11 '(3 5 7)))))
 
 
 

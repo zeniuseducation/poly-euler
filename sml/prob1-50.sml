@@ -1,8 +1,7 @@
 use "smallint.sml";
 
 (* prov 01 *)
-val sol1 = (sum (srange 3 1000 3) + sum (srange 5 1000 5)) -
-	   sum (srange 15 1000 15);
+
 
 fun filter' f [] = []
     | filter' f (x::xs) =

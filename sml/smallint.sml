@@ -21,8 +21,9 @@ fun fibo i =
 	let
 	    fun helper (n:int) ls =
 		if n > i then ls
-		else helper (inc n) [IntInf.toLarge ((hd ls) +
-						     (hd (tl ls))), hd ls]
+		else helper (inc n)
+			    [IntInf.toLarge ((hd ls) +
+					     (hd (tl ls))), hd ls]
 	in
 	    hd (helper 2 [1,1])
 	end;
@@ -140,6 +141,7 @@ fun prima_lista (i:int) =
     in
 	helper 1 2
     end;
+
 
 fun div' a b = 0 = (a mod b);
 
