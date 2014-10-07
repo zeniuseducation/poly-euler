@@ -26,7 +26,7 @@ In every source code, time-elapsed for each solution will be listed.
 
 ## Performance Comparison on MBA i5 1.6GHz
 
-Implementations:
+Implementations:  
 1. Clojure using Clojure on JVM  
 2. Clojurescript on NodeJS  
 3. Common Lisp using SBCL  
