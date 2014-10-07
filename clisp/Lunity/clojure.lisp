@@ -310,6 +310,20 @@
 		     (phelpers (next-prime p1) p2 res)))))
     (reverse (phelpers 2 n nil))))
 
+(defun pfacts (n)
+  "Returns all prime factors of n"
+  (labels ((divs (p1 n)
+	     (if (zero? (rem n p1))
+		 (list p1 (div n p1))
+		 (divs (next-prime p1) n)))
+	   (helper (n res)
+	     (if (prime? n)
+		 (cons n res)
+		 (let ((result (divs 2 n)))
+		   (helper (second result)
+			   (cons (first result) res))))))
+    (helper n nil)))
+
 (defun every? (fn ls)
   "Returns true if every element in ls satisfies fn"
   (if (empty? ls)
