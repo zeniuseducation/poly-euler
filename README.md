@@ -107,7 +107,7 @@ Haskell 240 msecs
 Prob : The sum of all positive primes that less than 2,000,000  
 
 Clojure 2,500 msecs  (2.5 secs)  
-SBCL 5,800 msecs  (5.8 secs)  
+SBCL 5,800 msecs  (5.8 secs)  edit 3,269ms in SBCL 1.2.2  
 Haskell 155,000 msecs (155 secs)  
 SML 736 msecs!! (0.736 secs) FASTEST!  
 Racket 4-6K msecs (5-6 secs)  
