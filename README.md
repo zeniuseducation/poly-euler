@@ -27,12 +27,12 @@ In every source code, time-elapsed for each solution will be listed.
 ## Performance Comparison on MBA i5 1.6GHz
 
 Implementations:
-1. Clojure using Clojure on JVM
-2. Clojurescript on NodeJS
-3. Common Lisp using SBCL
-4. Haskell using GHC (currently still in interpreted mode, will be moved to compiled one)
-5. SML using SMLNJ
-6. Racket using Racket
+1. Clojure using Clojure on JVM  
+2. Clojurescript on NodeJS  
+3. Common Lisp using SBCL  
+4. Haskell using GHC (currently still in interpreted mode, will be moved to compiled one)  
+5. SML using SMLNJ  
+6. Racket using Racket  
 
 ##### Problem no 1
 
