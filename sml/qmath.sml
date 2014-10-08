@@ -142,14 +142,50 @@ fun pfactors 2 = [2]
 	helper 2 (fint (helper' (helper' n 2) 2)) []
     end;
 
+fun numcol (n : int) =
+    let fun helper i res =
+	    if i < 10
+	    then i :: res
+	    else helper (i div 10) ((i mod 10) :: res)
+    in
+	helper n []
+    end;
+
+fun palin' (n:int) =
+    let val res = numcol n
+    in
+	res = rev res
+    end;
+
+fun max (a,m) = if a > m then a else m;
+
+fun maxi (x::xs) = foldl max x xs;
+
+fun palin_product [] ls = []
+  | palin_product (x::xs) ls = (map (fn a => x * a) ls) @
+			       palin_product xs ls;
+
+fun sqr a = a * a;
+
+fun pita (lim : int) =
+    let fun helper a [] = helper (inc a) (range (inc a) (lim div 2))
+	  | helper a (b::xs) = if (sqr a) + (sqr b) = (sqr (lim-b-a))
+			       then a*b*(lim - b - a)
+			       else helper a xs
+    in
+	helper 3 (range 4 (lim div 2))
+    end;
+
+
 
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = pfactors x
+        val result = pita x
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result
     end;
+
 
 

@@ -1,6 +1,7 @@
 module Qmath where
 
 import Data.List
+import qualified Data.Set as Set
 
 primeHelper :: Int -> Int -> Bool
 primeHelper p i
@@ -144,8 +145,22 @@ amic' n = (n == sumDivs amics) && n /= amics
 
 -- Problem no 21 => 0.03 secs
 
+distinct ls = map head $ group $ sort ls
 
+prob29 lim = Set.fromList [a^b| a <- [2..lim], b <- [2..lim]]
 
-
+prob29b lim = Set.fromList $ pikaro [2..100] [2..100]
+  where pikaro [] ls = []
+        pikaro (x:xs) ls = (pikaro xs ls) ++ (map (x^) ls)
 
                                             
+
+
+
+
+
+
+
+
+
+
