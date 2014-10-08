@@ -161,7 +161,7 @@ collatz lim = maximumBy (comparing snd)  (map collas [1..lim])
         calcol :: Int -> Int
         calcol n = if even n then div n 2 else succ (3*n)
 
-        
+sol24 sx = (sort $ permutations "0123456789") !! sx        
 
 
 

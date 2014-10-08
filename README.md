@@ -184,7 +184,8 @@ Haskell averaging 20 msecs
 
 Clojure 0.065 msec  
 SBCL 0.019 msec  
-Haskell (one liner) 1.2 sec
+Haskell (one liner) 1.2 sec  
+SML 2.4 sec (Very inefficient sml)  
 
 ##### Problem no 30
 

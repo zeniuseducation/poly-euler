@@ -7,6 +7,7 @@ val fint = Int.fromLarge;
 val fbig = Int.toLarge;
 val inc = fn x => x + 1;
 val dec = fn x => x - 1;
+val bdec = fn (x:big) => x - 1;
 
 fun even (x: int) = (0 = (x mod 2));
 fun even' (x : big) = (0 = (x mod 2));
@@ -15,12 +16,17 @@ fun expt a 0 = 1
   | expt a m = a * (expt a (dec m));
 
 fun bexpt (a:big) 0 = 1
-  | bexpt (a:big) m = (a * (bexpt a (dec m)));
+  | bexpt (a:big) m = (a * (bexpt a (bdec m)));
 
 fun range i j =
     if i >= j
     then []
     else i :: (range (inc i) j);
+
+fun brange i (j:big) =
+    if i >= j
+    then []
+    else i :: (brange (binc i) j);
 
 fun sum nil = 0
   | sum (x::nil) = x 
@@ -283,10 +289,25 @@ fun euler25 (lim:big) =
 	helper [1,1] 1
     end;
 
+fun distinct ls =
+    let fun helper lr [] = lr
+	  | helper lr (x::xs) =
+	    if exists (fn a => a = x) lr
+	    then helper lr xs
+	    else helper (x::lr) xs
+    in
+	helper [] ls
+    end;
+
+fun euler29 [] (ls : big list) = []
+  | euler29 (x::xs) (ls:big list)
+    = (map (fn (a:big) => bexpt x a) ls)
+      @ (euler29 xs ls) ;
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = euler25 (bexpt 10 x)
+        val result = length (distinct (euler29 (brange 2 x) (brange 2 x)))
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result
