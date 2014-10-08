@@ -111,7 +111,7 @@ Haskell 100 msecs
 
 Clojure 0.08 msecs  
 SBCL 21 msecs  
-Haskell 240 msecs 
+Haskell 240 msecs  
 Haskell compiled 10 ms  
 SML 3 ms !! Remarkable considering the bad construct  
 
@@ -133,7 +133,7 @@ Clojure 1.7 seconds
 SBCL 2.4 seconds  
 Haskell 85 seconds  
 Haskell compiled 0.66 seconds FASTEST SO FAR!!  
-SML 0.73 seconds
+SML 0.73 seconds  
 
 
 ##### Problem no 14
@@ -141,6 +141,8 @@ SML 0.73 seconds
 Clojure 5.3 seconds  
 SBCL 29-32 seconds  
 Haskell 271 seconds  
+Haskell compiled 4.36 seconds FASTEST !!  
+SML 36 seconds  
 
 ##### Problem no 15
 
