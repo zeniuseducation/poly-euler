@@ -8,10 +8,14 @@ val fbig = Int.toLarge;
 val inc = fn x => x + 1;
 val dec = fn x => x - 1;
 
+fun even (x: int) = (0 = (x mod 2));
 fun even' (x : big) = (0 = (x mod 2));
 
 fun expt a 0 = 1
-  | expt a m = a * (expt a (dec m)) 
+  | expt a m = a * (expt a (dec m));
+
+fun bexpt (a:big) 0 = 1
+  | bexpt (a:big) m = (a * (bexpt a (dec m)));
 
 fun range i j =
     if i >= j
@@ -65,7 +69,7 @@ fun next_prime 1 = 2
 	if even p
 	then if prime' (inc p)
 	     then (inc p)
-	     else nextPrime (inc p)
+	     else next_prime (inc p)
 	else helper (2 + p)
     end;
 
@@ -239,10 +243,50 @@ fun collatz (lim : big) =
 	    end
     end;
 
+fun sum_divs (n : int) =
+    let fun feven i res =
+	    if (i * i) > n
+	    then res
+	    else if (div' n i)
+	    then if i = (n div i)
+		 then (i + res)
+		 else feven (inc i) (i + (n div i) + res)
+	    else feven (inc i) res
+	fun fodd i res =
+            if (i * i) > n
+            then res
+            else if (div' n i)
+            then if i = (n div i)
+                 then i + res
+                 else fodd (2 + i) (i + (n div i) + res)
+            else fodd (2 + i) res
+    in
+	if even n then feven 3 (1+2+(n div 2)) else fodd 3 1
+    end;
+
+fun amic' n = 
+    let val amicn = sum_divs n
+    in
+	if amicn = n
+	then false
+	else n = sum_divs amicn
+    end;
+
+fun sum_amic lim = sum (filter amic' (range 1 lim));
+
+fun euler25 (lim:big) =
+    let fun helper (x::y::ls) (i:int) =
+	    if x >= lim
+	    then i
+	    else helper ((x+y)::x::y::ls) (inc i)
+    in
+	helper [1,1] 1
+    end;
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = collatz x
+        val result = euler25 (bexpt 10 x)
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result
