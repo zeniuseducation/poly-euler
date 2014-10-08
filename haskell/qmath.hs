@@ -2,6 +2,7 @@ module Qmath where
 
 import Data.List
 import qualified Data.Set as Set
+import Data.Ord
 
 primeHelper :: Int -> Int -> Bool
 primeHelper p i
@@ -149,11 +150,18 @@ distinct ls = map head $ group $ sort ls
 
 prob29 lim = Set.fromList [a^b| a <- [2..lim], b <- [2..lim]]
 
-prob29b lim = Set.fromList $ pikaro [2..100] [2..100]
-  where pikaro [] ls = []
-        pikaro (x:xs) ls = (pikaro xs ls) ++ (map (x^) ls)
 
-                                            
+
+collatz :: Int -> (Int,Int)
+collatz lim = maximumBy (comparing snd)  (map collas [1..lim])
+  where collas :: Int -> (Int, Int)
+        collas n = (n, colls n)
+        colls :: Int -> Int
+        colls n = if n == 1 then 1 else 1 + colls (calcol n)
+        calcol :: Int -> Int
+        calcol n = if even n then div n 2 else succ (3*n)
+
+        
 
 
 

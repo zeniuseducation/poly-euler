@@ -8,7 +8,7 @@ val fbig = Int.toLarge;
 val inc = fn x => x + 1;
 val dec = fn x => x - 1;
 
-fun even' x = (0 = (x mod 2));
+fun even' (x : big) = (0 = (x mod 2));
 
 fun expt a 0 = 1
   | expt a m = a * (expt a (dec m)) 
@@ -44,7 +44,7 @@ fun srange i j k =
 fun prime' p =
     if p < 2 then false
     else if (p = 2) then true
-    else if even' p then false
+    else if even p then false
     else
         let val lim = ceil (sqrt (real p))
             fun helper i =
@@ -62,7 +62,7 @@ fun next_prime 1 = 2
     let fun helper n =
 	    if prime' n then n else helper (n + 2)
     in
-	if even' p
+	if even p
 	then if prime' (inc p)
 	     then (inc p)
 	     else nextPrime (inc p)
@@ -196,7 +196,7 @@ fun count_divs (n : int) =
                  else fodd (2 + i) (2 + res)
             else fodd (2 + i) res
     in
-	if even' n then feven 3 4 else fodd 3 2
+	if even n then feven 3 4 else fodd 3 2
     end;
 
 fun take_while f [] = []
@@ -214,10 +214,35 @@ fun first_triangle lim =
 	helper 100
     end;
 
+fun binc (x:big) = x + 1;
+
+fun collatz (lim : big) =
+    let fun cal_col (n:big) = if even' n then n div 2 else binc(3*n)
+    in
+	let fun colls (i:big) (res : int) =
+		if i = 1
+		then inc res
+		else colls (cal_col i) (inc res)
+	    in
+		let fun maxcol (m : big) (colmax : big*int) =
+			if m >= lim
+			then colmax
+			else let val tmp = colls m 0
+			     in
+				 if tmp > (#2 colmax)
+				 then (maxcol (binc m) (m, tmp)) 
+				 else (maxcol (binc m) colmax) 
+			     end
+		in
+		    maxcol 1 (1,1)
+		end
+	    end
+    end;
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = first_triangle x
+        val result = collatz x
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result
