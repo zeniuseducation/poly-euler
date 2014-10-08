@@ -3,6 +3,7 @@ open List
 
 type big = IntInf.int;
 
+val fint = Int.fromLarge;
 val fbig = Int.toLarge;
 val inc = fn x => x + 1;
 val dec = fn x => x - 1;
@@ -120,10 +121,32 @@ fun fibo_under 1 = []
         helper [1,1]
     end;
 
+fun div' a m = 0 = a mod m;
+fun bdiv' (a:big) (m:big) = 0 = a mod m;
+				      
+fun pfactors 2 = [2]
+  | pfactors 3 = [3]
+  | pfactors 1 = []
+  | pfactors (n:big) =
+    let fun helper p i res =
+	    if prime' i
+	    then i::res
+	    else if div' i p
+	    then helper 2 (i div p) (p::res)
+	    else helper (next_prime p) i res
+	fun helper' (i:big) p =
+	    if (i mod (fbig p)) = 0
+	    then (i div (fbig p))
+	    else helper' i (next_prime p)
+    in
+	helper 2 (fint (helper' (helper' n 2) 2)) []
+    end;
+
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = nth_prime x
+        val result = pfactors x
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result
