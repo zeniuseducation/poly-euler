@@ -1,6 +1,10 @@
 open Math;
 open List;
 
+type big = IntInf.int;
+
+val fbig = IntInf.toLarge;
+
 val inc = fn x => x + 1;
 val dec = fn x => x - 1;
 
