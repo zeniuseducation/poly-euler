@@ -41,15 +41,15 @@ Prob: Find the sum of all multiples of 3 or 5 that less than 1000
 Clojure averaging 3.2 msecs  
 SBCL averaging 0.3 msecs  
 Haskell averaging 10 msecs  
-Racket 1 msec
+Racket 1 msec  
 
 ##### Problem no 2
 
 Prob: Find the sum of even-valued fibo numbers less than 4,000,000
 
-Clojure 0.08msecs  
-SBCL less than 0.01msecs   
-Haskell ~10msecs  
+Clojure 0.08 msecs  
+SBCL less than 0.01 msecs   
+Haskell ~10 msecs  
 Racket less than 1 msec  
 
 ##### Problem no 3
@@ -159,10 +159,11 @@ Too easy to measure, all in one lines and took less than 1 ms
 
 ##### Problem no 21
 
-Clojure 0.07 sec  
-SBCL 0.05 sec  
+Clojure 0.072 sec  
+SBCL 0.051 sec  
 Haskell 2.3 sec  
 Haskell compiled 0.03 sec  
+SML 0.023 sec FASTEST !!  
 
 ##### Problem 24
 
@@ -176,16 +177,20 @@ Haskell 1 msec
 
 Prob: Find the first fibo element that reach 1000 digits.
 
-Clojure averaging 2.9 msecs  
+Clojure averaging 2.9 msecs    
 SBCL averaging 1.3 msecs  
 Haskell averaging 20 msecs  
+SML 36 msecs  (SML LargeInt is not efficient)
 
 ##### Problem 29
 
 Clojure 0.065 msec  
 SBCL 0.019 msec  
 Haskell (one liner) 1.2 sec  
+<<<<<<< HEAD
 SML 2.4 sec (Very inefficient sml)  
+=======
+>>>>>>> FETCH_HEAD
 
 ##### Problem no 30
 
@@ -235,6 +240,8 @@ Note: Haskell on emacs is an interpreted version, when compiled using advance op
 Copyright © 2014 PT Zenius Education
 
 Distributed under the Eclipse Public License either version 1.0.
+
+
 
 
 
