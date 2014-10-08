@@ -59,7 +59,7 @@ Prob: Find the largest prime factor of 600851475143
 Clojure 32 msecs  
 SBCL 37-42 msecs  
 Haskell 1,420 msecs  
-Haskell compiled optimised less than 10 msecs
+Haskell compiled optimised less than 10 msecs  
 SML 2 msecs!!! FASTEST ONE!
 Racket 50-60 msecs
 
@@ -71,6 +71,7 @@ number (can be different numbers).
 Clojure 16-18 msecs  
 SBCL 11-20 msecs  
 Haskell 30 msecs  
+SML 3 msec -> FASTEST!!!  
 
 ##### Problem no 5
 
@@ -87,11 +88,11 @@ Prob: Calculate the difference between the sum of squares of the first 100 natur
 
 Clojure 0.3-0.4 msecs  
 SBCL 0.01 msecs  
-Haskell (it seems that GHCi cannot time under 10msecs)
+Haskell (it seems that GHCi cannot time under 10msecs)  
 
 ##### Problem no 7
 
-Prob: Find the 10,001st prime 
+Prob: Find the 10,001st prime  
 
 Clojure 40-50 msecs  
 SBCL 90-110 msecs  
@@ -112,6 +113,7 @@ Clojure 0.08 msecs
 SBCL 21 msecs  
 Haskell 240 msecs 
 Haskell compiled 10 ms  
+SML 3 ms !! Remarkable considering the bad construct  
 
 ##### Problem no 10
 
@@ -131,6 +133,7 @@ Clojure 1.7 seconds
 SBCL 2.4 seconds  
 Haskell 85 seconds  
 Haskell compiled 0.66 seconds FASTEST SO FAR!!  
+SML 0.73 seconds
 
 
 ##### Problem no 14
