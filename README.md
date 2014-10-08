@@ -187,10 +187,7 @@ SML 36 msecs  (SML LargeInt is not efficient)
 Clojure 0.065 msec  
 SBCL 0.019 msec  
 Haskell (one liner) 1.2 sec  
-<<<<<<< HEAD
 SML 2.4 sec (Very inefficient sml)  
-=======
->>>>>>> FETCH_HEAD
 
 ##### Problem no 30
 
