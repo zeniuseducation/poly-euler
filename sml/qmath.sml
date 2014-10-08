@@ -176,12 +176,48 @@ fun pita (lim : int) =
 	helper 3 (range 4 (lim div 2))
     end;
 
+fun triangle (n:int) = (n * (inc n)) div 2;
 
+fun count_divs (n : int) =
+    let fun feven i res =
+	    if (i * i) > n
+	    then res
+	    else if (div' n i)
+	    then if i = (n div i)
+		 then (inc res)
+		 else feven (inc i) (2 + res)
+	    else feven (inc i) res
+	fun fodd i res =
+            if (i * i) > n
+            then res
+            else if (div' n i)
+            then if i = (n div i)
+                 then inc res
+                 else fodd (2 + i) (2 + res)
+            else fodd (2 + i) res
+    in
+	if even' n then feven 3 4 else fodd 3 2
+    end;
+
+fun take_while f [] = []
+  | take_while f (x::xs) = if f x then x :: (take_while f xs) else [];
+
+fun drop_while f [] = []
+  | drop_while f (x::xs) = if f x then (drop_while f xs) else xs;
+
+fun first_triangle lim =
+    let fun helper (i : int) =
+	    if (count_divs (triangle i)) >= lim
+	    then (triangle i)
+	    else helper (inc i)
+    in
+	helper 100
+    end;
 
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = pita x
+        val result = first_triangle x
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result
