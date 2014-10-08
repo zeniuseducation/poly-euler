@@ -48,9 +48,9 @@ Racket 1 msec
 Prob: Find the sum of even-valued fibo numbers less than 4,000,000
 
 Clojure 0.08msecs  
-SBCL less than 0.01msecs  
+SBCL less than 0.01msecs   
 Haskell ~10msecs  
-Racket less than 1 msec
+Racket less than 1 msec  
 
 ##### Problem no 3
 
@@ -93,7 +93,7 @@ Prob: Find the 10,001st prime
 
 Clojure 40-50 msecs  
 SBCL 90-110 msecs  
-Haskell 2400 msecs  
+Haskell 30 msecs  
 SML 17 msecs!!!  Again the FASTEST one!!!  
 
 ##### Problem no 8
@@ -116,7 +116,7 @@ Prob : The sum of all positive primes that less than 2,000,000
 
 Clojure 2,500 msecs  (2.5 secs)  
 SBCL 5,800 msecs  (5.8 secs)  edit 3,269ms in SBCL 1.2.2  
-Haskell 155,000 msecs (155 secs)  
+Haskell 1,320 msecs (1.3 secs) -> 80 ms with in-memory lazy sieve  
 SML 736 msecs!! (0.736 secs) FASTEST!  
 Racket 4-6K msecs (5-6 secs)  
 
