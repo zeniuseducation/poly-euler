@@ -163,6 +163,13 @@ collatz lim = maximumBy (comparing snd)  (map collas [1..lim])
 
 sol24 sx = (sort $ permutations "0123456789") !! sx        
 
+sol30 :: Int -> Int
+sol30 x = sum (filter required' [1..x])
+  where sumfif :: Int -> Int
+        sumfif p = sum $ map (\x -> x^5) (numcol p)
+        required' :: Int -> Bool
+        required' i = (i == sumfif i)
+        
 
 
 

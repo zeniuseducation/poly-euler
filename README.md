@@ -192,8 +192,10 @@ SML 2.4 sec (Very inefficient sml)
 ##### Problem no 30
 
 Clojure 0.73 sec  
-SBCL 1.3 sec  
-Haskell 6.9 sec
+SBCL 1.32 sec  
+Haskell 6.91 sec  
+Haskell compiled 0.32 sec  
+SML 1.62 sec  
 
 ##### Problem 33 
 

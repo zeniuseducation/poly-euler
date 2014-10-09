@@ -304,10 +304,22 @@ fun euler29 [] (ls : big list) = []
     = (map (fn (a:big) => bexpt x a) ls)
       @ (euler29 xs ls) ;
 
+fun pow5 (n:int) = fbig (n*n*n*n*n);
+
+fun bsum ((x:big)::nil) = x
+  | bsum (x::xs) = x + bsum xs;
+
+fun bnumcol (n:big) =
+    if n < 10 then [fint n] else (fint (n mod 10)) :: (bnumcol (n div 10));
+
+fun sum_fifths (n:big) = bsum (map pow5 (bnumcol n));
+
+fun the_sol' n = n = sum_fifths n;
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = length (distinct (euler29 (brange 2 x) (brange 2 x)))
+        val result = bsum (filter the_sol' (brange 1 x));
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result
