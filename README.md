@@ -197,9 +197,41 @@ Haskell 6.91 sec
 Haskell compiled 0.32 sec  
 SML 1.62 sec  
 
+##### Problem 32
+
+Prob: axb = c where a++b++c pandigital 1-9  
+
+Haskell compiled 19 sec  
+
 ##### Problem 33 
 
 SBCL 0.8 msec  
+
+##### Problem 34
+
+Prob: find the sum of all numbers that are equal to the sum of factorials of their digits  
+
+SBCL 0.76 sec  
+Haskell compiled 0.46sec & 5.3 sec depends on limit  
+SML 0.349 & 1.349 depends on limit  
+
+##### Problem no 35
+
+Prob: how many circular primes exist under 1000000  
+
+SBCL 1.46 sec  
+Haskell compiled 0.55 sec FAST!!  
+SML 0.36 sec FASTEST!!  
+
+##### Problem no 36 
+
+Prob: find the sum of all numbers that are palindrome in both decimal and binary bases  
+
+SBCL 4.7 sec  
+Haskell 0.77 sec  
+SML 0.86 sec  
+
+
 
 ##### Problem no 85
 
