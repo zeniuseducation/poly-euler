@@ -8,6 +8,7 @@ val fbig = Int.toLarge;
 val inc = fn x => x + 1;
 val dec = fn x => x - 1;
 val bdec = fn (x:big) => x - 1;
+fun binc (x:big) = x + 1;
 
 fun even (x: int) = (0 = (x mod 2));
 fun even' (x : big) = (0 = (x mod 2));
@@ -96,6 +97,14 @@ fun nth_prime (i:int) =
             else helper (inc n) (next_prime res)
     in
         helper 1 2
+    end;
+
+fun primes_under1 (n:int) = filter prime' (range 1 (inc n));
+
+fun primes_under (n:int) =
+    let fun helper i res =
+	    if i >= n then res else helper (next_prime i) (i::res)
+    in helper 2 []
     end;
 
 fun fibo i =
@@ -224,7 +233,7 @@ fun first_triangle lim =
 	helper 100
     end;
 
-fun binc (x:big) = x + 1;
+
 
 fun collatz (lim : big) =
     let fun cal_col (n:big) = if even' n then n div 2 else binc(3*n)
@@ -316,14 +325,89 @@ fun sum_fifths (n:big) = bsum (map pow5 (bnumcol n));
 
 fun the_sol' n = n = sum_fifths n;
 
+
+
+
+fun fact 0 = 1
+  | fact (n:int) = prod (range 1 (inc n));
+
+fun fact' (n:int) = (n = sum (map fact (numcol n)));
+
+fun colnum [] = 0
+  | colnum [x] = x
+  | colnum ls =
+    let fun helper (x::nil) res = x + 10*res
+	  | helper (x::xs) res = helper xs (x + 10*res)
+    in helper ls 0
+    end;
+
+fun sol34 x = sum (filter fact' (range 10 (inc x)));
+
+fun circulars n =
+    let val ls = numcol n
+	val lth = length ls
+	fun gencir ls =
+	    map (fn a => (drop (ls,a)) @ (take (ls,a))) (range 0 lth)
+    in
+	map colnum (gencir ls)
+    end;
+
+fun intersection nil l2 = []
+  | intersection (x::nil) l2 = if exists (fn a => a = x) l2
+			       then [x]
+			       else []
+  | intersection (x::xs) l2 = if exists (fn a => a = x) l2
+			      then x::(intersection xs l2)
+			      else intersection xs l2;
+
+fun circular_prime' n =
+    let val ncol = numcol n
+    in
+	if null (intersection ncol [0,2,4,5,6,8])
+	then all prime' (circulars n)
+	else false
+    end;
+
+fun sol35 x = 2 + length (filter circular_prime' (primes_under x));
+(* gokil 0.62 sec *)
+
+fun bincol n =
+    let fun bhelper i res =
+            if i < 2
+            then i::res
+            else bhelper (i div 2) ((i mod 2)::res)
+    in
+        bhelper n []
+    end;
+
+fun palin'' n =
+    let val ncol = numcol n
+        val bcol = bincol n
+    in
+        ((ncol = rev ncol) andalso (bcol = rev bcol))
+    end;
+
+fun sol36 n = sum (filter palin'' (range 1 n));
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = bsum (filter the_sol' (brange 1 x));
+        val result = sol36 x
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result
     end;
 
 
+		    
+		    
+		    
+
+
+
+(* 
+fun circular_primes lim =
+    let fun cprime 
+
+*)
 

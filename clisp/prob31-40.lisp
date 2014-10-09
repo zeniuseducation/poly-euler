@@ -1,4 +1,4 @@
-(load "clojure.lisp")
+(load "lunity/clojure.lisp")
 
 
 (defun pandig? (n)
@@ -69,6 +69,27 @@
 (defun sol34 (lim)
   (time (filter 'cond34 (range 10 lim))))
 
+;; Problem no  35
+
+(defun circulars (n)
+  "Returns all possible circular list of n"
+  (let* ((ls (numcol n))
+	 (lth (length ls))
+	 (res (mapcar #'(lambda (x) (append (drop x ls) (take x ls)))
+		      (range lth))))
+    (mapcar 'colnum res)))
+
+(defun circular-prime? (n)
+  "Returns true if all circular n are primes"
+  (let* ((ncol (numcol n))
+	 (excluded (list 0 2 4 5 6 8)))
+    (if (null (intersection excluded ncol))
+	(every? 'prime? (circulars n))
+	false)))
+
+(defun sol35 (lim)
+  "Returns all possible circular primes under lim"
+  (time (+ 2 (length (filter 'circular-prime? (primes-under lim))))))
 
 ;; Problem 36
 
@@ -96,3 +117,4 @@
 
 (defun sol36 (lim)
   (time (sum (filter 'bpalin? (range 1 lim)))))
+

@@ -35,6 +35,10 @@ sumPrimes lim = helper 3 lim 2
 -- it stores the value of primes in memory for faster access next time
 primes = iterate nextPrime 2
 
+-- it returns all primes less than n
+primes_under :: Int -> [Int]
+primes_under n = takeWhile (n > ) primes
+
 div' :: (Integral t) => t -> t -> Bool
 div' a m = (0 == rem a m)
 
@@ -151,7 +155,6 @@ distinct ls = map head $ group $ sort ls
 prob29 lim = Set.fromList [a^b| a <- [2..lim], b <- [2..lim]]
 
 
-
 collatz :: Int -> (Int,Int)
 collatz lim = maximumBy (comparing snd)  (map collas [1..lim])
   where collas :: Int -> (Int, Int)
@@ -170,8 +173,55 @@ sol30 x = sum (filter required' [1..x])
         required' :: Int -> Bool
         required' i = (i == sumfif i)
         
+colnum :: (Integral a) => [a] -> a
+colnum [] = 0
+colnum ls = helper ls 0
+  where helper (x:[]) res = x + res*10
+        helper (x:xs) res = helper xs (x + res*10)
 
+pandigital' ls = ( [1..9] == sort ls)
+ 
+sol32 lim = sum $ distinct [c| a <- [1..lim], b <- [1..lim], a /= b, let c = a*b,
+                            pandigital' $ (numcol a) ++ (numcol b) ++ (numcol c)]
 
+fact :: (Integral a) => a -> a
+fact 0 = 1
+fact n = product [1..n]
+
+fact' :: Int -> Bool
+fact' n = (n == sum (map fact (numcol n)))
+
+-- it returns all possible cycle of a number n
+circulars :: Int -> [Int]
+circulars n = map (colnum.cycleit) [0..pred $ length ncol]
+  where ncol = numcol n
+        cycleit i = (drop i ncol) ++ (take i ncol)
+
+-- it returns true if n is a circular prime
+circularPrime' :: Int -> Bool
+circularPrime' n
+  | filtered n = False
+  | otherwise = all prime' $ circulars n
+  where ncol = numcol n
+        filtered n = any existlah [0,2,4,5,6,8]
+        existlah l = elem l ncol
+
+sol35 lim = 2 + (length $ filter circularPrime' $ primes_under lim)
+
+-- it returns the binary representation of n in a list
+bincol :: Int -> [Int]
+bincol n = bhelper n []
+  where bhelper n res
+          | n < 2 = n : res
+          | otherwise = bhelper (div n 2) ((rem n 2) : res)
+
+-- it returns true if n is a palindrome in decimal and binary bases
+palin'' :: Int -> Bool
+palin'' n = ((ncol == reverse ncol) && (nbin == reverse nbin))
+  where ncol = numcol n
+        nbin = bincol n
+
+sol36 lim = sum $ filter palin'' [1..lim]
 
 
 
