@@ -148,9 +148,7 @@ amic' n = (n == sumDivs amics) && n /= amics
 
 distinct ls = map head $ group $ sort ls
 
-prob29 lim = Set.fromList [a^b| a <- [2..lim], b <- [2..lim]]
-
-
+prob29 lim = Set.size $ Set.fromList [a^b| a <- [2..lim], b <- [2..lim]]
 
 collatz :: Int -> (Int,Int)
 collatz lim = maximumBy (comparing snd)  (map collas [1..lim])
