@@ -103,3 +103,4 @@ euler10a n = sum [x | x <- [2..n], prime x]
 
 
 
+

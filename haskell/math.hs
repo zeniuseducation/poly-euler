@@ -73,7 +73,10 @@ sumaPrima :: Int -> Int
 sumaPrima n = sumaPrimaHelper n 1 2 0
 
 primesUnder :: Int -> [Int]
-primesUnder n = takeWhile (< n) $ iterate nextPrime 2 
+primesUnder n = takeWhile (< n) $ iterate nextPrime 2
+
+primes_under :: Int -> [Int]
+primes_under lim = filter prime [2..lim]
 
 sumPrimesHelper :: Int -> Int -> Int -> Int
 sumPrimesHelper n i res
@@ -134,9 +137,13 @@ combinations ls k
 
 
 
+
                
 
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master

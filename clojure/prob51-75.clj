@@ -67,7 +67,7 @@
 
 (defn tri2
   [n]
-  (let [m (quot n 3)]
+  (let [m (/ n 3)]
     (for [a (range 3 m)
           b (range a (inc (let [asqr (inc (quot (- (sqr a) 2) 2))]
                             (if (> asqr (* 2 m))
@@ -76,14 +76,7 @@
           :let [c (+ (sqr a) (sqr b))]
           :when (psqr? c)] (+ a b (int (Math/sqrt c))))))
 
-(defn sol75
-  [lim]
-  (->> (range 3 (+ 2 (quot lim 3)))
-       frequencies
-       (filter #(= 1 (val %)))
-       (map first)
-       (filter #(<= % lim))
-       count))
+
 
 ;; latest technology
 
@@ -163,6 +156,54 @@
        (sort-by second)
        (first)
        (time)))
+
+;; PROBLEM 75 DIFFERENT APPROACH
+
+(defn pitas
+  "Returns pythagorean triplets with perimeter at most lim"
+  [lim]
+  (->> (for [a (range 3 (/ lim 3))]
+         (let [asqr (sqr a)]
+           (for [b (range (inc a) (/ lim 2))
+                 :let [bsqr (sqr b)
+                       csqr (+ asqr bsqr)
+                       c (int (Math/sqrt csqr))
+                       trips (+ a b c)]
+                 :while (<= (- (sqr (inc b)) bsqr) asqr)
+                 :when (and (psqr? csqr) (<= trips lim))]
+             trips)))
+       (apply concat)
+       (time)))
+
+(defn sol75
+  [lim]
+  (->> (pitas lim)
+       frequencies
+       (filter #(= 1 (val %)))
+       (map first)
+       count))
+
+(defn trip
+  "Given an a, returns all possible triplets with a as one of the three."
+  [a]
+  (for [d (iterate inc 1)
+        :let [asqr (sqr a)
+              b (/ (- (/ asqr d) d) 2)
+              c (int (Math/sqrt (+ asqr (sqr b))))]
+        :while (> b a)
+        :when (integer? b)]
+    (+ a b c)))
+
+(defn triplets
+  "Generate all possible right-triangles with perimeter not exceeding lim"
+  [lim]
+  (->> (range 3 (/ lim 3))
+       (mapcat trip)
+       (filter #(<= % lim))
+       frequencies
+       (vals)
+       (reduce #(if (= %2 1) (+ %1 %2) %1))
+       time))
 
 
 
