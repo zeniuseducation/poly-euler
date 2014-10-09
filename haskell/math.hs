@@ -143,7 +143,15 @@ combinations ls k
 
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
+
+
+
+
+
+
+
+
+
+
+
