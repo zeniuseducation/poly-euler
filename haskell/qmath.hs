@@ -38,8 +38,14 @@ sumPrimes lim = helper 3 lim 2
           | i >= lim = res
           | otherwise = helper (nextPrime i) lim (i + res)
 
+-- sol10 x = sumPrimes 2000000
+-- 0.42 sec on darklord
+        
 -- it stores the value of primes in memory for faster access next time
 primes = iterate nextPrime 2
+
+-- sol7 x = primes !! 10000
+-- less than 10 ms on darklord
 
 -- it returns all primes less than n
 primesUnder :: Int -> [Int]
@@ -71,8 +77,12 @@ numcol n = helper n []
 
 palin3x3 = maximum [x*y| x <- [900..999], y <- [900..999], palin' (x*y)]
 
+-- sol9 = palin3x3
+
 pita1000 = [a*b*c | a <- [1..250], b <- [a..500],
-            let c = 1000 - b -a, a^2 + b^2 == c^2] 
+            let c = 1000 - b -a, a^2 + b^2 == c^2]
+-- sol14??? pitagoras special
+-- 0.02 sec on darklord
 
 -- Problem no 9 using smart list comprehension 10ms
                                             
@@ -126,6 +136,9 @@ firstTriangle lim = head $ dropWhile (\x -> (fst x) < lim) materials
   where materials = map (\x -> (countDivs x, x)) $ map triangle [1..]
 
 -- Problem no 12 elapsed time 0.66 secs
+-- 0.28 sec on dark lord
+
+-- sol12 = firstTriangle 500
 
 sumDivs :: Int -> Int
 sumDivs 1 = 0
@@ -156,9 +169,8 @@ amic' n = (n == sumDivs amics) && n /= amics
 
 -- Problem no 21 => secs 0.03
 
-
-
 prob29 lim = Set.size $ Set.fromList [a^b| a <- [2..lim], b <- [2..lim]]
+-- 0.05 sec on darklord
 
 collatz :: Int -> (Int,Int)
 collatz lim = maximumBy (comparing snd)  (map collas [1..lim])
@@ -170,6 +182,7 @@ collatz lim = maximumBy (comparing snd)  (map collas [1..lim])
         calcol n = if even n then div n 2 else succ (3*n)
 
 sol24 sx = (sort $ permutations "0123456789") !! sx        
+-- 4.8 sec on dark lord
 
 sol30 :: Int -> Int
 sol30 x = sum (filter required' [1..x])
@@ -177,6 +190,7 @@ sol30 x = sum (filter required' [1..x])
         sumfif p = sum $ map (\x -> x^5) (numcol p)
         required' :: Int -> Bool
         required' i = (i == sumfif i)
+-- 0.17 sec on darklord
         
 colnum :: (Integral a) => [a] -> a
 colnum [] = 0
@@ -186,8 +200,10 @@ colnum ls = helper ls 0
 
 pandigital' ls = ( [1..9] == sort ls)
  
-sol32 lim = sum $ distinct [c| a <- [1..lim], b <- [1..lim], a /= b, let c = a*b,
-                            pandigital' $ (numcol a) ++ (numcol b) ++ (numcol c)]
+sol32 lim = sum $ distinct
+            [c| a <- [1..lim], b <- [1..lim],
+             a /= b, let c = a*b,
+             pandigital' $ (numcol a) ++ (numcol b) ++ (numcol c)]
 
 fact :: (Integral a) => a -> a
 fact 0 = 1
@@ -212,6 +228,7 @@ circularPrime' n
         existlah l = elem l ncol
 
 sol35 lim = 2 + (length $ filter circularPrime' $ primesUnder lim)
+-- 0.55 in mba and 0.12 in darklord
 
 -- it returns the binary representation of n in a list
 bincol :: Int -> [Int]
@@ -228,6 +245,7 @@ palin'' n = ((ncol == reverse ncol) && (nbin == reverse nbin))
 
 sol36 lim = sum $ filter palin'' [1..lim]
 -- elapsed time 0.77 sec for lim = 1 milion
+-- 0.47 in darklord
 
 tprime' n = all prime' $ ln ++ rn
   where ncol = numcol n
@@ -236,11 +254,17 @@ tprime' n = all prime' $ ln ++ rn
 
 sol37 start = sum $ take 11 $ filter tprime' (dropWhile (< start) primes)
 -- elapsed time 0.7 sec
+-- 0.12 sec in darklord
+
 
 sol39 lim = [a+b+c | a <- [3..(div lim 4)], b <- [(succ a)..(len a)],
              let csqr = (a^2) + (b^2), let c = round (sqrt csqr), (psqr' csqr)]
   where len i = if (limb i) > (div lim 3) then (div lim 3) else (limb i)
         limb i = ceiling (((i^2) - 1) / 2)
+
+int' :: RealFrac p => p -> Bool
+int' m = m == (fromIntegral (round m))
+
 
 
 
