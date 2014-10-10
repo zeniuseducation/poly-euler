@@ -262,15 +262,17 @@ psqr' n = ((ceiling nsqrt) == (floor nsqrt))
 -- it returns the list of perimeters <= lim with which it is possible to construct an
 -- all-integer sided right triangle. 
 pitas :: Int -> [Int]
-pitas lim = [a + b + c | a <- [3..(div lim 4)], b <- [(succ a)..(div lim 2)],
+pitas lim = [a + b + c | a <- [3..(div lim 4)], b <- [(succ a)..(limb $ fromIntegral a)],
              let csqr = ((a^2) + (b^2)), (psqr' csqr),
-             let c = (round (sqrt $ fromIntegral csqr))]
+             let c = (round (sqrt $ fromIntegral csqr)), (a+b+c) <= lim]
+  where limb i = minimum [(div lim 2),(ceiling ((succ (i^2)) / 2))]
 
 sol39 lim = last $ csortBy snd $ frequencies $ pitas lim
 
 int' :: RealFrac p => p -> Bool
 int' m = m == (fromIntegral (round m))
 
+sol75 lim = length $ filter (\x -> (snd x) == 1) $ frequencies $ pitas lim
 
 
 

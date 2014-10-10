@@ -138,9 +138,13 @@
 
 "Elapsed time 1.58 sec"
 
+(defun limb (lim a)
+  (min (quot lim 2)
+       (inc (quot (inc (sqr a)) 2))))
+
 (defun triplets (lim)
   (loop for a from 3 to (div lim 4)
-     append (loop for b from (inc a) to (div lim 2)
+     append (loop for b from (inc a) to (limb lim a)
 	       when (let* ((csqr (+ (sqr a) (sqr b)))
 			    (c (round (sqrt csqr))))
 		       (and (psqr? csqr) (<= (+ a b c) lim)))
@@ -150,6 +154,8 @@
   (time (last (sort-by 'second (frequencies (triplets lim))))))
 
 "Elapsed time 14 msec"
+
+
 
 
 
