@@ -1,8 +1,14 @@
 module Qmath where
 
+import Clojure
 import Data.List
 import qualified Data.Set as Set
 import Data.Ord
+
+psqr' n = (ceiling nsqrt) == (floor nsqrt)
+  where nsqrt = sqrt n
+
+sqr n = n^2
 
 primeHelper :: Int -> Int -> Bool
 primeHelper p i
@@ -36,8 +42,8 @@ sumPrimes lim = helper 3 lim 2
 primes = iterate nextPrime 2
 
 -- it returns all primes less than n
-primes_under :: Int -> [Int]
-primes_under n = takeWhile (n > ) primes
+primesUnder :: Int -> [Int]
+primesUnder n = takeWhile (n > ) primes
 
 div' :: (Integral t) => t -> t -> Bool
 div' a m = (0 == rem a m)
@@ -148,9 +154,8 @@ amic' :: Int -> Bool
 amic' n = (n == sumDivs amics) && n /= amics
   where amics = sumDivs n
 
--- Problem no 21 => 0.03 secs
+-- Problem no 21 => secs 0.03
 
-distinct ls = map head $ group $ sort ls
 
 
 prob29 lim = Set.size $ Set.fromList [a^b| a <- [2..lim], b <- [2..lim]]
@@ -206,7 +211,7 @@ circularPrime' n
         filtered n = any existlah [0,2,4,5,6,8]
         existlah l = elem l ncol
 
-sol35 lim = 2 + (length $ filter circularPrime' $ primes_under lim)
+sol35 lim = 2 + (length $ filter circularPrime' $ primesUnder lim)
 
 -- it returns the binary representation of n in a list
 bincol :: Int -> [Int]
@@ -222,6 +227,25 @@ palin'' n = ((ncol == reverse ncol) && (nbin == reverse nbin))
         nbin = bincol n
 
 sol36 lim = sum $ filter palin'' [1..lim]
+-- elapsed time 0.77 sec for lim = 1 milion
+
+tprime' n = all prime' $ ln ++ rn
+  where ncol = numcol n
+        ln = map colnum $ take (length ncol) $ iterate init ncol
+        rn = map colnum $ take (length ncol) $ iterate tail ncol
+
+sol37 start = sum $ take 11 $ filter tprime' (dropWhile (< start) primes)
+-- elapsed time 0.7 sec
+
+int' :: RealFrac p => p -> Bool
+int' m = m == (fromIntegral (round m))
+
+sol39 lim = [a+b+c | a <- [3..(div lim 4)], b <- [(succ a)..(len a)],
+             let csqr = (a^2) + (b^2), let c = round (sqrt csqr), (psqr' csqr)]
+  where len i = if (limb i) > (div lim 3) then (div lim 3) else (limb i)
+        limb i = ceiling (((i^2) - 1) / 2)
+
+
 
 
 

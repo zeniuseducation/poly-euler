@@ -118,3 +118,24 @@
 (defun sol36 (lim)
   (time (sum (filter 'bpalin? (range 1 lim)))))
 
+;; Problem 37
+
+(defun tprime? (p)
+  "Returns true if p is truncatable prime"
+  (let* ((ncol (numcol p))
+	 (lcol (mapcar 'colnum (iterate 'butlast ncol 'empty?)))
+	 (rcol (mapcar 'colnum (iterate 'rest ncol 'empty?))))
+    (every? 'prime? (append lcol rcol))))
+
+(defun sol37 (howmany?)
+  "Returns <howmany?> truncatable primes"
+  (labels ((findtprimes (i res)
+	     (if (<= howmany? (length res))
+		 res
+		 (if (tprime? i)
+		     (findtprimes (next-prime i) (cons i res))
+		     (findtprimes (next-prime i) res)))))
+    (time (sum (findtprimes 10 nil)))))
+
+"Elapsed time 1.58 sec"
+

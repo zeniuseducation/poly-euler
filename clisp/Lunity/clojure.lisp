@@ -296,7 +296,7 @@
 
 (defun iterate (fn i gn)
   "Returns non-lazy iterate while (gn i) is true"
-  (if (not (funcall gn i))
+  (if (funcall gn i)
       nil
       (cons i (iterate fn (funcall fn i) gn))))
 
