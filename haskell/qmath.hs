@@ -237,9 +237,6 @@ tprime' n = all prime' $ ln ++ rn
 sol37 start = sum $ take 11 $ filter tprime' (dropWhile (< start) primes)
 -- elapsed time 0.7 sec
 
-int' :: RealFrac p => p -> Bool
-int' m = m == (fromIntegral (round m))
-
 sol39 lim = [a+b+c | a <- [3..(div lim 4)], b <- [(succ a)..(len a)],
              let csqr = (a^2) + (b^2), let c = round (sqrt csqr), (psqr' csqr)]
   where len i = if (limb i) > (div lim 3) then (div lim 3) else (limb i)
