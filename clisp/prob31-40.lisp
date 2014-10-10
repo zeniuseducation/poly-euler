@@ -1,5 +1,4 @@
-(load "lunity/clojure.lisp")
-
+(load "~/public/lambdas/poly-euler/clisp/clojure.lisp")
 
 (defun pandig? (n)
   "Returns true if n is pandigital (containing all digits exactly once)"
@@ -138,4 +137,19 @@
     (time (sum (findtprimes 10 nil)))))
 
 "Elapsed time 1.58 sec"
+
+(defun triplets (lim)
+  (loop for a from 3 to (div lim 4)
+     append (loop for b from (inc a) to (div lim 2)
+	       when (let* ((csqr (+ (sqr a) (sqr b)))
+			    (c (round (sqrt csqr))))
+		       (and (psqr? csqr) (<= (+ a b c) lim)))
+	       collect (+ a b (round (sqrt (+ (sqr a) (sqr b))))))))
+
+(defun sol39 (lim)
+  (time (last (sort-by 'second (frequencies (triplets lim))))))
+
+"Elapsed time 14 msec"
+
+
 

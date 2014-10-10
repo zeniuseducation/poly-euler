@@ -41,3 +41,39 @@
        (take n)
        sum
        time))
+
+(defn limb
+  [a lim]
+  (min (quot lim 2)
+       (inc (quot (inc (sqr a)) 2))))
+
+
+;; (inc (limb a lim))
+
+(defn triplets
+  "Returns the pythagorean triplets with perimeters less than lim"
+  [lim]
+  (for [a (range 3 (inc (quot lim 4)))
+        b (range (inc a) (quot lim 2))
+        :let [csqr (+ (sqr a) (sqr b))
+              c (int (Math/sqrt csqr))]
+        :when (psqr? csqr)]
+    (+ a b c)))
+
+(defn sol39
+  [lim]
+  (->> (triplets lim)
+       frequencies
+       (sort-by second)
+       last
+       time))
+
+
+
+
+
+
+
+
+
+

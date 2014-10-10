@@ -5,8 +5,6 @@ import Data.List
 import qualified Data.Set as Set
 import Data.Ord
 
-psqr' n = (ceiling nsqrt) == (floor nsqrt)
-  where nsqrt = sqrt n
 
 sqr n = n^2
 
@@ -256,11 +254,19 @@ sol37 start = sum $ take 11 $ filter tprime' (dropWhile (< start) primes)
 -- elapsed time 0.7 sec
 -- 0.12 sec in darklord
 
+-- it returns true if n is a perfect square
+psqr' :: Integral a => a -> Bool
+psqr' n = ((ceiling nsqrt) == (floor nsqrt))
+  where nsqrt = sqrt (fromIntegral n)
 
-sol39 lim = [a+b+c | a <- [3..(div lim 4)], b <- [(succ a)..(len a)],
-             let csqr = (a^2) + (b^2), let c = round (sqrt csqr), (psqr' csqr)]
-  where len i = if (limb i) > (div lim 3) then (div lim 3) else (limb i)
-        limb i = ceiling (((i^2) - 1) / 2)
+-- it returns the list of perimeters <= lim with which it is possible to construct an
+-- all-integer sided right triangle. 
+pitas :: Int -> [Int]
+pitas lim = [a + b + c | a <- [3..(div lim 4)], b <- [(succ a)..(div lim 2)],
+             let csqr = ((a^2) + (b^2)), (psqr' csqr),
+             let c = (round (sqrt $ fromIntegral csqr))]
+
+sol39 lim = last $ csortBy snd $ frequencies $ pitas lim
 
 int' :: RealFrac p => p -> Bool
 int' m = m == (fromIntegral (round m))
