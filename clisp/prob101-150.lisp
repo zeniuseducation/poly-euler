@@ -1,18 +1,6 @@
 
 (load "clojure.lisp")
 
-(defun psqr-helper (n i)
-  (cond ((> (* i i) n)
-	 false)
-	((= (* i i) n)
-	 true)
-	(:else (psqr-helper n (+ 1 i)))))
-
-(defun psqr? (n)
-  (psqr-helper n 1))
-
-(defun psquare? (n)
-  (= (floor (sqrt n)) (ceiling (sqrt n))))
 
 (defun qd-helper (d y)
   (let ((xsqr (+ 1 (* d y y))))
@@ -122,6 +110,36 @@
 
 (defun sol134 (lim)
   (time (fpairs 5 7 lim 0 0)))   
+
+;; problem no 113
+
+(defun dis-integrate (ls)
+  "Returns the discrete integration of polynom ls"
+  (let* ((tmp (mapcar #'(lambda (x)
+			  (let* ((power (inc (second x)))
+				 (coef (* (first x) (/ 1 power))))
+			    (list coef power)))
+		      ls))
+	 (new-coef (- 1 (sum (mapcar 'first tmp)))))
+    (reverse (cons (list new-coef 1)
+		   (reverse tmp)))))
+
+(defun rec-integrate (pl n)
+  "Returns the integration process for a polynom up to n times"
+  (first (last (iterate 'dis-integrate pl
+			#'(lambda (x) (> (length x) n))))))
+
+(defun apply-poly (n pl)
+  "Apply n into polynom pl"
+  (sum (mapcar #'(lambda (x) (* (first x)
+			   (expt n (second x))))
+	       pl)))
+
+(defun non-bouncy (n)
+  "Returns the number of n digits non-bouncy numbers"
+  (apply-poly x (rec-integrate '((1 1)) n)))
+
+
 
 
 

@@ -68,6 +68,16 @@
        last
        time))
 
+;; Problem 40
+(defn sol40
+  [lim]
+  (->> (range (inc lim))
+       (map #(expt 10 %))
+       (map #(nth (mapcat numcol (iterate inc 1)) (dec %)))
+       product
+       time))
+
+
 
 
 

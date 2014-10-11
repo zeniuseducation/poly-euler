@@ -275,6 +275,46 @@ int' m = m == (fromIntegral (round m))
 sol75 lim = length $ filter (\x -> (snd x) == 1) $ frequencies $ pitas lim
 
 
+sol40 lim = product $ map (\x -> (concatMap numcol [1..]) !! (pred x))
+            $ map (10^) [0..lim]
+
+
+bprimeHelper :: Integer -> Integer -> Bool
+bprimeHelper p i
+  | (i*i) > p = True
+  | 0 == (rem p i) = False
+  | otherwise = bprimeHelper p (i + 2)
+
+-- it returns true if p is prime and false otherwise
+bprime' :: Integer -> Bool
+bprime' p
+  | p <= 10 = elem p [2,3,5,7]
+  | even p = False
+  | otherwise = bprimeHelper p 3
+
+-- it returns the first positive primes greater than x
+bnextPrime :: Integer -> Integer
+bnextPrime x
+  | x == 2 = 3
+  | even x = if bprime' $ succ x then succ x else bnextPrime $ succ x
+  | otherwise = if bprime' $ 2 + x then 2 + x else bnextPrime $ 2 + x
+
+bpfactors :: Integer -> [Integer]
+bpfactors n = helper 2 n []
+  where helper p n res
+          | bprime' n = n:res
+          | div' n p = helper 2 (quot n p) (p:res)
+          | otherwise = helper (bnextPrime p) n res
+
+combs :: Integer -> Integer -> Integer
+combs n k = div (product [(succ res)..n]) (product [1..(n - res)])
+  where res = maximum [(n - k),k]
+
+sol231 n k = bpfactors $ combs n k
+
+
+
+
 
 
 
