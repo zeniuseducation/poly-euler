@@ -312,7 +312,7 @@ combs n k = div (product [(succ res)..n]) (product [1..(n - res)])
 
 sol231 n k = bpfactors $ combs n k
 
-
+nonBouncyDigit n = 2 * (triangle n)
 
 
 

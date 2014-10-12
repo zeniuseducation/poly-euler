@@ -137,7 +137,8 @@
 
 (defun non-bouncy (n)
   "Returns the number of n digits non-bouncy numbers"
-  (apply-poly x (rec-integrate '((1 1)) n)))
+  (* 2 (sum (mapcar #'(lambda (x) (apply-poly 9 (rec-integrate '((1 1)) x)))
+		    (range 2 (inc n))))))
 
 
 
