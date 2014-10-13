@@ -231,7 +231,22 @@ SBCL 4.7 sec
 Haskell 0.77 sec  
 SML 0.86 sec  
 
+##### Problem no 37
 
+SBCL 1.58sec  
+Clojure 1.5sec  
+Haskell 0.72sec  
+
+##### Problem no 39
+
+SBCL 8ms  
+Clojure 12ms  
+Haskell 10ms  
+
+##### Problem no 40
+
+Haskell 20ms  
+Clojure 31ms  
 
 ##### Problem no 85
 
@@ -247,6 +262,11 @@ SBCL 1.2 msec
 
 Clojure 0.5 sec  
 SBCL 0.6-0.8 sec  
+
+##### Problem no 131
+
+SBCL 3ms  
+Haskell interpreted 230ms  
 
 ##### Problem no 173 
 
