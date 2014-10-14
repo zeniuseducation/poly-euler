@@ -29,6 +29,14 @@ nextPrime x
   | even x = if prime' $ succ x then succ x else nextPrime $ succ x
   | otherwise = if prime' $ 2 + x then 2 + x else nextPrime $ 2 + x
 
+
+-- it returns the first positive primes greater than x
+prevPrime :: Int -> Int
+prevPrime x
+  | x <= 3 = 2
+  | even x = if prime' $ pred x then pred x else prevPrime $ pred x
+  | otherwise = if prime' $ x - 2 then x - 2 else prevPrime $ x - 2
+
 -- it returns the sum of all primes under lim
 sumPrimes :: Int -> Int
 sumPrimes lim = helper 3 lim 2
@@ -262,7 +270,8 @@ psqr' n = ((ceiling nsqrt) == (floor nsqrt))
 -- it returns the list of perimeters <= lim with which it is possible to construct an
 -- all-integer sided right triangle. 
 pitas :: Int -> [Int]
-pitas lim = [a + b + c | a <- [3..(div lim 4)], b <- [(succ a)..(limb $ fromIntegral a)],
+pitas lim = [a + b + c | a <- [3..(div lim 4)],
+             b <- [(succ a)..(limb $ fromIntegral a)],
              let csqr = ((a^2) + (b^2)), (psqr' csqr),
              let c = (round (sqrt $ fromIntegral csqr)), (a+b+c) <= lim]
   where limb i = minimum [(div lim 2),(ceiling ((succ (i^2)) / 2))]
@@ -314,7 +323,9 @@ sol231 n k = bpfactors $ combs n k
 
 nonBouncyDigit n = 2 * (triangle n)
 
+primesFrom1Billion = iterate prevPrime 987654319
 
+sol41 x = maximum $ filter prime' $ map colnum $ permutations [1..x]
 
 
 
