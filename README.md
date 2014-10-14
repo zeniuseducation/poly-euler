@@ -248,6 +248,10 @@ Haskell 10ms
 Haskell 20ms  
 Clojure 31ms  
 
+##### Problem no 41
+
+Haskell (one liner) 10ms  
+
 ##### Problem no 85
 
 Clojure 1.5 sec  
