@@ -327,6 +327,13 @@ primesFrom1Billion = iterate prevPrime 987654319
 
 sol41 x = maximum $ filter prime' $ map colnum $ permutations [1..x]
 
+substringDiv' i (x:xs)
+  | (length xs) < 3 = True
+  | otherwise = if div' (colnum $ take 3 xs) i
+                then substringDiv' (nextPrime i) xs 
+                else False
+
+sol43 = sum $ map colnum $ filter (substringDiv' 2) $ permutations [0..9]
 
 
 
