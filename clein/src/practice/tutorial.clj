@@ -16,35 +16,61 @@
   [elmt ls]
   (remove #(= % elmt) ls))
 
-(comment
-  - take-while
-  - filter
-  - remove
-  - drop-while)
+(def bahan [1 2 [2 3] 2 [3 [3 [2 3 4 [2 3]] 4] 2 2 [3 4] 2 3 [2 3] 32] 2 3 ])
 
-(defn mapthis
-  [f l1 l2]
-  (map f l1 l2))
+(defn map'
+  [f ls]
+  (if (empty? ls)
+    []
+    (conj (map' f (rest ls)) (f (first ls)))))
 
-(defn forthis
+(defn flatten'
+  [ls]
+  (if (not (coll? ls))
+    [ls]
+    (mapcat #(flatten' %) ls)))
+
+(defn gcd
+  [a b]
+  (cond (= a 0) b
+        (= b 0) a
+        (> a b) (gcd (- a b) b)
+        (< a b) (gcd (- b a) a)
+        (= a b) a))
+
+(defn lgcd
+  [ls]
+  (reduce gcd ls))
+
+(defn psqr?
+  [n]
+  (let [tmp (Math/sqrt n)]
+    (== tmp (int tmp))))
+
+(defn triplets [lim]
+  (for [a (range 3 (/ lim 4))
+        b (range a (/ lim 2))
+        :let [asqr (sqr a)
+              bsqr (sqr b)
+              csqr (+ asqr bsqr)]
+        :when (and (psqr? csqr)
+                   (<= (+ a b (Math/sqrt csqr)) lim))]
+    (let [c (int (Math/sqrt csqr))]
+      (+ a b c))))
+
+(defn solution
   [lim]
-  (for [a (range 1 (inc lim))
-        b (range 1 a)
-        c (range 1 b)
-        :let [bc (+ (sqr b) (sqr c))]
-        :when (= (sqr a) bc)]
-    [c b a]))
+  (->> (triplets lim)
+       (frequencies)
+       (map val)
+       (reduce #(if (= %2 1) (+ %1 %2) %1))))
 
-(defn combination
-  [ls k]
-  (if (= 1 k)
-    (map hash-set ls)
-    (for [a ls]
-      (into #{}
-            (mapcat #(union % #{a})
-                    (into #{}
-                          (combination (removes a ls)
-                                       (dec k))))))))
+(defn another
+  [lim]
+  (-> (fn [n] (* n n n n))
+      (map (range 1 lim))))
+
+
 
 
 

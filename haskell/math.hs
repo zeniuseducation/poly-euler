@@ -73,7 +73,10 @@ sumaPrima :: Int -> Int
 sumaPrima n = sumaPrimaHelper n 1 2 0
 
 primesUnder :: Int -> [Int]
-primesUnder n = takeWhile (< n) $ iterate nextPrime 2 
+primesUnder n = takeWhile (< n) $ iterate nextPrime 2
+
+primes_under :: Int -> [Int]
+primes_under lim = filter prime [2..lim]
 
 sumPrimesHelper :: Int -> Int -> Int -> Int
 sumPrimesHelper n i res
@@ -113,12 +116,22 @@ primes (x:xs) = x : deleteBy (\x n -> div' n x) x (primes xs)
 
 distinct lst =  map head.group.sort $ lst
 
-
 combine ls k = filter (\x -> k == length x) (subsequences ls)
 
+lgcd :: Integral a => [a] -> a
 lgcd (x:xs) = foldl gcd x xs
 
+llcm :: Integral a => [a] -> a
 llcm (x:xs) = foldl lcm x xs
+
+indexOf e (x:xs) i
+  | e == x = i
+  | otherwise = indexOf e xs (succ i)
+
+combinations ls k
+  | k == 0 = [[]]
+  | otherwise = [x:rs | x <- ls,
+                 rs <- (combinations (drop (indexOf x ls 1) ls) (pred k))]
 
 
 
@@ -126,5 +139,19 @@ llcm (x:xs) = foldl lcm x xs
 
 
                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

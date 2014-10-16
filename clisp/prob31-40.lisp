@@ -1,4 +1,4 @@
-(load "math.lisp")
+(load "~/public/lambdas/poly-euler/clisp/clojure.lisp")
 
 (defun pandig? (n)
   "Returns true if n is pandigital (containing all digits exactly once)"
@@ -68,6 +68,27 @@
 (defun sol34 (lim)
   (time (filter 'cond34 (range 10 lim))))
 
+;; Problem no  35
+
+(defun circulars (n)
+  "Returns all possible circular list of n"
+  (let* ((ls (numcol n))
+	 (lth (length ls))
+	 (res (mapcar #'(lambda (x) (append (drop x ls) (take x ls)))
+		      (range lth))))
+    (mapcar 'colnum res)))
+
+(defun circular-prime? (n)
+  "Returns true if all circular n are primes"
+  (let* ((ncol (numcol n))
+	 (excluded (list 0 2 4 5 6 8)))
+    (if (null (intersection excluded ncol))
+	(every? 'prime? (circulars n))
+	false)))
+
+(defun sol35 (lim)
+  "Returns all possible circular primes under lim"
+  (time (+ 2 (length (filter 'circular-prime? (primes-under lim))))))
 
 ;; Problem 36
 
@@ -95,3 +116,46 @@
 
 (defun sol36 (lim)
   (time (sum (filter 'bpalin? (range 1 lim)))))
+
+;; Problem 37
+
+(defun tprime? (p)
+  "Returns true if p is truncatable prime"
+  (let* ((ncol (numcol p))
+	 (lcol (mapcar 'colnum (iterate 'butlast ncol 'empty?)))
+	 (rcol (mapcar 'colnum (iterate 'rest ncol 'empty?))))
+    (every? 'prime? (append lcol rcol))))
+
+(defun sol37 (howmany?)
+  "Returns <howmany?> truncatable primes"
+  (labels ((findtprimes (i res)
+	     (if (<= howmany? (length res))
+		 res
+		 (if (tprime? i)
+		     (findtprimes (next-prime i) (cons i res))
+		     (findtprimes (next-prime i) res)))))
+    (time (sum (findtprimes 10 nil)))))
+
+"Elapsed time 1.58 sec"
+
+(defun limb (lim a)
+  (min (quot lim 2)
+       (inc (quot (inc (sqr a)) 2))))
+
+(defun triplets (lim)
+  (loop for a from 3 to (div lim 4)
+     append (loop for b from (inc a) to (limb lim a)
+	       when (let* ((csqr (+ (sqr a) (sqr b)))
+			    (c (round (sqrt csqr))))
+		       (and (psqr? csqr) (<= (+ a b c) lim)))
+	       collect (+ a b (round (sqrt (+ (sqr a) (sqr b))))))))
+
+(defun sol39 (lim)
+  (time (last (sort-by 'second (frequencies (triplets lim))))))
+
+"Elapsed time 14 msec"
+
+
+
+
+

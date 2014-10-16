@@ -41,7 +41,7 @@ primeFactors' n = factor n primes'
  
 primesUnder' lim = takeWhile (< lim) primes'
 
-
+combinations n k = filter (\x -> length x == k) $ subsequences n
 
 
 

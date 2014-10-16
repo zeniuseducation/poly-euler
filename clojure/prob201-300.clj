@@ -139,10 +139,43 @@
              [n res]
              (recur (inc n))))))))
 
-
-
 (defn resil
   [n]
   (second (totient n)))
+
+(defn ptrd?
+  "returns true if the third root of n is an integer"
+  [n]
+  (let [nthird (Math/floor (Math/pow n 1/3))]
+    (or (== n (expt nthird 3))
+        (== n (expt (inc nthird) 3)))))
+
+(comment 13082761331670030)
+
+(defn thirdroot
+  [n]
+  (Math/round (Math/pow n 1/3)))
+
+(defn sol271
+  [lim]
+  (->> (for [i (iterate inc 1N)
+             :let [nthird (inc (* i lim))
+                   n (thirdroot nthird)]
+             :while (< n lim)
+             :when (ptrd? nthird)]
+         n)
+       time))
+
+(defn sol271b
+  [lim]
+  (time (loop [i 1 res [1]]
+          (let [nthird (inc (*' i lim))
+                n (thirdroot nthird)]
+            (if (>= n lim)
+              res
+              (if (ptrd? nthird)
+                (recur (inc i) (conj res n))
+                (recur (inc i) res)))))))
+
 
 

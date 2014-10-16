@@ -1,17 +1,6 @@
-(load "math.lisp")
 
-(defun psqr-helper (n i)
-  (cond ((> (* i i) n)
-	 false)
-	((= (* i i) n)
-	 true)
-	(:else (psqr-helper n (+ 1 i)))))
+(load "clojure.lisp")
 
-(defun psqr? (n)
-  (psqr-helper n 1))
-
-(defun psquare? (n)
-  (= (floor (sqrt n)) (ceiling (sqrt n))))
 
 (defun qd-helper (d y)
   (let ((xsqr (+ 1 (* d y y))))
@@ -44,12 +33,8 @@
 
 ;; PROBLEM 108 FOR 110
 
-<<<<<<< HEAD
-=======
-
 ;; PROBLEM 125
 
->>>>>>> origin/master
 (defun squares-inner (n i sumn lim res)
   (let ((tsqr (+ sumn (sqr i))))
     (if (>= tsqr lim)
@@ -74,12 +59,6 @@
   (time (squares-outer 2 lim nil)))
 
 
-<<<<<<< HEAD
-
-
-
-
-=======
 ;; PROBLEM NO 131
 ;; n^3 + n^2p = m^3 -> p = (m^3 - n^3)/ n^2
 ;; m3/n2 - n = p => (n+d)^3/n2 - n = p
@@ -122,13 +101,46 @@
 	(* d p2)
 	(pair134 p1 p2 (+ 10 d)))))
 
-(defun fpairs (p1 p2 lim res)
+(defun fpairs (p1 p2 lim res i)
   (if (> p1 lim)
       res
       (let ((d (digc p1 p2)))
-	(fpairs p2 (next-prime p2) lim (cons (pair134 p1 p2 d) res)))))
+	(progn (if (zerop (rem i 1000)) (print i))
+	       (fpairs p2 (next-prime p2) lim (+ (pair134 p1 p2 d) res) (inc i))))))
 
 (defun sol134 (lim)
-  (time (fpairs 5 7 lim nil)))
->>>>>>> origin/master
+  (time (fpairs 5 7 lim 0 0)))   
+
+;; problem no 113
+
+(defun dis-integrate (ls)
+  "Returns the discrete integration of polynom ls"
+  (let* ((tmp (mapcar #'(lambda (x)
+			  (let* ((power (inc (second x)))
+				 (coef (* (first x) (/ 1 power))))
+			    (list coef power)))
+		      ls))
+	 (new-coef (- 1 (sum (mapcar 'first tmp)))))
+    (reverse (cons (list new-coef 1)
+		   (reverse tmp)))))
+
+(defun rec-integrate (pl n)
+  "Returns the integration process for a polynom up to n times"
+  (first (last (iterate 'dis-integrate pl
+			#'(lambda (x) (> (length x) n))))))
+
+(defun apply-poly (n pl)
+  "Apply n into polynom pl"
+  (sum (mapcar #'(lambda (x) (* (first x)
+			   (expt n (second x))))
+	       pl)))
+
+(defun non-bouncy (n)
+  "Returns the number of n digits non-bouncy numbers"
+  (* 2 (sum (mapcar #'(lambda (x) (apply-poly 9 (rec-integrate '((1 1)) x)))
+		    (range 2 (inc n))))))
+
+
+
+
 

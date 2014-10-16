@@ -1,10 +1,10 @@
 
 ;; Load the basic math functionalities
 
-(load "math.lisp")
+(load "clojure.lisp")
 
 
-;; PROBLEM NO 1
+;; Problem NO 1
 
 (defun euler1 (a b lim)
   (reduce '+ (remove-if-not #'(lambda (x) (or (zerop (rem x a))

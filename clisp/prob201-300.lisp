@@ -1,23 +1,7 @@
-<<<<<<< HEAD
-
-(load "math.lisp")
+(load "clojure.lisp")
 
 ;; Problem 234
 
-
-
-=======
-
-
-(load "math.lisp")
-
-
-(load "math.lisp")
-
-;; Problem 234
-
-
->>>>>>> FETCH_HEAD
 (defun primes-in-range (p1 p2 sp1 sp2)
   (- (+ (sum (range (+ p1 sp1) sp2 p1))
 	(sum (range (- sp2 p2) sp1 (- p2))))
@@ -40,7 +24,6 @@
 
 (defun sol234 (lim)
   (time (outer-collector 2 3 lim 0)))
-<<<<<<< HEAD
 
 
 ;; PROBLEM 243
@@ -69,7 +52,12 @@
 	       (list num nres)
 	       (resil (inc n) lim)))))
 
-(defun sol243 (lim)
+(defun sol243a (lim)
   (time (resil 2 lim)))
-=======
->>>>>>> FETCH_HEAD
+
+
+
+
+
+
+
