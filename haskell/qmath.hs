@@ -339,4 +339,3 @@ sol43 = sum $ map colnum $ filter (substringDiv' 2) $ permutations [0..9]
 
 
 
-
