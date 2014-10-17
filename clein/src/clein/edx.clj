@@ -40,3 +40,31 @@
              (+ res (-> (partial > (first lls))
                         (filter (rest lls))
                         count))))))
+
+(defn merge'
+  [l1 l2 res]
+  (cond
+   (empty? l1) (concat res l2)
+   (empty? l2) (concat res l1)
+   :else (let [[x & rl1] l1 [y & rl2] l2]
+           (if (< x y)
+             (merge' rl1 l2 (concat res [x]))
+             (merge' l1 rl2 (concat res [y]))))))
+
+(defn msort
+  [xs]
+  (if (= 1 (count xs))
+    xs
+    (let [counter (count xs)
+          splitter (quot counter 2)]
+      (if (odd? counter)
+        (merge' (msort (take (inc splitter) xs))
+                (msort (drop (inc splitter) xs))
+                [])
+        (merge' (msort (take splitter xs))
+                (msort (drop splitter xs))
+                [])))))
+
+
+
+
