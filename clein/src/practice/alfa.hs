@@ -19,3 +19,5 @@ last' xs
 keep' f xs
   | length xs == 0 = []
   | otherwise = (f $ (head xs)) : (keep' f (tail xs))
+
+
