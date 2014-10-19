@@ -2,6 +2,8 @@ prob1 x y z = (sum [x,(x * 2)..(z - 1)])
               + (sum [y,(y * 2)..(z - 1)]) 
               - (sum [(x * y), ((x * y) * 2)..(z - 1)])
 
+prob1' = sum [x|x <- [1..999], (0 = (rem x 3)) || (0 = (rem x 5))]
+
 prob2 n = sum (filter even (takeWhile (< n) (map fib [1..])))
   where fib n 
           | n <= 2 = n
@@ -12,4 +14,8 @@ prob4 n = maximum (filter (\a -> ((show a) == (reverse (show a)))) (mxx ((length
         mxx acc
           | acc == 0 = mx
           | otherwise = (map ((mx !! acc) *) mx) ++ mxx (acc - 1)
+
+
+
+
 
