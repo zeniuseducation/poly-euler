@@ -30,7 +30,7 @@ nextPrime x
   | otherwise = if prime' $ 2 + x then 2 + x else nextPrime $ 2 + x
 
 
--- it returns the first positive primes greater than x
+-- it returns the first positive primes less than x
 prevPrime :: Int -> Int
 prevPrime x
   | x <= 3 = 2
@@ -335,7 +335,25 @@ substringDiv' i (x:xs)
 
 sol43 = sum $ map colnum $ filter (substringDiv' 2) $ permutations [0..9]
 
+abs x
+  | x >= 0 = x
+  | otherwise = -x
+
+sol48 :: Integral a => a -> a -> a
+sol48 1000 res = res
+sol48 i res = sol48 (succ i) (rem (res + (i^i)) (10^10))
+
+bouncy i 1 = 1
+bouncy i 2 = 10 - i
+bouncy i 3 = div ((10-i) * (i+1)) 2
+bouncy i n = sum $ map (\x -> bouncy x (pred n)) [i..9]
+
+sol113 lim = sum [bouncy i lim| i <- [1..9]]
 
 
+zl1a 1 = 1
+zl1a n = n + (zl1a $ pred n)
 
+zl1b 1 = 1
+zl1b n = div (n * (succ n)) 2
 
