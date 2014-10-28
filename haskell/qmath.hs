@@ -357,3 +357,12 @@ zl1a n = n + (zl1a $ pred n)
 zl1b 1 = 1
 zl1b n = div (n * (succ n)) 2
 
+trimolist 1 = [1]
+trimolist 2 = [1,1]
+trimolist 3 = [1,1,1]
+trimolist n = helper 3 [1,1,1]
+  where helper i (x:y:z:xs)
+          | i == n = (x:y:z:xs)
+          | otherwise = helper (succ i) (x+y+z:x:y:z:xs)
+
+

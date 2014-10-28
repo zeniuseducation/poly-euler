@@ -98,7 +98,10 @@
 (defun prime-list-helper (n i cur res)
   (if (= n i)
       (cons cur res)
-      (prime-list-helper n (+ 1 i) (next-prime cur) (cons cur res))))
+      (prime-list-helper n
+			 (+ 1 i)
+			 (next-prime cur)
+			 (cons cur res))))
 
 
 (defun prime-list (n)
@@ -125,7 +128,10 @@
   (labels ((sum-primes-helper (n i cur res)
 	     (if (<= n i)
 		 (+ cur res)
-		 (sum-primes-helper n (+ i 1) (next-prime i) (+ res cur)))))
+		 (sum-primes-helper n
+				    (+ i 1)
+				    (next-prime i)
+				    (+ res cur)))))
     (sum-primes-helper n 1 2 0)))
 
 "Elapsed time 1sec for n=100,000"
