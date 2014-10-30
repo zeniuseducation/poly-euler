@@ -424,4 +424,18 @@ zl30 = sum [(product [9,19]), (product [9,19,26]), (product [9,10,19]),
             (product [9,10,19,26]), (product [9,10,10,19]), (product [9,10,10,19,26]),
             (product [9,10,10,10, 19]), product ([9,10,10,10,19,26])]
 
+countDigits lim = length $ concatMap numcol [1..lim]
+
+countDigs_helper 0 = 0
+countDigs_helper 1 = 9
+countDigs_helper n = 9 * n * (10^ (pred n))
+
+countDigs_base n = sum $ map countDigs_helper [1..n]
+
+countDigs lim = countDigs_base (pred n) + remainder n
+  where n = length $ numcol lim
+        remainder i = ((succ lim) - (10^ (pred i))) * i
+
+product' [] = 1
+product' (x:xs) = x * product' xs
 
