@@ -365,4 +365,63 @@ trimolist n = helper 3 [1,1,1]
           | i == n = (x:y:z:xs)
           | otherwise = helper (succ i) (x+y+z:x:y:z:xs)
 
+fibo i = fibolist 2 [1,1]
+  where fibolist n (x:y:_)
+          | n == i = x
+          | otherwise = fibolist (succ n) (x+y: [x])
+
+zl20 i = gen_fibo 2 [1,1]
+  where gen_fibo n (x:y:_)
+          | x >= i = (n,x)
+          | otherwise = gen_fibo (succ n) (x+y: [x])
+
+fibolist 1 = [1]
+fibolist i = reverse $ fibo_help 2 [1,1]
+  where fibo_help n (x:y:xs)
+          | n == i = (x:y:xs)
+          | otherwise = fibo_help (succ n) (x+y:x:y:xs)
+
+fibo_under 1 = []
+fibo_under 2 = [1,1]
+fibo_under i = reverse $ fibo_help [1,1]
+  where fibo_help (x:y:xs)
+          | x >= i = (y:xs)
+          | otherwise = fibo_help (x+y:x:y:xs)
+
+numcol4 n
+  | n < 4 = [n]
+  | otherwise = numcol4 (div n 4) ++ [(rem n 4)]
+
+bas4_to_dec n = helper (numcol n) 0
+  where helper (x:xs) res
+          | null xs = x + (4 * res)
+          | otherwise = helper xs (x + (4*res))
+
+dec_to_bas4 n = numcol4 n
+
+permute n k = product [(succ (n-k))..n]
+
+pascal_row (x:xs) res
+  | null xs = x:res
+  | otherwise = pascal_row xs (x+ (head xs) :res)
+
+pascal row = pascal_row row [1]
+
+nth_pascal n = (iterate pascal [1,1]) !! (pred n)
+
+fst3 (x,_,_) = x
+snd3 (_,x,_) = x
+trd3 (_,_,x) = x
+
+binom a b n = map (\x -> (fst3 x) * (snd3 x) * (trd3 x)) result
+  where result = zip3 (nth_pascal n)
+                 (map (a^) [n,(pred n)..0])
+                 (map (b^) [0..n])
+
+zl29 = sum $ binom 1 3 10
+
+zl30 = sum [(product [9,19]), (product [9,19,26]), (product [9,10,19]),
+            (product [9,10,19,26]), (product [9,10,10,19]), (product [9,10,10,19,26]),
+            (product [9,10,10,10, 19]), product ([9,10,10,10,19,26])]
+
 
