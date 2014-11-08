@@ -350,3 +350,38 @@ bouncy i n = sum $ map (\x -> bouncy x (pred n)) [i..9]
 
 sol113 lim = sum [bouncy i lim| i <- [1..9]]
 
+sempil n i ls = (fst hasil) ++ [n] ++ (snd hasil)
+  where hasil = splitAt i ls
+
+test51a lim = [c | i <- [1..9], j <- [0..9], k <- [1,3,7,9]
+                 , let c = [x| m <- [1,2], n <- [(succ m)..4], dig <- [0..9],
+                            let x = colnum $ sempil dig n $ sempil dig m [i,j,k]]
+                         , length (filter prime' c) > lim]
+
+insert' n i ls = (fst hasil) ++ [n] ++ (snd hasil)
+  where hasil = splitAt i ls
+
+place_digits i j l ls =
+  [c | m <- [0..9],
+   let c = colnum $ insert' m i $ insert' m j $ insert' m l ls, prime' c]
+
+place_all n ls = [c| i <- [0.. (length ls)-1], j <- [i.. (length ls)],
+                  k <- [j.. (length ls)+1],
+                  let c = place_digits i j k ls, length c >= n]
+
+sol51 n = [c | i <- [0..9], j <- [0..9], k <- [0..9],
+           let c = place_all n [i,j,k], not $ null c]
+
+-- problem no 51 solved in less than 0.32sec
+
+
+fa401 n = sum $ map sqr $ divisors n
+
+fb401 n = sum $ map fa401 [1..n]
+
+sqrDivs n
+  | even n = edivs 2 (succ $ sqr n)
+  | otherwise = odivs 2 (succ $ sqr n)
+  where edivs i 
+
+
