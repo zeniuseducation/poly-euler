@@ -18,4 +18,14 @@ hexas = map (\n -> n * (pred $ 2*n)) [1..]
 heptas = map (\n -> div (n * (5*n - 3)) 2) [1..]
 octas = map (\n -> n * (3*n - 2)) [1..]
 
-figurates ls = takeWhile (< 10000) $ dropWhile (< 1000) ls
+figurates ls = map (\x -> [div x 100, rem x 100]) $ result
+  where result = takeWhile (< 10000) $ dropWhile (< 1000) ls
+
+figures = map figurates [triangles, squares, pentas, hexas, heptas]
+
+search_one ls = map (\ (x:y: []) -> helper (x:y: []) figures []) ls
+  where helper (a:b:_) (fs:fss) res
+          | null fss = res ++ bliter
+          | null bliter = res
+          | otherwise = helper (head bliter) fss (res ++ [head bliter])
+          where bliter = filter (\ (m:n:_) -> a == n) fs
