@@ -73,6 +73,46 @@
           (recur 2 divs i (conj! res i))
           (recur (next-prime i) p lasti res))))))
 
+(defn ^longs nth-prime
+  "Returns the first i-th positive primes"
+  [^long i]
+  (loop [p (long 2) idx (int 1)]
+    (if (== idx i)
+      p
+      (recur (next-prime p) (+ 1 idx)))))
+
+(defn ^long count-factors
+  [^long n]
+  (let [lim (int (inc (Math/sqrt n)))]
+    (if (even? n)
+      (loop [i (int 2) res (int 2)]
+        (if (> i lim)
+          res
+          (let [divs (quot n i)]
+            (if (== 0 (rem n i))
+              (if (== i divs)
+                (inc res)
+                (recur (inc i) (+ 2 res)))
+              (recur (inc i) res)))))
+      (loop [i (int 3) res (int 2)]
+        (if (> i lim)
+          res
+          (let [divs (quot n i)]
+            (if (== 0 (rem n i))
+              (if (== i divs)
+                (inc res)
+                (recur (+ 2 i) (+ 2 res)))
+              (recur (+ 2 i) res))))))))
+
 ;; Problem 3 elapsed time 5-6 msecs
+
+(defn ^longs first-triangle-having-lim-factors
+  [^long i ^long lim]
+  (loop [n (long i)]
+    (let [triangle (long (quot (* n (inc n)) 2))
+          factors (long (count-factors triangle))]
+      (if (>= factors lim)
+        [n triangle]
+        (recur (inc n))))))
 
 
