@@ -183,7 +183,8 @@ Haskell 1 msec
 Prob: Find the first fibo element that reach 1000 digits.
 
 Clojure averaging 2.9 msecs    
-SBCL averaging 1.3 msecs  
+Typed Clojure 1.2 msecs  
+SBCL averaging 1.3 msecs   
 Racket 3-4 msecs  
 Typed Racket 1 ms  
 Haskell averaging 20 msecs  
