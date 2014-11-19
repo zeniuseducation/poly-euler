@@ -153,10 +153,11 @@ SML 0.73 seconds
 
 Clojure 5.3 seconds  
 Type hinted Clojure 1.2-1.3 seconds  
-Type hinted Clojure using memoize 0.8-0.9 second
+Type hinted Clojure using memoize 0.8-0.9 second  
 SBCL 29-32 seconds  
+Type hinted SBCL 5 seconds  
 Haskell 271 seconds  
-Haskell compiled 4.36 seconds FASTEST !!  
+Haskell compiled 4.36 seconds  
 SML 36 seconds  
 
 ##### Problem no 15
