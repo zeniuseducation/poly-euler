@@ -59,10 +59,12 @@ Prob: Find the largest prime factor of 600851475143
 Clojure 32 msecs  
 Typed hinted Clojure using transient and unchecked-math 5-6msecs  
 SBCL 37-42 msecs  
-Haskell 1,420 msecs  
+Typed hinted SBCL 4-6ms  
+Haskell 1,420 msecs   
 Haskell compiled optimised less than 10 msecs  
-SML 2 msecs!!! FASTEST ONE!
-Racket 50-60 msecs
+SML 2 msecs!!! FASTEST ONE!  
+Racket 50-60 msecs  
+Typed Racket 6ms  
 
 ##### Problem no 4
 
@@ -96,7 +98,9 @@ Haskell (it seems that GHCi cannot time under 10msecs)
 Prob: Find the 10,001st prime  
 
 Clojure 40-50 msecs  
+Typed Clojure 30-50 ms  
 SBCL 90-110 msecs  
+Typed hinted SBCL 26ms  
 Haskell 30 msecs  
 SML 17 msecs!!!  Again the FASTEST one!!!  
 
@@ -136,7 +140,10 @@ Typed Racket in Win32 987 msecs (FASTEST LISP)
 Prob: Triangle number that has more than 500 factors
 
 Clojure 1.7 seconds   
+Type hinted Clojure 0.56 seconds  
 SBCL 2.4 seconds  
+Type hinted SBCL 0.59 seconds  
+Typed Racket 1 sec
 Haskell 85 seconds  
 Haskell compiled 0.66 seconds FASTEST SO FAR!!  
 SML 0.73 seconds  
