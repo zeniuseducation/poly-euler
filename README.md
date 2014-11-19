@@ -121,10 +121,13 @@ Prob : The sum of all positive primes that less than 2,000,000
 
 Clojure 2,500 msecs  (2.5 secs)  
 SBCL 3,269ms in SBCL 1.2.2  
-Haskell 1,320 msecs (1.3 secs) -> 80 ms with in-memory lazy sieve  
-SML 736 msecs!! (0.736 secs) FASTEST!  
+Typed hinted SBCL 1,236ms
+Haskell 1,320 msecs (1.3 secs)  
+Haskell on Win32 470 msecs (FASTEST)  
+SML 736 msecs!! (0.736 secs)   
 Racket 4-6K msecs  
 Typed Racket 2,200 msecs (Faster than Clojure)  
+Typed Racket in Win32 987 msecs (FASTEST LISP)  
 
 ##### Problem no 12
 
