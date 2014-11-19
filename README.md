@@ -57,6 +57,7 @@ Racket less than 1 msec
 Prob: Find the largest prime factor of 600851475143
 
 Clojure 32 msecs  
+Typed hinted Clojure using transient and unchecked-math 5-6msecs  
 SBCL 37-42 msecs  
 Haskell 1,420 msecs  
 Haskell compiled optimised less than 10 msecs  
@@ -120,7 +121,7 @@ SML 3 ms !! Remarkable considering the bad construct
 Prob : The sum of all positive primes that less than 2,000,000  
 
 Clojure 2,500 msecs  (2.5 secs)  
-Typed Hinted Clojure 1,265 msecs  
+Typed Hinted Clojure using *unchecked-math* 1,165 msecs  
 SBCL 3,269ms in SBCL 1.2.2  
 Typed hinted SBCL 1,236ms  
 Haskell 1,320 msecs (1.3 secs)  
@@ -182,8 +183,8 @@ Haskell 1 msec
 
 Prob: Find the first fibo element that reach 1000 digits.
 
-Clojure averaging 2.9 msecs    
-Typed Clojure 1.2 msecs  
+Clojure averaging 2.9 msecs  
+Typed Clojure using *unchecked-math* < 1 ms  
 SBCL averaging 1.3 msecs   
 Racket 3-4 msecs  
 Typed Racket 1 ms  
