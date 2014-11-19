@@ -24,6 +24,8 @@
 		     (helper (+ i 2) res)))))
     (helper 7 10)))
 
+(defparameter limits (expt 10 999))
+
 (defun fibo (lim)
   (declare (optimize speed))
   (labels ((helper (i j idx)
