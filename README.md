@@ -121,7 +121,7 @@ Prob : The sum of all positive primes that less than 2,000,000
 
 Clojure 2,500 msecs  (2.5 secs)  
 SBCL 3,269ms in SBCL 1.2.2  
-Typed hinted SBCL 1,236ms
+Typed hinted SBCL 1,236ms  
 Haskell 1,320 msecs (1.3 secs)  
 Haskell on Win32 470 msecs (FASTEST)  
 SML 736 msecs!! (0.736 secs)   
