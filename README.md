@@ -158,6 +158,7 @@ SBCL 29-32 seconds
 Type hinted SBCL 5 seconds  
 Haskell 271 seconds  
 Haskell compiled 4.36 seconds  
+Typed Racket 3.3 seconds (even better than Haskell)  
 SML 36 seconds  
 
 ##### Problem no 15
