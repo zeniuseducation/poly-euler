@@ -100,7 +100,7 @@ Prob: Find the 10,001st prime
 Clojure 40-50 msecs  
 Type hinted Clojure 30-50 ms  
 SBCL 90-110 msecs  
-Type hinted SBCL 26ms  
+Type hinted SBCL 24ms  
 Haskell 30 msecs  
 SML 17 msecs!!!  Again the FASTEST one!!!  
 
@@ -154,9 +154,10 @@ SML 0.73 seconds
 Clojure 5.3 seconds  
 Type hinted Clojure 1.2-1.3 seconds  
 Type hinted Clojure using memoize 0.8-0.9 second  
+Type hinted Clojure starting 500,000 and odd-numbers only using memoize 168ms  
 SBCL 29-32 seconds  
 Type hinted SBCL 5 seconds  
-Haskell 271 seconds  
+Type hinted SBCL 1.3 sec  
 Haskell compiled 4.36 seconds  
 Typed Racket 3.3 seconds (even better than Haskell)  
 SML 36 seconds  
@@ -176,11 +177,15 @@ Too easy to measure, all in one lines and took less than 1 ms
 
 ##### Problem no 21
 
-Clojure 0.072 sec  
-SBCL 0.051 sec  
-Haskell 2.3 sec  
-Haskell compiled 0.03 sec  
-SML 0.023 sec FASTEST !!  
+Problem : The sum of all amicable numbers less than 10,000  
+
+Clojure 72 ms    
+Type hinted Clojure 17-22 ms  
+SBCL 51 ms    
+Type hinted SBCL 17-20 ms  
+Haskell compiled 30 ms  
+Typed Racket 24ms  
+SML 23 ms  
 
 ##### Problem 24
 
