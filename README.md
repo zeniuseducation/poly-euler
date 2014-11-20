@@ -136,11 +136,11 @@ SBCL 3,269ms in SBCL 1.2.2
 Type hinted SBCL 1,236ms  
 Type-hinted SBCL using sieves 30-40ms  
 Haskell 1,320 msecs (1.3 secs)  
-Haskell on Win32 470 msecs
-SML 736 msecs!! (0.736 secs)   
+Haskell on Win32 470 msecs   
+SML 736 msecs!! (0.736 secs)    
 Racket 4-6K msecs  
 Typed Racket 2,200 msecs (Faster than Clojure)  
-Typed Racket in Win32 987 msecs (FASTEST LISP)  
+Typed Racket in Win32 987 msecs  
 Typed Racket using sieves 71-76ms  
 C Benchmark using sieve 38 ms  
 
