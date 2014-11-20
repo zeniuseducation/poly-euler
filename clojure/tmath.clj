@@ -5,13 +5,12 @@
 (defn ^boolean prime?
   "Efficient prime, but cannot check for even numbers"
   [^long p]
-  (let [lim (+ 1 (int (Math/sqrt p)))]
-    (loop [i (long 3)]
-      (if (> i lim)
-        true
-        (if (== 0 (rem p i))
-          false
-          (recur (+ i 2)))))))
+  (loop [i (long 3)]
+    (if (> (* i i) p)
+      true
+      (if (== 0 (rem p i))
+        false
+        (recur (+ i 2))))))
 
 (defn ^long sum-primes
   "Efficient summation of primes"
@@ -30,7 +29,7 @@
 
 (def limits (expt 10 999))
 
-(defn fibolim
+(defn ^long fibolim
   [lim]
   (loop [i (bigint 1) j (bigint 1) idx (int 1)]
     (if (> i lim)
@@ -179,8 +178,84 @@
           (recur (+ 2 i) i colls)
           (recur (+ 2 i) res lres))))))
 
+(defn ^long suma-prima-parts
+  [^long n]
+  (->> (range (+ 1 (* 1000 n))
+              (* 1000 (inc n))
+              2)
+       (filter prime?)
+       (reduce +)))
 
+(defn ^long partial-sum
+  [^long n]
+  (let [lim (* (inc n) 1000)]
+    (loop [i (long (+ 1 (* 1000 n))) res 0]
+      (if (> i lim)
+        res
+        (recur (+ 2 i)
+               (if (prime? i)
+                 (+ i res)
+                 res))))))
 
+(defn ^long suma-prima
+  [^long lim]
+  (->> (range 1 lim)
+       (pmap partial-sum)
+       (reduce +)
+       (+ (+ 2 (reduce + (filter prime? (range 3 1000 2)))))))
 
+(defn ^longs primes-to
+  "Returns a list of all primes from 2 to n"
+  [^long n]
+  (let [root (-> n Math/sqrt int)]
+    (loop [i (int 2), a (boolean-array (inc n)), result (transient [])]
+      (if (> i n)
+        (persistent! result)
+        (recur (inc i)
+               (if (and (<= i root) (not (aget a i)))
+                 (loop [arr a, j (* i i)]
+                   (if (> j n)
+                     arr
+                     (recur (do (aset arr j true) arr)
+                            (+ j i))))
+                 a)
+               (if (not (aget a i))
+                 (conj! result i)
+                 result))))))
 
+(defn ^long sum-sieves
+  [^long lim]
+  (let [llim (int (Math/sqrt lim))
+        refs (boolean-array (inc lim))]
+    (loop [i (int 3) res (long 0)]
+      (if (>= i lim)
+        (+ 2 res)
+        (recur (if (and (<= i llim) (not (aget refs i)))
+                 (loop [p (int (* i i))]
+                   (if (<= p (- lim 1))
+                     (recur (do (aset refs p true)
+                                (+ p (* 2 i))))
+                     (+ 2 i)))
+                 (+ 2 i))
+               (if (aget refs i) res (+ res i)))))))
 
+(defn ^long sum-sieves2
+  [^long lim]
+  (let [llim (int (Math/sqrt lim))
+        refs (boolean-array (unchecked-inc lim))]
+    (loop [i (long 3) res (transient [])]
+      (if (> i llim)
+        (+ 2
+           (reduce unchecked-add (persistent! res))
+           (reduce unchecked-add (filter #(not (aget refs %))
+                                         (range i lim 2))))
+        (recur (do (loop [p (int (unchecked-multiply i i))]
+                     (if (> p (unchecked-dec lim))
+                       nil
+                       (recur (do (aset refs p true)
+                                  (unchecked-add p (unchecked-multiply 2 i))))))
+                   (loop [n (int (unchecked-add 2 i))]
+                     (if (not (aget refs n))
+                       n
+                       (recur (unchecked-add 2 n)))))
+               (conj! res i))))))

@@ -1,9 +1,9 @@
 (defun prime? (p)
-  (declare (optimize speed) (fixnum p))
-  (let ((lim (ceiling (sqrt p))))
+  (declare (optimize (speed 3)) (fixnum p))
+  (let ((lim (isqrt p)))
     (declare (fixnum lim))
     (labels ((helper (i)
-	       (declare (fixnum i))
+	       (declare (optimize (speed 3)) (fixnum i))
 	       (if (> i lim)
 		   t
 		   (if (= 0 (rem p i))
@@ -12,14 +12,14 @@
       (helper 3))))
 
 (defun true-prime? (p)
-  (declare (optimize speed) (fixnum p))
+  (declare (optimize (speed 3)) (fixnum p))
   (if (= 2 p)
       t
       (if (evenp p)
 	  nil
-	  (let ((lim (ceiling (sqrt p))))
+	  (let ((lim (isqrt p)))
 	    (labels ((helper (i)
-		       (declare (fixnum i))
+		       (declare (optimize (speed 3)) (fixnum i))
 		       (if (> i lim)
 			   t
 			   (if (= 0 (rem p i))
@@ -28,20 +28,20 @@
 	      (helper 3))))))
 
 (defun next-prime (p)
-  (declare (optimize speed) (fixnum p))
+  (declare (optimize (speed 3)) (fixnum p))
   (if (= p 2)
       3
       (labels ((helper (i)
-		 (declare (fixnum i))
+		 (declare (optimize (speed 3)) (fixnum i))
 		 (if (prime? i)
 		     i
 		     (helper (+ i 2)))))
 	(helper (+ p 2)))))
 
 (defun pfactors (p)
-  (declare (optimize speed) (fixnum p))
+  (declare (optimize (speed 3)) (fixnum p))
   (labels ((helper (i n lasti res)
-	     (declare (fixnum i n lasti))
+	     (declare (optimize (speed 3)) (fixnum i n lasti))
 	     (if (prime? n)
 		 (if (= n lasti)
 		     res
@@ -52,9 +52,9 @@
     (helper 2 p 2 nil)))
 
 (defun sum-primes (lim)
-  (declare (optimize speed) (fixnum lim))
+  (declare (optimize (speed 3)) (fixnum lim))
   (labels ((helper (i res)
-	     (declare (fixnum i) (fixnum res))
+	     (declare (optimize (speed 3)) (fixnum i res))
 	     (if (> i lim)
 		 res
 		 (if (prime? i)
@@ -65,9 +65,11 @@
 (defparameter limits (expt 10 999))
 
 (defun fibo (lim)
-  (declare (optimize speed))
+  (declare (optimize (speed 3))
+	   (bignum lim))
   (labels ((helper (i j idx)
-	     (declare (optimize speed))
+	     (declare (optimize (speed 3))
+		      (fixnum idx))
 	     (if (> i lim)
 		 idx
 		 (helper (+ i j) i (+ 1 idx)))))
@@ -75,9 +77,9 @@
 
 (defun nth-prime (n)
   "Returns the nth terms of positive primes"
-  (declare (optimize speed) (fixnum n))
+  (declare (optimize (speed 3)) (fixnum n))
   (labels ((helper (i idx)
-	     (declare (optimize speed)
+	     (declare (optimize (speed 3))
 		      (fixnum i idx))
 	     (if (= idx n)
 		 i
@@ -85,10 +87,10 @@
     (helper 2 1)))
 
 (defun count-factors (n)
-  (declare (optimize speed) (fixnum n))
+  (declare (optimize (speed 3)) (fixnum n))
   (let ((lim (ceiling (sqrt n))))
     (labels ((helper-even (i res)
-	       (declare (optimize speed) (fixnum i res))
+	       (declare (optimize (speed 3)) (fixnum i res))
 	       (if (> i lim)
 		   res
 		   (if (zerop (rem n i))
@@ -98,7 +100,7 @@
 			     (helper-even (+ i 1) (+ 2 res))))
 		       (helper-even (+ i 1) res))))
 	     (helper-odd (i res)
-	       (declare (optimize speed) (fixnum i res))
+	       (declare (optimize (speed 3)) (fixnum i res))
 	       (if (> i lim)
 		   res
 		   (if (zerop (rem n i))
@@ -112,10 +114,10 @@
 	  (helper-even 2 2)))))
 
 (defun sum-pdivs (n)
-  (declare (optimize speed) (fixnum n))
+  (declare (optimize (speed 3)) (fixnum n))
   (let ((lim (ceiling (sqrt n))))
     (labels ((helper-even (i res)
-	       (declare (optimize speed) (fixnum i res))
+	       (declare (optimize (speed 3)) (fixnum i res))
 	       (if (> i lim)
 		   res
 		   (if (zerop (rem n i))
@@ -125,7 +127,7 @@
 			     (helper-even (+ i 1) (+ i divs res))))
 		       (helper-even (+ i 1) res))))
 	     (helper-odd (i res)
-	       (declare (optimize speed) (fixnum i res))
+	       (declare (optimize (speed 3)) (fixnum i res))
 	       (if (> i lim)
 		   res
 		   (if (zerop (rem n i))
@@ -139,9 +141,9 @@
 	  (helper-even 2 1)))))
 
 (defun sum-amic (lim)
-  (declare (optimize speed) (fixnum lim))
+  (declare (optimize (speed 3)) (fixnum lim))
   (labels ((helper (i res)
-	     (declare (optimize speed) (fixnum i res))
+	     (declare (optimize (speed 3)) (fixnum i res))
 	     (if (> i lim)
 		 res
 		 (let ((amic (sum-pdivs i)))
@@ -154,7 +156,7 @@
     (helper 2 0)))
 
 (defun first-triangle-having-lim-factors (n lim)
-  (declare (optimize speed) (fixnum n lim))
+  (declare (optimize (speed 3)) (fixnum n lim))
   (let* ((triangle (/ (* n (+ 1 n)) 2))
 	 (factors (count-factors triangle)))
     (if (>= factors lim)
@@ -162,7 +164,7 @@
 	(first-triangle-having-lim-factors (+ 1 n) lim))))
 
 (defun collatz (i)
-  (declare (optimize speed) (fixnum i))
+  (declare (optimize (speed 3)) (fixnum i))
   (if (= 1 i)
       1
       (+ 1 (if (evenp i)
@@ -170,9 +172,9 @@
 	       (collatz (+ 1 (* 3 i)))))))
 
 (defun max-collatz-under-lim (starting lim)
-  (declare (optimize speed) (fixnum starting lim))
+  (declare (optimize (speed 3)) (fixnum starting lim))
   (labels ((helper (i res lres)
-	     (declare (optimize speed)
+	     (declare (optimize (speed 3))
 		      (fixnum i res lres))
 	     (if (> i lim)
 		 res
@@ -181,6 +183,31 @@
 		       (helper (+ 2 i) i colls)
 		       (helper (+ 2 i) res lres))))))
     (helper starting 1 1)))
+
+(defun sum-sieves (lim)
+  (declare (optimize (speed 3)) (fixnum lim))
+  (let ((llim (isqrt lim))
+	(refs (make-array lim :initial-element t)))
+    (labels ((outer (i res)
+	       (declare (optimize (speed 3)) (fixnum i res))
+	       (labels ((inner (p)
+			  (declare (optimize (speed 3))
+				   (fixnum p))
+			  (if (< p lim)
+			      (progn (setf (aref refs p) nil)
+				     (inner (+ p (* 2 i))))
+			      (+ 2 i))))
+		 (if (< i lim)
+		     (if (and (<= i llim) (aref refs i))
+		      (progn (inner (* i i))
+			     (outer (+ i 2)
+				    (+ i res)))
+		      (outer (+ i 2)
+			     (if (aref refs i)
+				 (+ i res)
+				 res)))
+		     (+ 2 res)))))
+      (outer 3 0))))
 
 
 

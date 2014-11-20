@@ -45,7 +45,7 @@
             (helper (+ i 2) res))))
   (helper 7 10))
 
-(define: limits : Integer (expt 10 1000))
+(define: limits : Integer (expt 10 999))
 
 (define: (fibo (lim : Integer))
   : Integer
@@ -169,6 +169,38 @@
                     (helper (+ 1 i) (+ i res))
                     (helper (+ 1 i) res)))))))
   (helper 2 0))
+
+(define: (fill-vectors (lim : Integer))
+  : (Vectorof Integer)
+  (let: ((the-vec : (Vectorof Integer) (make-vector lim 0)))
+    (define: (helper (i : Integer))
+      : (Vectorof Integer)
+      (if (< i lim)
+          (begin (vector-set! the-vec i i)
+                 (helper (+ 1 i)))
+          the-vec))
+    (helper 1)))
+
+(define: (sum-sieves (lim : Integer))
+  : Integer
+  (let: ((refs : (Vectorof Boolean) (make-vector lim true)))
+    (define: (outer (i : Integer) (res : Integer))
+      : Integer
+      (define: (inner (j : Integer))
+        : Integer
+        (if (< j lim)
+            (begin (vector-set! refs j false)
+                   (inner (+ j (* 2 i))))
+            1))
+      (if (< i lim)
+          (if (and (<= (* i i) lim) (vector-ref refs i))
+              (begin (inner (* i i))
+                     (outer (+ i 2) (+ i res)))
+              (if (vector-ref refs i)
+                  (outer (+ i 2) (+ i res))
+                  (outer (+ i 2) res)))
+          (+ 2 res)))
+    (outer 3 0)))
 
 
 

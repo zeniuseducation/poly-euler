@@ -76,3 +76,14 @@ sum_amic lim = helper 2 0
           where amic :: Int
                 amic = sum_pdivs i
                 
+fibolim :: Integer -> Int
+fibolim lim = helper 1 1 1
+  where helper :: Integer -> Integer -> Int -> Int
+        helper i j idx
+          | i > lim = idx
+          | otherwise = helper (i+j) i (succ idx)
+
+sum_primes lim = 2 + (sum $ filter prime' [3,5..lim])
+  where prime' n = all (\x -> 0 /= rem n x) (takeWhile (\x -> x*x <= n) [3,5..]) 
+
+
