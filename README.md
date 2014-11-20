@@ -98,11 +98,15 @@ Haskell (it seems that GHCi cannot time under 10msecs)
 Prob: Find the 10,001st prime  
 
 Clojure 40-50 msecs  
-Type hinted Clojure 30-50 ms  
+Type-hinted Clojure 30-50 ms  
+Type-hinted Clojure using sieve 5-8ms  
 SBCL 90-110 msecs  
 Type hinted SBCL 24ms  
-Haskell 30 msecs  
-SML 17 msecs!!!  Again the FASTEST one!!!  
+Type-hinted SBCL using sieves 2ms  
+Typed Racket 35-38ms  
+Typed Racket using sieve  2-4ms  
+Haskell 30 msecs   
+SML 17 msecs
 
 ##### Problem no 8
 
@@ -126,14 +130,18 @@ Prob : The sum of all positive primes that less than 2,000,000
 
 Clojure 2,500 msecs  (2.5 secs)  
 Type Hinted Clojure using *unchecked-math* 1,165 msecs  
+Type-hinted Clojure using sieves 120-140ms  
 SBCL 3,269ms in SBCL 1.2.2  
 Type hinted SBCL 1,236ms  
+Type-hinted SBCL using sieves 30-40ms  
 Haskell 1,320 msecs (1.3 secs)  
-Haskell on Win32 470 msecs (FASTEST)  
+Haskell on Win32 470 msecs
 SML 736 msecs!! (0.736 secs)   
 Racket 4-6K msecs  
 Typed Racket 2,200 msecs (Faster than Clojure)  
 Typed Racket in Win32 987 msecs (FASTEST LISP)  
+Typed Racket using sieves 71-76ms  
+C Benchmark 38 ms  
 
 ##### Problem no 12
 
