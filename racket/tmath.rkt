@@ -1,4 +1,3 @@
-
 #lang typed/racket
 
 (define: (sqr [x : Number]) : Number (* x x))
@@ -107,6 +106,77 @@
     (if (> (count-factors triangle) lim)
         (list n triangle)
         (first-triangle-having-lim-factors (+ 1 n) lim))))
+
+(define: (collatz (n : Integer))
+  : Integer
+  (if (= n 1)
+      1
+      (+ 1 (if (even? n)
+               (collatz (quotient n 2))
+               (collatz (+ 1 (* 3 n)))))))
+
+(define: (max-collatz (start : Integer) (lim : Integer))
+  : Integer
+  (define: (helper (i : Integer)
+                   (res : Integer)
+                   (lres : Integer))
+    : Integer
+    (if (> i lim)
+        res
+        (let: ((collz : Integer (collatz i)))
+          (if (> collz lres)
+              (helper (+ 2 i) i collz)
+              (helper (+ 2 i) res lres)))))
+  (helper start 1 1))
+
+(define: (sum-pdivs (n : Integer))
+  : Integer
+    (define: (helper-odd (i : Integer) (res : Integer))
+      : Integer
+      (if (> (* i i) n)
+          res
+          (if (= 0 (remainder n i))
+              (let: ((divs : Integer (quotient n i)))
+                (if (= i divs)
+                    (+ i res)
+                    (helper-odd (+ i 2) (+ i divs res))))
+              (helper-odd (+ i 2) res))))
+    (define: (helper-even (i : Integer) (res : Integer))
+      : Integer
+      (if (> (* i i) n)
+          res
+          (if (= 0 (remainder n i))
+              (let: ((divs : Integer (quotient n i)))
+                (if (= i divs)
+                    (+ i res)
+                    (helper-even (+ i 1) (+ i divs res))))
+              (helper-even (+ i 1) res))))
+    (if (even? n)
+        (helper-even 2 1)
+        (helper-odd 3 1)))
+
+(define: (sum-amic (lim : Integer))
+  : Integer
+  (define: (helper (i : Integer) (res : Integer))
+    : Integer
+    (if (> i lim)
+        res
+        (let: ((amic : Integer (sum-pdivs i)))
+          (if (= i amic)
+              (helper (+ 1 i) res)
+              (let: ((div-amic : Integer (sum-pdivs amic)))
+                (if (= i div-amic)
+                    (helper (+ 1 i) (+ i res))
+                    (helper (+ 1 i) res)))))))
+  (helper 2 0))
+
+
+
+
+
+
+
+
 
 
 

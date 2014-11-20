@@ -29,3 +29,50 @@ search_one ls = map (\ (x:y: []) -> helper (x:y: []) figures []) ls
           | null bliter = res
           | otherwise = helper (head bliter) fss (res ++ [head bliter])
           where bliter = filter (\ (m:n:_) -> a == n) fs
+
+collatz :: Int -> Int
+collatz n
+  | n == 1 = 1
+  | even n = 1 + collatz (div n 2)
+  | otherwise = 1 + collatz (1 + (3 * n))
+
+max_collatz :: Int -> Int -> Int
+max_collatz start lim = helper start 1 1
+  where helper :: Int -> Int -> Int -> Int
+        helper i res lres
+          | i > lim = res
+          | colls > lres = helper (2 + i) i colls
+          | otherwise = helper (2 + i) res lres
+          where colls = collatz i
+
+
+sum_pdivs :: Int -> Int
+sum_pdivs n
+  | even n = helper_even 2 1
+  | otherwise = helper_odd 3 1
+  where helper_even :: Int -> Int -> Int
+        helper_even i res
+          | (i*i) > n = res
+          | 0 == (rem n i) = if div n i == i
+                             then res + i
+                             else helper_even (1+i) (i+res+ (div n i))
+          | otherwise = helper_even (succ i) res
+        helper_odd :: Int -> Int -> Int
+        helper_odd i res
+          | (i*i) > n = res
+          | 0 == (rem n i) = if div n i == i
+                             then res + i
+                             else helper_odd (2 + i) (i + res + (div n i))
+          | otherwise = helper_odd (succ i) res
+
+sum_amic :: Int -> Int
+sum_amic lim = helper 2 0
+  where helper :: Int -> Int -> Int
+        helper i res
+          | i >= lim = res
+          | i == amic = helper (succ i) res
+          | i == (sum_pdivs amic) = helper (succ i) (i + res)
+          | otherwise = helper (succ i) res
+          where amic :: Int
+                amic = sum_pdivs i
+                

@@ -1,5 +1,3 @@
-
-
 (defun prime? (p)
   (declare (optimize speed) (fixnum p))
   (let ((lim (ceiling (sqrt p))))
@@ -113,6 +111,48 @@
 	  (helper-odd 3 2)
 	  (helper-even 2 2)))))
 
+(defun sum-pdivs (n)
+  (declare (optimize speed) (fixnum n))
+  (let ((lim (ceiling (sqrt n))))
+    (labels ((helper-even (i res)
+	       (declare (optimize speed) (fixnum i res))
+	       (if (> i lim)
+		   res
+		   (if (zerop (rem n i))
+		       (let ((divs (/ n i)))
+			 (if (= i divs)
+			     (+ i res)
+			     (helper-even (+ i 1) (+ i divs res))))
+		       (helper-even (+ i 1) res))))
+	     (helper-odd (i res)
+	       (declare (optimize speed) (fixnum i res))
+	       (if (> i lim)
+		   res
+		   (if (zerop (rem n i))
+		       (let ((divs (/ n i)))
+			 (if (= i divs)
+			     (+ i res)
+			     (helper-odd (+ i 2) (+ i divs res))))
+		       (helper-odd (+ i 2) res)))))
+      (if (oddp n)
+	  (helper-odd 3 1)
+	  (helper-even 2 1)))))
+
+(defun sum-amic (lim)
+  (declare (optimize speed) (fixnum lim))
+  (labels ((helper (i res)
+	     (declare (optimize speed) (fixnum i res))
+	     (if (> i lim)
+		 res
+		 (let ((amic (sum-pdivs i)))
+		   (if (= i amic)
+		       (helper (+ 1 i) res)
+		       (let ((div-amic (sum-pdivs amic)))
+			 (if (= i div-amic)
+			     (helper (+ 1 i) (+ i res))
+			     (helper (+ 1 i) res))))))))
+    (helper 2 0)))
+
 (defun first-triangle-having-lim-factors (n lim)
   (declare (optimize speed) (fixnum n lim))
   (let* ((triangle (/ (* n (+ 1 n)) 2))
@@ -120,6 +160,28 @@
     (if (>= factors lim)
 	(list n triangle)
 	(first-triangle-having-lim-factors (+ 1 n) lim))))
+
+(defun collatz (i)
+  (declare (optimize speed) (fixnum i))
+  (if (= 1 i)
+      1
+      (+ 1 (if (evenp i)
+	       (collatz (/ i 2))
+	       (collatz (+ 1 (* 3 i)))))))
+
+(defun max-collatz-under-lim (starting lim)
+  (declare (optimize speed) (fixnum starting lim))
+  (labels ((helper (i res lres)
+	     (declare (optimize speed)
+		      (fixnum i res lres))
+	     (if (> i lim)
+		 res
+		 (let ((colls (collatz i)))
+		   (if (> colls lres)
+		       (helper (+ 2 i) i colls)
+		       (helper (+ 2 i) res lres))))))
+    (helper starting 1 1)))
+
 
 
 
