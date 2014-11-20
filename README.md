@@ -197,6 +197,7 @@ Type hinted SBCL 17-20 ms
 Haskell compiled 30 ms  
 Typed Racket 24ms  
 SML 23 ms  
+C as benchmark 13ms  
 
 ##### Problem 24
 
