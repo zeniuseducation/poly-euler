@@ -34,6 +34,15 @@
           (+ i 2)
           (next-prime (+ i 2)))))
 
+(define: (nth-prime (i : Integer))
+  : Integer
+  (define: (helper (j : Integer) (res : Integer))
+    : Integer
+    (if (= j i) 
+        res
+        (helper (+ 1 j) (next-prime res))))
+  (helper 1 2))
+
 (define: (sum-primes [lim : Integer])
   : Integer
   (define: (helper [i : Integer] [res : Integer])
@@ -202,6 +211,27 @@
           (+ 2 res)))
     (outer 3 0)))
 
+(define: (nth-sieves (m : Integer) (n : Integer))
+  : Integer
+  (let*: ((lim : Integer (* m n))
+          (refs : (Vectorof Boolean) (make-vector lim true)))
+    (define: (outer (i : Integer) (p : Integer) (res : Integer))
+      : Integer
+      (define: (inner (j : Integer))
+        : Integer
+        (if (< j lim)
+            (begin (vector-set! refs j false)
+                   (inner (+ j (* 2 i))))
+            1))
+      (if (< p m)
+          (if (and (<= (* i i) lim) (vector-ref refs i))
+              (begin (inner (* i i))
+                     (outer (+ i 2) (+ p 1) i))
+              (if (vector-ref refs i)
+                  (outer (+ i 2) (+ p 1) i)
+                  (outer (+ i 2) p res)))
+          res))
+    (outer 3 1 2)))
 
 
 

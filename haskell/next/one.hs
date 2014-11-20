@@ -87,3 +87,7 @@ sum_primes lim = 2 + (sum $ filter prime' [3,5..lim])
   where prime' n = all (\x -> 0 /= rem n x) (takeWhile (\x -> x*x <= n) [3,5..]) 
 
 
+nth_prime :: Int -> Int
+nth_prime i = (filter prime' [3,5..]) !! (i - 2)
+  where prime' :: Int -> Bool
+        prime' n = all (\x -> 0 /= rem n x) (takeWhile (\x -> x*x <= n) [3,5..])

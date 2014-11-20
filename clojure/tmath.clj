@@ -239,6 +239,24 @@
                  (+ 2 i))
                (if (aget refs i) res (+ res i)))))))
 
+(defn ^long nth-sieves
+  [^long m ^long n]
+  (let [lim (int (* m n))
+        llim (int (Math/sqrt lim))
+        refs (boolean-array lim)]
+    (loop [i (int 3) j (int 1) res (int 2)]
+      (if (== j m)
+        res
+        (recur (if (and (<= i llim) (not (aget refs i)))
+                 (loop [p (int (* i i))]
+                   (if (< p lim)
+                     (recur (do (aset refs p true)
+                                (+ p (* 2 i))))
+                     (+ 2 i)))
+                 (+ 2 i))
+               (if (aget refs i) j (+ j 1))
+               (if (aget refs i) res i))))))
+
 (defn ^long sum-sieves2
   [^long lim]
   (let [llim (int (Math/sqrt lim))
