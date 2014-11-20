@@ -166,10 +166,12 @@ Type hinted Clojure using memoize 0.8-0.9 second
 Type hinted Clojure starting 500,000 and odd-numbers only using memoize 168ms  
 SBCL 29-32 seconds  
 Type hinted SBCL 5 seconds  
-Type hinted SBCL 1.3 sec  
+Type hinted SBCL 1.4 sec  
 Haskell compiled 4.36 seconds  
 Typed Racket 3.3 seconds (even better than Haskell)  
+Typed Racket 0.9 second (check >500k odds only)  
 SML 36 seconds  
+C as benchmark (starting from half a million and check odd only) 1,25 second  
 
 ##### Problem no 15
 
