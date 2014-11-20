@@ -204,7 +204,7 @@ Type hinted Clojure using *unchecked-math* < 1 ms
 SBCL averaging 1.3 msecs   
 Racket 3-4 msecs  
 Typed Racket 1 ms  
-Haskell averaging 20 msecs  
+Haskell averaging 10 msecs  
 SML 36 msecs  (SML LargeInt is not efficient)
 
 ##### Problem 29
