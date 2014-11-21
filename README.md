@@ -119,11 +119,12 @@ Haskell 100 msecs
 
 ##### Problem no 9
 
-Clojure 0.08 msecs  
-SBCL 21 msecs  
-Haskell 240 msecs  
-Haskell compiled 10 ms  
-SML 3 ms !! Remarkable considering the bad construct  
+Type-hinted Clojure 3-4ms  
+Type-hinted SBCL 3ms  
+Typed Racket 1ms  
+Haskell <10 ms  
+SML 1 ms  
+C as benchmark 6ms  
 
 ##### Problem no 10
 
