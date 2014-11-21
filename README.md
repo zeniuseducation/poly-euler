@@ -58,13 +58,16 @@ Prob: Find the largest prime factor of 600851475143
 
 Clojure 32 msecs  
 Type hinted Clojure using transient and unchecked-math 5-6msecs  
+Further optimised type-hinted Clojure 0.3-0.4ms  
 SBCL 37-42 msecs  
 Type hinted SBCL 4-6ms  
-Haskell 1,420 msecs   
-Haskell compiled optimised less than 10 msecs  
-SML 2 msecs!!! FASTEST ONE!  
-Racket 50-60 msecs  
-Typed Racket 6ms  
+Further optimised SBCL 0.45ms  
+Haskell compiled optimised less than 10 ms  
+SML 2 ms  
+Racket 50-60 ms  
+Typed Racket 6ms   
+Further optimised Typed Racket 0.4-0.5ms  
+C as benchmark 0.3ms  
 
 ##### Problem no 4
 
@@ -120,6 +123,7 @@ Haskell 100 msecs
 ##### Problem no 9
 
 Type-hinted Clojure 3-4ms  
+Further optimised Clojure 0.4ms  
 Type-hinted SBCL 3ms  
 Typed Racket 1ms  
 Haskell <10 ms  
