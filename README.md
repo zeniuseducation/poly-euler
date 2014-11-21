@@ -199,6 +199,15 @@ Typed Racket 24ms
 SML 23 ms  
 C as benchmark 13ms  
 
+##### Problem 23 
+
+Problem : The sum of all integers that cannot be written as the sum of two abundant numbers  
+
+Type-hinted Clojure 240-250ms  
+Type-hinted SBCL 275ms  
+Typed Racket 450-460ms  
+C as benchmark 241ms  
+
 ##### Problem 24
 
 Problem: Very nice problem, highly recommended!!
