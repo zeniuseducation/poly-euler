@@ -30,9 +30,10 @@ Implementations:
 1. Clojure using Clojure on JVM  
 2. Clojurescript on NodeJS  
 3. Common Lisp using SBCL  
-4. Haskell using GHC (currently still in interpreted mode, will be moved to compiled one)  
+4. Haskell using GHC compiled using -O2 optimisation   
 5. SML using SMLNJ  
-6. Racket using Racket  
+6. Racket mostly using Typed Racket  
+7. C using whatever there is on Macbook (probably GCC)  
 
 ##### Problem no 1
 
@@ -158,8 +159,7 @@ Type hinted Clojure 0.56 seconds
 SBCL 2.4 seconds  
 Type hinted SBCL 0.59 seconds  
 Typed Racket 1 sec  
-Haskell 85 seconds  
-Haskell compiled 0.66 seconds FASTEST SO FAR!!  
+Haskell compiled 0.66 seconds  
 SML 0.73 seconds  
 
 
@@ -274,7 +274,6 @@ SML 2.4 sec (Very inefficient sml)
 
 Clojure 0.73 sec  
 SBCL 1.32 sec  
-Haskell 6.91 sec  
 Haskell compiled 0.32 sec  
 SML 1.62 sec  
 
@@ -373,7 +372,6 @@ SBCL 1.4 sec
 
 #####
 
-Note: Haskell on emacs is an interpreted version, when compiled using advance optimisation, the speed could be 10-30times faster.
 
 ## License
 
