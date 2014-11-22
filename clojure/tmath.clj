@@ -23,12 +23,6 @@
 
 ;; Problem 10 fastest 1,304 msecs
 
-(defn expt
-  [a m]
-  (if (zero? m) 1 (*' a (expt a (dec m)))))
-
-(def limits (expt 10 999))
-
 (defn ^long fibolim
   [lim]
   (loop [i (bigint 1) j (bigint 1) idx (int 1)]
@@ -103,7 +97,7 @@
                 (recur (+ 2 i) (+ 2 res)))
               (recur (+ 2 i) res))))))))
 
-(defn ^long sum-pdivisors
+(defn ^long sum-pdivs
   [^long n]
   (let [lim (Math/sqrt n)]
     (if (even? n)
@@ -131,10 +125,10 @@
   (loop [i (long 2) res (long 0)]
     (if (>= i lim)
       res
-      (let [amic (long (sum-pdivisors i))]
+      (let [amic (long (sum-pdivs i))]
         (if (== amic i)
           (recur (inc i) res)
-          (let [div-amic (long (sum-pdivisors amic))]
+          (let [div-amic (long (sum-pdivs amic))]
             (if (== i div-amic)
               (recur (inc i) (+ i res))
               (recur (inc i) res))))))))
@@ -239,6 +233,41 @@
                  (+ 2 i))
                (if (aget refs i) res (+ res i)))))))
 
+(defn ^long sieves
+  [^long lim]
+  (let [llim (int (Math/sqrt lim))
+        refs (boolean-array (inc lim))]
+    (loop [i (int 3) res (transient [2])]
+      (if (>= i lim)
+        (persistent! res)
+        (recur (if (and (<= i llim) (not (aget refs i)))
+                 (loop [p (int (* i i))]
+                   (if (<= p (- lim 1))
+                     (recur (do (aset refs p true)
+                                (+ p (* 2 i))))
+                     (+ 2 i)))
+                 (+ 2 i))
+               (if (aget refs i) res (conj! res i)))))))
+
+(defn ^long pmap-sieve
+  [^long lim]
+  (let [llim (int (Math/sqrt lim))
+        refs (boolean-array (inc lim))]
+    (do (loop [i (int 3)]
+          (if (>= i lim)
+            1
+            (recur (if (and (<= i llim) (not (aget refs i)))
+                     (loop [p (int (* i i))]
+                       (if (<= p (- lim 1))
+                         (recur (do (aset refs p true)
+                                    (+ p (* 2 i))))
+                         (+ 2 i)))
+                     (+ 2 i)))))
+        (->> (range 3 (inc lim) 2)
+             (filter #(aget refs %))
+             (reduce +)
+             (+ 2)))))
+
 (defn ^long nth-sieves
   [^long m ^long n]
   (let [lim (int (* m n))
@@ -257,23 +286,125 @@
                (if (aget refs i) j (+ j 1))
                (if (aget refs i) res i))))))
 
-(defn ^long sum-sieves2
+(defn ^long non-abundant-sum
   [^long lim]
-  (let [llim (int (Math/sqrt lim))
-        refs (boolean-array (unchecked-inc lim))]
-    (loop [i (long 3) res (transient [])]
-      (if (> i llim)
-        (+ 2
-           (reduce unchecked-add (persistent! res))
-           (reduce unchecked-add (filter #(not (aget refs %))
-                                         (range i lim 2))))
-        (recur (do (loop [p (int (unchecked-multiply i i))]
-                     (if (> p (unchecked-dec lim))
-                       nil
-                       (recur (do (aset refs p true)
-                                  (unchecked-add p (unchecked-multiply 2 i))))))
-                   (loop [n (int (unchecked-add 2 i))]
-                     (if (not (aget refs n))
-                       n
-                       (recur (unchecked-add 2 n)))))
-               (conj! res i))))))
+  (let [abuns (boolean-array lim)
+        sum-abuns (boolean-array lim)]
+    (do (loop [i 12]
+          (if (< i lim)
+            (recur (do (if (< i (sum-pdivs i))
+                         (aset abuns i true))
+                       (inc i)))
+            i))
+        (loop [i 12]
+          (if (< i (quot lim 2))
+            (recur (do (if (aget abuns i)
+                         (loop [j i]
+                           (if (< (+ i j) lim)
+                             (recur (do (if (aget abuns j)
+                                          (aset sum-abuns (+ i j) true))
+                                        (inc j))))))
+                       (inc i)))
+            i))
+        (->> (range 1 lim)
+             (filter #(not (aget sum-abuns %)))
+             (reduce +)))))
+
+(def abun?
+  (memoize
+   (fn [^long n]
+     (< n (sum-pdivs n)))))
+
+(defn ^long non-abundant-memo
+  "Using memoized fn above, and it's very very slow compared to the array version"
+  [^long lim]
+  (let [sum-abuns (boolean-array lim)]
+    (do (loop [i 12]
+          (if (< i (quot lim 2))
+            (recur (do (if (abun? i)
+                         (loop [j i]
+                           (if (< (+ i j) lim)
+                             (recur (do (if (abun? j)
+                                          (aset sum-abuns (+ i j) true))
+                                        (inc j))))))
+                       (inc i)))
+            i))
+        (->> (range 1 lim)
+             (filter #(not (aget sum-abuns %)))
+             (reduce +)))))
+
+(defn ^long pita2
+  [^long n]
+  (->> (for [b (range a (quot n 2))
+             :let [c (- n b a)]
+             :while (> c b)
+             :when (== (+ (* a a) (* b b)) (* c c))]
+         [a b c])
+       (for [a (range 3 (quot n 3))])
+       (filter not-empty)
+       (ffirst)
+       (apply *)))
+
+(defn ^long pita
+  [^long n]
+  (loop [a (int 3) res nil]
+    (if res
+      res
+      (recur (+ 1 a)
+             (loop [b (int (+ 1 a))]
+               (let [c (int (- n a b))]
+                 (if (< c b)
+                   nil
+                   (if (== (+ (* a a) (* b b))
+                           (* c c))
+                     (* a b c)
+                     (recur (+ 1 b))))))))))
+
+(defn ^long largest-pfactors
+  [^long n]
+  (loop [i (int 2) p (long n) stat true]
+    (if stat
+      (if (prime? p)
+        p
+        (recur i p false))
+      (if (== 0 (rem p i))
+        (recur 2 (quot p i) true)
+        (recur (next-prime i) p false)))))
+
+(defn pow
+  [a m]
+  (let [a (int a) m (int m)]
+    (if (zero? m)
+      1
+      (* 1N a (pow a (dec m))))))
+
+(defn ^long find-repeat
+  [^long p]
+  (let [n (/ 1 p)]
+    (loop [i (int 1)]
+      (let [res (* (pow 10 i) n)]
+        (if (integer? res)
+          0
+          (let [tmp (loop [j (int 0)]
+                      (if (== j i)
+                        false
+                        (let [jmp (* (pow 10 j) n)]
+                          (if (integer? (- res jmp))
+                            (- i j)
+                            (recur (+ 1 j))))))]
+            (if tmp tmp (recur (+ i 1)))))))))
+
+(defn ^longs max-cycle
+  [^long start ^long lim]
+  (->> (sieves lim)
+       (drop-while #(< % start))
+       (pmap #(vector % (find-repeat %)))
+       (sort-by second)))
+
+
+
+
+
+
+
+

@@ -83,6 +83,21 @@
               (helper (next-prime i) p lasti res)))))
   (helper 2 n 2 (list)))
 
+(define: (largest-pfactors (n : Integer))
+  : Integer
+  (define: (helper (i : Integer)
+                   (p : Integer) 
+                   (stat : Boolean))
+    : Integer
+    (if stat
+        (if (prime? p)
+            p
+            (helper i p false))
+        (if (= 0 (remainder p i))
+            (helper 2 (quotient p i) true)
+            (helper (next-prime i) p false))))
+  (helper 2 n true))
+
 (define: (count-factors (n : Integer))
   : Integer
     (define: (helper-odd (i : Integer) (res : Integer))
@@ -179,6 +194,23 @@
                     (helper (+ 1 i) res)))))))
   (helper 2 0))
 
+(define: (sum-amicables (lim : Integer))
+  : Integer
+  (define: (helper (i : Integer) (res : Integer) (refs : (Listof Integer)))
+    : Integer
+    (if (> i lim)
+        res
+        (if (member i refs)
+            (helper (+ i 1) res refs)
+            (let: ((amic : Integer (sum-pdivs i)))
+              (if (= i amic)
+                  (helper (+ 1 i) res refs)
+                  (let: ((div-amic : Integer (sum-pdivs amic)))
+                    (if (= i div-amic)
+                        (helper (+ 1 i) (+ i amic res) (cons amic refs))
+                        (helper (+ 1 i) res refs))))))))
+  (helper 2 0 '()))
+
 (define: (fill-vectors (lim : Integer))
   : (Vectorof Integer)
   (let: ((the-vec : (Vectorof Integer) (make-vector lim 0)))
@@ -232,6 +264,125 @@
                   (outer (+ i 2) p res)))
           res))
     (outer 3 1 2)))
+
+(define: (abundants (lim : Integer))
+  : (Listof Integer)
+  (define: (helper (i : Integer) (res : (Listof Integer)))
+    : (Listof Integer)
+    (if (= i 0)
+        res
+        (if (< i (sum-pdivs i))
+            (helper (- i 1) (cons i res))
+            (helper (- i 1) res))))
+  (helper lim '()))
+
+(define: (non-abundant-sum (lim : Integer))
+  : Integer 
+  (let: ((refs : (Vectorof Boolean) (make-vector lim true))
+         (main-list : (Listof Integer) (abundants lim)))
+    (define: (helper (ls : (Listof Integer)))
+      : Integer 
+      (define: (ihelper (x : Integer) (xs : (Listof Integer)))
+        : Integer
+        (let: ((idx : Integer (+ x (first xs))))
+          (if (>= idx lim)
+              0
+              (begin (vector-set! refs idx false)
+                     (ihelper x (rest xs))))))
+      (define: (sum-helper (i : Integer) (res : Integer))
+        : Integer
+        (if (>= i lim)
+            res
+            (if (vector-ref refs i)
+                (sum-helper (+ i 1) (+ i res))
+                (sum-helper (+ i 1) res))))
+      (if (empty? ls)
+          (sum-helper 1 0)
+          (begin (ihelper (first ls) ls)
+                 (helper (rest ls)))))
+    (helper main-list)))
+
+(define: (pita (lim : Integer))
+  : Integer
+  (define: (outer (a : Integer))
+    : Integer 
+    (define: (inner (b : Integer))
+      : Integer 
+      (let: ((c : Integer (- lim b a)))
+        (if (> b c)
+            0
+            (if (= (+ (* a a) (* b b))
+                   (* c c))
+                (* a b c)
+                (inner (+ 1 b))))))
+    (let: ((res : Integer (inner (+ a 1))))
+      (if (= 0 res) (outer (+ a 1)) res)))
+  (outer 3))
+
+(define: (find-cycle (n : Integer))
+  : Integer
+  (let ((refs : (Vectorof Boolean) (make-vector (+ 2 n) false)))
+    (define: (iter (i : Integer) (res : Integer))
+      : Integer
+      (if (vector-ref refs i)
+          res
+          (let ((rems (remainder (* 10 i) n)))
+            (if (= 0 rems)
+                0
+                (begin (vector-set! refs i true)
+                       (iter rems (+ 1 res)))))))
+    (iter 1 0)))
+
+(define: (max-cycle (lim : Integer))
+  : (Listof Integer)
+  (define: (iter (i : Integer) (n : Integer) (res : Integer))
+    : (Listof Integer)
+    (if (> res i)
+        (list n res)
+        (let ((tmp (find-cycle i)))
+          (if (> tmp res)
+              (iter (- i 1) i tmp)
+              (iter (- i 1) n res)))))
+  (iter lim lim 0))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

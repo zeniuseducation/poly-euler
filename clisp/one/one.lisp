@@ -1,0 +1,32 @@
+(defun find-cycle (n)
+  "Find the number of recurring digits in 1/n"
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((refs (make-array n :initial-element nil)))
+    (labels ((outer (i res)
+	       (declare (optimize (speed 3))
+			(fixnum i res))
+	       (if (aref refs i)
+		   res
+		   (progn (setf (aref refs i) t)
+			  (let ((rems (rem (* 10 i) n)))
+			    (if (= 0 rems)
+				0
+				(outer (rem (* 10 i) n)
+				       (+ 1 res))))))))
+      (outer 1 0))))
+
+(defun max-cycle (lim)
+  "Returns the n in the range 2-lim of which recurring digits achieve maximum"
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (labels ((helper (i n res)
+	     (declare (optimize (speed 3))
+		      (fixnum i n res))
+	     (if (> res i)
+		 (list n res)
+		 (let ((tmp (find-cycle i)))
+		   (if (> tmp res)
+		       (helper (- i 1) i tmp)
+		       (helper (- i 1) n res))))))
+    (helper lim lim 0)))
