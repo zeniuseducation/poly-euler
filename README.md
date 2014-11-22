@@ -244,6 +244,16 @@ SML 0.4-0.6ms
 C as benchmark 0.24ms  
 Python for benchmark 8.7ms  
 
+##### Problem 27
+
+Prob: Pretty complex to write here  
+
+Clojure 27-28ms  
+SBCL 36-38ms  
+Haskell 80ms  
+SML 3,290ms (Very sloow)  
+C as benchmark 28ms  
+
 ##### Problem 28
 
 Prob: Some fun stuffs  
