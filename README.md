@@ -233,6 +233,16 @@ Typed Racket 1 ms
 Haskell averaging 10 msecs  
 SML 36 msecs  (SML LargeInt is not efficient)
 
+##### Problem no 26 
+
+Prob: Very nice problem, find the max recurring digits of recyprocal 1/d where d < 1  
+
+Type-hinted Clojure 0.3-0.5ms  
+Type-hinted SBCL 0.6ms  
+Typed Racket 0.4-0.6ms  
+SML 0.4-0.5ms  
+C as benchmark 0.16ms  
+
 ##### Problem 29
 
 Clojure 0.065 msec  
