@@ -321,17 +321,21 @@
 
 (define: (find-cycle (n : Integer))
   : Integer
-  (let ((refs : (Vectorof Boolean) (make-vector (+ 2 n) false)))
-    (define: (iter (i : Integer) (res : Integer))
+  (let ((refs : (Vectorof Boolean) (make-vector (+ 2 n) false))
+        (refs2 : (Vectorof Boolean) (make-vector (+ 2 n) false)))
+    (define: (iter (i : Integer) (res : Integer) (res2 : Integer))
       : Integer
-      (if (vector-ref refs i)
-          res
+      (if (vector-ref refs2 i)
+          res2
           (let ((rems (remainder (* 10 i) n)))
             (if (= 0 rems)
                 0
-                (begin (vector-set! refs i true)
-                       (iter rems (+ 1 res)))))))
-    (iter 1 0)))
+                (if (vector-ref refs i)
+                    (begin (vector-set! refs2 i true)
+                           (iter rems res (+ 1 res2)))
+                    (begin (vector-set! refs i true)
+                           (iter rems (+ 1 res) res2)))))))
+    (iter 1 0 0)))
 
 (define: (max-cycle (lim : Integer))
   : (Listof Integer)

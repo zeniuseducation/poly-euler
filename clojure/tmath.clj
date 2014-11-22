@@ -43,7 +43,8 @@
 
 (defn ^boolean true-prime?
   [^long p]
-  (cond (== 2 p) true
+  (cond (< p 2) false
+        (== 2 p) true
         (== 0 (rem p 2)) false
         :else (let [lim (+ 1 (int (Math/sqrt p)))]
                 (loop [i (long 3)]

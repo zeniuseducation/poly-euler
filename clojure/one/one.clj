@@ -12,15 +12,19 @@
 
 (defn ^long find-cycle
   [^long n]
-  (let [refs (boolean-array (+ 1 n))]
-    (loop [i (int 1) res (int 0)]
-      (if (aget refs i)
-        res
+  (let [refs (boolean-array (+ 1 n))
+        refs2 (boolean-array (+ 1 n))]
+    (loop [i (int 1) res (int 0) res2 (int 0)]
+      (if (aget refs2 i)
+        res2
         (let [rems (int (rem (* 10 i) n))]
           (if (== 0 rems)
             0
-            (do (aset refs i true)
-                (recur rems (+ 1 res)))))))))
+            (if (aget refs i)
+              (do (aset refs2 i true)
+                  (recur rems res (+ 1 res2)))
+              (do (aset refs i true)
+                  (recur rems (+ 1 res) res2)))))))))
 
 (defn ^long max-cycle
   [^long n]
@@ -31,5 +35,139 @@
         (if (> tmp res)
           (recur (- i 1) i tmp)
           (recur (- i 1) p res))))))
+
+(defn third [ls] (nth ls 2))
+
+(defn ^longs euler28
+  [^long lim]
+  (->> (iterate #(let [[a b c] %
+                       one (+ a (+ 8 (- a b)))
+                       res (+ (* 4 one) c)]
+                   [one a res])
+                [6 1 25])
+       (drop (dec (quot lim 2)))
+       first third))
+
+(defn ^long euler28a
+  [^long lim]
+  (->> (range (int 3) (inc (int lim)) (int 2))
+       (pmap #(* 2 (+ (* % %) (- (* % %) (* 3 (- % 1))))))
+       (reduce +) (+ 1)))
+
+(defn ^long euler28b
+  [^long lim]
+  (loop [a (int 6) b (int 1) res (int 25) i (int 3)]
+    (if (== i lim)
+      res
+      (let [tempa (+ a (+ 8 (- a b)))]
+        (recur tempa a (+ res (* 4 tempa)) (+ 2 i))))))
+
+(defn ^boolean prime?
+  [^long p]
+  (cond (< p 2) false
+        (== 2 p) true
+        (== 0 (rem p 2)) false
+        :else (let [lim (+ 1 (int (Math/sqrt p)))]
+                (loop [i (long 3)]
+                  (if (> i lim)
+                    true
+                    (if (== 0 (rem p i))
+                      false
+                      (recur (+ i 2))))))))
+
+(defn ^long next-prime
+  [^long p]
+  (cond (== p 2) 3
+        (prime? (+ p 2)) (+ p 2)
+        :else (next-prime (+ p 2))))
+
+(defn ^long prev-prime
+  [^long p]
+  (cond (<= p 2) nil
+        (== p 3) 2
+        (prime? (- p 2)) (- p 2)
+        :else (prev-prime (- p 2))))
+
+(defn ^long sieves
+  [^long lim]
+  (let [llim (int (Math/sqrt lim))
+        refs (boolean-array (inc lim))]
+    (loop [i (int 3) res (transient [2])]
+      (if (>= i lim)
+        (persistent! res)
+        (recur (if (and (<= i llim) (not (aget refs i)))
+                 (loop [p (int (* i i))]
+                   (if (<= p (- lim 1))
+                     (recur (do (aset refs p true)
+                                (+ p (* 2 i))))
+                     (+ 2 i)))
+                 (+ 2 i))
+               (if (aget refs i) res (conj! res i)))))))
+
+(defn ^long euler27a
+  [^long lim]
+  (->> (for [b (sieves lim)]
+         (loop [a (filter #(> (+ 1 % b) 0) (range (- lim) (inc lim)))
+                cura (int (- lim)) res (int 1)]
+           (if (empty? a)
+             [res cura b]
+             (let [resn (int (loop [n (int 1) res (int 1)]
+                               (if (prime? (+ (* n n)
+                                              (* (first a) n)
+                                              b))
+                                 (recur (+ 1 n) (+ 1 res))
+                                 res)))]
+               (if (> resn res)
+                 (recur (rest a) (first a) resn)
+                 (recur (rest a) cura res))))))
+       (sort-by first) last rest (apply *)))
+
+(defn ^long euler27
+  [^long lim]
+  (loop [b 2 [rr ar br & _] [0,0,0]]
+    (if (> b lim)
+      (* ar br)
+      (let [[rar aar bar & _]
+            (loop [a (int (- lim)) cura (int (- lim)) resa (int 1)]
+              (cond
+               (> a lim) [resa cura b]
+               (<= (+ a b 1) 0) (recur (+ 1 a) cura resa)
+               :else (let [resn (int (loop [n (int 1) res (int 1)]
+                                       (if (prime? (+ (* n n)
+                                                      (* a n)
+                                                      b))
+                                         (recur (+ 1 n) (+ 1 res))
+                                         res)))]
+                       (if (> resn resa)
+                         (recur (+ 1 a) a resn)
+                         (recur (+ 1 a) cura resa)))))]
+        (if (> rar rr)
+          (recur (next-prime b) [rar aar bar])
+          (recur (next-prime b) [rr ar br]))))))
+
+(defn ^long euler27b
+  [^long lim]
+  (loop [b 997 [rr ar br & _] [0,0,0]]
+    (if (< b rr)
+      (* ar br)
+      (let [[rar aar bar & _]
+            (loop [a (int (- lim 1)) cura (int (- lim)) resa (int 1)]
+              (cond
+               (< a (- lim)) [resa cura b]
+               (<= (+ a b 1) 0) (recur (- a 2) cura resa)
+               :else (let [resn (int (loop [n (int 1) res (int 1)]
+                                       (if (prime? (+ (* n n)
+                                                      (* a n)
+                                                      b))
+                                         (recur (+ 1 n) (+ 1 res))
+                                         res)))]
+                       (if (> resn resa)
+                         (recur (- a 2) a resn)
+                         (recur (- a 2) cura resa)))))]
+        (if (> rar rr)
+          (recur (prev-prime b) [rar aar bar])
+          (recur (prev-prime b) [rr ar br]))))))
+
+
 
 

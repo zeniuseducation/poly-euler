@@ -165,7 +165,7 @@ int non_abundant_sum (int lim) {
 
 int is_prime (long n) {
 	int res = true;
-	if (n == 1) {
+	if (n <= 1) {
 		return false;
 	} else if (n == 2) {
 		return true;
@@ -203,6 +203,26 @@ long next_prime (long n) {
 	}
 }
 
+long prev_prime (long n) {
+    if (n <= 2) {
+        return 0;
+    } else if (n == 3) {
+        return 2;
+    } else if (0 == n % 2) {
+        if (is_prime (n-1)) {
+            return n-1;
+        } else {
+            return prev_prime (n-1);
+        }
+    } else {
+        if (is_prime (n-2)) {
+            return n-2;
+        } else {
+            return prev_prime (n-2);
+        }
+    }
+}
+
 long largest_pfactor (long n) {
 	long i = 2;
 	long res = 0;
@@ -222,12 +242,70 @@ long largest_pfactor (long n) {
 	}
 }
 
+long euler27 (int lim) {
+    int b = 2, ra = 0, rb = 2, resb = 0;
+    while (b < lim) {
+        int a = - lim, cura = a, resa = 1;
+        while (a < lim) {
+            int n = 1, resn = 1;
+            if (a+b+1 > 0) {
+                while (is_prime ((n*n)+(a*n)+b)) {
+                    n++;
+                    resn++;
+                }   
+                if (resn > resa) {
+                    resa = resn;
+                    cura = a;
+                }             
+            }
+            a++;
+
+        }
+        if (resa > resb) {
+            resb = resa;
+            ra = cura;
+            rb = b;
+        }
+        b = next_prime(b);
+    }
+    return ra*rb;
+}
+
+long euler27b (int lim) {
+    int b = 997, ra = 0, rb = 2, resb = 0;
+    while (b > resb) {
+        int a = - lim, cura = a, resa = 1;
+        while (a < lim) {
+            int n = 1, resn = 1;
+            if (a+b+1 > 0) {
+                while (is_prime ((n*n)+(a*n)+b)) {
+                    n++;
+                    resn++;
+                }   
+                if (resn > resa) {
+                    resa = resn;
+                    cura = a;
+                }             
+            }
+            a += 2;
+
+        }
+        if (resa > resb) {
+            resb = resa;
+            ra = cura;
+            rb = b;
+        }
+        b = prev_prime(b);
+    }
+    return ra*rb;
+}
+
 int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 
 	begin = clock();
-	long result = largest_pfactor (600851475143);
+	long result = euler27b (999);
 	printf("%ld", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
