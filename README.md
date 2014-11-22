@@ -237,11 +237,12 @@ SML 36 msecs  (SML LargeInt is not efficient)
 
 Prob: Very nice problem, find the max recurring digits of recyprocal 1/d where d < 1  
 
-Type-hinted Clojure 0.3-0.5ms  
-Type-hinted SBCL 0.6ms  
-Typed Racket 0.4-0.6ms  
-SML 0.4-0.5ms  
-C as benchmark 0.16ms  
+Type-hinted Clojure 0.5-0.6ms  
+Type-hinted SBCL 1.2ms  
+Typed Racket 0.6-0.8ms  
+SML 0.4-0.6ms  
+C as benchmark 0.24ms  
+Python for benchmark 8.7ms  
 
 ##### Problem 29
 
