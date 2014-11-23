@@ -272,10 +272,14 @@ SML 2.4 sec (Very inefficient sml)
 
 ##### Problem no 30
 
-Clojure 0.73 sec  
-SBCL 1.32 sec  
-Haskell compiled 0.32 sec  
-SML 1.62 sec  
+Clojure 730ms    
+Parallel mapping Clojure 92ms  
+Type-hinted SBCL 820ms  
+Haskell compiled 320ms  
+New version Haskell 170ms  
+SML 1,620ms  
+SML new version 315ms  
+C Benchmark 356ms   
 
 ##### Problem 32
 
