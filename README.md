@@ -281,6 +281,16 @@ SML 1,620ms
 SML new version 315ms  
 C Benchmark 356ms   
 
+##### Problem 31
+
+Problem : How many ways we can write 200 as the sum of coins 1,2,5,10,20,50,100,200  
+
+Clojure using memoization 7.2ms & 0.1ms for subsequent calls  
+Haskell 20-30ms  
+SBCL 4ms  
+SML 3ms  
+C Benchmark 0.8ms  
+
 ##### Problem 32
 
 Prob: axb = c where a++b++c pandigital 1-9  
