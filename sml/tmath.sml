@@ -1,4 +1,4 @@
-
+open List;
 open Array;
 
 fun pita (lim : int) =
@@ -121,10 +121,50 @@ fun sol27 [] (r::b::c::[]) = b * c
     then sol27 xs (ir::ia::ib::[])
     else sol27 xs (r::a::b::[])
 
+fun pow (a:int) (b:int) = if b = 0 then 1 else a * (pow a (b-1));
+
+fun sumfif (n:int) =
+    let fun looper (i:int) (res:int) =
+	    if i < 10
+	    then res + (pow i 5)
+	    else looper (i div 10) (res + (pow (i mod 10) 5))
+    in looper n 0
+    end;
+
+    
+fun euler30 (lim:int) =
+    if lim = 1000
+    then 0
+    else let val sum5 = sumfif lim
+	 in if sum5 = lim
+	    then lim + (euler30 (lim-1))
+	    else euler30 (lim-1)
+	 end;
+
+fun is_sumfif (n:int) =
+    let fun looper (i:int) (res:int) =
+            if i < 10
+            then n = res + (pow i 5)
+            else if res > n
+	    then false
+	    else looper (i div 10) (res + (pow (i mod 10) 5))
+    in looper n 0
+    end;
+
+fun euler30b (lim:int) =
+    let fun looper (i:int) (res:int) =
+	    if i > lim
+	    then res
+	    else if is_sumfif i
+	    then looper (1+i) (res + i)
+	    else looper (1+i) res
+    in looper 10 0
+    end;
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = sol27 (euler27 x) [0,0,0]
+        val result = euler30b x
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result

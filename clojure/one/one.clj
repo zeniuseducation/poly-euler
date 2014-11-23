@@ -168,6 +168,71 @@
           (recur (prev-prime b) [rar aar bar])
           (recur (prev-prime b) [rr ar br]))))))
 
+(defn ^long pow
+  [^long a ^long m]
+  (loop [a (int a) m (int m) res (int 1)]
+    (if (== m 0) res (recur a (- m 1) (* a res)))))
+
+(defn ^long sumfif
+  [^long n]
+  (loop [i (int n) res (int 0)]
+    (if (< i 10)
+      (+ res (pow i 5))
+      (recur (quot i 10) (+ res (pow (rem i 10) 5))))))
+
+(defn ^long euler30
+  []
+  (loop [i (int (* 6 (pow 9 5))) res (int 0)]
+    (if (== i 10)
+      res
+      (let [sum5 (int (sumfif i))]
+        (if (== sum5 i)
+          (recur (- i 1) (+ res i))
+          (recur (- i 1) res))))))
+
+(defn ^long euler30p
+  [^long lim]
+  (letfn [(sum-fifth?
+            [^long n]
+            (loop [i (int n) res (int 0)]
+              (if (> res n)
+                false
+                (if (< i 10)
+                  (== n (+ res (pow i 5)))
+                  (recur (quot i 10) (+ res (pow (rem i 10) 5)))))))
+          (sumup [^long n]
+            (let [lim (int (* 1000 (+ n 1)))]
+              (loop [i (int (* 1000 n)) res (int 0)]
+                (if (== i lim)
+                  res
+                  (if (sum-fifth? i)
+                    (recur (+ 1 i) (+ res i))
+                    (recur (+ 1 i) res))))))]
+    (reduce + (pmap sumup (range lim)))))
+
+(defn ^long euler30r
+  [^long lim]
+  (letfn [(sum-fifth?
+            [^long n]
+            (loop [j (int n) res (int 0)]
+              (if (> res n)
+                false
+                (if (< j 10)
+                  (== n (+ res (pow j 5)))
+                  (recur (quot j 10) (+ res (pow (rem j 10) 5)))))))]
+    (loop [i (int lim) res (int 0)]
+      (if (== i 10)
+        res
+        (if (sum-fifth? i)
+          (recur (- i 1) (+ res i))
+          (recur (- i 1) res))))))
+
+
+
+
+
+
+
 
 
 

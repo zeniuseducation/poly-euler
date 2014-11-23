@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
 
 const int true = 1;
 const int false = 0;
@@ -82,12 +83,32 @@ long euler28 (int lim) {
     return res;
 }
 
+int sumfif (int n) {
+    int res = 0, i = n;
+    while (i > 0) {
+        res += pow (i % 10, 5);
+        i = i / 10;
+    }
+    return res;
+}
+
+int euler30 (int lim) {
+    int res = 0, i = lim;
+    while (i > 10) {
+        if (i == sumfif(i)) {
+            res += i;
+        }
+        i--;
+    }
+    return res;
+}
+
 int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 
 	begin = clock();
-	long result = euler28 (1001);
+	long result = euler30(1000000);
 	printf("%ld \n", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

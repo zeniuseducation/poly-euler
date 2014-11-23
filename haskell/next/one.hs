@@ -168,7 +168,23 @@ euler27b lim = blooper 997 [0,0,0]
                                             nlooper (n+1) (1+res)
                                           | otherwise = res 
 
+refs5 = [0,1,2^5,3^5,4^5,5^5,6^5,7^5,8^5,9^5]
 
+is_sumfif :: Int -> Bool
+is_sumfif n = looper n 0
+  where looper :: Int -> Int -> Bool
+        looper i res
+          | i < 10 = n == res + (i^5)
+          | res > n = False
+          | otherwise = looper (div i 10) (res + (rem i 10)^5)
+
+euler30 :: Int -> Int 
+euler30 lim = looper lim 0
+  where looper :: Int -> Int -> Int
+        looper i res
+          | i == 10 = res
+          | is_sumfif i = looper (i-1) (res+i)
+          | otherwise = looper (pred i) res
 
 
 

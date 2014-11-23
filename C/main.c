@@ -305,7 +305,7 @@ int main(int argc, char *argv[]) {
 	double time_spent;
 
 	begin = clock();
-	long result = euler27b (999);
+	long result = pow (9,5);
 	printf("%ld", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
