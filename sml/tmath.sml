@@ -161,10 +161,47 @@ fun euler30b (lim:int) =
     in looper 10 0
     end;
 
+fun sum_coins (n:int) =
+    let val cs = [1,2,5,10,20,50,100,200]
+	fun sumas (i:int) (c:int) =
+	    let fun inner (x:int) (res:int) =
+		    if i < x * (nth (cs,c))
+		    then res
+		    else inner (1 + x)
+			       (res + (sumas (i - (x * (nth (cs,c)))
+					     ) (c-1)))
+	    in if i = 0
+	       then 1
+	       else if c = 0
+	       then 1
+	       else inner 0 0
+	    end
+    in sumas n 7
+    end;
+
+fun sum_ints (n:int) =
+    let fun sumas (i:int) (c:int) =
+            let fun inner (x:int) (res:int) =
+                    if i < x * c
+                    then res
+                    else inner (1 + x)
+                               (res + (sumas (i - (x * c)) (c-1)))
+            in if i = 0
+               then 1
+               else if c = 1
+               then 1
+               else inner 0 0
+            end
+    in sumas n (n-1)
+    end;
+
+
+
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = euler30b x
+        val result = sum_ints x
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result

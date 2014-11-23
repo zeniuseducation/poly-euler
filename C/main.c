@@ -300,12 +300,56 @@ long euler27b (int lim) {
     return ra*rb;
 }
 
+int cs[8] = {1,2,5,10,20,50,100,200};
+
+long sumas (int i, int c) {
+    if (i == 0) {
+        return 1;
+    } else if (c == 0) {
+        return 1;
+    } else {
+        long res = 0;
+        int x = 0;
+        while (i >= (x * cs[c])) {
+            res += sumas ((i - (x * cs[c])), c-1);
+            x++;
+        }
+        return res;
+    }
+    
+}
+
+long suma_coins (int n) {
+    return sumas (n,7);
+}
+
+long isuma (int i, int c) {
+    if (i == 0) {
+        return 1;
+    } else if (c == 1) {
+        return 1;
+    } else {
+        long res = 0;
+        int x = 0;
+        while (i >= (x * c)) {
+            res += isuma ((i - (x * c)), c-1);
+            x++;
+        }
+        return res;
+    }
+    
+}
+
+long suma_int (int n) {
+    return isuma (n,n-1);
+}
+
 int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 
 	begin = clock();
-	long result = pow (9,5);
+	long result = suma_int(100);
 	printf("%ld", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

@@ -1,3 +1,7 @@
+(defun div (a b)
+  (declare (optimize (speed 3)) (fixnum a b))
+  (truncate (/ a b)))
+
 (defun prime? (p)
   (declare (optimize (speed 3)) (fixnum p))
   (let ((lim (isqrt p)))
@@ -47,7 +51,7 @@
 		     res
 		     (cons n res))
 		 (if (zerop (rem n i))
-		     (helper 2 (/ n i) i (cons i res))
+		     (helper 2 (div n i) i (cons i res))
 		     (helper (next-prime i) n lasti res)))))
     (helper 2 p 2 nil)))
 
@@ -60,7 +64,7 @@
 		     n
 		     (helper i n nil))
 		 (if (zerop (rem n i))
-		     (helper 2 (/ n i) t)
+		     (helper 2 (div n i) t)
 		     (helper (next-prime i) n nil)))))
     (helper 2 p t)))
 
@@ -107,7 +111,7 @@
 	       (if (> i lim)
 		   res
 		   (if (zerop (rem n i))
-		       (let ((divs (/ n i)))
+		       (let ((divs (div n i)))
 			 (if (= i divs)
 			     (+ 1 res)
 			     (helper-even (+ i 1) (+ 2 res))))
@@ -117,7 +121,7 @@
 	       (if (> i lim)
 		   res
 		   (if (zerop (rem n i))
-		       (let ((divs (/ n i)))
+		       (let ((divs (div n i)))
 			 (if (= i divs)
 			     (+ 1 res)
 			     (helper-odd (+ i 2) (+ 2 res))))
@@ -134,7 +138,7 @@
 	       (if (> i lim)
 		   res
 		   (if (zerop (rem n i))
-		       (let ((divs (/ n i)))
+		       (let ((divs (div n i)))
 			 (if (= i divs)
 			     (+ i res)
 			     (helper-even (+ i 1) (+ i divs res))))
@@ -144,7 +148,7 @@
 	       (if (> i lim)
 		   res
 		   (if (zerop (rem n i))
-		       (let ((divs (/ n i)))
+		       (let ((divs (div n i)))
 			 (if (= i divs)
 			     (+ i res)
 			     (helper-odd (+ i 2) (+ i divs res))))
@@ -191,7 +195,7 @@
 
 (defun first-triangle-having-lim-factors (n lim)
   (declare (optimize (speed 3)) (fixnum n lim))
-  (let* ((triangle (/ (* n (+ 1 n)) 2))
+  (let* ((triangle (div (* n (+ 1 n)) 2))
 	 (factors (count-factors triangle)))
     (if (>= factors lim)
 	(list n triangle)
@@ -202,7 +206,7 @@
   (if (= 1 i)
       1
       (+ 1 (if (evenp i)
-	       (collatz (/ i 2))
+	       (collatz (div i 2))
 	       (collatz (+ 1 (* 3 i)))))))
 
 (defun max-collatz-under-lim (starting lim)
@@ -327,7 +331,7 @@
 				  (sum-helper (+ i 1) (+ i res))
 				  (sum-helper (+ i 1) res))
 			      res)))
-		 (if (<= i (/ lim 2))
+		 (if (<= i (div lim 2))
 		     (if (aref abuns i)
 			 (progn (ihelper i)
 				(helper (+ i 1)))
@@ -345,7 +349,7 @@
     (progn (loop for i from 12 to lim
 	      do (if (< i (sum-pdivs i))
 		     (setf (aref abuns i) t)))
-	   (loop for i from 1 to (/ lim 2)
+	   (loop for i from 1 to (div lim 2)
 	      do (if (aref abuns i)
 		     (loop for j from i
 			do (if (aref abuns j)
@@ -423,6 +427,8 @@
 		       (helper (+ 1 i) i tmp)
 		       (helper (+ 1 i) n res))))))
     (helper 2 2 0)))
+
+(defparameter cs (make-array 8 :initial-contents '(1 2 5 10 20 50 100 200)))
 
 
 

@@ -227,9 +227,146 @@
           (recur (- i 1) (+ res i))
           (recur (- i 1) res))))))
 
+(def coins [1,2,5,10,20,50,100,200])
+
+(def sumas
+  (memoize
+   (fn [^long i ^long c]
+     (cond (== i 0) 1 
+           (== c 0) 1
+           :else (->> (iterate inc 0)
+                      (take-while #(<= (* % (nth coins c)) i))
+                      (map #(sumas (- i (* % (nth coins c)))
+                                   (- c 1)))
+                      (reduce +))))))
+
+(defn ^long suma-coins
+  [^long n]
+  (sumas n 7))
+
+(def isuma
+  (memoize
+   (fn [^long i ^long c]
+     (cond (== i 0) 1 
+           (== c 1) 1
+           :else (->> (iterate inc 0)
+                      (take-while #(<= (* % c) i))
+                      (map #(isuma (- i (* % c))
+                                   (- c 1)))
+                      (reduce +))))))
+
+(defn ^long suma-ints
+  [^long n]
+  (dec (isuma n 100)))
+
+(defn ^long sum-changes
+  [^long n]
+  (let [sumal (memoize
+               (fn sumal [^long i ^long c]
+                 (cond (== i 0) 1 
+                       (== c 0) 1
+                       :else (->> (iterate inc 0)
+                                  (take-while #(<= (* % (nth coins c)) i))
+                                  (map #(sumal (- i (* % (nth coins c)))
+                                               (- c 1)))
+                                  (reduce +))))) ]
+    (sumal n 7)))
+
+(defn sumap
+  [^long i ^long c]
+  (cond (== i 0) 1 
+        (== c 0) 1
+        :else (->> (iterate inc 0)
+                   (take-while #(<= (* % (nth coins c)) i))
+                   (map #(sumap (- i (* % (nth coins c)))
+                                (- c 1)))
+                   (reduce +))))
+
+(defn ^long suma-coins2
+  [^long n]
+  (sumap n 7))
+
+(def cs [1,2,5,10,20,50,100,200])
+
+(def sumas3
+  (fn [^long i ^long c]
+    (cond (== i 0) 1 
+          (== c 0) 1
+          :else
+          (loop [x (int 0) res (int 0)]
+            (if (> (* x (nth cs c)) i)
+              res
+              (recur (+ 1 x)
+                     (+ res (sumas3 (- i (* x (nth cs c)))
+                                    (- c 1)))))))))
+(defn ^long suma-coins3
+  [^long n]
+  (sumas n 7))
 
 
 
+(def prime'
+  (memoize
+   (fn prime' [^long p]
+     (cond (< p 2) false
+           (== 2 p) true
+           (== 0 (rem p 2)) false
+           :else (let [lim (+ 1 (int (Math/sqrt p)))]
+                   (loop [i (int 3)]
+                     (if (> i lim)
+                       true
+                       (if (== 0 (rem p i))
+                         false
+                         (recur (+ i 2))))))))))
+
+
+
+(def prev-prime
+  (memoize
+   (fn prev-prime [^long p]
+     (cond (<= p 2) 0
+           (== p 3) 2
+           (== 0 (rem p 2)) (prev-prime (+ p 1))
+           (prime' (- p 2)) (- p 2)
+           :else (prev-prime (- p 2))))))
+
+(def isuma2
+  (memoize
+   (fn [^long i ^long c]
+     (cond (== i 0) 1 
+           (== c 1) 1
+           :else
+           (loop [x (int 0) res (int 0)]
+             (if (> (* x c) i)
+               res
+               (recur (+ 1 x)
+                      (+ res (isuma2 (- i (* x c))
+                                     (- c 1))))))))))
+
+(defn ^long suma-ints2
+  [^long n]
+  (dec (isuma2 n 100)))
+
+(def psuma
+  (memoize
+   (fn [^long i ^long c]
+     (cond (== 1 i) 0
+           (== c 2) (if (== 0 (rem i 2)) 1 0)
+           :else
+           (loop [x (int 0) res (int 0)]
+             (if (> (* x c) i)
+               res
+               (recur (+ 1 x)
+                      (+ res (psuma5 (- i (* x c))
+                                     (prev-prime c))))))))))
+
+(defn ^long prime-sum
+  [^long n ^long target]
+  (loop [i (int n)]
+    (let [psum  (psuma5 i (prev-prime i))]
+      (if (> psum target)
+        [i psum]
+        (recur (inc i))))))
 
 
 

@@ -1,3 +1,7 @@
+(defun div (a b)
+  (declare (optimize (speed 3)) (fixnum a b))
+  (truncate (/ a b)))
+
 (defun find-cycle (n)
   "Find the number of recurring digits in 1/n"
   (declare (optimize (speed 3))
@@ -197,7 +201,7 @@
 	      (declare (fixnum i))
 	      (if (< i 10)
 		  (cons i res)
-		  (looper (truncate (/ i 10))
+		  (looper (div i 10)
 		     (cons  (rem i 10) res )))))
     (looper n nil)))
 
@@ -236,7 +240,7 @@
 	      (declare (fixnum i res))
 	      (if (< i 10)
 		  (+ res (aref refs5 i))
-		  (looper (truncate (/ i 10))
+		  (looper (div i 10)
 		     (+ res (aref refs5 (rem i 10)))))))
     (looper n 0)))
 
@@ -262,7 +266,7 @@
 		  (= n (+ res (aref refs5 i)))
 		  (if (> res n)
 		      nil
-		      (looper (truncate (/ i 10))
+		      (looper (div i 10)
 			 (+ res (aref refs5 (rem i 10))))))))
     (looper n 0)))
 
@@ -289,5 +293,65 @@
 			(looper (- m 1) (+ res summ))
 			(looper (- m 1) res))))))
     (looper lim 0)))
+
+
+(defun take-while (f ls)
+  (declare (optimize (speed 3)))
+  (if (funcall f (first ls))
+      (cons (first ls) (take-while f (rest ls)))
+      '()))
+
+(defun iterate (f g i)
+  (declare (optimize (speed 3)))
+  (if (not (funcall g i))
+      '()
+      (append (iterate f g (funcall f i))
+	      (list i))))
+
+(defparameter cs (make-array 8 :initial-contents '(1 2 5 10 20 50 100 200)))
+
+(defun suma-coins (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (labels ((sumas (i c)
+	     (declare (fixnum i c))
+	     (labels ((inner (x res)
+			(declare (fixnum x res))
+			(if (< i (* x (aref cs c)))
+			    res
+			    (inner (+ 1 x)
+				   (+ res (sumas (- i (* x (aref cs c)))
+						 (- c 1)))))))
+	       (cond ((= i 0) 1)
+		     ((= c 0) 1)
+		     (:else (inner 0 0))))))
+    (sumas n 7)))
+
+
+
+
+(defun isuma (i c)
+  (declare (optimize (speed 3)) (fixnum i c))
+  (labels ((inner (x res)
+	     (declare (fixnum x res))
+	     (if (< i (* x c))
+		 res
+		 (inner (+ 1 x)
+			(+ res (isuma (- i (* x c))
+				      (- c 1)))))))
+    (cond ((= i 0) 1)
+	  ((= c 1) 1)
+	  (:else (inner 0 0)))))
+
+(defun suma-ints (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (isuma n (- n 1)))
+
+
+
+
+
+
 
 

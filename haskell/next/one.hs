@@ -186,6 +186,27 @@ euler30 lim = looper lim 0
           | is_sumfif i = looper (i-1) (res+i)
           | otherwise = looper (pred i) res
 
+coins = [1,2,5,10,20,50,100,200]
 
+changes n = looper n 7
+  where looper i c
+          | i == 0 = 1
+          | c == 0 = 1
+          | otherwise = result
+          where result = foldl1 (+) possibles
+                possibles = map (\x -> looper (i - (x * (coins !! c))) (c - 1)) cosi
+                cosi = takeWhile (\x -> x * (coins !! c) <= i) [0..]
+
+sum_ints :: Int -> Int
+sum_ints n = looper n (pred n)
+  where looper :: Int -> Int -> Int
+        looper i c
+          | i == 0 = 1
+          | c == 1 = 1
+          | otherwise = inner 0 0
+          where inner :: Int -> Int -> Int
+                inner x res
+                  | i < x*c = res
+                  | otherwise = inner (succ x) (res + (looper (i - (x*c)) (c-1)))
 
 
