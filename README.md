@@ -339,9 +339,11 @@ SML 860ms
 
 ##### Problem no 37
 
-SBCL 1.58sec  
-Clojure 1.5sec  
-Haskell 0.72sec  
+SBCL 1,580ms  
+SBCL v2 ~1ms  
+Clojure 1,500ms    
+Clojure v2 1.3-2.5ms  
+Haskell 720ms    
 
 ##### Problem no 39
 
