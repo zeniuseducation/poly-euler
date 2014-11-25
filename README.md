@@ -295,7 +295,11 @@ C Benchmark 0.8ms
 
 Prob: axb = c where a++b++c pandigital 1-9  
 
+Clojure 120ms  
+Common Lisp 57ms  
 Haskell compiled 19 sec  
+Haskell v2 ~60ms  
+SML 77ms  
 
 ##### Problem 33 
 
@@ -311,19 +315,27 @@ SML 0.349 & 1.349 depends on limit
 
 ##### Problem no 35
 
-Prob: how many circular primes exist under 1000000  
+Prob: how many circular primes exist under 1000000   
 
-SBCL 1.46 sec  
-Haskell compiled 0.55 sec FAST!!  
-SML 0.36 sec FASTEST!!  
+Clojure 56ms  
+Clojure using parallel map 21ms  
+SBCL 1,460ms  
+Common Lisp (SBCL) v2 22ms  
+Haskell compiled 550ms  
+Haskell v2 20-30ms  
+SML 360ms  
+SML v2 10-12ms    
+C as benchmark 15ms  
 
 ##### Problem no 36 
 
 Prob: find the sum of all numbers that are palindrome in both decimal and binary bases  
 
-SBCL 4.7 sec  
-Haskell 0.77 sec  
-SML 0.86 sec  
+Clojure 45-54ms  
+SBCL 4,700 ms  
+SBCL v2 6ms   
+Haskell 770ms    
+SML 860ms  
 
 ##### Problem no 37
 
@@ -344,11 +356,24 @@ Clojure 31ms
 
 ##### Problem no 41
 
+Problem : The sum of all pandigital primes  
+
 Haskell (one liner) 10ms  
+Clojure 2ms (fast)  
+Common Lisp 0.15ms (Uberfast!)  
 
 ##### Problen no 51
 
-Haskell 320ms
+Haskell 320ms  
+
+##### Problem no 76 
+
+Problem : How many ways 100 can be written as the sum of positive integers
+
+Clojure 0.05ms (memoization)  
+SBCL 5600ms  
+Haskell 2,300ms  
+
 
 ##### Problem no 85
 
