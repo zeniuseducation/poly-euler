@@ -357,16 +357,214 @@
              (if (> (* x c) i)
                res
                (recur (+ 1 x)
-                      (+ res (psuma5 (- i (* x c))
+                      (+ res (psuma (- i (* x c))
                                      (prev-prime c))))))))))
 
 (defn ^long prime-sum
   [^long n ^long target]
   (loop [i (int n)]
-    (let [psum  (psuma5 i (prev-prime i))]
+    (let [psum  (psuma i (prev-prime i))]
       (if (> psum target)
         [i psum]
         (recur (inc i))))))
+
+(defn strange-loop
+  [n]
+  (loop [i 1 res (map vector (range 10))]
+    (if (== i n)
+      res
+      (recur (inc i)
+             (concat res
+                     (for [m res
+                           j (range 10)]
+                       (conj m j)))))))
+
+(defn removes
+  [e ls]
+  (remove #(= e %) ls))
+
+(defn permutations
+  [ls]
+  (if (== 1 (count ls))
+    (map vector ls)
+    (for [mat ls
+          pres (permutations (removes mat ls))]
+      (cons mat pres))))
+
+(defn colnum
+  [ls]
+  (loop [[x & xs] ls res 0]
+    (if (empty? xs)
+      (+ (* 10 res) x)
+      (recur xs (+ (* 10 res) x)))))
+
+(defn ^long pandig-prime
+  [^long n]
+  (let [raw (range n 0 -1)]
+    (loop [i (int (- n 1))]
+      (if (== 1 i)
+        nil
+        (let [tmp (take i raw)
+              res (->> (drop i raw)
+                       (permutations)
+                       (map #(colnum (concat tmp %)))
+                       (filter prime?))]
+          (if (empty? res)
+            (recur (- i 1))
+            (apply max res)))))))
+
+(defn pandig?
+  "Simple pandigital checking"
+  [^longs ls]
+  (= (sort ls) (range 1 10)))
+
+(defn ^longs numcol
+  "Converting number into list of digits"
+  [^long n]
+  (loop [i (int n) res '()]
+    (if (< i 10)
+      (cons i res)
+      (recur (quot i 10)
+             (cons (rem i 10) res)))))
+
+(defn ^longs pandig-products
+  "Sum all pandigital products"
+  [lim]
+  (->> (range 2 (* 3 lim))
+       (pmap #(loop [j (int (+ 1 %)) resj []]
+                (if (> (* % j) (* 3 lim))
+                  resj
+                  (recur (+ 1 j)
+                         (let [pandig (concat (numcol %)
+                                              (numcol j)
+                                              (numcol (* % j)))]
+                           (if (pandig? pandig)
+                             (conj resj (* % j))
+                             resj))))))
+       (apply concat) distinct (reduce +)))
+
+(defn ^longs pandig-products2
+  [lim]
+  (loop [i (int 2) res []]
+    (if (> (* i i) lim)
+      (reduce + (distinct res))
+      (recur (+ 1 i)
+             (concat res
+                     (loop [j (int (+ 1 i)) resj []]
+                       (if (> (* i j) (* 3 lim))
+                         resj
+                         (recur (+ 1 j)
+                                (let [pandig (concat (numcol i)
+                                                     (numcol j)
+                                                     (numcol (* i j)))]
+                                  (if (pandig? pandig)
+                                    (conj resj (* i j))
+                                    resj))))))))))
+
+(defn circular-prime?
+  [^long n]
+  (let [res (int (dec (count (numcol n))))]
+    (if (== res 0)
+      (some #(== % n) [3 7])
+      (loop [i res m n]
+        (if (== i -1)
+          true
+          (if (prime' m)
+            (recur (- i 1)
+                   (+ (quot m 10)
+                      (* (rem m 10) (pow 10 res))))
+            false))))))
+
+(defn ^long all-cprimes2
+  [^long lim]
+  (let [bahan [1 3 7 9]
+        looper (fn looper [^long i]
+                 (if (> i lim)
+                   0
+                   (if (circular-prime? i)
+                     (->> bahan
+                          (map #(looper (colnum (cons % (numcol i)))))
+                          (reduce +)
+                          (+ 1))
+                     (->> bahan
+                          (map #(looper (colnum (cons % (numcol i)))))
+                          (reduce +)))))]
+    (+ 2 (reduce + (map looper bahan)))))
+
+(defn ^long all-cprimes
+  [^long lim]
+  (let [bahan [1 3 7 9]
+        looper (fn looper [^long i]
+                 (if (> i lim)
+                   0
+                   (if (circular-prime? i)
+                     (->> bahan
+                          (map #(looper (+ % (* 10 i)) ))
+                          (reduce +)
+                          (+ 1))
+                     (->> bahan
+                          (map #(looper (+ % (* 10 i))))
+                          (reduce +)))))]
+    (+ 2 (reduce + (pmap looper bahan)))))
+
+(defn bin-palin?
+  "Check whether a number is palindrome in binary base"
+  [^long n]
+  (letfn [(bincol [^long n]
+            (loop [i (int n) res []]
+              (if (< i 2)
+                (conj res i)
+                (recur (quot i 2)
+                       (conj res (rem i 2))))))]
+    (let [res (bincol n)]
+      (= res (reverse res)))))
+
+(defn ^long bi-palins
+  "Generate all n-digit palindromes, filter whether they are also
+  palindrome in base 2, and sum the results"
+  [^long n]
+  (if (== n 1)
+    (->> (range 1 10 2)
+         (filter bin-palin?)
+         (reduce +))
+    (let [expn (int (- (quot n 2) 1))
+          start (int (pow 10 expn))
+          end (int (pow 10 (inc expn)))]
+      (if (even? n)
+        (loop [i start res 0]
+          (if (>= i end)
+            res
+            (recur (+ i 1)
+                   (let [tmp (numcol i)
+                         num (colnum (concat tmp (reverse tmp)))]
+                     (if (== 0 (rem num 2))
+                       res
+                       (if (bin-palin? num)
+                         (+ res num)
+                         res))))))
+        (loop [i start res 0]
+          (if (>= i end)
+            res
+            (recur (+ i 1)
+                   (let [tmp (numcol i)
+                         rtmp (reverse tmp)
+                         nums (->> (range 10)
+                                   (pmap #(colnum (concat tmp [%] rtmp))))]
+                     (->> (filter odd? nums)
+                          (filter bin-palin?)
+                          (reduce +)
+                          (+ res))))))))))
+
+(defn ^long sum-bipalins
+  "Returns all double bases palindromes up-to 10^n"
+  [^long n]
+  (reduce + (pmap #(bi-palins %) (range 1 (inc n)))))
+
+
+
+
+
+
 
 
 

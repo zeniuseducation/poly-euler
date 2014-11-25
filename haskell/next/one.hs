@@ -6,11 +6,6 @@ numcol n
   | n < 10 = [n]
   | otherwise = (numcol $ div n 10) ++ [rem n 10]
 
-colnum ls = helper ls 0
-  where helper (x:xs) res
-          | null xs = x + (10*res)
-          | otherwise = helper xs (x+ 10*res)
-
 triangles = map (\n -> div (n * (succ n)) 2) [1..]
 squares = map (\x -> x*x) [1..]
 pentas = map (\n -> div (n * (pred (3*n))) 2) [1..]
@@ -116,7 +111,12 @@ is_prime n
   | n < 2 = False
   | n == 2 = True
   | even n = False
-  | otherwise = all (\x -> 0 /= rem n x) (takeWhile (\x -> x*x <= n) [3,5..])
+  | otherwise = outer 3
+  where outer :: Int -> Bool
+        outer i
+          | i*i > n = True
+          | 0 == rem n i = False
+          | otherwise = outer (i+2)
 
 primes_under :: Int -> [Int]
 primes_under lim = takeWhile (< lim) $ iterate next_prime 2
@@ -208,5 +208,77 @@ sum_ints n = looper n (pred n)
                 inner x res
                   | i < x*c = res
                   | otherwise = inner (succ x) (res + (looper (i - (x*c)) (c-1)))
+
+colnum :: [Int] -> Int
+colnum ls = looper ls 0
+  where looper :: [Int] -> Int -> Int
+        looper [] res = res
+        looper (x:xs) res = looper xs (10*res + x)
+
+
+pandig_prime n = looper (n-1)
+  where raw = reverse [1..n]
+        looper i
+          | i == 0 = 0 
+          | null res = looper (i-1)
+          | otherwise = maximum res
+          where res = filter is_prime res1
+                res1 = map (\x -> colnum $ (take i raw) ++ x)
+                       (permutations $ drop i raw)
+
+-- returns true if ls is pandigital 
+is_pandig :: [Int] -> Bool
+is_pandig ls = (sort ls) == [1..9]
+
+-- returns the sum of all pandigital products
+pandig_products :: Int -> Int
+pandig_products lim = sum $ nub $ outer 2 []
+  where outer :: Int -> [Int] -> [Int]
+        -- returns the list of pandigital products
+        outer i res
+          | i*i > lim = res
+          | otherwise = outer (succ i) (res ++ (inner (succ i) []))
+          where inner :: Int -> [Int] -> [Int]
+                -- inner loop for j 
+                inner j resj
+                  | i*j > 3*lim = resj
+                  | is_pandig result = inner (succ j) (i*j:resj)
+                  | otherwise = inner (succ j) resj
+                  where result :: [Int]
+                        result = (numcol i) ++ (numcol j) ++ (numcol $ i * j)
+
+fact i = product [1..i]
+
+euler34 :: Int -> Int
+euler34 lim = sum $ filter
+              (\x-> x == (sum $ map (\y -> fact y) (numcol x))) [10..lim]
+
+is_cprime :: Int -> Bool
+is_cprime n
+  | n < 10 = elem n [3,7]
+  | otherwise = looper n res
+  where res :: Int
+        res = pred $ length $ numcol n
+        looper :: Int -> Int -> Bool
+        looper m i
+          | (i== -1) = True
+          | is_prime m = looper result (pred i)
+          | otherwise = False
+          where result = (div m 10) + ((rem m 10) * (10^res))
+
+all_cprimes :: Int -> Int
+all_cprimes lim = foldl (+) 2 (map looper bahan)
+  where bahan = [1,3,7,9]
+        looper :: Int -> Int
+        looper i
+          | i > lim = 0
+          | is_cprime i = succ res
+          | otherwise = res
+          where res = sum $ map (\x -> looper $ 10*i + x) bahan
+
+
+
+
+
 
 

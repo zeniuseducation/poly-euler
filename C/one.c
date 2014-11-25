@@ -103,12 +103,22 @@ int euler30 (int lim) {
     return res;
 }
 
+int whateva (int res[]) {
+    for (int i = 0; i < 10 ; i++) {
+        res[i] += 2;
+    }
+    return res;
+}
+
+
+
+
+
 int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
-
 	begin = clock();
-	long result = euler30(1000000);
+	long result = euler30(1000);
 	printf("%ld \n", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

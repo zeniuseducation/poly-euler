@@ -344,13 +344,71 @@ long suma_int (int n) {
     return isuma (n,n-1);
 }
 
+int div_count (int i) {
+    int res = 0, tmpi =i;
+    while (tmpi != 0) {
+        res++;
+        tmpi /= 10;
+    }
+    return res;
+}
+
+int is_cprime (int i) {
+    int m = i, res = div_count(i) - 1, p = res;
+    if (i==1 || i==9) {
+        return false;
+    } else if (i==3 || i==7) {
+        return true;
+    } else {
+        while (p > -1) {
+            if (is_prime(m)) {
+                p--;
+                m = (m / 10) + ((m % 10) * pow(10,res));
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+int bahan[4] = {1,3,7,9};
+
+int looper (int p, int lim) { 
+    int res = 0;
+    if (p>lim) {
+        return 0;
+    } else if (is_cprime(p)) {
+        int tmp1 = 1;
+        for (int i = 0; i < 4; i++) {
+            tmp1 += looper (p*10+(bahan[i]), lim);
+        }
+        return tmp1;
+    } else {
+        int tmp2 = 0;
+        for (int i = 0; i < 4; i++) {
+            tmp2 += looper (p*10 + (bahan[i]), lim);
+        }
+        return tmp2;
+    }
+}
+
+int all_cprimes (int lim) {
+    int res = 2;
+    for (int i = 0; i < 4; i++) {
+        res += looper(bahan[i], lim);
+    }
+    return res;
+}
+
+
 int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 
 	begin = clock();
-	long result = suma_int(100);
-	printf("%ld", result);
+    int tmp = all_cprimes(1000000);
+	printf("%d", tmp);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 

@@ -195,7 +195,50 @@ fun sum_ints (n:int) =
     in sumas n (n-1)
     end;
 
+fun sort [] = []
+  | sort (x::xs) = 
+    let val smaller = filter (fn i => x >= i) xs
+	val larger = filter (fn i => x < i) xs
+    in (sort smaller) @ [x] @ (sort larger)
+    end;
 
+fun is_pandig ls = (sort ls) = range 1 9 1;
+
+fun numcol n = if n < 10 then [n] else (numcol (n div 10))
+				       @ [n mod 10];
+
+fun remove e [] = []
+  | remove e (x::xs) =
+    if e = x then xs else x :: (remove e xs);
+
+fun exist e ls = exists (fn x => x = e) ls;
+
+fun distinct ls =
+    let fun looper (x::xs) res =
+	    if null ls
+	    then res
+	    else if exist x res
+	    then looper xs res
+	    else looper xs (x::res)
+    in looper ls []
+    end;
+
+fun pandig_products lim =
+    let fun outer i res =
+	    let fun inner j resj =
+		    if i*j > 3*lim
+		    then resj
+		    else if is_pandig ((numcol i) @
+				       (numcol j) @
+				       (numcol (i*j)))
+		    then inner (1 + j) ((i*j)::resj)
+		    else inner (1+j) resj
+	    in if i*i > lim
+	       then res
+	       else outer (1+i) (res @ (inner (1+i) []))
+	    end;
+    in foldl + 0 (distinct (outer lim []))
+    end;
 
 
 fun function x =
