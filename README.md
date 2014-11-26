@@ -33,7 +33,7 @@ Implementations:
 4. Haskell using GHC compiled using -O2 optimisation   
 5. SML using SMLNJ  
 6. Racket mostly using Typed Racket  
-7. C using whatever there is on Macbook (probably GCC)  
+7. C using whatever there is on Macbook, optimized to the max using -Ofast  
 
 ##### Problem no 1
 
@@ -68,7 +68,7 @@ SML 2 ms
 Racket 50-60 ms  
 Typed Racket 6ms   
 Further optimised Typed Racket 0.4-0.5ms  
-C as benchmark 0.3ms  
+C as benchmark 0.2ms  
 
 ##### Problem no 4
 
@@ -111,7 +111,7 @@ Typed Racket 35-38ms
 Typed Racket using sieve  2-4ms  
 Haskell 30 msecs   
 SML 17 msecs  
-C Benchmark using sieve 7ms  
+C Benchmark using sieve 0.9ms  
 
 ##### Problem no 8
 
@@ -129,7 +129,7 @@ Type-hinted SBCL 3ms
 Typed Racket 1ms  
 Haskell <10 ms  
 SML 1 ms  
-C as benchmark 6ms  
+C as benchmark 0.25ms  
 
 ##### Problem no 10
 
@@ -148,7 +148,7 @@ Racket 4-6K msecs
 Typed Racket 2,200 msecs (Faster than Clojure)  
 Typed Racket in Win32 987 msecs  
 Typed Racket using sieves 71-76ms  
-C Benchmark using sieve 38 ms  
+C Benchmark using sieve 24 ms  
 
 ##### Problem no 12
 
@@ -176,7 +176,7 @@ Haskell compiled 4.36 seconds
 Typed Racket 3.3 seconds (even better than Haskell)  
 Typed Racket 0.9 second (check >500k odds only)  
 SML 36 seconds  
-C as benchmark (starting from half a million and check odd only) 1,25 second  
+C as benchmark (starting from half a million and check odd only) 179ms    
 
 ##### Problem no 15
 
@@ -202,7 +202,7 @@ Type hinted SBCL 17-20 ms
 Haskell compiled 30 ms  
 Typed Racket 24ms  
 SML 23 ms  
-C as benchmark 13ms  
+C as benchmark 7ms    
 
 ##### Problem 23 
 
@@ -211,7 +211,7 @@ Problem : The sum of all integers that cannot be written as the sum of two abund
 Type-hinted Clojure 240-250ms  
 Type-hinted SBCL 275ms  
 Typed Racket 450-460ms  
-C as benchmark 241ms  
+C as benchmark 128ms    
 
 ##### Problem 24
 
@@ -241,7 +241,7 @@ Type-hinted Clojure 0.5-0.6ms
 Type-hinted SBCL 1.2ms  
 Typed Racket 0.6-0.8ms  
 SML 0.4-0.6ms  
-C as benchmark 0.24ms  
+C as benchmark 0.12ms  
 Python for benchmark 8.7ms  
 
 ##### Problem 27
@@ -252,7 +252,7 @@ Clojure 27-28ms
 SBCL 36-38ms  
 Haskell 80ms  
 SML 3,290ms (Very sloow)  
-C as benchmark 28ms  
+C as benchmark 20ms    
 
 ##### Problem 28
 
@@ -279,7 +279,7 @@ Haskell compiled 320ms
 New version Haskell 170ms  
 SML 1,620ms  
 SML new version 315ms  
-C Benchmark 356ms   
+C Benchmark 287ms     
 
 ##### Problem 31
 
@@ -289,7 +289,7 @@ Clojure using memoization 7.2ms & 0.1ms for subsequent calls
 Haskell 20-30ms  
 SBCL 4ms  
 SML 3ms  
-C Benchmark 0.8ms  
+C Benchmark 0.5ms  
 
 ##### Problem 32
 
@@ -325,7 +325,7 @@ Haskell compiled 550ms
 Haskell v2 20-30ms  
 SML 360ms  
 SML v2 10-12ms    
-C as benchmark 15ms  
+C as benchmark 10ms    
 
 ##### Problem no 36 
 
