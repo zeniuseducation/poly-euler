@@ -333,9 +333,10 @@ Prob: find the sum of all numbers that are palindrome in both decimal and binary
 
 Clojure 45-54ms  
 SBCL 4,700 ms  
-SBCL v2 6ms   
+SBCL v2 3ms   
 Haskell 770ms    
 SML 860ms  
+SML v2 ~1ms  
 
 ##### Problem no 37
 
