@@ -370,7 +370,7 @@ int is_cprime (int i) {
         }
         return true;
     }
-}
+}    
 
 int bahan[4] = {1,3,7,9};
 
@@ -401,14 +401,77 @@ int all_cprimes (int lim) {
     return res;
 }
 
+int lt_prime (int p) {
+    int lens = 0,tmp = p;
+    while (tmp > 10) {
+        lens++;
+        tmp /= 10;
+    }
+    int pang = 1;
+    for (int i = 0; i < lens; i++) {
+        pang *= 10;
+    }
+    int i = p % pang;
+    while (i>10) {
+        if (is_prime (i)) {
+            pang = 1;
+            for (int i = 0; i < lens; i++) {
+                pang *= 10;
+            }
+            i %= pang;
+            lens--;
+        } else {
+            return false;
+        }
+    }
+    return is_prime(i);
+}
+
+int rt_prime (int p) {
+    int i = p;
+    while (i>10) {
+        if (is_prime (i)) {
+            i /= 10;
+        } else {
+            return false;
+        }
+    }
+    return is_prime(i);
+}
+
+int lprime (int p) {
+    return (lt_prime (p) && rt_prime(p));
+}
+
+long sum_lsieves (int lim) {
+    int refs[1000000] = {0};
+    int i = 3, llim = ceil(sqrt(lim));
+    long res = 0;
+    while (i < lim) {
+        if ((i <= llim) && (!refs[i])) {
+            for (int j = i*i; j < lim; j += (2*i)) {
+                refs[j] = true;
+            };
+        };
+        if (!refs[i]) {
+            if (lprime(i)) {
+                res += i;
+            }
+        };
+        i += 2;
+    }
+    return 2+res;
+}
+
+
 
 int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 
 	begin = clock();
-    int tmp = all_cprimes(1000000);
-	printf("%d", tmp);
+    long tmp = sum_lsieves(1000000);
+	printf("%ld", tmp);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 

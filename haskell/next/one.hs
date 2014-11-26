@@ -2,9 +2,12 @@ module One where
 
 import Data.List
 
-numcol n
-  | n < 10 = [n]
-  | otherwise = (numcol $ div n 10) ++ [rem n 10]
+numcol :: Int -> [Int]
+numcol n = looper n []
+  where looper :: Int -> [Int] -> [Int]
+        looper i res
+          | i < 10 = i : res
+          | otherwise = looper (div i 10) ((rem i 10):res)
 
 triangles = map (\n -> div (n * (succ n)) 2) [1..]
 squares = map (\x -> x*x) [1..]
@@ -276,6 +279,36 @@ all_cprimes lim = foldl (+) 2 (map looper bahan)
           | otherwise = res
           where res = sum $ map (\x -> looper $ 10*i + x) bahan
 
+is_bipalin :: Int -> Bool
+is_bipalin n = bcol == reverse bcol
+  where bcol = bincol n []
+        bincol :: Int -> [Int] -> [Int] 
+        bincol i res
+          | i < 2 = i:res
+          | otherwise = bincol (div i 2) ((rem i 2):res)
+
+sum_bipalins :: Int -> Int
+sum_bipalins i
+  | i <= 1 = sum [1,3..9]
+  | even i = (evenpals (10^ (pred (div i 2))) 0) + (sum_bipalins $ pred i)
+  | otherwise = (oddpals (10^ (pred (div i 2))) 0) + (sum_bipalins $ pred i)
+  where evenpals :: Int -> Int -> Int
+        evenpals n res
+          | n >= (10 ^ (div i 2)) = res
+          | even x = evenpals (colnum (succ x : xs)) res
+          | is_bipalin tnum = evenpals (succ n) (tnum+res)
+          | otherwise = evenpals (succ n) res
+          where (x:xs) = numcol n
+                tnum = colnum ((x:xs) ++ (reverse (x:xs)))
+        oddpals :: Int -> Int -> Int 
+        oddpals n res
+          | n >= (10^ (div i 2)) = res
+          | even x = oddpals (colnum ((succ x):xs)) res
+          | otherwise = oddpals (succ n) (res + result)
+          where result = sum $ filter is_bipalin res2
+                res2 = map (\k -> colnum $ (x:xs) ++ [k] ++ (reverse (x:xs))) [0..9]
+                (x:xs) = numcol n
+                
 
 
 

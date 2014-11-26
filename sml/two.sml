@@ -94,13 +94,54 @@ fun all_cprimes (lim:int) =
                        (map (fn x => looper ((10*i) + x)) bahan)
     in foldl (fn (x,y) => x+y) 2 (map looper bahan)
     end;
-            
 
+fun is_binpalin (n:int) =
+    let fun bincol (i:int) (res:int list)=
+	    if i < 2
+	    then i :: res
+	    else bincol (i div 2) ((i mod 2) :: res)
+	val bcol= (bincol n) []
+    in bcol = rev bcol
+    end;
+
+fun sum_bipalins (dig:int) =
+    let fun evenpalins (n:int) (res:int) =
+	    let val (x::xs) = numcol n
+		val tnum = colnum ((x::xs) @ (rev (x::xs)))
+	    in
+		if n = pow 10 (dig div 2)
+		then res
+		else if 0 = (x mod 2)
+		then evenpalins (colnum ((x+1)::xs)) res
+		else if is_binpalin tnum
+		then evenpalins (n+1) (tnum+res)
+		else evenpalins (n+1) res
+	    end;
+	fun oddpalins (n:int) (res:int) =
+            let val (x::xs) = numcol n
+		val nums = map (fn i =>
+				   colnum ((x::xs) @ [i] @ (rev (x::xs))))
+			       (range 0 9 1)
+		val useit = foldl (fn (x,y) => x+y) 0
+				  (filter is_binpalin nums)
+            in
+                if n = pow 10 (dig div 2)
+                then res
+		else if 0 = (x mod 2)
+		then oddpalins (colnum ((x+1)::xs)) res
+                else oddpalins (n+1) (res + useit)
+            end;
+    in if dig <= 1
+       then foldl (fn (x,y) => x+y) 0 [1,3,5,7,9]
+       else if 0 = (dig mod 2)
+       then (evenpalins (pow 10 ( (dig div 2)-1)) 0) + (sum_bipalins (dig - 1))
+       else (oddpalins (pow 10 ((dig div 2)-1)) 0) + (sum_bipalins (dig - 1))
+    end;
 
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = pandig_products x;
+        val result = sum_bipalins x;
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result

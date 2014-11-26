@@ -1,4 +1,5 @@
-(ns poly-euler.one)
+(ns poly-euler.one
+  (:require [clojure.set :refer [union difference intersection]]))
 
 (set! *unchecked-math* true)
 
@@ -103,7 +104,6 @@
                      (+ 2 i)))
                  (+ 2 i))
                (if (aget refs i) res (conj! res i)))))))
-
 (defn ^long euler27a
   [^long lim]
   (->> (for [b (sieves lim)]
@@ -299,12 +299,10 @@
               (recur (+ 1 x)
                      (+ res (sumas3 (- i (* x (nth cs c)))
                                     (- c 1)))))))))
+
 (defn ^long suma-coins3
   [^long n]
   (sumas n 7))
-
-
-
 (def prime'
   (memoize
    (fn prime' [^long p]
@@ -329,6 +327,8 @@
            (== 0 (rem p 2)) (prev-prime (+ p 1))
            (prime' (- p 2)) (- p 2)
            :else (prev-prime (- p 2))))))
+
+
 
 (def isuma2
   (memoize
@@ -560,13 +560,129 @@
   [^long n]
   (reduce + (pmap #(bi-palins %) (range 1 (inc n)))))
 
+(defn rt-prime?
+  [^long n]
+  (if (< n 10)
+    (some  #(== % n) (list 2 3 5 7))
+    (if (prime' n)
+      (rt-prime? (quot n 10))
+      false)))
 
+(defn lt-prime?
+  [^long n]
+  (if (< n 10)
+    (some #(== % n) (list 2 3 5 7))
+    (if (prime? n)
+      (lt-prime? (rem n (pow 10 (- (count (numcol n)) 1))))
+      false)))
 
+(def lprime?
+  (memoize
+   (fn [^long n]
+     (and (lt-prime? n) (rt-prime? n)))))
 
+(defn ^long lsieves
+  [^long lim]
+  (let [llim (int (Math/sqrt lim))
+        refs (boolean-array (inc lim))]
+    (loop [i (int 3) res (transient [2]) resta (transient [])]
+      (if (>= i lim)
+        (reduce + (drop 3 (persistent! resta)))
+        (recur (if (and (<= i llim) (not (aget refs i)))
+                 (loop [p (int (* i i))]
+                   (if (<= p (- lim 1))
+                     (recur (do (aset refs p true)
+                                (+ p (* 2 i))))
+                     (+ 2 i)))
+                 (+ 2 i))
+               (if (aget refs i) res (conj! res i))
+               (if (aget refs i)
+                 resta
+                 (if (lprime? i) (conj! resta i) resta)))))))
 
+(defn ^longs iter-tls
+  [^long lim]
+  (let [lefts [2 3 5 7]
+        rights [3 7]
+        mids [1 3 7 9]
+        looper (fn [^longs ms]
+                 (->> [(colnum (concat [i] (conj ms mms) [j]))
+                       (colnum (concat [i] (cons mms ms) [j]))]
+                      (for [i lefts j rights mms mids])
+                      (apply concat)
+                      (filter lprime?)
+                      (into #{})))]
+    (reduce +
+            (loop [res #{23 37 53 73} lms #{[]}]
+              (if (>= (count res) lim)
+                res
+                (recur (union res (apply union (map looper lms)))
+                       (->> [(cons mset iset) (conj iset mset)]
+                            (for [iset lms mset mids])
+                            (apply concat)
+                            (into #{}))))))))
 
+(defn ^long iter-tls2
+  [^long lim]
+  (let [digs [1 3 7 9]]
+    (loop [res #{} refs [2 3 5 7]]
+      (if (>= (count res) lim)
+        (reduce + res)
+        (let [resta (loop [i (int 0) resa1 [] resa #{}]
+                      (if (== i 4)
+                        [resa1 resa]
+                        (let [refta (loop [refsta refs resb [] resb1 #{}]
+                                      (if (empty? refsta)
+                                        [resb resb1]
+                                        (let [tmp (int (+ (digs i)
+                                                          (* 10 (first refsta))))]
+                                          (if (rt-prime? tmp)
+                                            (if (lt-prime? tmp)
+                                              (recur (rest refsta)
+                                                     (conj resb tmp)
+                                                     (conj resb1 tmp))
+                                              (recur (rest refsta)
+                                                     (conj resb tmp)
+                                                     resb1))
+                                            (recur (rest refsta)
+                                                   resb
+                                                   resb1)))))]
+                          (recur (+ i 1)
+                                 (concat resa1 (first refta))
+                                 (union resa (second refta))))))]
+          (recur (union res (second resta))
+                 (first resta)))))))
 
+(defn ^long truncatable-primes
+  [^long lim]
+  (let [digs [1 3 7 9]
+        looper (fn looper [[a b]]
+                 (let [tmp (for [idig digs iadd a]
+                             (int (+ (* 10 iadd) idig)))
+                       tmp1 (filter #(rt-prime? %) tmp)]
+                   [tmp1 (union b (into #{} (filter lt-prime? tmp1)))]))]
+    (->> [[2 3 5 7] #{}]
+         (iterate looper)
+         (drop-while #(< (count (second %)) lim))
+         first second (reduce +))))
 
+(defn ^long tprimes
+  "Returns the sum of all truncatable primes, all 11 of them :)"
+  [^long lim]
+  (let [digs [1 3 7 9]
+        looper (fn looper [ms]
+                 (loop [j (int 0) res (transient [])]
+                   (if (== 4 j)
+                     (persistent! res)
+                     (let [tmp (+ (nth digs j) (* 10 ms))]
+                       (if (rt-prime? tmp)
+                         (recur (+ 1 j) (conj! res tmp))
+                         (recur (+ 1 j) res))))))]
+    (loop [refs [2 3 5 7] res []]
+      (if (>= (count res) lim)
+        (reduce + res)
+        (let [tmp (mapcat looper refs)]
+          (recur tmp (concat res (filter lt-prime? tmp))))))))
 
 
 

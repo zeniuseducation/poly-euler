@@ -555,11 +555,54 @@
   (labels ((bincol (i res)
 	     (declare (fixnum i))
 	     (if (< i 2)
-		 (append res (list i))
+		 (cons i res)
 		 (bincol (truncate (/ i 2))
-			 (append res (list (rem i 2)))))))
+			 (cons (rem i 2) res)))))
     (let ((tmp (bincol n nil)))
       (equal tmp (reverse tmp)))))
+
+(defun sum-bipalins (n)
+  "Returns the sum of all bipalins less than 10^n"
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (labels ((evenpal (i res)
+	     (declare (fixnum i res))
+	     (if (>= i (expt 10 (truncate (/ n 2))))
+		 res
+		 (let ((num (numcol i)))
+		   (if (evenp (first num))
+		       (evenpal (colnum (cons (+ 1 (first num))
+					      (rest num)))
+				res)
+		       (let ((tnum (colnum (append num (reverse num)))))
+			 (if (bin-palin? tnum)
+			     (evenpal (+ 1 i) (+ tnum res))
+			     (evenpal (+ 1 i) res)))))))
+	   (oddpal (i res)
+	     (declare (fixnum i res))
+	     (if (>= i (expt 10 (truncate (/ n 2))))
+		 res
+		 (let ((num (numcol i)))
+		   (if (evenp (first num))
+		       (oddpal (colnum (cons  (+ 1 (first num))
+					      (rest num)))
+			       res)
+		       (let* ((nums (mapcar #'(lambda (x)
+						(colnum
+						 (append num
+							 (list x)
+							 (reverse num))))
+					    (range 0 9 1)))
+			      (tnums (remove-if-not 'bin-palin? nums)))
+			 (oddpal (+ 1 i) (+ (reduce '+ tnums) res))))))))
+    (if (<= n 1)
+	(reduce '+ (range 1 9 2))
+	(if (evenp n)
+	    (+ (evenpal (expt 10 (- (truncate (/ n 2)) 1)) 0)
+	       (sum-bipalins (- n 1)))
+	    (+ (oddpal (expt 10 (- (truncate (/ n 2)) 1)) 0)
+	       (sum-bipalins (- n 1)))))))
+
 
 (defun bi-palins (n)
   "Returns the sum of all 1-n-digit (in base 10) double-base palindromes"
@@ -602,11 +645,140 @@
 	      (evenpals start 0)
 	      (oddpals start 0))))))
 
-(defun sum-bipalins (n)
-  "Returns the sums of all double bases palindromes upto 10^n"
+
+(defun rt-prime? (n)
+  (declare (optimize (speed 3))
+	   (fixnum))
+  (if (< n 10)
+      (if (member n (list 2 3 5 7)) t nil)
+      (if (prime? n)
+	  (rt-prime? (truncate (/ n 10)))
+	  nil)))
+
+(defun lt-prime? (n)
+  (declare (optimize (speed 3))
+	   (fixnum))
+  (if (< n 10)
+      (if (member n (list 2 3 5 7)) t nil)
+      (if (prime? n)
+	  (lt-prime? (rem n (expt 10 (1- (length (numcol n))))))
+	  nil)))
+
+(defun lprime? (n)
   (declare (optimize (speed 3))
 	   (fixnum n))
-  (reduce '+ (mapcar 'bi-palins (range 1 n 1))))
+  (and (lt-prime? n) (rt-prime? n)))
+
+(defun collect-lprimes2 (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((lefts (list 2 3 5 7))
+	(rights (list 3 7))
+	(mids (list 1 3 7 9)))
+    (labels ((outer (ns ln rn ct res)
+	       (if (> ct n)
+		   res
+		   (let ((tmp (colnum (append ln ns rn))))
+		     (if (lprime? tmp)
+			 (append
+			  (remove-duplicates
+			   (remove nil
+				   (mapcar
+				    #'(lambda (x)
+					(outer (cons x ns)
+					       ln rn (+ 1 ct)
+					       (cons tmp res)))
+				    mids)))
+			  (remove-duplicates
+			   (remove nil
+				   (mapcar
+				    #'(lambda (x)
+					(outer (reverse (cons x (reverse ns)))
+					       ln rn (+ 1 ct)
+					       (cons tmp res)))
+				    mids))))
+			 (if (or (lt-prime? tmp) (rt-prime? tmp))
+			     (remove-duplicates
+			      (append (remove nil
+					      (mapcar
+					       #'(lambda (x)
+						   (outer (cons x ns)
+							  ln rn (+ 1 ct)
+							  res))
+					       mids))
+				      (remove nil
+					      (mapcar
+					       #'(lambda (x)
+						   (outer (reverse (cons x (reverse ns)))
+							  ln rn (+ 1 ct)
+							  res))
+					       mids))))
+			     res))))))
+      (remove-duplicates
+       (remove nil
+	       (loop for i in lefts
+		  append (loop for j in rights
+			    append (loop for k in mids
+				      collect (remove-duplicates
+					       (remove nil
+						       (outer (list k)
+							      (list i)
+							      (list j) 0 '())))))))))))
+
+(defun truncatable-primes (lim)
+  "Well basically this is the main function"
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (let ((digs (list 1 3 7 9)))
+    (labels ((inner (resta)
+	       "it adds each of the digs to the queue, check or truncatability"
+	       (declare (optimize (speed 3)))
+	       (let* ((tmp (loop for i in digs
+			      append (loop for j in (first resta)
+					collect (+ i (* 10 j)))))
+		      (tmp1 (remove-if-not 'rt-prime? tmp)))
+		 (list tmp1 (union (second resta) (remove-if-not 'lprime? tmp1)))))
+	     (outer (res)
+	       "This one iterates over the main queue"
+	       (declare (optimize (speed 3)))
+	       (if (>= (length (second res)) lim)
+		   (second res)
+		   (outer (inner res)))))
+      (reduce '+ (outer (list '(2 3 5 7) '()))))))
+
+(defun mutable-tprimes (lim)
+  "Well basically this is the main function"
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (let ((digs '(1 3 7 9))
+	(refs '(2 3 5 7)))
+    (labels ((dinner (i j res)
+	       (declare (fixnum i j))
+	       (if (= 4 j)
+		   res
+		   (let ((tmp (+ (nth j digs) (* 10 i))))
+		     (if (rt-prime? tmp)
+			 (dinner i (+ j 1) (cons tmp res))
+			 (dinner i (+ j 1) res)))))
+	     (inner (refsb resref)
+	       (if (null refsb)
+		   resref
+		   (inner (rest refsb)
+			  (append resref (dinner (first refsb) 0 '())))))
+	     (looper (refsi res)
+		"This one takes new a queue, add digs, and filter the tprime ones"
+		(declare (optimize (speed 3)))
+		(if (< (length res) lim)
+		    (let ((tmp (inner refsi '())))
+		      (looper tmp
+			   (union res (remove-if-not 'lprime? tmp))))
+		    res)))
+      (reduce '+ (looper refs '())))))
+
+
+
+
+
 
 
 
