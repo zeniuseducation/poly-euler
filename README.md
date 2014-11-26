@@ -43,6 +43,7 @@ Clojure averaging 3.2 msecs
 SBCL averaging 0.3 msecs  
 Haskell averaging 10 msecs  
 Racket 1 msec  
+C benchmark 0.35ms  
 
 ##### Problem no 2
 
@@ -52,6 +53,7 @@ Clojure 0.08 msecs
 SBCL less than 0.01 msecs   
 Haskell ~10 msecs  
 Racket less than 1 msec  
+C Benchmark 0.05ms  
 
 ##### Problem no 3
 
