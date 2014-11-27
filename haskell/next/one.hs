@@ -2,6 +2,7 @@ module One where
 
 import Data.List
 
+
 numcol :: Int -> [Int]
 numcol n = looper n []
   where looper :: Int -> [Int] -> [Int]
@@ -309,6 +310,16 @@ sum_bipalins i
                 res2 = map (\k -> colnum $ (x:xs) ++ [k] ++ (reverse (x:xs))) [0..9]
                 (x:xs) = numcol n
                 
+pfactors :: Int -> [Int]
+pfactors n = looper 2 n []
+  where looper :: Int -> Int -> [Int] -> [Int]
+        looper i divs res
+          | is_prime divs = divs:res
+          | 0 == rems = looper 2 (div divs i) (i:res)
+          | otherwise = looper (next_prime i) divs res
+          where rems = rem divs i
+
+
 
 
 

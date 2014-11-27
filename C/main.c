@@ -463,6 +463,28 @@ long sum_lsieves (int lim) {
     return 2+res;
 }
 
+long sum_35 (int n) {
+    long res = 0;
+    for (int i = 0; i < n; i++) {
+        if ( (0==(i % 3) )|| (0==(i % 5))) {
+            res += i;
+        }
+    }
+    return res;
+}
+
+long sum_even_fibo (long lim) {
+    long i=1,j=1,k=2, res =0;
+    while (i<lim) {
+        k = i+j;
+        i = k;
+        j = i;
+        if ((i % 2) == 0) {
+            res += i;
+        }
+    }
+    return res;
+}
 
 
 int main(int argc, char *argv[]) {
@@ -470,7 +492,7 @@ int main(int argc, char *argv[]) {
 	double time_spent;
 
 	begin = clock();
-    long tmp = sum_lsieves(1000000);
+    long tmp = sum_even_fibo(4000000);
 	printf("%ld", tmp);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

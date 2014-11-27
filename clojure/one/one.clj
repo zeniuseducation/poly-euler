@@ -555,10 +555,42 @@
                           (reduce +)
                           (+ res))))))))))
 
+(defn ^long all-bipalins
+  "Generate all n-digit palindromes, filter whether they are also
+  palindrome in base 2, and sum the results"
+  [^long n]
+  (if (== n 1)
+    (->> (range 1 10 2)
+         (reduce +)) 
+    (let [expn (int (- (quot n 2) 1))
+          start (int (pow 10 expn))
+          end (int (pow 10 (+ 1 expn)))]
+      (if (== 0 (rem n 2))
+        (loop [i (int start) res (int 0)]
+          (if (>= i end)
+            res
+            (let [tmp (numcol i)]
+              (if (== 0 (rem (first tmp) 2))
+                (recur (colnum (cons (+ 1 (first tmp)) (rest tmp))) res)
+                (let [num (int (colnum (concat tmp (reverse tmp))))]
+                  (if (bin-palin? num)
+                    (recur (+ 1 i) (+ res num))
+                    (recur (+ 1 i) res)))))))
+        (loop [i (int start) res (int 0)]
+          (if (>= i end)
+            res
+            (let [tmp (numcol i)]
+              (if (== 0 (rem (first tmp) 2))
+                (recur (colnum (cons (+ 1 (first tmp)) (rest tmp))) res)
+                (let [nums (map #(colnum (concat tmp [%] (reverse tmp)))
+                                (range 10))
+                      tnums (reduce + (filter bin-palin? nums))]
+                  (recur (+ 1 i) (+ res tnums)))))))))))
+
 (defn ^long sum-bipalins
   "Returns all double bases palindromes up-to 10^n"
   [^long n]
-  (reduce + (pmap #(bi-palins %) (range 1 (inc n)))))
+  (reduce + (pmap #(all-bipalins %) (range 1 (inc n)))))
 
 (defn rt-prime?
   [^long n]

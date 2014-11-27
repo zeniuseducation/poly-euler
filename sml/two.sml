@@ -1,5 +1,6 @@
 open List;
 
+
 fun remove e [] = []
   | remove e (x::xs) =
     if e = x then xs else x :: (remove e xs);
@@ -14,9 +15,6 @@ fun sort [] = []
     end;
 
 fun is_pandig ls = (sort ls) = range 1 9 1;
-
-fun numcol n = if n < 10 then [n] else (numcol (n div 10))
-				       @ [n mod 10];
 
 fun distinct (ls:int list) =
     let fun looper [] res = res
@@ -45,7 +43,12 @@ fun pandig_products (lim:int) =
     end;
 
 fun numcol (n:int) =
-    if n < 10 then [n] else (numcol (n div 10)) @ [n mod 10];
+    let fun looper (i:int) (res:int list) =
+	    if i< 10
+	    then i::res
+	    else looper (i div 10) ((i mod 10)::res)
+    in looper n []
+    end;
 
 fun colnum ls =
     let fun looper (x::xs) res =
@@ -138,14 +141,60 @@ fun sum_bipalins (dig:int) =
        else (oddpalins (pow 10 ((dig div 2)-1)) 0) + (sum_bipalins (dig - 1))
     end;
 
+fun is_rtprime (n:int)=
+    if n < 10
+    then exist n [2,3,5,7]
+    else if is_prime n
+    then is_rtprime (n div 10)
+    else false;
+
+fun is_ltprime (n:int) =
+    if n < 10
+    then exist n [2,3,5,7]
+    else if is_prime n
+    then is_ltprime (n mod (pow 10 (length (numcol n) - 1)))
+    else false;
+
+fun tprimes (lim:int) =
+    let val digs = [1,3,7,9,0]
+	val refs = [2,3,5,7]
+	fun outer (refsi:int list) (res:int list) = 
+	    let fun inner (i:int) (j:int) (refsa : int list) resa =
+		    let val num = (nth(digs,j)) + (10*i)
+		    in
+			if j = 4
+			then [refsa,resa]
+			else if is_rtprime num
+			then if is_ltprime num
+			     then inner i (1+j)
+					(num::refsa) (num::resa)
+			     else inner i (1+j)
+					(num::refsa) resa
+			else inner i (1+j) refsa resa
+		    end
+		val results = map (fn m => inner m 0 [] res) refsi
+	    in if (length res) >= lim
+	       then res
+	       else outer (distinct (concat (map hd results)))
+			  (distinct (concat (map (fn k => nth (k,1)) results)))
+	    end;
+    in foldl (fn (x,y) => x+y) 0 (outer refs [])
+    end;
+
+
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = sum_bipalins x;
+        val result = tprimes x;
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result
     end;
+
+
+			
+
 	    
 
 

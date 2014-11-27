@@ -103,14 +103,46 @@ int euler30 (int lim) {
     return res;
 }
 
-int whateva (int res[]) {
-    for (int i = 0; i < 10 ; i++) {
-        res[i] += 2;
+int count_divs (long long n) {
+    int res = 2;
+    long i = 2;
+    if (0 == (n % 2)) {
+        while (i*i < n) {
+            if (i*i == n) {
+                return res++;
+            } else {
+                if (0 == (n % i)) {
+                    res += 2;
+                }
+            }
+            i++;
+        }
+        return res;
+    } else {
+        i = 3;
+        while (i*i < n) {
+            if (i*i == n) {
+                return res++;
+            } else {
+                if (0 == (n % i)) {
+                    res += 2;
+                }
+            }
+            i += 2;
+        }
+        return res;
     }
-    return res;
 }
 
-
+long long triangle500 (int lim) {
+    int i = 1000;
+    long long val = (1+i) * (i/2);
+    while (count_divs (val) <= lim) {
+        i++;
+        val = (1+i) * (i/2);
+    }
+    return val;
+}
 
 
 
@@ -118,7 +150,7 @@ int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 	begin = clock();
-	long result = euler30(1000);
+	long result = triangle500(500);
 	printf("%ld \n", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
