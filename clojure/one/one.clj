@@ -754,4 +754,8 @@
          (/ (* (+ i 1) i) 2)
          (recur (+ 1 i)))))))
 
+(defn ^long champers
+  [^long n]
+  (time (reduce * (pmap #(nth (mapcat numcol (iterate inc 1)) (dec (pow 10 %))) (range n)))))
+
 

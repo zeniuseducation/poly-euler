@@ -263,6 +263,7 @@ Prob: Pretty complex to write here
 
 Clojure 27-28ms  
 SBCL 36-38ms  
+SBCL using proto-memoize 10ms  
 Haskell 80ms  
 SML 3,290ms (Very sloow)  
 C as benchmark 20ms    
@@ -334,6 +335,7 @@ Clojure 56ms
 Clojure using parallel map 21ms  
 SBCL 1,460ms  
 Common Lisp (SBCL) v2 22ms  
+SBCL proto-memoize 12ms  
 Haskell compiled 550ms  
 Haskell v2 20-30ms  
 SML 360ms  
@@ -355,6 +357,7 @@ SML v2 ~1ms
 
 SBCL 1,580ms  
 SBCL v2 ~1ms  
+SBCL proto-memoize 0.4ms  
 Clojure 1,500ms    
 Clojure v2 1.3-2.5ms  
 Haskell 720ms    
@@ -368,7 +371,10 @@ Haskell 10ms
 
 ##### Problem no 40
 
-Haskell 20ms  
+SBCL tricky version 0.2ms  
+C benchmark tricky version 0.045ms  
+Java benchmark tricky version 0.054ms  
+Haskell 10ms  
 Clojure 31ms  
 
 ##### Problem no 41

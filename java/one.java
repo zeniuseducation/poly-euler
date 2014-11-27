@@ -136,10 +136,90 @@ class Euler {
         return res;
     }
     
+    private static int pow (int a, int m) {
+        if (m<=0) {
+            return 1;
+        } else {
+            return a * pow(a,m-1);
+        }
+    }
+    
+    private static int numdig (int m) {
+        int res = 1;
+        int n = m;
+        if (m < 10) {
+            return 1;
+        }
+        while (n >= 10) {
+            n /= 10;
+            res++;
+        }
+        return res++;
+    }
+    
+    private static int nth_digit (int n, int i) {
+        int m = n;
+        int j = numdig(n) - 1;
+        while (j>i) {
+            m /= 10;
+            j--;
+        }
+        return m % 10;
+    }
+
+    private static int count_digits (int n) {
+        return n * (pow (10,n) - pow (10 ,(n - 1)));
+    }
+
+    private static int nth_digits (int i) {
+        int n = 0,res=0,cres=0;
+        while (i > res) {
+            cres = res;
+            res += count_digits (n);
+            n++;
+        }
+        return (cres*10) + (n-1);
+    } 
+
+    private static int nth_champer (int i) {
+        if (i<10) {
+            return i;
+        } else {
+            int res = nth_digits (i);
+            int fres = res % 10;
+            int sres = res / 10;
+            int rems = i - sres;
+            int prevs, remss, remsss;
+            if (0 == rems % fres) {
+                prevs = (rems/fres) - 1;
+                
+            } else {
+                prevs = (rems/fres);
+            }
+            
+            remss = rems % fres;
+            
+            if (0 == remss) {
+                remsss = fres -1;
+            } else {
+                remsss = remss - 1;
+            }
+            return nth_digit (pow(10,fres-1) + prevs , remsss);
+        }
+    }
+
+    private static int champers (int n) {
+        int res = 1;
+        for (int i = 0; i < n; i++) {
+            res *= nth_champer (pow(10,i));
+        }
+        return res;
+    }
+    
     public static void main(String[] args) {
 
         long startTime = System.nanoTime();
-        long res = sum_sieves (200000);
+        long res = champers(7);
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
         System.out.println(res);

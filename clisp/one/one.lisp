@@ -48,6 +48,8 @@
 		    (looper tempa a (+ res (* 4 tempa)) (+ 2 i))))))
     (looper 6 1 25 3)))
 
+(defparameter refsprime (make-array 10000000 :initial-element nil))
+
 (defun prime? (p)
   (declare (optimize (speed 3)) (fixnum p))
   (if (< p 2)
@@ -56,15 +58,22 @@
 	  t
 	  (if (evenp p)
 	      nil
-	      (let ((lim (isqrt p)))
-		(labels ((helper (i)
-			   (declare (optimize (speed 3)) (fixnum i))
-			   (if (> i lim)
-			       t
-			       (if (= 0 (rem p i))
-				   nil
-				   (helper (+ i 2))))))
-		  (helper 3)))))))
+	      (let ((refs (aref refsprime p)))
+		(if refs
+		    (if (= refs 1) nil t)
+		    (let ((result (let ((lim (isqrt p)))
+				    (labels ((helper (i)
+					       (declare (optimize (speed 3))
+							(fixnum i))
+					       (if (> i lim)
+						   t
+						   (if (= 0 (rem p i))
+						       nil
+						       (helper (+ i 2))))))
+				      (helper 3)))))
+		      (if result
+			  (progn (setf (aref refsprime p) 2) t)
+			  (progn (setf (aref refsprime p) 1) nil)))))))))
 
 (defun next-prime (p)
   (declare (optimize (speed 3)) (fixnum p))
@@ -326,9 +335,6 @@
 		     ((= c 0) 1)
 		     (:else (inner 0 0))))))
     (sumas n 7)))
-
-
-
 
 
 (defun suma-ints (n)
@@ -849,6 +855,45 @@
 		    (* (/ i 2) (+ i 1))
 		    (looper (+ 1 i))))))
     (time (looper 3))))
+
+(defun count-digits (n)
+  "Returns the number of digits required to write 10^(n-1) to 10^n exclusive"
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (* n (- (expt 10 n) (expt 10 (- n 1)))))
+
+(defun nth-digit (i)
+  (declare (optimize (speed 3))
+	   (fixnum i))
+  (labels ((looper (n res cres)
+	      (declare (fixnum n res))
+	      (if (>= res i)
+		  (list (- n 1) cres)
+		  (looper (+ 1 n)
+		     (+ res (count-digits n))
+		     res))))
+    (looper 0 0 0)))
+
+(defun nth-champer (i)
+  (declare (optimize (speed 3))
+	   (fixnum i))
+  (if (< i 10)
+      i
+      (let* ((res (nth-digit i))
+	     (rems (- i (second res)))
+	     (prevs (if (zerop (rem rems (first res))) 
+			(- (truncate (/ rems (first res))) 1)
+			(truncate (/ rems (first res)))))
+	     (remss (rem rems (first res)))
+	     (remsss (if (zerop remss)
+			 (- (first res) 1)
+			 (- remss 1))))
+	(nth remsss (numcol (+ (expt 10 (- (first res) 1)) prevs))))))
+
+(defun champers (i)
+  (declare (optimize (speed 3))
+	   (fixnum i))
+  (time (reduce '* (mapcar #'(lambda (x) (nth-champer (expt 10 x))) (range 0 (1- i) 1)))))
 
 
 

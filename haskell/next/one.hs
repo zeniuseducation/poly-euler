@@ -343,7 +343,8 @@ triangle_factors lim = looper 2
                   | even n = (count_divs (div n 2)) * (count_divs (succ n))
                   | otherwise = (count_divs (div (succ n) 2)) * (count_divs n)
 
-
+camps :: Int -> Int
+camps n = foldl1 (*) $ map ((concatMap numcol $ iterate succ 1) !!) [10^i-1| i <- [0..n-1]]
 
 
 

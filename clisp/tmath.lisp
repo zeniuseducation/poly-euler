@@ -15,21 +15,30 @@
 		       (helper (+ i 2))))))
       (helper 3))))
 
+(defparameter refsprime (make-array 1000000 :initial-element nil))
+
 (defun true-prime? (p)
   (declare (optimize (speed 3)) (fixnum p))
-  (if (= 2 p)
-      t
-      (if (evenp p)
-	  nil
-	  (let ((lim (isqrt p)))
-	    (labels ((helper (i)
-		       (declare (optimize (speed 3)) (fixnum i))
-		       (if (> i lim)
-			   t
-			   (if (= 0 (rem p i))
-			       nil
-			       (helper (+ i 2))))))
-	      (helper 3))))))
+  (let ((refs (aref refsprime p)))
+    (if refs
+	(if (= 1 refs) nil t)
+	(let ((result
+	       (if (= 2 p)
+		   t
+		   (if (evenp p)
+		       nil
+		       (let ((lim (isqrt p)))
+			 (labels ((helper (i)
+				    (declare (optimize (speed 3)) (fixnum i))
+				    (if (> i lim)
+					t
+					(if (= 0 (rem p i))
+					    nil
+					    (helper (+ i 2))))))
+			   (helper 3)))))))
+	  (if result
+	      (progn (setf (aref refsprime p) 2) t)
+	      (progn (setf (aref refsprime p) 1) nil))))))
 
 (defun next-prime (p)
   (declare (optimize (speed 3)) (fixnum p))

@@ -205,6 +205,7 @@ fun triangle500 (target:int) =
     in looper 3
     end;
 
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
