@@ -87,8 +87,8 @@ class Euler {
     }
     
     private static long sum_sieves (int lim) {
-        boolean[] refs = new boolean[2000001];
-        for (int i = 0; i < lim; i++) {
+        boolean[] refs = new boolean[lim+1];
+        for (int i = 0; i <= lim; i++) {
             refs[i] = false;
         };
         int i = 3;
@@ -112,8 +112,8 @@ class Euler {
 
     private static int nth_sieves (int m, int n) {
         int lim = m * n;
-        boolean[] refs = new boolean[lim] ;
-        for (int i = 0; i < lim; i++) {
+        boolean[] refs = new boolean[lim+1] ;
+        for (int i = 0; i <= lim; i++) {
             refs[i] = false;
         };
         int i = 3;
@@ -216,16 +216,105 @@ class Euler {
         return res;
     }
     
+    private static int euler1 (int n) {
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            if ((0 == i % 5) || (0 == i % 3)) {
+                res += i;
+            }
+        }
+        return res;
+    }
+    
+    private static int sum_even_fibo (int lim) {
+        int i=1,j=1,k=2, res =0;
+        while (i<lim) {
+            k = i+j;
+            i = k;
+            j = i;
+            if ((i % 2) == 0) {
+                res += i;
+            }
+        }
+        return res;
+    }
+    
+    private static int pita (int lim) {
+        int res = 0;
+        int a = 3;
+        while (res == 0) {
+            int b = a + 1;
+            int c = lim - (a + b);
+            while (b < c && res == 0) {
+                if (c*c == (a * a) + (b * b)) {
+                    res = a * b * c;
+                } else {
+                    b++;
+                    c = lim - (a + b);
+                }
+            }
+            a++;
+        }
+        return res;
+    }
+    
+    public static int sum_pdivs (int n) {
+        int res = 1;
+        if (0 == n % 2) {
+            int i = 2;
+            while (i*i <= n) {
+                if (i*i == n) {
+                    res += i;
+                } else {
+                    if (0 == n % i) {
+                        res += i + (n / i);
+                    }
+                }
+                i++;
+            }
+        } else {
+            int i = 3;
+            while (i*i <= n) {
+                if (i*i == n) {
+                    res += i;
+                } else {
+                    if (0 == n % i) {
+                        res += i + (n / i);
+                    }
+                }
+                i += 2;
+            }
+            
+        }
+        return res;
+    }
+
+    public static int sum_amic (int lim) {
+        int res = 0;
+        int i = 2;
+        while (i < lim) {
+            int amic = sum_pdivs (i);
+            if (amic != i) {
+                int div_amic = sum_pdivs (amic);
+                if (i == div_amic) {
+                    res += i;
+                }
+            }
+            i++;
+        }
+        return res;
+    }
+    
     public static void main(String[] args) {
 
         long startTime = System.nanoTime();
-        long res = champers(7);
+        long res = sum_amic(10000);
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
         System.out.println(res);
         long divs = duration/1000000;
         long rems = 1000000 + (duration % 1000000);
-        System.out.println(divs +"." +rems+ "ms");
+        System.out.println(divs +"." +rems+ "ms " + duration/1000 + " microsec");
        
     }
     

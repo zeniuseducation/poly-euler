@@ -80,7 +80,13 @@ long max_collatz (long start, long lim) {
 	return p;
 };
 
+int refdivs[50000] = {0};
+
 int sum_pdivs (int n) {
+    int tmp = refdivs[n];
+    if (tmp != 0) {
+        return tmp;
+    }
 	int res = 1;
 	if (0 == n % 2) {
 		int i = 2;
@@ -108,16 +114,17 @@ int sum_pdivs (int n) {
 		}
 		
 	}
+    refdivs[n] = res;
 	return res;
 }
 
-long sum_amic (long lim) {
-	long res = 0;
-	long i = 2;
+int sum_amic (int lim) {
+	int res = 0;
+	int i = 2;
 	while (i < lim) {
-		long amic = sum_pdivs (i);
+		int amic = sum_pdivs (i);
 		if (amic != i) {
-			long div_amic = sum_pdivs (amic);
+			int div_amic = sum_pdivs (amic);
 			if (i == div_amic) {
 				res += i;
 			}
@@ -240,6 +247,7 @@ long largest_pfactor (long n) {
 			i = next_prime (i);
 		}
 	}
+    return res;
 }
 
 long euler27 (int lim) {
@@ -473,8 +481,8 @@ long sum_35 (int n) {
     return res;
 }
 
-long sum_even_fibo (long lim) {
-    long i=1,j=1,k=2, res =0;
+int sum_even_fibo (int lim) {
+    int i=1,j=1,k=2, res =0;
     while (i<lim) {
         k = i+j;
         i = k;
@@ -492,7 +500,7 @@ int main(int argc, char *argv[]) {
 	double time_spent;
 
 	begin = clock();
-    long tmp = sum_even_fibo(4000000);
+    long tmp = non_abundant_sum(23000);
 	printf("%ld", tmp);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

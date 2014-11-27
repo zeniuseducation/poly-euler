@@ -218,11 +218,22 @@ int champers (int n) {
     return res;
 }
 
+int euler1 (int n) {
+    int res = 0;
+    for (int i = 0; i < n; i++) {
+        if ((0 == i % 5) || (0 == i % 3)) {
+            res += i;
+        }
+    }
+    return res;
+}
+
+
 int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 	begin = clock();
-	int result = champers (7);
+	int result = max_cycle (1000);
 	printf("%d \n", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

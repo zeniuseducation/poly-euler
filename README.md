@@ -43,7 +43,8 @@ Clojure averaging 3.2 msecs
 SBCL averaging 0.3 msecs  
 Haskell averaging 10 msecs  
 Racket 1 msec  
-C benchmark 0.35ms  
+Java benchmark 0.05ms  
+C benchmark 0.05ms  
 
 ##### Problem no 2
 
@@ -53,7 +54,8 @@ Clojure 0.08 msecs
 SBCL less than 0.01 msecs   
 Haskell ~10 msecs  
 Racket less than 1 msec  
-C Benchmark 0.05ms  
+C Benchmark 0.03ms  
+Java benchmark 0.005ms  
 
 ##### Problem no 3
 
@@ -133,6 +135,7 @@ Typed Racket 1ms
 Haskell <10 ms  
 SML 1 ms  
 C as benchmark 0.25ms  
+Java benchmark 2.5ms  
 
 ##### Problem no 10
 
@@ -215,7 +218,9 @@ Type hinted SBCL 17-20 ms
 Haskell compiled 30 ms  
 Typed Racket 24ms  
 SML 23 ms  
-C as benchmark 7ms    
+Java benchmark 14ms  
+C as benchmark 7ms   
+C using dynamic programming 4.5ms   
 
 ##### Problem 23 
 
