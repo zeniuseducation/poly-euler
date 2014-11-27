@@ -181,12 +181,34 @@ fun tprimes (lim:int) =
     in foldl (fn (x,y) => x+y) 0 (outer refs [])
     end;
 
+fun count_divs (n:int) =
+    let fun looper (i:int) (j:int) (res:int) =
+	    if i*i >= n
+	    then if i*i = n then res+1 else res
+	    else if (n mod i)=0
+	    then looper (i+j) j (res+2)
+	    else looper (i+j) j res
+    in if 0 = (n mod 2)
+       then looper 2 1 2
+       else looper 3 2 2
+    end;
 
+fun triangle500 (target:int) =
+    let fun looper (i:int) =
+	    let val divs = if (0=i mod 2)
+			   then (count_divs (i div 2))
+				* (count_divs (i+1))
+			   else (count_divs ((i+1) div 2))
+                                * (count_divs i)
+	    in if divs > target then (i* (i+1)) div 2 else looper (i+1)
+	    end
+    in looper 3
+    end;
 
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = tprimes x;
+        val result = triangle500 x;
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result

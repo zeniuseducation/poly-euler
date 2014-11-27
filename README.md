@@ -71,6 +71,7 @@ Racket 50-60 ms
 Typed Racket 6ms   
 Further optimised Typed Racket 0.4-0.5ms  
 C as benchmark 0.2ms  
+Java as benchmark 5ms  
 
 ##### Problem no 4
 
@@ -156,13 +157,23 @@ C Benchmark using sieve 24 ms
 
 Prob: Triangle number that has more than 500 factors
 
-Clojure 1.7 seconds   
-Type hinted Clojure 0.56 seconds  
-SBCL 2.4 seconds  
-Type hinted SBCL 0.59 seconds  
-Typed Racket 1 sec  
-Haskell compiled 0.66 seconds  
-SML 0.73 seconds  
+Clojure 1,700 ms    
+Type hinted Clojure 560 ms    
+Clojure v2 using memoized 13ms    
+SBCL 2,400 ms    
+Type hinted SBCL 590 ms    
+SBCL v2 21 ms    
+SBCL using proto-memoize 1ms  
+Typed Racket 1000 ms    
+Racket v2 42 ms    
+Haskell compiled 660 ms      
+Haskell v2 30ms  
+SML 730ms    
+SML v2 13 ms    
+C Benchmark 580 ms  
+C Benchmark v2 6 ms  
+C Benchmark proto-memoize 3 ms  
+Java Benchmark 11 ms  
 
 
 ##### Problem no 14

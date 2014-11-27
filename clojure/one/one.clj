@@ -104,6 +104,7 @@
                      (+ 2 i)))
                  (+ 2 i))
                (if (aget refs i) res (conj! res i)))))))
+
 (defn ^long euler27a
   [^long lim]
   (->> (for [b (sieves lim)]
@@ -716,6 +717,41 @@
         (let [tmp (mapcat looper refs)]
           (recur tmp (concat res (filter lt-prime? tmp))))))))
 
+(def  count-factors
+  (memoize
+   (fn [^long n]
+     (let [lim (int (inc (Math/sqrt n)))]
+       (if (even? n)
+         (loop [i (int 2) res (int 2)]
+           (if (> i lim)
+             res
+             (let [divs (quot n i)]
+               (if (== 0 (rem n i))
+                 (if (== i divs)
+                   (inc res)
+                   (recur (inc i) (+ 2 res)))
+                 (recur (inc i) res)))))
+         (loop [i (int 3) res (int 2)]
+           (if (> i lim)
+             res
+             (let [divs (quot n i)]
+               (if (== 0 (rem n i))
+                 (if (== i divs)
+                   (inc res)
+                   (recur (+ 2 i) (+ 2 res)))
+                 (recur (+ 2 i) res))))))))))
 
+(defn ^long triangle500
+  [^long target]
+  (time
+   (loop [i (int 3)]
+     (let [vals (if (== 0 (rem i 2))
+                  (* (count-factors (quot i 2))
+                     (count-factors (+ i 1)))
+                  (* (count-factors (quot (+ i 1) 2))
+                     (count-factors i)))]
+       (if (> vals target)
+         (/ (* (+ i 1) i) 2)
+         (recur (+ 1 i)))))))
 
 

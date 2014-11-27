@@ -103,45 +103,60 @@ int euler30 (int lim) {
     return res;
 }
 
-int count_divs (long long n) {
-    int res = 2;
-    long i = 2;
-    if (0 == (n % 2)) {
-        while (i*i < n) {
-            if (i*i == n) {
-                return res++;
-            } else {
-                if (0 == (n % i)) {
-                    res += 2;
-                }
-            }
-            i++;
-        }
-        return res;
+short refsdivs[20000] = {0};
+
+short count_divs ( int n) {
+    short res = 2;
+    int i = 2;
+    int tmp = refsdivs[n];
+    if (tmp) {
+        return tmp;
     } else {
-        i = 3;
-        while (i*i < n) {
-            if (i*i == n) {
-                return res++;
-            } else {
-                if (0 == (n % i)) {
-                    res += 2;
+        if (0 == (n % 2)) {
+                while (i*i <= n) {
+                    if (i*i == n) {
+                        return res++;
+                    } else {
+                        if (0 == (n % i)) {
+                            res += 2;
+                        }
+                    }
+                    i++;
                 }
+                refsdivs[n] =res;
+                return res;
+            } else {
+                i = 3;
+                while (i*i <= n) {
+                    if (i*i == n) {
+                        return res++;
+                    } else {
+                        if (0 == (n % i)) {
+                            res += 2;
+                        }
+                    }
+                    i += 2;
+                }
+                refsdivs[n] =res;
+                return res;
             }
-            i += 2;
-        }
-        return res;
     }
+    
 }
 
-long long triangle500 (int lim) {
-    int i = 1000;
-    long long val = (1+i) * (i/2);
-    while (count_divs (val) <= lim) {
+int triangle500 (int lim) {
+    int i = 3;
+    int res = count_divs (i) * count_divs ((i+1)/2);
+    while (res <= lim) {
         i++;
-        val = (1+i) * (i/2);
+        if (0 == i%2) {
+            res = count_divs (i/2) * count_divs (i+1);    
+        } else {
+            res = count_divs (i) * count_divs ((i+1)/2);    
+        }
+        
     }
-    return val;
+    return i*(i+1)/2;
 }
 
 
@@ -150,8 +165,8 @@ int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 	begin = clock();
-	long result = triangle500(500);
-	printf("%ld \n", result);
+	int result = triangle500(500);
+	printf("%d \n", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 	printf("\n%f", time_spent);

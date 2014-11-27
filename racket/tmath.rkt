@@ -131,6 +131,20 @@
         (list n triangle)
         (first-triangle-having-lim-factors (+ 1 n) lim))))
 
+(define: (triangle500 (target : Integer))
+  : Integer 
+  (define: (looper (i : Integer))
+    : Integer 
+    (let: ((vals (if (even? i)
+                     (* (count-factors (quotient i 2))
+                        (count-factors (- i 1)))
+                     (* (count-factors (quotient (- i 1) 2))
+                        (count-factors i)))))
+      (if (> vals target)
+          (quotient (* i (- i 1)) 2)
+          (looper (+ 1 i)))))
+  (looper 3))
+
 (define: (collatz (n : Integer))
   : Integer
   (if (= n 1)

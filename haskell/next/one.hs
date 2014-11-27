@@ -319,8 +319,29 @@ pfactors n = looper 2 n []
           | otherwise = looper (next_prime i) divs res
           where rems = rem divs i
 
+count_divs :: Int -> Int
+count_divs n 
+  | 0 == rem n 2 = looper 2 1 2
+  | otherwise = looper 3 2 2
+  where looper :: Int -> Int -> Int -> Int
+        looper i j res
+          | i*i >= n = if i*i == n then 1+res else res
+          | 0 == rem n i = looper (j + i) j (res + 2)
+          | otherwise = looper (j + i) j res
 
+divs_count :: Int -> Int
+divs_count n = product $ map (succ.length) (group $ pfactors n)
 
+triangle_factors :: Int -> Int
+triangle_factors lim = looper 2
+  where looper :: Int -> Int
+        looper i
+          | res i > lim = (succ i) * (div i 2)
+          | otherwise = looper $ succ i
+          where res :: Int -> Int
+                res n
+                  | even n = (count_divs (div n 2)) * (count_divs (succ n))
+                  | otherwise = (count_divs (div (succ n) 2)) * (count_divs n)
 
 
 
