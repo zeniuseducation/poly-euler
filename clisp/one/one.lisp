@@ -48,7 +48,7 @@
 		    (looper tempa a (+ res (* 4 tempa)) (+ 2 i))))))
     (looper 6 1 25 3)))
 
-(defparameter refsprime (make-array 10000000 :initial-element nil))
+(defparameter refsprime (make-array 100 :initial-element nil))
 
 (defun prime? (p)
   (declare (optimize (speed 3)) (fixnum p))
@@ -303,12 +303,12 @@
 			(looper (- m 1) res))))))
     (looper lim 0)))
 
-
 (defun take-while (f ls)
   (declare (optimize (speed 3)))
   (if (funcall f (first ls))
       (cons (first ls) (take-while f (rest ls)))
       '()))
+
 
 (defun iterate (f g i)
   (declare (optimize (speed 3)))
@@ -336,7 +336,6 @@
 		     (:else (inner 0 0))))))
     (sumas n 7)))
 
-
 (defun suma-ints (n)
   (declare (optimize (speed 3))
 	   (fixnum n))
@@ -354,6 +353,7 @@
 		     ((= c 1) 1)
 		     (:else (inner 0 0))))))
     (isuma n (- n 1))))
+
 
 (defun suma-ints2 (n)
   (declare (optimize (speed 3))
@@ -468,7 +468,6 @@
 (defun pandig? (ls)
   (declare (optimize (speed 3)))
   (equal (sort ls '<) (range 1 9 1)))
-
 (defun pandig-products (lim)
   (declare (optimize (speed 3))
 	   (fixnum lim))
@@ -480,7 +479,6 @@
 					    (numcol (* i j)))))
 		       (pandig? pandigs))
 		collect (* i j)))))
-
 
 (defun pandig-mulb (lim)
   (declare (optimize (speed 3)))
@@ -528,6 +526,7 @@
 				 (+ 1 i)))
 			    nil))))
 	  (looper n 1)))))
+
 
 (defun all-cprimes (lim)
   (declare (optimize (speed 3))
@@ -609,7 +608,6 @@
 	    (+ (oddpal (expt 10 (- (truncate (/ n 2)) 1)) 0)
 	       (sum-bipalins (- n 1)))))))
 
-
 (defun bi-palins (n)
   "Returns the sum of all 1-n-digit (in base 10) double-base palindromes"
   (declare (optimize (speed 3))
@@ -651,7 +649,6 @@
 	      (evenpals start 0)
 	      (oddpals start 0))))))
 
-
 (defun rt-prime? (n)
   (declare (optimize (speed 3))
 	   (fixnum))
@@ -670,10 +667,12 @@
 	  (lt-prime? (rem n (expt 10 (1- (length (numcol n))))))
 	  nil)))
 
+
 (defun lprime? (n)
   (declare (optimize (speed 3))
 	   (fixnum n))
   (and (lt-prime? n) (rt-prime? n)))
+
 
 (defun collect-lprimes2 (n)
   (declare (optimize (speed 3))
@@ -895,27 +894,120 @@
 	   (fixnum i))
   (time (reduce '* (mapcar #'(lambda (x) (nth-champer (expt 10 x))) (range 0 (1- i) 1)))))
 
+(defun colnumbig (ls)
+  (declare (optimize (speed 3)))
+  (labels ((looper (ls res)
+	      (if (null ls)
+		  res
+		  (looper (rest ls) (+ (* res 10) (first ls))))))
+    (looper ls 0)))
 
+(defun numcolbig (n)
+  (declare (optimize (speed 3)))
+  (labels ((looper (i res) 
+	      (if (< i 10)
+		  (cons i res)
+		  (looper (div i 10)
+		     (cons  (rem i 10) res )))))
+    (looper n nil)))
 
+(defun is-pandig? (ls)
+  (declare (optimize (speed 3)))
+  (equal (sort ls '<) (range 1 9 1)))
 
+(defun qsort (ls)
+  (declare (optimize (speed 3)))
+  (if (null ls)
+      '()
+      (append (qsort (remove-if-not #'(lambda (x) (< x (first ls))) (rest ls)))
+	      (list (first ls))
+	      (qsort (remove-if #'(lambda (x) (< x (first ls))) (rest ls))))))
 
+(defun pandig-res (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (labels ((create (ls)
+	     (let ((numbro (cons 9 ls)))
+	       (append numbro (numcol (* 2 (colnum numbro))))))
+	   (pandig? (xs)
+	     (equal (qsort xs) (list 1 2 3 4 5 6 7 8 9))))
+    (let ((mat (list 2 3 6 7)))
+      (mapcar 'colnum
+	      (remove-if-not #'pandig?
+			     (mapcar #'create (permute n mat)))))))
 
+(defun factors (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((step (if (evenp n) 1 2)))
+    (labels ((looper (i res)
+		(declare (fixnum i))
+		(if (>= (* i i) n)
+		    (if (= (* i i) n)
+			(append (take (/ (length res) 2) res)
+				(list i)
+				(drop (/ (length res) 2) res))
+			res)
+		    (if (= 0 (rem n i))
+			(looper (+ i step)
+			   (append (take (/ (length res) 2) res)
+				   (list i (truncate (/ n i)))
+				   (drop (/ (length res) 2) res)))
+			(looper (+ i step) res)))))
+      (if (evenp n) (looper 2 (list 1 n)) (looper 3 (list 1 n))))))
 
+(defun frequencies (lsm)
+  (let ((sls (sort lsm '<)))
+    (labels ((helper (ls p i res1 res)
+	       (if (null ls)
+		   (cons (list p i) (cons res1 res))
+		   (if (= p (first ls))
+		       (helper (rest ls) p (1+ i) res1 res)
+		       (helper (rest ls)
+			       (first ls) 1
+			       (list p i)
+			       (cons res1 res))))))
+      (butlast (helper (rest sls) (first sls) 1 nil nil)))))
 
+(defun pitas1 (lim)
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (frequencies
+   (loop for a from 3 to (/ lim 4)
+      append (loop for d in (factors a)
+		for asqr = (* a a)
+		for b = (/ (- (/ asqr d) d) 2)
+		while (<= a b)
+		for c = (+ b d)
+		for peri = (+ a b c)
+		when (and (<= peri lim)
+			  (= (floor b) (ceiling b)))
+		collect peri))))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+(defun pitas (lim)
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (labels ((looper (a ds res)
+	      (let* ((d (first ds))
+		     (asqr (* a a))
+		     (b (/ (- (/ asqr d) d) 2)))
+		(if (> a b)
+		    res
+		    (let* ((c (+ b d))
+			   (peri (+ a b c)))
+		      (if (> peri lim)
+			  (looper a (rest ds) res)
+			  (looper a (rest ds)
+			       (if (= (ceiling b)
+				      (floor b))
+				   (cons peri res)
+				   res))))))))
+    (first
+     (sort (frequencies
+	    (apply 'append
+		   (remove-if 'null
+			      (loop for a from 3 to (/ lim 4)
+				 collect (looper a (factors a) '())))))
+	   '>  :key 'second))))
 
 

@@ -233,7 +233,7 @@ int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 	begin = clock();
-	int result = max_cycle (1000);
+	int result = floor(sqrt(9));
 	printf("%d \n", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

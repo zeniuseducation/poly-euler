@@ -206,10 +206,29 @@ fun triangle500 (target:int) =
     end;
 
 
+fun permute (n:int) (ls:int list) =
+    let fun helper (s:int) = map (fn i => s::i)
+			   (permute (n-1) (remove s ls))
+    in if n = 1
+       then map (fn x => [x]) ls
+       else concat (map helper ls)
+    end;
+			   
+
+fun pandig_prod (n:int)  =
+    let val mat = [2,3,4,5,6,7]
+	fun create (ls : int list) =
+	    let val num = 9::ls
+	    in num @ (numcol (2 * (colnum num)))
+	    end
+    in filter is_pandig (map create (permute n mat))
+    end;
+
+
 fun function x =
     let
         val t = Timer.startCPUTimer()
-        val result = triangle500 x;
+        val result = pandig_prod x;
     in
         print (Time.toString(#usr(Timer.checkCPUTimer(t))) ^ "\n");
         result

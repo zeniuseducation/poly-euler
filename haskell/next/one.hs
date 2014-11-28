@@ -346,5 +346,21 @@ triangle_factors lim = looper 2
 camps :: Int -> Int
 camps n = foldl1 (*) $ map ((concatMap numcol $ iterate succ 1) !!) [10^i-1| i <- [0..n-1]]
 
+permute n ls
+  | n == 1 = [[x]|x<-ls]
+  | otherwise = concatMap helper ls
+  where helper s = map (\i -> s:i ) (permute (n-1) (delete s ls))
 
+pandig_res :: Int -> Int
+pandig_res n = colnum $ last $ filter is_pandig (map helper $ permute n mat)
+  where mat = [2,3,4,5,6,7]
+        helper ls = num ++ (numcol $ 2 * (colnum num))
+          where num = 9:ls
 
+sort_by f ls = sortBy (\x y -> compare (f x) (f y)) ls
+
+-- this one takes 40ms
+
+euler39 lim = last $ sort_by snd $ map (\x-> (head x,length x)) $ (group . sort) result
+  where result = [a+b+c | a <- [3..div lim 4], b <- [succ a..div lim 2],
+                  c <- [succ b..div lim 2], a^2+b^2 == c^2, let peri = a+b+c, peri <= lim]

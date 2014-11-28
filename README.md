@@ -368,9 +368,17 @@ Clojure v2 1.3-2.5ms
 Haskell 720ms    
 SML ~1ms  
 
+##### Problem 38
+
+SBCL 0.1ms  
+Clojure 1-2ms  
+Haskell < 10ms  
+SML < 1ms  
+
 ##### Problem no 39
 
 SBCL 8ms  
+SBCL v2 0.1ms  
 Clojure 12ms  
 Haskell 10ms  
 

@@ -758,4 +758,137 @@
   [^long n]
   (time (reduce * (pmap #(nth (mapcat numcol (iterate inc 1)) (dec (pow 10 %))) (range n)))))
 
+(defn ^longs permute
+  "Permutations of n element from a list of elements in ls"
+  [^long n ^longs ls]
+  (if (== n 1)
+    (map vector ls)
+    (mapcat (fn [s] (map #(cons s %) (permute (- n 1) (removes s ls)))) ls)))
+
+(defn ^longs pandig-prod
+  "Returns the list of pandigital products produced by concatenating a number with [1,2..]"
+  [^long n]
+  (time
+   (let [mat [2 3 6 7]
+         create (fn [ls]
+                  (let [num (cons 9 ls)]
+                    (concat num (numcol (* 2 (colnum num))))))]
+     (loop [xs (permute n mat) res []]
+       (if (empty? xs)
+         res
+         (recur (rest xs)
+                (let [numbro (create (first xs))]
+                  (if-not (pandig? numbro)
+                    res
+                    (conj res (colnum numbro))))))))))
+
+(defn pita1000a
+  [n]
+  (->> (for [a (range 3 (inc (quot n 4)))
+             b (range a (inc (quot n 2)))
+             :let [c (+ (* a a) (* b b))
+                   csqrt (Math/sqrt c)
+                   side (+ a b (int csqrt))]
+             :when (and (== csqrt (int csqrt))
+                        (<= side n))]
+         side)
+       frequencies (sort-by val) last time))
+
+(defn ^longs pita1000
+  [^long n]
+  (->> (for [b (range a (inc (quot n 2)))
+             :let [c (int (+ (* a a) (* b b)))
+                   csqrt (Math/sqrt c)
+                   side (+ a b (int csqrt))]
+             :while (<= side n)
+             :when (== csqrt (int csqrt))]
+         side)
+       (for [a (range 3 (inc (quot n 4)))])
+       (apply concat)
+       frequencies (sort-by val) last time))
+
+(defn ^longs factors
+  [^long n]
+  (let [start (if (even? n) 2 3)
+        step (if (even? n) 1 2)]
+    (loop [i (int start) counter (int 2) res [1 n]]
+      (if (>= (* i i) n)
+        (if (== (* i i) n)
+          (let [[a b] (split-at (quot counter 2) res)]
+            (concat a (list i) b))
+          res)
+        (if (== 0 (rem n i))
+          (recur (+ i step)
+                 (+ 2 counter)
+                 (let [[a b] (split-at (quot counter 2) res)]
+                   (concat a (list i (quot n i)) b)))
+          (recur (+ i step) counter res))))))
+
+(defn ^longs factors1
+  [^long n]
+  (let [start (if (even? n) 2 3)
+        step (if (even? n) 1 2)]
+    (loop [i (int start) res [1 n]]
+      (if (>= (* i i) n)
+        (if (== (* i i) n)
+          (sort (conj res i))
+          (sort res))
+        (if (== 0 (rem n i))
+          (recur (+ i step)
+                 (conj res i (quot n i)))
+          (recur (+ i step) res))))))
+
+(defn pita1000b
+  [^long lim]
+  (->> (loop [a (int 3) res {}]
+         (if (> a (inc (quot lim 4)))
+           res
+           (let [tres1 (loop [[d & dres] (factors a) res {}]
+                         (let [asqr (int (* a a))
+                               b (/ (- (/ asqr d) d) 2)]
+                           (if (> a b)
+                             res
+                             (let [c (+ b d)
+                                   peri (+ a b c)]
+                               (if (> peri lim)
+                                 (recur dres res)
+                                 (recur dres
+                                        (if (integer? b)
+                                          (merge-with + res {peri 1})
+                                          res)))))))]
+             (recur (+ 1 a) (merge-with + res tres1)))))
+       (sort-by val) time))
+
+(defn single-pita
+  [^long lim]
+  (->> (loop [a (int 3) res []]
+         (if (> a (inc (quot lim 4)))
+           res
+           (let [tres (loop [[d & dres] (factors1 a) res []]
+                         (let [asqr (int (* a a))
+                               b (/ (- (/ asqr d) d) 2)]
+                           (if (> a b)
+                             res
+                             (let [c (+ b d)
+                                   peri (+ a b c)]
+                               (if (> peri lim)
+                                 (recur dres res)
+                                 (recur dres
+                                        (if (integer? b)
+                                          (conj res peri)
+                                          res)))))))]
+             (recur (+ 1 a) (concat res tres)))))
+       frequencies (sort-by val) last time))
+
+
+
+
+
+
+
+
+
+
+
+
 
