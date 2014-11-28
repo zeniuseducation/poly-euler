@@ -380,7 +380,9 @@ SML < 1ms
 SBCL 8ms  
 SBCL v2 0.1ms  
 Clojure 12ms  
+Clojure v2 7-8ms  
 Haskell 10ms  
+Haskell bruteforce 40ms  
 
 ##### Problem no 40
 
