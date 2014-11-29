@@ -859,28 +859,126 @@
              (recur (+ 1 a) (merge-with + res tres1)))))
        (sort-by val) time))
 
-(defn single-pita
+(defn single-pitas
   [^long lim]
   (->> (loop [a (int 3) res []]
          (if (> a (inc (quot lim 4)))
            res
-           (let [tres (loop [[d & dres] (factors1 a) res []]
-                         (let [asqr (int (* a a))
-                               b (/ (- (/ asqr d) d) 2)]
-                           (if (> a b)
-                             res
-                             (let [c (+ b d)
-                                   peri (+ a b c)]
-                               (if (> peri lim)
-                                 (recur dres res)
-                                 (recur dres
-                                        (if (integer? b)
-                                          (conj res peri)
-                                          res)))))))]
+           (let [faca (factors1 a)
+                 bahan (->> (for [m faca]
+                              (for [k faca
+                                    :let [amk (* m k)]
+                                    :while (<= amk a)]
+                                amk))
+                            (apply concat)
+                            distinct
+                            sort)
+                 tres (loop [[d & dres] bahan res []]
+                        (let [asqr (int (* a a))
+                              b (/ (- (/ asqr d) d) 2)]
+                          (if (> a b)
+                            res
+                            (let [c (+ b d)
+                                  peri (+ a b c)]
+                              (if (> peri lim)
+                                (recur dres res)
+                                (recur dres
+                                       (if (integer? b)
+                                         (conj res peri)
+                                         res)))))))]
              (recur (+ 1 a) (concat res tres)))))
        frequencies (sort-by val) last time))
 
+(defn gcd
+  "Accepts two numbers and returns the greatest common divisors of
+  those numbers"
+  [a b]
+  (loop [i (int a) j (int b)]
+    (if (= i j)
+      i
+      (if (> i j)
+        (recur j (- i j))
+        (recur i (- j i))))))
 
+(defn ^longs pitas
+  [^long lim]
+  (->> (let [refs (int-array (inc lim) 0)]
+         (do (loop [m (int 2)]
+               (if (> m (/ lim 2))
+                 nil
+                 (recur (do (loop [n (int 1)]
+                              (if (== n m)
+                                nil
+                                (if (and (or (even? m) (even? n))
+                                         (== 1 (gcd m n)))
+                                  (let [a (- (* m m) (* n n))
+                                        b (* 2 m n)
+                                        c (+ (* m m) (* n n))
+                                        peri (+ a b c)]
+                                    (if (> peri lim)
+                                      nil
+                                      (recur (do (loop [idx (int peri)]
+                                                   (if (> idx lim)
+                                                     nil
+                                                     (let [tmp (aget refs idx)]
+                                                       (do (aset refs idx (+ tmp 1))
+                                                           (recur (+ idx peri))))))
+                                                 (+ n 1)))))
+                                  (recur (+ n 1)))))
+                            (+ m 1)))))
+             (loop [idx (int 12) counter 0 res [0 0]]
+               (if (> idx lim)
+                 [counter res]
+                 (let [tmp (aget refs idx)]
+                   (recur (+ idx 2)
+                          (if (== tmp 1)
+                            (+ counter 1)
+                            counter)
+                          (if (> tmp (second res))
+                            [idx tmp]
+                            res)))))))
+       time))
+
+(defn tripen
+  [lim]
+  (for [i (range 1 lim)
+        j (range 1 lim)
+        :let [tri (/ (* i (+ i 1)) 2)
+             pen (/ (* j (- (* 3 j) 1)) 2)]
+        :when (== tri pen)]
+    [i j tri]))
+
+(defn hexagonals
+  [lim]
+  (map #(* % (dec (* 2 %))) (range 1 lim)))
+
+(defn triangle?
+  [n]
+  (let [isqr (int (Math/floor (Math/sqrt (* 2 n))))]
+    (== (* 2 n) (* isqr (+ 1 isqr)))))
+
+(defn pentagonals
+  []
+  (map #(/ (* % (- (* 3 %) 1)) 2) (iterate inc 1)))
+
+(defn hexal?1
+  [n]
+  (let [isqr (int (Math/floor (Math/sqrt (/ n 2))))]
+    (or (== n (* isqr (- (* 2 isqr) 1)))
+        (== n (* (inc isqr) (- (* 2 (inc isqr)) 1))))))
+
+(defn hexal?
+  [n]
+  (let [res (/ (+ 1 (Math/sqrt (+ 1 (* 8 n)))) 4)]
+    (== (int res) res)))
+
+
+(defn euler45
+  [n]
+  (->> (pentagonals)
+       (filter hexal?)
+       (take n)
+       time))
 
 
 

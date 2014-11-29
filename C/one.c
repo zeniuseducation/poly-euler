@@ -228,13 +228,174 @@ int euler1 (int n) {
     return res;
 }
 
+int pita1 (int lim ) {
+    int refs[1001] = {0};
+    int c,d,asqr,peri,step;
+    double b;
+    for (int a = 3; a <= (lim / 4) + 1; a++) {
+        if (0 == a % 2) {
+            step = 1;
+        } else {
+            step = 2;
+        }
+        d=1; 
+        asqr = a*a;
+        b = ((asqr / d) - d) / 2;
+        c = b+d;
+        peri = a + b + c;
+        while (a < b) {
+            
+            if ((peri <= lim) && (floor(b) == ceil(b))) {
+                refs[peri] += 1;
+            }
+            d += step;
+            b = ((asqr / d) - d) / 2;
+        }
+    }
+    int res = 0;
+    int ires = 0;
+    for (int i = 0; i < lim; i++) {
+        if (refs[i] > res) {
+            res = refs[i];
+            ires = i;
+        }
+    }
+    return (ires*1000) + res;
+}
+
+int pita2 (int lim) {
+    int b,c,asqr,peri, res,ires;
+    double csqr;
+    int refs[1001] ={0};
+    for (int a = 3; a <= (lim/4) + 1; a++) {
+        b = a + 1;
+        csqr = sqrt (a*a+b*b);
+        c = floor(csqr);
+        peri = a+b+c;
+        while (peri<lim) { 
+            if (floor(csqr) == ceil(csqr)) {
+                refs[peri] += 1;
+            } 
+            b++;
+            csqr = sqrt (a*a+b*b);
+            c = floor(csqr);
+            peri = a+b+c;           
+        }
+    }
+    res = 0;
+    ires = 0;
+    for (int i = 0; i < lim; i++) {
+        if (refs[i] > res) {
+            res = refs[i];
+            ires = i;
+        }
+    }
+    return (ires*1000) + res;
+}
+
+int single_pita1 (int lim) {
+    int b,c,asqr,peri, res;
+    double csqr;
+    int refs[300000] ={0};
+    for (int a = 3; a <= (lim/4) + 1; a++) {
+        b = a + 1;
+        csqr = sqrt (a*a+b*b);
+        c = floor(csqr);
+        peri = a+b+c;
+        while (peri<lim) { 
+            if (floor(csqr) == ceil(csqr)) {
+                refs[peri] += 1;
+            } 
+            b++;
+            csqr = sqrt (a*a+b*b);
+            c = floor(csqr);
+            peri = a+b+c;           
+        }
+    }
+    res = 0;
+    for (int i = 0; i < lim; i++) {
+        if (refs[i] == 1) {
+            res++;
+        }
+    }
+    return res;
+}
+
+int gcd (int a, int b) {
+    if (a==0) {
+        return b;
+    } else if (b ==0 ) {
+        return a;
+    } else if (a > b) {
+        return gcd (a-b,b);
+    } else {
+        return gcd (b-a,a);
+    }
+}
+
+int single_pita (int lim) {
+    int refs[150001] = {0};
+    int n,a,b,c,peri,res=0;
+    for (int m = 2; m < (lim/2); m++) {
+        n = 1;
+        a = (m*m) - (n*n);
+        b = 2 * m *n;
+        c = (m*m) + (n*n);
+        peri = a+b+c;
+        while (n < m && (peri <= lim)) {
+            if ((gcd(m,n)==1) && (0 == (m % 2) || 0 == (n % 2))) {
+                
+                for (int i = peri; i <= lim; i += peri) {
+                    refs[i]++;
+                    }  
+            }
+            n++;
+            a = (m*m) - (n*n);
+            b = 2 * m *n;
+            c = (m*m) + (n*n);
+            peri = a+b+c;
+        }
+    }
+    
+    for (int i = 12; i <= lim; i+=2) {
+        if (refs[i] == 1) {
+            res++;
+        }
+    }
+    return res;
+}
+
+int is_hexal(long n) {
+    long double tmp = (1 + sqrt(1+(8*n))) / 4;
+    if (floor(tmp) == ceil(tmp)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+long next_penhexal (long start) {
+    long n =1;
+    long pen = (n * ((3 * n) - 1)) / 2;
+    while (pen <= start) {
+        n++;
+        pen = (n * ((3 * n) - 1)) / 2;
+    }
+    int res = false;
+    while (!res) {
+        n++;
+        pen = (n * ((3 * n) - 1)) / 2;
+        res = is_hexal(pen);
+    }
+    return pen;
+}
 
 int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 	begin = clock();
-	int result = floor(sqrt(9));
-	printf("%d \n", result);
+	long result = next_penhexal(40756);
+	printf("%ld \n", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 	printf("\n%f", time_spent);

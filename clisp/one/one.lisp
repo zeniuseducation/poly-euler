@@ -984,30 +984,50 @@
 			  (= (floor b) (ceiling b)))
 		collect peri))))
 
+(defun helper-pitas1 (a fas res)
+  (if (null fas)
+      res
+      (helper-pitas1 a
+		     (rest fas)
+		     (append res
+			     (let ((fa (first fas)))
+			       (loop for m in fas
+				  for amk = (* m fa)
+				  when (<= amk a)
+				  collect amk))))))
+
+(defun helper-pitas2 (a ds res lim)
+  (if (null ds)
+      res
+      (let* ((d (first ds))
+	     (asqr (* a a))
+	     (b (/ (- (/ asqr d) d) 2))
+	     (peri (+ a b b d)))
+	(if (> peri lim)
+	    (helper-pitas2 a (rest ds) res lim)
+	    (helper-pitas2 a
+			   (rest ds)
+			   (if (= (ceiling b) (floor b)) (cons peri res) res)
+			   lim)))))
+
 (defun pitas (lim)
   (declare (optimize (speed 3))
 	   (fixnum lim))
-  (labels ((looper (a ds res)
-	      (let* ((d (first ds))
-		     (asqr (* a a))
-		     (b (/ (- (/ asqr d) d) 2)))
-		(if (> a b)
-		    res
-		    (let* ((c (+ b d))
-			   (peri (+ a b c)))
-		      (if (> peri lim)
-			  (looper a (rest ds) res)
-			  (looper a (rest ds)
-			       (if (= (ceiling b)
-				      (floor b))
-				   (cons peri res)
-				   res))))))))
-    (first
-     (sort (frequencies
-	    (apply 'append
-		   (remove-if 'null
-			      (loop for a from 3 to (/ lim 4)
-				 collect (looper a (factors a) '())))))
-	   '>  :key 'second))))
+  (frequencies
+   (apply 'append
+	  (remove-if 'null
+		     (loop for a from 3 to (1+ (/ lim 4))
+			collect (helper-pitas2 a
+					       (sort
+						(remove-duplicates
+						 (helper-pitas1 a (factors a) '())) '<)
+					       '()
+					       lim))))))
+
+
+
+
+
+
 
 

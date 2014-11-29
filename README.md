@@ -378,7 +378,7 @@ SML < 1ms
 ##### Problem no 39
 
 SBCL 8ms  
-SBCL v2 0.1ms  
+SBCL v2 1ms  
 Clojure 12ms  
 Haskell 10ms  
 
