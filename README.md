@@ -378,9 +378,15 @@ SML < 1ms
 ##### Problem no 39
 
 SBCL 8ms  
+<<<<<<< HEAD
 SBCL v2 1ms  
+=======
+SBCL v2 0.2ms  
+>>>>>>> FETCH_HEAD
 Clojure 12ms  
+Clojure v2 7-8ms  
 Haskell 10ms  
+Haskell bruteforce 40ms  
 
 ##### Problem no 40
 
@@ -398,9 +404,18 @@ Haskell (one liner) 10ms
 Clojure 2ms (fast)  
 Common Lisp 0.15ms (Uberfast!)  
 
+##### Problem 45
+
+Clojure 0.1ms  
+C as benchmark 0.3ms  
+
 ##### Problen no 51
 
 Haskell 320ms  
+
+##### Problem 75
+
+SBCL 0.2second  
 
 ##### Problem no 76 
 
