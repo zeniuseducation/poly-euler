@@ -400,10 +400,28 @@ Haskell (one liner) 10ms
 Clojure 2ms (fast)  
 Common Lisp 0.15ms (Uberfast!)  
 
+##### Problem 43 
+
+Substring divisibility 
+
+SBCL 0.5ms  
+
+##### Problem 44
+
+Laziness stuff
+
+Clojure (using pmap) 0.21 sec  
+Haskell (optimized to the max) 0.23 sec  
+
 ##### Problem 45
 
 Clojure 0.1ms  
 C as benchmark 0.3ms  
+
+##### Problem 48
+
+Clojure 53ms  
+SBCL 14ms  
 
 ##### Problen no 51
 
