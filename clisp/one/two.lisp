@@ -70,7 +70,6 @@
 			      (cons s x))
 			  (permute (- n 1) (remove s ls)))) ls)))
 
-
 (defun factors (n)
   (declare (optimize (speed 3))
 	   (fixnum n))
@@ -90,7 +89,6 @@
 				   (drop (/ (length res) 2) res)))
 			(looper (+ i step) res)))))
       (if (evenp n) (looper 2 (list 1 n)) (looper 3 (list 1 n))))))
-
 
 (defun pitas1 (lim)
   (declare (optimize (speed 3))
@@ -112,6 +110,7 @@
 			(integerp b))
 	      collect peri)))
      '> :key 'second))))
+
 
 (defun pitas1b (lim)
   (declare (optimize (speed 3))
@@ -179,6 +178,7 @@
 			   (cons (list i (div n i)) res))
 			(looper (+ i step) res)))))
       (looper (if (evenp n) 2 3) (list (list 1 n))))))
+
 
 (defun pitas3 (lim)
   (declare (optimize (speed 3))
@@ -319,8 +319,6 @@
 		 counting (= 1 tmp) into counter
 		 finally (return (list counter ires res))))))))
 
-
-
 (defun hexal? (n)
   (declare (optimize (speed 3))
 	   (fixnum n))
@@ -340,6 +338,8 @@
 			(looper (1+ i)))))))
     (time (looper 1))))
 
+
+
 (defun penxal (lim)
   (declare (optimize (speed 3))
 	   (fixnum lim))
@@ -353,20 +353,209 @@
 			(looper (1+ i) res))))))
     (time (looper 1 nil))))
 
+(defun iterate (fn i gn)
+  "Returns non-lazy iterate while (gn i) is false"
+  (if (funcall gn i)
+      nil
+      (cons i (iterate fn (funcall fn i) gn))))
+
+(defun dig-unique? (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((num (numcol n)))
+    (equal num (remove-duplicates num))))
+
+(defun snumcol (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (labels ((looper (i res)
+	      (declare (fixnum i))
+	      (if (< i 10)
+		  (let ((num (cons i res)))
+		    (cond ((= 2 (length num)) (cons 0 num))
+			  ((= 1 (length num)) (append '(0 0) num))
+			  (:else num)))
+		  (looper (div i 10)
+		     (cons  (rem i 10) res )))))
+    (looper n nil)))
+
+(defun divpandig2 ()
+  (declare (optimize (speed 3)))
+  (let ((refs '(13 11 7 5 3 2))
+	(digs (range 0 9 1)))
+    (labels ((looper (i cls)
+		(declare (fixnum i))
+		(if (> i 5)
+		    (let ((num (set-difference digs cls)))
+		      (list (append num cls)))
+		    (let* ((p (nth i refs))
+			   (raw1 (remove-if-not
+				  #'(lambda (x) (dig-unique? x))
+				  (range p 999 p)))
+			   (raw2 (remove-if-not
+				  #'(lambda (x) (and (not (member (first x) cls))
+						(equal (rest x) (take 2 cls))))
+				  (mapcar 'snumcol raw1))))
+		      (mapcan
+		       #'(lambda (x) (looper (+ i 1)
+				   (cons (first x) cls)))
+		       raw2)))))
+      (time
+       (reduce '+
+	       (mapcar 'colnum
+		       (mapcan #'(lambda (x) (looper 0 x))
+			       (mapcar 'snumcol
+				       (remove-if-not
+					#'(lambda (x) (dig-unique? x))
+					(range 17 999 17))))))))))
 
 
+(defun divpandig ()
+  (declare (optimize (speed 3)))
+  (let ((digs (range 0 9 1))
+	(raw '(13 11 7 5 3 2)))
+    (labels ((looper (i cls rdigs)
+		(declare (optimize (speed 3))
+			 (fixnum i))
+		(if (> i 5)
+		    (list (append (set-difference digs cls) cls))
+		    (let* ((p (nth i raw))
+			   (raw1 (mapcar #'(lambda (x) (cons x (take 2 cls))) rdigs))
+			   (raw2 (remove-if-not
+				  #'(lambda (x)  (= 0 (rem (colnum x) p)))
+				  raw1))
+			   (raw3 (remove-if-not
+				  #'(lambda (x) (equal (rest x) (take 2 cls)))
+				  raw2)))
+		      (mapcan
+		       #'(lambda (x) (looper (1+ i)
+				   (cons (first x) cls)
+				   (set-difference rdigs (cons (first x) cls))))
+		       raw3)))))
+      (time
+       (reduce '+
+	       (mapcar 'colnum
+		       (mapcan #'(lambda (x) (looper 0 x (set-difference digs x)))
+			       (remove-if-not
+				#'(lambda (x)  (= 0 (rem (colnum x) 17)))
+				(permute 3 digs)))))))))
+
+(defparameter refpens (make-array 5000 :initial-element nil))
+
+(defun pentagonals (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((num (aref refpens n)))
+    (if num
+	num
+	(setf (aref refpens n) (/ (* n (1- (* 3 n))) 2)))))
+
+(defun list-penta (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (mapcar 'pentagonals (range n 1 1)))
+
+(defun pental? (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((num (/ (1+ (sqrt (1+ (* 24.0l0 n)))) 6)))
+    (= (floor num) (ceiling num))))
+
+(defun sumsub-pental? (xs)
+  (declare (optimize (speed 3)))
+  (let ((num (remove-if-not
+	      #'(lambda (x)
+		  (and (pental? (+ x (first xs)))
+		       (pental? (- (first xs) x))))
+	      (rest xs))))
+    (if (null num)
+	nil
+	(list (first xs) (first num)))))
+
+(defun find-pental ()
+  (declare (optimize (speed 3)))
+  (labels ((inner (i)
+	     (declare (fixnum i))
+	     (let* ((curp (pentagonals i))
+		    (num (remove-if-not
+			  #'(lambda (x)
+			      (and (pental? (+ curp (pentagonals x)))
+				   (pental? (- curp (pentagonals x)))))
+			  (range (- i 1) 1 1))))
+	       (if (null num)
+		   nil
+		   (list curp (pentagonals (first num))))))
+	   (looper (i)
+	      (declare (fixnum i))
+	      (let ((res (inner i)))
+		(if res res (looper (1+ i))))))
+    (time (apply '- (looper 2)))))
 
 
+(defun dnumcol (n)
+  (declare (optimize (speed 3)))
+  (labels ((looper (i res)
+	      (if (= 10 (length res))
+		  res
+		  (if (< i 10)
+		      (cons i res)
+		      (looper (truncate  (/ i 10))
+			 (cons (rem i 10) res))))))
+    (looper n nil)))
 
+(defun self-power (lim)
+  (time (rem (reduce '+ (mapcar #'(lambda (x) (expt x x)) (range 1 lim 1))) (expt 10 10))))
 
+(defun sieves (lim)
+  (declare (optimize (speed 3)) (fixnum lim))
+  (let ((llim (isqrt lim))
+	(refs (make-array lim :initial-element t)))
+    (labels ((outer (i res)
+	       (declare (optimize (speed 3))
+			(fixnum i)
+			(dynamic-extent res))
+	       (labels ((inner (p)
+			  (declare (optimize (speed 3))
+				   (fixnum p))
+			  (if (< p lim)
+			      (progn (setf (aref refs p) nil)
+				     (inner (+ p (* 2 i))))
+			      (+ 2 i))))
+		 (if (< i lim)
+		     (if (and (<= i llim) (aref refs i))
+			 (progn (inner (* i i))
+				(outer (+ i 2)
+				       (cons i res)))
+			 (outer (+ i 2)
+				(if (aref refs i)
+				    (cons i res)
+				    res)))
+		     (reverse res)))))
+      (outer 3 (list 2)))))
 
+(defparameter refsprime (make-array 100 :initial-element nil))
 
-
-
-
-
-
-
-
-
-
+(defun prime? (p)
+  (declare (optimize (speed 3)) (fixnum p))
+  (if (< p 2)
+      nil
+      (if (= 2 p)
+	  t
+	  (if (evenp p)
+	      nil
+	      (let ((refs (aref refsprime p)))
+		(if refs
+		    (if (= refs 1) nil t)
+		    (let ((result (let ((lim (isqrt p)))
+				    (labels ((helper (i)
+					       (declare (optimize (speed 3))
+							(fixnum i))
+					       (if (> i lim)
+						   t
+						   (if (= 0 (rem p i))
+						       nil
+						       (helper (+ i 2))))))
+				      (helper 3)))))
+		      (if result
+			  (progn (setf (aref refsprime p) 2) t)
+			  (progn (setf (aref refsprime p) 1) nil)))))))))

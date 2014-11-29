@@ -390,11 +390,58 @@ long next_penhexal (long start) {
     return pen;
 }
 
+long refspen[5000] = {0};
+
+long penta (int n) {
+    if (refspen[n] == 0) {
+        long res = (n * ((3*n) - 1)) / 2;
+        refspen[n] = res;
+        return res;
+    } else {
+        return refspen[n];
+    }
+
+}
+ 
+int is_pental (long n) {
+    double num = (1 + sqrt(1+(24.0*n))) / 6.0;
+    return floorf(num) == ceilf(num);
+}
+
+int sumsub_pental (n) {
+    long i = n-1;
+    long pentn = penta(n);
+    long penti = penta (i);
+    int tmp = (is_pental (pentn+penti) && is_pental (pentn - penti));
+    while ((!tmp) && (i > 0)) {
+        i--;
+        penti = penta(i);
+        tmp = (is_pental (pentn+penti) && is_pental (pentn - penti));
+    }
+    if (tmp) {
+        return pentn-penti;
+    } else {
+        return 0;
+    }
+    
+}
+
+long find_pental () {
+    long i = 5;
+    long res = sumsub_pental(i);
+    while (res == 0) {
+        i++;
+        res = sumsub_pental(i);
+    }
+    return res;
+}
+
+
 int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 	begin = clock();
-	long result = next_penhexal(40756);
+	long result = find_pental();
 	printf("%ld \n", result);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

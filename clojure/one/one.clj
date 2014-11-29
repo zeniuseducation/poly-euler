@@ -957,10 +957,6 @@
   (let [isqr (int (Math/floor (Math/sqrt (* 2 n))))]
     (== (* 2 n) (* isqr (+ 1 isqr)))))
 
-(defn pentagonals
-  []
-  (map #(/ (* % (- (* 3 %) 1)) 2) (iterate inc 1)))
-
 (defn hexal?1
   [n]
   (let [isqr (int (Math/floor (Math/sqrt (/ n 2))))]
@@ -972,6 +968,9 @@
   (let [res (/ (+ 1 (Math/sqrt (+ 1 (* 8 n)))) 4)]
     (== (int res) res)))
 
+(defn ^longs pentagonals []
+  (pmap #(/ (* % (- (* 3 %) 1)) 2) (iterate inc 1)))
+
 
 (defn euler45
   [n]
@@ -979,6 +978,58 @@
        (filter hexal?)
        (take n)
        time))
+
+(defn pental? [^long n]
+  (let [num (/ (inc (Math/sqrt (inc (* 24 n)))) 6)] (== (int num) num)))
+
+(defn sumsub-pental? [[x & res]]
+  (let [num (filter #(and (pental? (+ x %)) (pental? (- x %))) res)]
+    (if (empty? num) nil [x (first num)])))
+
+(defn find-pental []
+  (->> (pentagonals) (reductions #(cons %2 %1) '())
+       (drop 2) (pmap #(sumsub-pental? %)) (keep identity) first (reduce -)))
+
+(defn divpandig
+  []
+  (let [digs (into #{} (range 10))
+        raw [13 11 7 5 3 2]
+        looper (fn looper [^long i cls rdigs]
+                 (if (> i 5)
+                   (list (concat (into '() (difference digs cls)) cls))
+                   (let [p (int (nth raw i))]
+                     (->> (map #(cons % (take 2 cls)) (into [] rdigs))
+                          (filter #(== 0 (rem (colnum %) p)))
+                          (filter #(= (rest %) (take 2 cls)))
+                          (mapcat #(looper (inc i)
+                                           (cons (first %) cls)
+                                           (difference
+                                            rdigs
+                                            (into #{} (cons (first %) cls)))))))))]
+    (->> (permute 3 digs)
+         (filter #(== 0 (rem (colnum %) 17)))
+         (pmap #(looper 0 % (difference digs (into #{} %))))
+         (apply concat)
+         (pmap colnum)
+         (reduce +)
+         time)))
+
+(defn self-power
+  [^long lim]
+  (rem (reduce +' (pmap #(expn % %) (range 1N (inc lim)))) 10000000000N))
+
+(defn conseq-primes
+  [lim]
+  (->> (sieves lim)
+       (iterate rest)
+       (take-while not-empty)
+       (pmap #(let [num (take-while not-empty (iterate butlast %))]
+                (pmap (fn [nnum] (vector (apply + nnum) (count nnum))) num)))
+       (apply concat)
+       (sort-by second >)
+       (map first)
+       (filter prime?)
+       first time))
 
 
 

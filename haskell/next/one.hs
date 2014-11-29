@@ -364,3 +364,37 @@ sort_by f ls = sortBy (\x y -> compare (f x) (f y)) ls
 euler39 lim = last $ sort_by snd $ map (\x-> (head x,length x)) $ (group . sort) result
   where result = [a+b+c | a <- [3..div lim 4], b <- [succ a..div lim 2],
                   c <- [succ b..div lim 2], a^2+b^2 == c^2, let peri = a+b+c, peri <= lim]
+
+-- it returns an infinite sequence of pentagonal numbers
+pentagonals :: [Int]
+pentagonals = map (\x-> (div (x * (pred $ 3 * x)) 2)) $ iterate succ 1
+
+-- it checks whether a number is a pentagonal number
+is_pental :: Int -> Bool
+is_pental n = floor x == ceiling x
+  where x = (1 + (sqrt $ 1 + 24* (fromIntegral n))) / 6
+
+-- it takes a list of n first pentagonal numbers and starts searching
+-- from the last element down to first, exit if found
+sumsub_pental :: [Int] -> [Int]
+sumsub_pental (x:xs) = if null num then [0,0] else [x,head num]
+  where num = filter (\a -> (is_pental $ x+a) && (is_pental $ x -a)) xs
+
+-- the main function that generates first n members of pentagonal numbers
+-- where n starting from 1 (it operates on infinite sequence)
+-- and searching until finding the first one producing pentagonal sums & difference
+find_pentals :: Int
+find_pentals = foldl1 (-) $ head $ dropWhile (\x -> x == [0,0]) nums
+  where nums = map sumsub_pental $ drop 2 $ scanl (\x y -> y:x) [] pentagonals
+
+find_pentals2 :: Int -> [Int]
+find_pentals2 m = looper 1
+  where looper :: Int -> [Int]
+        looper i
+          | i == m = [1,1]
+          | num == [0,0] = looper $ succ i
+          | otherwise = num
+          where num = sumsub_pental (reverse $ take i pentagonals)
+
+
+s_power l = rem (foldl1 (\x y -> x+ (rem y (10^10))) (map (\x -> x^x) [1..l])) (10^10)
