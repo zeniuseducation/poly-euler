@@ -378,13 +378,9 @@ SML < 1ms
 ##### Problem no 39
 
 SBCL 8ms  
-<<<<<<< HEAD
-SBCL v2 1ms  
-=======
-SBCL v2 0.2ms  
->>>>>>> FETCH_HEAD
+SBCL v2 0.3ms  
 Clojure 12ms  
-Clojure v2 7-8ms  
+Clojure v2 2-3ms  
 Haskell 10ms  
 Haskell bruteforce 40ms  
 
