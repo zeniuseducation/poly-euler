@@ -423,6 +423,10 @@ C as benchmark 0.3ms
 Clojure 53ms  
 SBCL 14ms  
 
+##### Problem 49
+
+SBCL 0.3 ms  
+
 ##### Problen no 51
 
 Haskell 320ms  
