@@ -1144,6 +1144,39 @@
                                 (+ 1 resj)
                                 resj)))))))))))
 
+(defn ndig-cubes2
+  [n]
+  (if (== n 1)
+    [[1 [1]] [8 [8]]]
+    (let [end (long (expn 10 n))
+          start (long (Math/ceil (Math/pow (expn 10 (dec n)) 1/3)))]
+      (->> (iterate inc start)
+           (pmap #(let [num (* % % %)]
+                    [num (sort (numcol num))]))
+           (take-while #(< (first %) end))))))
+
+(defn ndig-cubes
+  [^long n]
+  (if (== n 1)
+    [[1 [1]] [8 [8]]]
+    (let [end (long (expn 10 n))
+          start (long (Math/ceil (Math/pow (expn 10 (dec n)) 1/3)))]
+      (loop [i start res []]
+        (let [num (* i i i)]
+          (if (> num end)
+            res
+            (recur (inc i) (conj res [num (sort (numcol num))]))))))))
+
+(defn ^long cube-permutations
+  [target]
+  (loop [i (int 1)]
+    (let [tmp (->> (ndig-cubes i)
+                   (group-by second)
+                   (filter #(== target (count (val %)))))]
+      (if (empty? tmp)
+        (recur (inc i))
+        (->> (map #(ffirst (second %)) tmp)
+             (sort) (first))))))
 
 
 

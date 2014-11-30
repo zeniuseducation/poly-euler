@@ -1,6 +1,5 @@
 (defun div (a m )
-  (declare (optimize (speed 3))
-	   (fixnum a m))
+  (declare (optimize (speed 3)))
   (truncate (/ a m)))
 
 (defun frequencies (lsm)
@@ -111,7 +110,6 @@
 	      collect peri)))
      '> :key 'second))))
 
-
 (defun pitas1b (lim)
   (declare (optimize (speed 3))
 	   (fixnum lim))
@@ -165,6 +163,7 @@
 				(setf ires i)))
 		   (list res ires))))))
 
+
 (defun pair-factors (n)
   (declare (optimize (speed 3))
 	   (fixnum n))
@@ -178,7 +177,6 @@
 			   (cons (list i (div n i)) res))
 			(looper (+ i step) res)))))
       (looper (if (evenp n) 2 3) (list (list 1 n))))))
-
 
 (defun pitas3 (lim)
   (declare (optimize (speed 3))
@@ -199,6 +197,7 @@
 		 while (<= peri lim)
 		 when (not (= m n))
 		 collect peri)) '<)))
+
 
 (defun pitas4 (lim)
   (declare (optimize (speed 3))
@@ -338,8 +337,6 @@
 			(looper (1+ i)))))))
     (time (looper 1))))
 
-
-
 (defun penxal (lim)
   (declare (optimize (speed 3))
 	   (fixnum lim))
@@ -352,6 +349,8 @@
 			(looper (1+ i) (cons pen res))
 			(looper (1+ i) res))))))
     (time (looper 1 nil))))
+
+
 
 (defun iterate (fn i gn)
   "Returns non-lazy iterate while (gn i) is false"
@@ -409,7 +408,6 @@
 					#'(lambda (x) (dig-unique? x))
 					(range 17 999 17))))))))))
 
-
 (defun divpandig ()
   (declare (optimize (speed 3)))
   (let ((digs (range 0 9 1))
@@ -439,6 +437,7 @@
 			       (remove-if-not
 				#'(lambda (x)  (= 0 (rem (colnum x) 17)))
 				(permute 3 digs)))))))))
+
 
 (defparameter refpens (make-array 5000 :initial-element nil))
 
@@ -491,7 +490,6 @@
 		(if res res (looper (1+ i))))))
     (time (apply '- (looper 2)))))
 
-
 (defun dnumcol (n)
   (declare (optimize (speed 3)))
   (labels ((looper (i res)
@@ -502,6 +500,7 @@
 		      (looper (truncate  (/ i 10))
 			 (cons (rem i 10) res))))))
     (looper n nil)))
+
 
 (defun self-power (lim)
   (time (rem (reduce '+ (mapcar #'(lambda (x) (expt x x)) (range 1 lim 1))) (expt 10 10))))
@@ -560,8 +559,6 @@
 			  (progn (setf (aref refsprime p) 2) t)
 			  (progn (setf (aref refsprime p) 1) nil)))))))))
 
-
-
 (defun count-power ()
   (+ 3
      (loop for i from 4 to 9
@@ -574,3 +571,146 @@
 	finally (return summer))))
 
 
+
+(defun cpower ()
+  (declare (optimize (speed 3)))
+  (labels ((looper (n m res)
+	      (declare (fixnum n m res))
+	      (let ((hasil (ceiling (* m (log n 10)))))
+		(if (< hasil m)
+		    res
+		    (looper n (1+ m) (if (= hasil m) (1+ res) res))))))
+    (+ 3 (reduce '+ (mapcar #'(lambda (x) (looper x 1 0)) (range 4 9 1))))))
+
+(defun sumdig (n)
+  (declare (optimize (speed 3)))
+  (labels ((looper (i res)
+	      (declare (fixnum res))
+	      (if (< i 10)
+		  (+ i res)
+		  (looper (div i 10) (+ res (rem i 10))))))
+    (looper n 0)))
+
+
+
+(defun digital-power-sum (lim)
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (loop for a from 1 to lim
+     for res = (loop for b from 1 to lim
+		  for sum = (sumdig (expt a b))
+		  maximizing sum into summer
+		  finally (return summer))
+     maximizing res into mres
+     finally (return res)))
+
+(defun take-while (fn ls)
+  "Returns the elements of ls starting from first while (fn elmt) is true"
+  (if (null ls)
+      ls
+      (if (not (funcall fn (first ls)))
+	  nil
+	  (cons (first ls) (take-while fn (rest ls))))))
+
+
+(defun drop-while (fn ls)
+  "Returns the elements of ls starting from first while (fn elmt) is true"
+  (if (null ls)
+      ls
+      (if (funcall fn (first ls))
+	  (drop-while fn (rest ls))
+	  ls)))
+
+;; Some performance test
+
+(defun cube? (n)
+  (declare (optimize (speed 3)))
+  (let ((num (expt n 1/3)))
+    (= (ceiling num) (floor num))))
+
+(defun ndig-cubes2 (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (labels ((find-first (i)
+	     (if (cube? i) i (find-first (1+ i))))
+	   (find-end (i)
+	     (if (cube? i) i (find-end (1- i))))
+	   (looper (i j)
+	      (declare (fixnum i j))
+	      (mapcar #'(lambda (x) (* x x x)) (range i j  1))))
+    (let* ((st (find-first (expt 10 (1- n))))
+	   (start (truncate (expt st 1/3)))
+	   (ed (find-end (- (expt 10 n) 1)))
+	   (end (truncate (expt ed 1/3))))
+      (looper start end))))
+
+(defun ndig-cubes3 (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((end (expt 10 n)))
+    (labels ((looper (i res)
+		(let ((num (* i i i)))
+		  (if (> num end)
+		      res
+		      (looper (1+ i) (cons num res))))))
+      (looper (ceiling (expt (expt 10 (- n 1)) 1/3)) nil))))
+
+(defun digpermute?2 (a b)
+  (declare (optimize (speed 3)))
+  (let ((numa (numcol a))
+	(numb (numcol b)))
+    (equal (sort numa '<) (sort numb '<))))
+
+(defun cubic-permutations2 (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((bahan (ndig-cubes n)))
+    (labels ((looper (x xs)
+		(let ((res (remove-if-not
+			    #'(lambda (m) (digpermute? x m))
+			    xs)))
+		  (if (null res) nil (cons x res)))))
+      (remove-if 'null
+		 (mapcar #'(lambda (x) (looper x (remove x bahan))) bahan)))))
+
+(defun find-cubes2 (target)
+  (declare (optimize (speed 3))
+	   (fixnum target))
+  (labels ((looper (i)
+	      (declare (fixnum i))
+	      (let ((res (remove-if-not
+			  #'(lambda (x)  (= target (length x)))
+			  (cubic-permutations i))))
+		(if (null res) (looper (1+ i)) res))))
+    (looper 1)))
+
+(defun ndig-cubes (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((end (expt 10 n)))
+    (labels ((looper (i res)
+		(let ((num (* i i i)))
+		  (if (> num end)
+		      res
+		      (looper (1+ i) (cons (list num
+						 (sort (numcol num) '<))
+					   res))))))
+      (looper (ceiling (expt (expt 10 (- n 1)) 1/3)) nil))))
+
+
+(defun freq-by (fn lsm)
+  (declare (optimize (speed 3)))
+  (let ((sls (sort lsm '< :key fn)))
+    (labels ((helper (ls p i res1 res)
+	       (if (null ls)
+		   (cons (list p i) (cons res1 res))
+		   (if (= (funcall fn p) (funcall fn (first ls)))
+		       (helper (rest ls) p (1+ i) res1 res)
+		       (helper (rest ls)
+			       (first ls) 1
+			       (list p i)
+			       (cons res1 res))))))
+      (butlast (helper (rest sls) (first sls) 1 nil nil)))))
+
+(defun cubic-permutations (n)
+  (freq-by 'second (ndig-cubes n)))

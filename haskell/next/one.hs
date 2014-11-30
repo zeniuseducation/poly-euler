@@ -1,6 +1,7 @@
 module One where
 
 import Data.List
+import Data.Char
 
 
 numcol :: Int -> [Int]
@@ -398,3 +399,7 @@ find_pentals2 m = looper 1
 
 
 s_power l = rem (foldl1 (\x y -> x+ (rem y (10^10))) (map (\x -> x^x) [1..l])) (10^10)
+
+max_power lim = maximum [sumdig (a^b)| a <- [1..lim], b <- [1..lim]]
+  where sumdig i = sum $ map digitToInt $ show i
+
