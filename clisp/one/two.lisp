@@ -559,3 +559,18 @@
 		      (if result
 			  (progn (setf (aref refsprime p) 2) t)
 			  (progn (setf (aref refsprime p) 1) nil)))))))))
+
+
+
+(defun count-power ()
+  (+ 3
+     (loop for i from 4 to 9
+	for sum = (loop for j from 1 to 24
+		     for hasil = (ceiling (* j (log i 10)))
+		     while (>= (1+ hasil) j)
+		     counting (= j hasil) into counter
+		     finally (return counter))
+	summing sum into summer
+	finally (return summer))))
+
+

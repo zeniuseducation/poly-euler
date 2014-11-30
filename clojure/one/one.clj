@@ -419,10 +419,10 @@
   [^longs ls]
   (= (sort ls) (range 1 10)))
 
-(defn ^longs numcol
+(defn numcol
   "Converting number into list of digits"
-  [^long n]
-  (loop [i (int n) res '()]
+  [n]
+  (loop [i n res '()]
     (if (< i 10)
       (cons i res)
       (recur (quot i 10)
@@ -963,15 +963,14 @@
     (or (== n (* isqr (- (* 2 isqr) 1)))
         (== n (* (inc isqr) (- (* 2 (inc isqr)) 1))))))
 
-(defn hexal?
-  [n]
-  (let [res (/ (+ 1 (Math/sqrt (+ 1 (* 8 n)))) 4)]
-    (== (int res) res)))
+(def hexal?
+  (memoize
+   (fn [n]
+     (let [res (/ (+ 1 (Math/sqrt (+ 1 (* 8 n)))) 4)]
+       (== (int res) res)))))
 
 (defn ^longs pentagonals []
   (pmap #(/ (* % (- (* 3 %) 1)) 2) (iterate inc 1)))
-
-
 (defn euler45
   [n]
   (->> (pentagonals)
@@ -979,8 +978,11 @@
        (take n)
        time))
 
-(defn pental? [^long n]
-  (let [num (/ (inc (Math/sqrt (inc (* 24 n)))) 6)] (== (int num) num)))
+
+(def pental?
+  (memoize
+   (fn [n]
+     (let [num (/ (inc (Math/sqrt (inc (* 24 n)))) 6)] (== (int num) num)))))
 
 (defn sumsub-pental? [[x & res]]
   (let [num (filter #(and (pental? (+ x %)) (pental? (- x %))) res)]
@@ -1031,11 +1033,116 @@
        (filter prime?)
        first time))
 
+(def square?
+  (memoize
+   (fn [n]
+     (let [nsqr (Math/sqrt n)]
+       (== nsqr (int nsqr))))))
 
+(def octa?
+  (memoize
+   (fn [n]
+     (let [num (/ (+ 2 (Math/sqrt (+ 4 (* 24 n)))) 6)]
+       (== num (int num))))))
 
+(def hepta?
+  (memoize
+   (fn [n]
+     (let [num (/ (+ 3 (Math/sqrt (+ 9 (* 40 n)))) 10)]
+       (== num (int num))))))
 
+(defn which-one?
+  [n]
+  (loop [i ['triangle? 'square? 'pental? ]]))
 
+(defn pentals
+  [n]
+  (->> (iterate inc 1)
+       (pmap #(/ (* % (- (* 3 %) 1)) 2))
+       (drop-while #(< % (expn 10 (dec n))))
+       (take-while #(< % (expn 10 n)))))
 
+(defn octals
+  [n]
+  (->> (iterate inc 1)
+       (pmap #(* % (- (* 3 %) 2)))
+       (drop-while #(< % (expn 10 (dec n))))
+       (take-while #(< % (expn 10 n)))))
+
+(defn squares
+  [n]
+  (->> (iterate inc 1)
+       (pmap #(* % %))
+       (drop-while #(< % (expn 10 (dec n))))
+       (take-while #(< % (expn 10 n)))))
+
+(defn jait
+  [n m]
+  (+' (*' 100 n) m))
+
+(defn depan
+  [n]
+  (quot n 100))
+
+(defn bel
+  [n]
+  (rem n 100))
+
+(defn find-figures
+  [ms ls]
+  (let [bahan (range 10 100)]
+    (loop [res ms fs ls]
+      (if (empty? res)
+        nil
+        (if (empty? fs)
+          res
+          (let [tmp (for [m res
+                          b bahan
+                          :let [bela (bel m)]
+                          :when (and (>= bela 10)
+                                     ((first fs) (jait bela b)))]
+                      (jait m b))]
+            (recur tmp (rest fs))))))))
+
+(defn mreduce
+  [n]
+  (if (< n 10000)
+    n
+    (+ (rem n 10000) (mreduce (quot n 100)))))
+
+(defn euler61
+  [n]
+  (time (let [baha [hepta? hexal? pental? square? triangle?]
+              bahan [hepta? hexal? pental? square? triangle?]]
+          (->> (permutations bahan)
+               (pmap #(find-figures (octals n) %))
+               (apply concat)
+               (filter #(let [num (numcol %)]
+                          (= (take 2 num) (take-last 2 num))))
+               first mreduce))))
+
+(defn ndigit
+  [n]
+  (if (or (== 1 n) (== 0 (rem n 10)))
+    (int (Math/floor (Math/log10 n)))
+    (int (Math/ceil (Math/log10 n)))))
+
+(defn euler63
+  []
+  (time
+   (loop [i (int 4) res (int 3)]
+     (if (> i 9)
+       res
+       (recur (inc i)
+              (+ res
+                 (loop [j (int 2) resj 1]
+                   (let [rslt (int (Math/ceil (* j (Math/log10 i))))]
+                     (if (< rslt j)
+                       resj
+                       (recur (inc j)
+                              (if (== rslt j)
+                                (+ 1 resj)
+                                resj)))))))))))
 
 
 
