@@ -170,7 +170,7 @@ int non_abundant_sum (int lim) {
 	return res;
 }
 
-int is_prime (long n) {
+int is_prime (int n) {
 	int res = true;
 	if (n <= 1) {
 		return false;
@@ -179,7 +179,7 @@ int is_prime (long n) {
 	} else if (0 == n % 2) {
 		return false;
 	} else {
-		long i = 3;
+		int i = 3;
 		while ((i*i <= n) && res) {
 			if (0 == n % i) {
 				res = false;
@@ -190,7 +190,7 @@ int is_prime (long n) {
 	return res;
 }
 
-long next_prime (long n) {
+int next_prime (int n) {
 	if (n < 2) {
 		return 2;
 	} else if (n == 2) {
@@ -249,6 +249,8 @@ long largest_pfactor (long n) {
 	}
     return res;
 }
+
+
 
 long euler27 (int lim) {
     int b = 2, ra = 0, rb = 2, resb = 0;
@@ -494,14 +496,87 @@ int sum_even_fibo (int lim) {
     return res;
 }
 
+int cpfactors (int n) {
+    int i = 2;
+    int res = 0;
+    int divs = n;
+    int rems, tmp;
+    while (i*i <= divs) {
+        rems = divs % i;
+        
+        if (rems==0) {
+            divs /= i;
+            res++;
+            tmp = divs % i;
+            while (tmp ==0) {
+                divs /= i;
+                tmp = divs % i;
+            }
+            if (is_prime(divs)) {
+                return res += 1;
+            }
+            i = 2;
+        } else {
+            i = next_prime (i);
+        }
+    }
+    return res;
+}
+
+int disprime (int st, int size) {
+    int start = st;
+    int end = next_prime (start);
+    int stat = false;
+    int m = 1;
+    int sum = 0;
+    int res = 0;
+    int scale, istat, tmp;    
+    while (!stat) {
+        scale = end - start - 1;
+        if (scale<size) {
+            istat = true;
+        } else {
+            istat = false;
+        }
+        while (!istat) {
+            if (sum == size) {
+                return res-size;
+            } else if (sum+scale < size) {
+                istat = true;
+            } else {
+                tmp = cpfactors (start+m);
+                if (tmp==size) {
+                    sum++;
+                    m++;
+                    res=start+m;
+                    scale--;
+                } else {
+                    if (scale >= size) {
+                        sum = 0;
+                        m++;
+                        scale--;
+                    } else {
+                        sum = 0;
+                        res = 0;
+                        istat = true;
+                    }
+                }
+            }
+            
+        }
+        start = end;
+        end = next_prime (end);
+        m =1;
+    }
+}
 
 int main(int argc, char *argv[]) {
 	clock_t begin, end;
 	double time_spent;
 
 	begin = clock();
-    long tmp = non_abundant_sum(23000);
-	printf("%ld", tmp);
+    int tmp = disprime(11,4);
+	printf("%d", tmp);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 

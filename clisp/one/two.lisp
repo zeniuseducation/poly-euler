@@ -439,7 +439,7 @@
 				(permute 3 digs)))))))))
 
 
-(defparameter refpens (make-array 5000 :initial-element nil))
+(defparameter refpens (make-array 50 :initial-element nil))
 
 (defun pentagonals (n)
   (declare (optimize (speed 3))
@@ -532,7 +532,7 @@
 		     (reverse res)))))
       (outer 3 (list 2)))))
 
-(defparameter refsprime (make-array 100 :initial-element nil))
+(defparameter refsprime (make-array 200000 :initial-element nil))
 
 (defun prime? (p)
   (declare (optimize (speed 3)) (fixnum p))
@@ -667,7 +667,7 @@
   (let ((bahan (ndig-cubes n)))
     (labels ((looper (x xs)
 		(let ((res (remove-if-not
-			    #'(lambda (m) (digpermute? x m))
+			    #'(lambda (m) (digpermute?2 x m))
 			    xs)))
 		  (if (null res) nil (cons x res)))))
       (remove-if 'null
@@ -684,20 +684,6 @@
 		(if (null res) (looper (1+ i)) res))))
     (looper 1)))
 
-(defun ndig-cubes (n)
-  (declare (optimize (speed 3))
-	   (fixnum n))
-  (let ((end (expt 10 n)))
-    (labels ((looper (i res)
-		(let ((num (* i i i)))
-		  (if (> num end)
-		      res
-		      (looper (1+ i) (cons (list num
-						 (sort (numcol num) '<))
-					   res))))))
-      (looper (ceiling (expt (expt 10 (- n 1)) 1/3)) nil))))
-
-
 (defun freq-by (fn lsm)
   (declare (optimize (speed 3)))
   (let ((sls (sort lsm '< :key fn)))
@@ -712,5 +698,174 @@
 			       (cons res1 res))))))
       (butlast (helper (rest sls) (first sls) 1 nil nil)))))
 
-(defun cubic-permutations (n)
-  (freq-by 'second (ndig-cubes n)))
+
+(defun ndig-cubes (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((end (expt 10 n)))
+    (labels ((looper (i res)
+		(let ((num (* i i i)))
+		  (if (> num end)
+		      res
+		      (looper (1+ i)
+			 (cons (list num (sort (numcol num) '<))
+			       res))))))
+      (looper (ceiling (expt (expt 10 (- n 1)) 1/3)) nil))))
+
+(defun group-by (fn ls)
+  (declare (optimize (speed 3)))
+  (labels ((looper (lls res)
+	      (if (null lls)
+		  res
+		  (let* ((tmp (funcall fn (first lls)))
+			 (pasukan (remove-if-not
+				   #'(lambda (x) (equal (funcall fn x) tmp))
+				   lls)))
+		    (looper (set-difference lls pasukan)
+		       (cons (list tmp pasukan) res))))))
+    (looper ls nil)))
+
+
+
+(defun cubic-permutations (target)
+  (declare (optimize (speed 3))
+	   (fixnum target))
+  (labels ((looper (i)
+	      (declare (fixnum i))
+	      (let* ((bahan (group-by 'second (ndig-cubes i)))
+		     (tmp (remove-if-not
+			   #'(lambda (x) (= (length (second x)) target))
+			   bahan)))
+		(if (null tmp)
+		    (looper (1+ i))
+		    (let ((restmp (mapcar #'(lambda (n) (cadr n)) tmp)))
+		      (first
+		       (mapcar
+			#'(lambda (n) (first (sort (mapcar 'car n) '<)))
+			restmp)))))))
+    (looper 1)))
+
+(defun next-prime (p)
+  (declare (optimize (speed 3)) (fixnum p))
+  (cond ((= p 2) 3)
+	((evenp p) (if (prime? (+ p 1)) (+ p 1) (next-prime (+ p 1))))
+	((prime? (+ p 2)) (+ p 2))
+	(:otherwise (next-prime (+ p 2)))))
+
+(defun pfactors (p)
+  (declare (optimize (speed 3)) (fixnum p))
+  (labels ((helper (i n lasti res)
+	     (declare (optimize (speed 3)) (fixnum i n lasti))
+	     (if (prime? n)
+		 (if (= n lasti)
+		     res
+		     (cons n res))
+		 (if (zerop (rem n i))
+		     (helper 2 (div n i) i (cons i res))
+		     (helper (next-prime i) n lasti res)))))
+    (helper 2 p 2 nil)))
+
+(defun cpfactors (p)
+  (declare (optimize (speed 3)) (fixnum p))
+  (labels ((helper (i n res)
+	     (declare (optimize (speed 3)) (fixnum i n))
+	     (if (prime? n)
+		 (cons n res)
+		 (if (zerop (rem n i))
+		     (helper 2 (div n i) (cons i res))
+		     (helper (next-prime i) n res)))))
+    (length (remove-duplicates (helper 2 p nil)))))
+
+(defun disprime (start n)
+  (declare (optimize (speed 3))
+	   (fixnum start n))
+  (labels ((inner (start i scale res sum)
+	     (declare (fixnum start i scale res sum))
+	     (cond ((< (+ sum scale) n) nil)
+		   ((= n sum) (- res (1- n)))
+		   (:otherwise 
+		    (let* ((num (+ start i))
+			   (tmp (cpfactors num)))
+		      (cond ((= tmp n)
+			     (inner start
+				    (1+ i)
+				    (1- scale)
+				    num
+				    (1+ sum)))
+			    ((and (not (= tmp n))
+				  (>= scale n))
+			     (inner start (1+ i) (1- scale) 0 0))
+			    (:otherwise nil))))))
+	   (looper (start end)
+	      (declare (fixnum start end))
+	      (let ((scale (- end start 1)))
+		(if (< scale n)
+		    (looper end (next-prime end))
+		    (let ((tmp (inner start 1 scale 0 0)))
+		      (if tmp tmp (looper end (next-prime end))))))))
+    (looper start (next-prime start))))
+
+(defun disprime2 (n size)
+  (declare (optimize (speed 3))
+	   (fixnum size n))
+  (let* ((tmp (sieves size))
+	 (bahan (make-array (length tmp) :initial-contents
+			    tmp)))
+    (labels ((inner (start i scale res sum)
+	       (declare (fixnum start i scale res sum))
+	       (cond ((< (+ sum scale) n) nil)
+		     ((= n sum) (- res (1- n)))
+		     (:otherwise 
+		      (let* ((num (+ start i))
+			     (tmp (cpfactors num)))
+			(cond ((= tmp n)
+			       (inner start
+				      (1+ i)
+				      (1- scale)
+				      num
+				      (1+ sum)))
+			      ((and (not (= tmp n))
+				    (>= scale n))
+			       (inner start (1+ i) (1- scale) 0 0))
+			      (:otherwise nil))))))
+	     (looper (i)
+		(let* ((start (aref bahan i))
+		       (end (aref bahan (1+ i)))
+		       (scale (- end start 1)))
+		  (if (< scale n)
+		      (looper (1+ i))
+		      (let ((tmp (inner start 1 scale 0 0)))
+			(if tmp tmp (looper (1+ i))))))))
+      (looper 0))))
+
+
+
+(defun ndig-primes (n diff)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let* ((end (expt 10 (- n 1)))
+	 (bahan2 (drop-while
+		  #'(lambda (x) (<= x end))
+		  (sieves (div (expt 10 n) 3))))
+	 (lb2 (length bahan2))
+	 (bahan (make-array lb2 :initial-contents bahan2)))
+    (labels ((looper (i res)
+		(declare (fixnum i res))
+		(let* ((num1 (aref bahan i))
+		       (num2 (+ diff num1))
+		       (num3 (+ diff num2)))
+		  (if (and (prime? num2) (prime? num3))
+		      (let ((snum1 (sort (numcol num1) '<))
+			    (snum2 (sort (numcol num2) '<))
+			    (snum3 (sort (numcol num3) '<)))
+			(if (and (equal snum1 snum2)
+				 (equal snum2 snum3))
+			    (if (= 0 res)
+				(looper (1+ i) (+ 1 res))
+				(list num1 num2 num3))
+			    (looper (1+ i) res)))
+		      (looper (+ 1 i) res)))))
+      (looper 0 0))))
+
+
+

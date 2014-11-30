@@ -63,24 +63,26 @@
       (let [tempa (+ a (+ 8 (- a b)))]
         (recur tempa a (+ res (* 4 tempa)) (+ 2 i))))))
 
-(defn ^boolean prime?
-  [^long p]
-  (cond (< p 2) false
-        (== 2 p) true
-        (== 0 (rem p 2)) false
-        :else (let [lim (+ 1 (int (Math/sqrt p)))]
-                (loop [i (long 3)]
-                  (if (> i lim)
-                    true
-                    (if (== 0 (rem p i))
-                      false
-                      (recur (+ i 2))))))))
+(def prime?
+  (memoize
+   (fn [^long p]
+     (cond (< p 2) false
+           (== 2 p) true
+           (== 0 (rem p 2)) false
+           :else (let [lim (+ 1 (int (Math/sqrt p)))]
+                   (loop [i (long 3)]
+                     (if (> i lim)
+                       true
+                       (if (== 0 (rem p i))
+                         false
+                         (recur (+ i 2))))))))))
 
-(defn ^long next-prime
-  [^long p]
-  (cond (== p 2) 3
-        (prime? (+ p 2)) (+ p 2)
-        :else (next-prime (+ p 2))))
+(def next-prime
+  (memoize
+   (fn [^long p]
+     (cond (== p 2) 3
+           (prime? (+ p 2)) (+ p 2)
+           :else (next-prime (+ p 2))))))
 
 (defn ^long prev-prime
   [^long p]
@@ -304,6 +306,7 @@
 (defn ^long suma-coins3
   [^long n]
   (sumas n 7))
+
 (def prime'
   (memoize
    (fn prime' [^long p]
@@ -1178,6 +1181,54 @@
         (->> (map #(ffirst (second %)) tmp)
              (sort) (first))))))
 
+(defn ^long cpfactors
+  [^long n]
+  (loop [i (int 2) p (long n) res #{}]
+    (if (prime? p)
+      (count (conj res p))
+      (if (== 0 (rem p i))
+        (recur 2 (quot p i) (conj res i))
+        (recur (next-prime i) p res)))))
+
+(defn ^long disprime
+  [^long start ^long n]
+  (loop [i (int start) j (int (next-prime start))]
+    (let [scale (int (- j i 1))]
+      (if (< scale n)
+        (recur j (next-prime j))
+        (let [tmp (loop [m (int 1) sc scale res (int 0) sum (int 0)]
+                    (cond (< (+ sum sc) n)
+                          false
+                          (== n sum)
+                          (- res (dec n))
+                          :otherwise
+                          (let [num (+ i m)
+                                tmp1 (cpfactors num)]
+                            (cond (== tmp1 n)
+                                  (recur (inc m) (dec sc) num (inc sum))
+                                  (and (not= tmp1 n)
+                                       (>= sc n))
+                                  (recur (inc i) (dec sc) 0 0)
+                                  :otherwise false))))]
+          (if tmp tmp (recur j (next-prime j))))))))
 
 
-
+(defn ^longs ndig-primes
+  [^long n ^long diff]
+  (let [end (expn 10 (- n 1))
+        bahan1 (drop-while #(< % end) (sieves (quot (expn 10 n) 3)))
+        bahan (int-array bahan1)]
+    (loop [i (int 0) res (int 0)]
+      (let [num1 (aget bahan i)
+            num2 (+ num1 diff)
+            num3 (+ num2 diff)]
+        (if (and (prime? num2) (prime? num3))
+          (let [snum1 (sort (numcol num1))
+                snum2 (sort (numcol num2))
+                snum3 (sort (numcol num3))]
+            (if (= snum1 snum2 snum3)
+              (if (== 0 res)
+                (recur (+ 1 i) (+ 1 res))
+                [num1 num2 num3])
+              (recur (inc i) res)))
+          (recur (inc i) res))))))
