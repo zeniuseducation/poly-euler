@@ -427,6 +427,13 @@ SBCL 14ms
 
 Haskell 320ms  
 
+##### Problem 63
+
+Prob : How many a^m have m digits?  
+
+SBCL 0.1 ms  
+Clojure 0.4 ms  
+
 ##### Problem 75
 
 SBCL 0.2second  
