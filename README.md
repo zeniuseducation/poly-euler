@@ -455,6 +455,13 @@ Clojure 0.05ms (memoization)
 SBCL 5600ms  
 Haskell 2,300ms  
 
+##### Problem 77
+
+Problem : which number can be express as the summation of primes in 5000 different ways
+
+SBCL 4ms  
+Clojure 6ms  
+
 
 ##### Problem no 85
 
