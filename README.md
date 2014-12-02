@@ -473,6 +473,10 @@ SBCL 0.53 sec
 Clojure 0.039 msec  
 SBCL 1.2 msec  
 
+##### Problem 113
+
+Clojure 12ms  
+
 ##### Problem no 125
 
 Clojure 0.5 sec  
