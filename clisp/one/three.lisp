@@ -79,7 +79,8 @@
       (cons i (iterate fn (funcall fn i) gn))))
 
 (defun take-while (fn ls)
-  "Returns the elements of ls starting from first while (fn elmt) is true"
+  "Returns the elements of ls starting from first while (fn elmt) is
+true"
   (if (null ls)
       ls
       (if (not (funcall fn (first ls)))
@@ -88,7 +89,8 @@
 
 
 (defun drop-while (fn ls)
-  "Returns the elements of ls starting from first while (fn elmt) is true"
+  "Returns the elements of ls starting from first while (fn elmt) is
+true"
   (if (null ls)
       ls
       (if (funcall fn (first ls))
@@ -109,7 +111,7 @@
     (looper ls nil)))
 
 (defparameter ref-sumpdivs
-  (make-array 1000001 :initial-element nil))
+  (make-array 1001 :initial-element nil))
 
 (defun sum-pdivs (n)
   (declare (optimize (speed 3)) (fixnum n))
@@ -143,7 +145,7 @@
 		    (setf (aref ref-sumpdivs n) (helper-even 2 1)))))))))
 
 (defparameter refamic
-  (make-array 1000001 :initial-element nil))
+  (make-array 1001 :initial-element nil))
 
 (defun amic-chain (n)
   (declare (optimize (speed 3))
@@ -392,6 +394,56 @@
 	  (rem (hexp (expts a a) (div m 2)) 100000000)
 	  (rem (expts a (rem (hexp (expt a a) (div (1- m) 2)) 100000000))
 	       100000000))))
+
+(defun combs (n k)
+  (declare (optimize (speed 3))
+	   (fixnum n k))
+  (let ((m (- n k)))
+    (if (> m k)
+	(/ (reduce '* (range (1+ m) (if (zerop n) 1 n) 1))
+	   (reduce '* (range 1 (if (zerop k) 1 k) 1)))
+	(/ (reduce '* (range (1+ k) (if (zerop n) 1 n) 1))
+	   (reduce '* (range 1 (if (zerop m) 1 m) 1))))))
+
+(defun blocks (tots n)
+  (declare (optimize (speed 3))
+	   (fixnum tots n))
+  (let ((lim (div tots n)))
+    (loop for i from 1 to lim
+       summing (combs (+ i (- tots (* i n))) i) into summer
+       finally (return summer))))
+
+(defun euler116 (tots)
+  (declare (optimize (speed 3))
+	   (fixnum tots))
+  (reduce '+ (mapcar #'(lambda (x) (blocks tots x)) (list 2 3 4))))
+
+(defparameter refsprime (make-array 100000000 :initial-element nil))
+
+(defun prime? (p)
+  (declare (optimize (speed 3)) (fixnum p))
+  (if (< p 2)
+      nil
+      (if (= 2 p)
+	  t
+	  (if (evenp p)
+	      nil
+	      (let ((refs (aref refsprime p)))
+		(if refs
+		    (if (= refs 1) nil t)
+		    (let ((result (let ((lim (isqrt p)))
+				    (labels ((helper (i)
+					       (declare (optimize (speed 3))
+							(fixnum i))
+					       (if (> i lim)
+						   t
+						   (if (= 0 (rem p i))
+						       nil
+						       (helper (+ i 2))))))
+				      (helper 3)))))
+		      (if result
+			  (progn (setf (aref refsprime p) 2) t)
+			  (progn (setf (aref refsprime p) 1) nil)))))))))
 
 
 
