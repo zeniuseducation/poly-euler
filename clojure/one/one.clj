@@ -5,8 +5,8 @@
 
 (defn expn
   [a m]
-  (if (= 1 m)
-    a
+  (if (= 0 m)
+    1
     (if (= 0 (rem m 2))
       (expn (*' a a) (quot m 2))
       (*' a (expn (* a a) (quot (- m 1) 2))))))
@@ -247,20 +247,20 @@
   [^long n]
   (sumas n 7))
 
-(def isuma
+(def isuma2
   (memoize
    (fn [^long i ^long c]
      (cond (== i 0) 1 
            (== c 1) 1
            :else (->> (iterate inc 0)
                       (take-while #(<= (* % c) i))
-                      (map #(isuma (- i (* % c))
-                                   (- c 1)))
+                      (map #(isuma2 (- i (* % c))
+                                    (- c 1)))
                       (reduce +))))))
 
-(defn ^long suma-ints
+(defn ^long suma-ints2
   [^long n]
-  (dec (isuma n 100)))
+  (dec (isuma2 n 100)))
 
 (defn ^long sum-changes
   [^long n]
@@ -334,7 +334,7 @@
 
 
 
-(def isuma2
+(def isuma
   (memoize
    (fn [^long i ^long c]
      (cond (== i 0) 1 
@@ -344,12 +344,33 @@
              (if (> (* x c) i)
                res
                (recur (+ 1 x)
-                      (+ res (isuma2 (- i (* x c))
-                                     (- c 1))))))))))
+                      (+ res (isuma (- i (* x c))
+                                    (- c 1))))))))))
 
-(defn ^long suma-ints2
+(def bigsuma
+  (memoize
+   (fn [i c]
+     (cond (== i 0) 1 
+           (== c 1) 1
+           :else
+           (loop [x 0 res 0]
+             (if (> (*' x c) i)
+               res
+               (recur (+' 1 x)
+                      (+' res (bigsuma (- i (* x c))
+                                       (- c 1))))))))))
+
+(defn ^long suma-ints
   [^long n]
-  (dec (isuma2 n 100)))
+  (dec (isuma2 n n)))
+
+(defn ^long euler78
+  [^long target]
+  (loop [i 1]
+    (let [tmp (bigsuma i i)]
+      (if (== (rem tmp target) 0)
+        [i tmp]
+        (recur (+' 1N i))))))
 
 (def psuma
   (memoize
@@ -362,7 +383,7 @@
                res
                (recur (+ 1 x)
                       (+ res (psuma (- i (* x c))
-                                     (prev-prime c))))))))))
+                                    (prev-prime c))))))))))
 
 (defn ^long prime-sum
   [^long n ^long target]
@@ -399,8 +420,8 @@
   [ls]
   (loop [[x & xs] ls res 0]
     (if (empty? xs)
-      (+ (* 10 res) x)
-      (recur xs (+ (* 10 res) x)))))
+      (+' (*' 10 res) x)
+      (recur xs (+' (*' 10 res) x)))))
 
 (defn ^long pandig-prime
   [^long n]
@@ -418,13 +439,11 @@
             (apply max res)))))))
 
 (defn pandig?
-  "Simple pandigital checking"
-  [^longs ls]
+  "Simple pandigital checking" [^longs ls]
   (= (sort ls) (range 1 10)))
 
 (defn numcol
-  "Converting number into list of digits"
-  [n]
+  "Converting number into list of digits" [n]
   (loop [i n res '()]
     (if (< i 10)
       (cons i res)
@@ -432,8 +451,7 @@
              (cons (rem i 10) res)))))
 
 (defn ^longs pandig-products
-  "Sum all pandigital products"
-  [lim]
+  "Sum all pandigital products" [lim]
   (->> (range 2 (* 3 lim))
        (pmap #(loop [j (int (+ 1 %)) resj []]
                 (if (> (* % j) (* 3 lim))
@@ -512,8 +530,7 @@
     (+ 2 (reduce + (pmap looper bahan)))))
 
 (defn bin-palin?
-  "Check whether a number is palindrome in binary base"
-  [^long n]
+  "Check whether a number is palindrome in binary base" [^long n]
   (letfn [(bincol [^long n]
             (loop [i (int n) res []]
               (if (< i 2)
@@ -525,8 +542,7 @@
 
 (defn ^long bi-palins
   "Generate all n-digit palindromes, filter whether they are also
-  palindrome in base 2, and sum the results"
-  [^long n]
+  palindrome in base 2, and sum the results" [^long n]
   (if (== n 1)
     (->> (range 1 10 2)
          (filter bin-palin?)
@@ -561,8 +577,7 @@
 
 (defn ^long all-bipalins
   "Generate all n-digit palindromes, filter whether they are also
-  palindrome in base 2, and sum the results"
-  [^long n]
+  palindrome in base 2, and sum the results" [^long n]
   (if (== n 1)
     (->> (range 1 10 2)
          (reduce +)) 
@@ -592,8 +607,7 @@
                   (recur (+ 1 i) (+ res tnums)))))))))))
 
 (defn ^long sum-bipalins
-  "Returns all double bases palindromes up-to 10^n"
-  [^long n]
+  "Returns all double bases palindromes up-to 10^n" [^long n]
   (reduce + (pmap #(all-bipalins %) (range 1 (inc n)))))
 
 (defn rt-prime?
@@ -762,15 +776,15 @@
   (time (reduce * (pmap #(nth (mapcat numcol (iterate inc 1)) (dec (pow 10 %))) (range n)))))
 
 (defn ^longs permute
-  "Permutations of n element from a list of elements in ls"
-  [^long n ^longs ls]
+  "Permutations of n element from a list of elements in ls" [^long n
+                                                             ^longs ls]
   (if (== n 1)
     (map vector ls)
     (mapcat (fn [s] (map #(cons s %) (permute (- n 1) (removes s ls)))) ls)))
 
 (defn ^longs pandig-prod
-  "Returns the list of pandigital products produced by concatenating a number with [1,2..]"
-  [^long n]
+  "Returns the list of pandigital products produced by concatenating a
+  number with [1,2..]" [^long n]
   (time
    (let [mat [2 3 6 7]
          create (fn [ls]
@@ -894,8 +908,7 @@
 
 (defn gcd
   "Accepts two numbers and returns the greatest common divisors of
-  those numbers"
-  [a b]
+  those numbers" [a b]
   (loop [i (int a) j (int b)]
     (if (= i j)
       i
@@ -947,7 +960,7 @@
   (for [i (range 1 lim)
         j (range 1 lim)
         :let [tri (/ (* i (+ i 1)) 2)
-             pen (/ (* j (- (* 3 j) 1)) 2)]
+              pen (/ (* j (- (* 3 j) 1)) 2)]
         :when (== tri pen)]
     [i j tri]))
 
@@ -974,6 +987,7 @@
 
 (defn ^longs pentagonals []
   (pmap #(/ (* % (- (* 3 %) 1)) 2) (iterate inc 1)))
+
 (defn euler45
   [n]
   (->> (pentagonals)
@@ -1232,3 +1246,114 @@
                 [num1 num2 num3])
               (recur (inc i) res)))
           (recur (inc i) res))))))
+
+(defn ^longs gen-small
+  [^longs xs]
+  (let [bahan (range 2)]
+    (for [x xs i bahan]
+      (conj x i))))
+
+(defn ^longs poss-smalls
+  [^long n]
+  (map colnum (filter #(= 0 (rem (reduce + %) 9))
+                      (nth (iterate gen-small [[1] [2]]) n))))
+
+(defn special
+  [n]
+  [n 0 0])
+
+(defn euler303
+  [^long n]
+  (->> (let [refs (boolean-array (inc n) false)]
+         (do (aset refs 1 true)
+             (loop [i (int 1) dig (int 0) rb (poss-smalls dig) res [[1 1 1]]]
+               (if (== n (count res))
+                 res
+                 (if (> i n)
+                   (recur (first (drop-while #(aget refs %) (iterate inc 1)))
+                          (inc dig)
+                          (poss-smalls dig)
+                          res)
+                   (if (aget refs i)
+                     (recur (inc i)
+                            dig rb res)
+                     (if (== 0 (rem i 9))
+                       (recur (inc i) dig rb (conj res (special i)))
+                       (let [tmp (first (drop-while #(not= 0 (rem % i)) rb))]
+                         (if tmp
+                           (do (aset refs i true)
+                               (recur (inc i)
+                                      dig rb (conj res [i tmp (/ tmp i)])))
+                           (recur (inc i)
+                                  dig rb res))))))))))
+       (reduce #(+ % (nth %2 2)) 0)))
+
+(defn ^longs base3
+  [^long n]
+  (loop [i (long n) j (int 0) [x k] [0 0]]
+    (if (< i 3)
+      (if (and (not= 0 k) (== 0 (rem x 9)))
+        [x k]
+        nil)
+      (recur (quot i 3)
+             (inc j)
+             (let [num (long (rem i 3))]
+               [(+ x (* num (expn 10 j))) (+ num k)])))))
+
+(defn ^longs base3b
+  [^long n]
+  (loop [i (long n) j (int 0) [x k] [0 0]]
+    (if (< i 3)
+      (if (and (not= 0 k) (== 0 (rem x 9)))
+        x
+        nil)
+      (recur (quot i 3)
+             (inc j)
+             (let [num (long (rem i 3))]
+               [(+ x (* num (expn 10 j))) (+ num k)])))))
+
+(defn cari
+  [n]
+  (let [num (first (drop-while #(not= 0 (rem % n)) (keep base3b (iterate inc 10))))]
+    [n num (/ num n)]))
+
+(defn gendigs
+  [n res]
+  (cond (= n 0)
+        (concat res (map #(conj % 0) res))
+        (= n 1)
+        (concat (map #(conj % 1) res)
+                (map #(conj % 0) res))
+        :else
+        (concat (gendigs (dec n) (map #(conj % 1) res))
+                (gendigs (dec n) (map #(conj % 1) (map #(conj % 0) res)))
+                (gendigs (- n 2) (map #(conj % 2) res))
+                (gendigs (- n 2) (map #(conj % 2) (map #(conj % 0) res))))))
+
+(defn ninedigs
+  [n]
+  (sort (map colnum (filter #(= n (reduce + %)) (gendigs n [[]])))))
+
+(defn vsimplex
+  [n]
+  (/ (Math/sqrt (inc n))
+     (* (reduce * (range 1 (inc n)))
+        (Math/sqrt (expn 2 n)))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

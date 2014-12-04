@@ -532,7 +532,7 @@
 		     (reverse res)))))
       (outer 3 (list 2)))))
 
-(defparameter refsprime (make-array 200000 :initial-element nil))
+(defparameter refsprime (make-array 200 :initial-element nil))
 
 (defun prime? (p)
   (declare (optimize (speed 3)) (fixnum p))
@@ -866,6 +866,81 @@
 			    (looper (1+ i) res)))
 		      (looper (+ 1 i) res)))))
       (looper 0 0))))
+
+(defun permul (n ls)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (labels ((looper (l)
+	      (mapcar #'(lambda (x) (cons x l)) ls))
+	   (outer (i res)
+	     (declare (fixnum i))
+	     (if (= i (- n 1))
+		 (mapcan #'(lambda (x)
+			     (mapcar #'(lambda (y) (cons y x)) (rest ls)))
+			 res)
+		 (outer (1+ i)
+			(mapcan
+			 #'(lambda (x) (looper x))
+			 res)))))
+    (if (= n 1)
+	(mapcar 'colnum (mapcar 'list (rest ls)))
+	(sort (mapcar 'colnum (outer 1 (mapcar 'list ls))) '<))))
+
+(defun smallmul (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((bahan (range 0 2 1)))
+    (labels ((looper (i)
+		(let* ((num (permul i bahan))
+		       (res (drop-while
+			     #'(lambda (x) (not (zerop (rem x n))))
+			     num)))
+		  (if res
+		      (first res)
+		      (looper (1+ i))))))
+      (looper 1))))
+
+(defparameter refspprime (make-array 100 :initial-element nil))
+
+
+(defun prev-prime (p)
+  (declare (optimize (speed 3)) (fixnum p))
+  (if (<= p 2)
+      nil
+      (if (= p 3)
+	  2
+	  (let ((tmp (aref refspprime p)))
+	    (if tmp
+		tmp
+		(if (prime? (- p 2))
+		    (setf (aref refspprime p) (- p 2))
+		    (prev-prime (- p 2))))))))
+
+(defun psuma (i c)
+  (declare (optimize (speed 3)) (fixnum i c))
+  (cond ((= i 1) 0)
+	((= c 2) (if (evenp i) 1 0))
+	(:otherwise
+	 (labels ((looper (x res)
+		     (declare (fixnum x res))
+		     (if (> (* x c) i)
+			 res
+			 (looper (1+ x)
+			    (+ res (psuma (- i (* x c))
+					  (prev-prime c)))))))
+	   (looper 0 0)))))
+
+
+(defun prime-sum (n target)
+  (declare (optimize (speed 3)) (fixnum n target))
+  (labels ((looper (i)
+	      (declare (fixnum i))
+	      (let ((psum (psuma i (prev-prime i))))
+		(if (> psum target)
+		    (list i psum)
+		    (looper (1+ i))))))
+    (looper n)))
+
 
 
 
