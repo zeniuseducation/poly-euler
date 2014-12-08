@@ -95,5 +95,68 @@
           (recur (inc n) (inc res))
           (recur (inc n) res))))))
 
+(defn combs
+  [^long n ^long k]
+  (let [m (int (- n k))]
+    (if (> m k)
+      (/ (reduce *' (range (inc m) (inc n)))
+         (reduce *' (range 1 (inc k))))
+      (/ (reduce *' (range (inc k) (inc n)))
+         (reduce *' (range 1 (inc m)))))))
+
+
+
+(def cases
+  (memoize
+   (fn [^long i ^long c]
+     (cond (== c 1) [{c i}]
+           :else
+           (loop [x (int 0) res []]
+             (if (> (*' x c) i)
+               res
+               (recur (+ 1 x)
+                      (concat res
+                              (map #(merge % {c x})
+                                   (cases (- i (* x c))
+                                          (- c 1)))))))))))
+
+(defn count-one
+  [cur]
+  (let [tots (reduce + (vals cur))
+        pils (filter  #(pos? (val %)) cur)
+        cpil (count pils)]
+    (loop [[[b cb] & rb] pils counter tots res (int 1)]
+      (if (empty? rb)
+        (*' res (combs counter cb))
+        (recur rb (- counter cb) (*' res (combs counter cb)))))))
+
+(defn count-all
+  [lim]
+  (loop [[c & cr] (cases lim lim) res 0]
+    (if (empty? cr)
+      (+ res (count-one c))
+      (recur cr (+ res (count-one c))))))
+
+(def cblacks1
+  (memoize 
+   (fn [^long tots]
+     (cond (zero? tots) 1
+           (== tots 3) 1
+           (<= 1 tots 2) 0
+           :else (+ 2 (reduce + (map #(* (cblacks %)
+                                         (cblacks (- tots % 1)))
+                                     (range 0 (inc (quot tots 2))))))))))
+
+(defn total1
+  [^long tots]
+  (+ 2 (reduce + (map #(* (cblacks1 %)
+                          (cblacks1 (- tots % 1)))
+                      (range 0 tots)))))
+
+(defn cblacks
+  [^long tots ^long n]
+  (combs (rem tots 3) n))
+
+
 
 

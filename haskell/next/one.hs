@@ -403,3 +403,28 @@ s_power l = rem (foldl1 (\x y -> x+ (rem y (10^10))) (map (\x -> x^x) [1..l])) (
 max_power lim = maximum [sumdig (a^b)| a <- [1..lim], b <- [1..lim]]
   where sumdig i = sum $ map digitToInt $ show i
 
+psqr :: Double -> Bool
+psqr n = ceiling num == floor num
+  where num = sqrt n
+
+almost :: Int -> Int 
+almost lim = looper 2 0
+  where tlim = div lim 3
+        looper :: Int -> Int -> Int
+        looper i res
+          | i>tlim = res
+          | psqr t1 = if psqr t2
+                      then looper (succ i) (res+2)
+                      else looper (succ i) (res+1)
+          | otherwise = if psqr t2
+                        then looper (succ i) (res+1)
+                        else looper (succ i) res
+          where s1 :: Double
+                s1 = (fromIntegral i) - 1.0
+                s2 :: Double
+                s2 = (fromIntegral i) + 1.0
+                t1 :: Double
+                t1 = (fromIntegral (i*i)) - (s1*s1/4)
+                t2 :: Double
+                t2 = (fromIntegral (i*i)) - (s2*s2/4)
+
