@@ -22,6 +22,9 @@
 (defun inc (x) (1+ x))
 (defun dec (x) (1- x))
 
+(defun div (a m)
+  (truncate (/ a m)))
+
 (defun range (&rest args)
   (deff)
   (cond ((= 1 (length args))
@@ -39,16 +42,18 @@
   (labels ((looper (ls res)
 	      (if (null ls)
 		  res
-		  (append (first ls) (list res)))))
+		  (looper (rest ls)
+		     (append (first ls) (list res))))))
     (looper (rest body) (first body))))
 
 (defmacro -> (&body body)
   (labels ((looper (ls res)
 	      (if (null ls)
 		  res
-		  (append (list (first (first ls)))
-			  (list res)
-			  (rest (first ls))))))
+		  (looper (rest ls)
+		     (append (list (first (first ls)))
+			     (list res)
+			     (rest (first ls)))))))
     (looper (rest body) (first body))))
 
 (defun hd (lst)
@@ -74,18 +79,43 @@
       xs
       (drop (dec n) (rest xs))))
 
-(defmacro cloop (lbinding lbody body)
-  `(labels ((recur ,lbinding
-	      ,lbody))
-     ,body))
+(defun take-odd (xs)
+  (deff)
+  (labels ((looper (ls res)
+	      (deff)
+	      (if (null ls)
+		  res
+		  (looper (rest (rest ls))
+		     (cons (first ls) res)))))
+    (looper (rest (reverse xs)) nil)))
+
+(defun take-even (xs)
+  (deff)
+  (labels ((looper (ls res)
+	      (deff)
+	      (if (or (= 1 (length ls)) (null ls))
+		  res
+		  (looper (rest (rest ls))
+		     (cons (first ls) res)))))
+    (looper (reverse xs) nil)))
+
+(defmacro cloop (lbinding ldef lbody)
+  `(labels ((recur ,(take-odd lbinding) ,ldef
+		   ,lbody))
+     ,(cons 'recur (take-even lbinding))))
 
 (defun take-while (f lst)
-  (cloop (lxs res)
-	 (cond ((null lxs) res)
-	       ((not (funcall f (first lxs))) res)
-	       (:else (recur (rest lxs)
-			 (append res (list (first lxs))))))
-	 (recur lst nil)))
+  (cloop (lxs lst res nil) (deff)
+    (cond ((null lxs) res)
+	  ((not (funcall f (first lxs))) res)
+	  (:else (recur (rest lxs)
+			(append res (list (first lxs))))))))
+
+(defmacro clet (lbinding &body lbody)
+  `(let* ,(mapcar #'(lambda (a b) (list a b))
+		  (take-odd (second lbinding))
+		  (take-even (second lbinding)))
+     ,@lbody))
 
 (defun drop-while (f lst)
   (if (null lst)
