@@ -1,7 +1,8 @@
 #################
 ## Eclipse
 #################
-
+*.iml
+*.xml
 *.hi
 *.o
 *.pydevproject
@@ -216,5 +217,7 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+/python/one/.idea 
 
 /C/main

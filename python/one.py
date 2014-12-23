@@ -12,9 +12,9 @@ def is_prime (n) :
 			if 0 == n % i :
 				res = False
 				return False
-			else : 
+			else :
 				i += 2
-		return res 
+		return res
 
 def stupid_iteration (lim) :
 	my_dict = {}
@@ -22,7 +22,7 @@ def stupid_iteration (lim) :
 		my_dict[i] = i * i
 	for i in range(lim) :
 		print my_dict[i]
-		
+
 def find_cycle (n) :
 	refs = {}
 	refs2 = {}
@@ -43,7 +43,7 @@ def find_cycle (n) :
 				res += 1
 				i = rems
 	return res2
-	
+
 def max_cycle (lim) :
 	i = lim
 	n = lim
@@ -52,7 +52,7 @@ def max_cycle (lim) :
 		tmp = find_cycle (i)
 		if tmp > res :
 			n = i
-			res = tmp 
+			res = tmp
 		i -= 1
 	return [n,res]
 

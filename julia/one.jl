@@ -1,10 +1,11 @@
 
 function is_prime(n::Int64)
-    if (0 == n % 27)
+    if (0 = n)
         false
-    else 
-        true 
+    else
+        true
     end
 end
 
-@time print(is_prime(191))
+@time result = is_prime(120)
+println(result)

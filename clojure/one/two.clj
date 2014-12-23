@@ -22,6 +22,7 @@
          (reduce +' (map #(dec-digits % (dec jumdig))
                          (range n -1 -1))))))))
 
+
 (defn nth-triangular
   [n r]
   (/ (reduce *' (range n (+ n r)))
