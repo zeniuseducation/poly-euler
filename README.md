@@ -45,7 +45,7 @@ Haskell averaging 10 msecs
 Racket 1 msec  
 Java benchmark 0.05ms  
 C benchmark 0.05ms  
-Swift 0.018ms  
+Swift 0.018ms NEW RECORD !!!  
 
 ##### Problem no 2
 
@@ -57,7 +57,7 @@ Haskell ~10 msecs
 Racket less than 1 msec  
 C Benchmark 0.03ms  
 Java benchmark 0.005ms  
-Swift 0.004ms
+Swift 0.004ms NEW RECORD!!  
 
 ##### Problem no 3
 
@@ -76,7 +76,7 @@ Typed Racket 6ms
 Further optimised Typed Racket 0.4-0.5ms  
 C as benchmark 0.2ms  
 Java as benchmark 5ms  
-Swift 0.16ms  
+Swift 0.11ms NEW RECORD!!  
 
 ##### Problem no 4
 
@@ -120,7 +120,8 @@ Typed Racket using sieve  2-4ms
 Haskell 30 msecs   
 SML 17 msecs  
 C Benchmark using sieve 0.9ms  
-Swift naive using Int32 12ms  
+Swift naive using Int32 10ms  
+Swift using sieves 0.7ms NEW RECORD!!  
 
 ##### Problem no 8
 
@@ -159,6 +160,8 @@ Typed Racket 2,200 msecs (Faster than Clojure)
 Typed Racket in Win32 987 msecs  
 Typed Racket using sieves 71-76ms  
 C Benchmark using sieve 24 ms  
+Swift naive 1,421ms  
+Swift sieves 11ms NEW RECORD!!    
 
 ##### Problem no 12
 
