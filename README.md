@@ -120,7 +120,7 @@ Typed Racket using sieve  2-4ms
 Haskell 30 msecs   
 SML 17 msecs  
 C Benchmark using sieve 0.9ms  
-Swift v1 22ms  
+Swift naive using Int32 12ms  
 
 ##### Problem no 8
 
