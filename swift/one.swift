@@ -90,10 +90,53 @@ func euler7a (tar : Int) -> Int {
   return p
 }
 
+func sum_sieves (lim : Int) -> Int {
+  var refs = Array(count: (lim+1), repeatedValue: false)
+  var i = 3, llim = Int(sqrt(Double(lim)))
+  var res = 0;
+  while i < lim {
+    if (i <= llim) && (~refs[i]) {
+      for (var j = i*i; j < lim; j += (2*i)) {
+        refs[j] = true;
+      };
+    };
+    if ~refs[i] {
+      res += i;
+    };
+    i += 2;
+  }
+  return 2+res;
+}
+
+func nth_sieves (m : Int, n : Int) -> Int {
+  var lim = m * n;
+  var refs = Array(count: (lim+1), repeatedValue: false)
+  for (var i = 0; i < lim; i++) {
+    refs[i] = false
+  }
+  var i = 3, llim = Int(sqrt(Double(lim)))
+  var res = 2, p = 1
+  while p < m {
+    if (i <= llim) && (!refs[i]) {
+      for (var j = i*i; j < lim; j += (2*i)) {
+        refs[j] = true
+      }
+      p++
+      res = i
+    } else if (~refs[i]) {
+      p++;
+      res = i;	
+    };
+    
+    i += 2;
+  }
+  return res;
+}
+
 
 func main () {
     let start = NSDate()
-    let result = sumPrimes(2000000)
+    let result = sum_sieves(2000000)
     let end = NSDate()
     let timeInterval: Double = end.timeIntervalSinceDate(start) * 1000
     println ("Time elapsed \(timeInterval) ms")
