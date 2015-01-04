@@ -1,8 +1,8 @@
 import Foundation
 
 func odd_prime(p : Int) -> Bool {
-    var i = 3
-    while (i*i) <= p {
+    var i  = 3
+    while (i * i) <= p {
         if 0 == (p % i) {
             return false
         }
@@ -60,8 +60,8 @@ func sumPrimes (lim : Int) -> Int {
 }
 
 func euler1 (lim : Int) -> Int {
-	var res = 0
-	for (var i = 1; i < lim ; i++) {
+	var res : Int = 0
+	for (var i : Int = 1; i < lim ; i++) {
 		if (0 == (i % 3)) || (0 == (i % 5)) {
 			res += i;
 		}
@@ -70,7 +70,7 @@ func euler1 (lim : Int) -> Int {
 }
 
 func euler2 (lim : Int) -> Int {
-	var a = 1, b = 2, tmp = 0, res = 0
+	var a = 1, b  = 2, tmp = 0, res = 0
 	while b < lim {
 		if 0 == (b % 2) {
 			res += b
@@ -83,7 +83,7 @@ func euler2 (lim : Int) -> Int {
 }
 
 func euler7a (tar : Int) -> Int {
-  var p = 2 
+  var p  = 2 
   for (var i = 1 ; i < tar ; i++) {
     p = next_prime (p)
   }
@@ -93,7 +93,7 @@ func euler7a (tar : Int) -> Int {
 
 func main () {
     let start = NSDate()
-    let result = euler7a(10001)
+    let result = sumPrimes(2000000)
     let end = NSDate()
     let timeInterval: Double = end.timeIntervalSinceDate(start) * 1000
     println ("Time elapsed \(timeInterval) ms")
