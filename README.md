@@ -45,6 +45,7 @@ Haskell averaging 10 msecs
 Racket 1 msec  
 Java benchmark 0.05ms  
 C benchmark 0.05ms  
+Swift 0.018ms  
 
 ##### Problem no 2
 
@@ -56,6 +57,7 @@ Haskell ~10 msecs
 Racket less than 1 msec  
 C Benchmark 0.03ms  
 Java benchmark 0.005ms  
+Swift 0.004ms
 
 ##### Problem no 3
 
@@ -67,13 +69,14 @@ Further optimised type-hinted Clojure 0.3-0.4ms
 SBCL 37-42 msecs  
 Type hinted SBCL 4-6ms  
 Further optimised SBCL 0.45ms  
-Haskell compiled optimised less than 10 ms  
+Haskell compiled optimised less than 10 ms    
 SML 2 ms  
 Racket 50-60 ms  
 Typed Racket 6ms   
 Further optimised Typed Racket 0.4-0.5ms  
 C as benchmark 0.2ms  
 Java as benchmark 5ms  
+Swift 0.16ms  
 
 ##### Problem no 4
 
@@ -117,6 +120,7 @@ Typed Racket using sieve  2-4ms
 Haskell 30 msecs   
 SML 17 msecs  
 C Benchmark using sieve 0.9ms  
+Swift v1 22ms  
 
 ##### Problem no 8
 
