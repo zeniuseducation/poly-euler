@@ -91,7 +91,7 @@ func euler7a (tar : Int) -> Int {
 }
 
 func sum_sieves (lim : Int) -> Int {
-  var refs = Array(count: (lim+1), repeatedValue: false)
+  var refs = [Bool](count: (lim+1), repeatedValue: false)
   var i = 3, llim = Int(sqrt(Double(lim)))
   var res = 0;
   while i < lim {
@@ -110,14 +110,14 @@ func sum_sieves (lim : Int) -> Int {
 
 func nth_sieves (m : Int, n : Int) -> Int {
   var lim = m * n;
-  var refs = Array(count: (lim+1), repeatedValue: false)
-  for (var i = 0; i < lim; i++) {
+  var refs = [Bool](count: lim, repeatedValue:false)
+  /* for (var i = 0; i < lim; i++) {
     refs[i] = false
-  }
+  } */
   var i = 3, llim = Int(sqrt(Double(lim)))
   var res = 2, p = 1
   while p < m {
-    if (i <= llim) && (!refs[i]) {
+    if (i <= llim) && (~refs[i]) {
       for (var j = i*i; j < lim; j += (2*i)) {
         refs[j] = true
       }
@@ -133,10 +133,115 @@ func nth_sieves (m : Int, n : Int) -> Int {
   return res;
 }
 
+var refsdivs = [Int16](count : 20000, repeatedValue : 0)
+
+func count_divs (n : Int) -> Int16 {
+    var res : Int16 = 2
+    var i = 2
+    var tmp : Int16 = refsdivs[n];
+    if tmp != 0 {
+        return tmp
+    } else {
+        if 0 == (n % 2) { 
+          while (i*i) <= n {          
+            if (i*i) == n {
+              return res++
+              } else {
+                if 0 == (n % i) {
+                  res += 2
+                  }
+                }
+                i++
+            }
+            refsdivs[n] = res
+            return res
+            } else {
+                i = 3
+                while (i*i) <= n {
+                    if (i*i) == n {
+                        return res++;
+                    } else {
+                        if 0 == (n % i) {
+                            res += 2;
+                        }
+                    }
+                    i += 2;
+                }
+                refsdivs[n] = res
+                return res
+            }
+    }
+    
+}
+
+func triangle500 (lim : Int16) -> Int {
+    var i = 3
+    var res = count_divs (i) * count_divs ((i+1)/2)
+    while res <= lim {
+        i++
+        if 0 == (i%2) {
+            res = count_divs (i/2) * count_divs (i+1)
+        } else {
+            res = count_divs (i) * count_divs ((i+1)/2)
+        }
+        
+    }
+    return i*(i+1)/2
+}
+
+func rcollatz (n : Int) -> Int {
+  var tmp = n, res = 1
+  while tmp != 1 {
+    if 0 == (tmp % 2) {
+      tmp = tmp / 2
+      res++
+    } else {
+      tmp = 1 + (3 * tmp)
+      res++
+    }
+  }
+  return res
+}
+
+var dcol = [Int : Int] ()
+
+func collatz (m : Int) -> Int {
+  if m == 1 {
+    return 1
+  } else {
+    var tmp : Int? = dcol[m] 
+    if tmp != nil {
+      return tmp!
+    } else {
+      if 0 == (m % 2) {
+        tmp = 1 + collatz (m / 2)
+        dcol[m] = tmp
+        return tmp!
+      } else {
+        tmp = 1 + collatz (1 + 3 * m)
+        dcol[m] = tmp
+        return tmp!
+      }
+    }
+  }
+}
+
+func max_collatz (start : Int, lim : Int) -> Int {
+  var i = start, res = 1, p = 1, temp = 1;
+  while i < lim {
+    temp = rcollatz (i)
+    if (temp > res) {
+      p = i
+      res = temp
+    }
+    i += 2
+  }
+  return p
+}
 
 func main () {
     let start = NSDate()
-    let result = sum_sieves(2000000)
+    let result = max_collatz(500001, 1000000)
     let end = NSDate()
     let timeInterval: Double = end.timeIntervalSinceDate(start) * 1000
     println ("Time elapsed \(timeInterval) ms")

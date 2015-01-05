@@ -30,9 +30,20 @@ func sumPrimes (lim : Int32) -> Int32 {
   return looperSumPrimes (3,2, lim)
 }
 
+var mdic = [Int : Int] ()
+
+func funFact () -> Bool {
+  var jika = mdic[123]
+  if jika == nil {
+    return true
+  } else {
+    return false
+  }
+}
+
 func main () {
     let start = NSDate()
-    let result = Int(sqrt(Double(144)))
+    let result = funFact()
     let end = NSDate()
     let timeInterval: Double = end.timeIntervalSinceDate(start) * 1000
     println ("Time elapsed \(timeInterval) ms")
