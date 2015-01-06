@@ -184,6 +184,7 @@ C Benchmark 580 ms
 C Benchmark v2 6 ms  
 C Benchmark proto-memoize 3 ms  
 Java Benchmark 11 ms  
+Swift 7ms  
 
 
 ##### Problem no 14
@@ -199,7 +200,8 @@ Haskell compiled 4.36 seconds
 Typed Racket 3.3 seconds (even better than Haskell)  
 Typed Racket 0.9 second (check >500k odds only)  
 SML 36 seconds  
-C as benchmark (starting from half a million and check odd only) 179ms    
+C as benchmark (starting from half a million and check odd only) 179ms   
+Swift 185ms  
 
 ##### Problem no 15
 
