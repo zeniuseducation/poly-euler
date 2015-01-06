@@ -64,9 +64,9 @@ function sum_sieves (lim) {
 
 function main() {
     var start = new Date().getTime();
-    var result = sum_sieves(2000000);
+    var result = sum_primes(2000000);
     var duration = new Date().getTime() - start;
-    console.log("result " + result + "... executed in " + duration + "ms");
+    alert("result " + result + "... executed in " + duration + "ms");
 }
 
 main();
