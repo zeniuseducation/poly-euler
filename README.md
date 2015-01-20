@@ -151,6 +151,7 @@ Type Hinted Clojure using *unchecked-math* 1,165 msecs
 Type-hinted Clojure using sieves 120-140ms  
 SBCL 3,269ms in SBCL 1.2.2  
 Type hinted SBCL 1,236ms  
+The same type hinted version in 32bit windows runs in 832ms  
 Type-hinted SBCL using sieves 30-40ms  
 Haskell 1,320 msecs (1.3 secs)  
 Haskell on Win32 470 msecs   
@@ -255,6 +256,7 @@ Prob: Find the first fibo element that reach 1000 digits.
 Clojure averaging 2.9 msecs  
 Type hinted Clojure using *unchecked-math* < 1 ms  
 SBCL averaging 1.3 msecs   
+SBCL One-liner 1ms  
 Racket 3-4 msecs  
 Typed Racket 1 ms  
 Haskell averaging 10 msecs  
