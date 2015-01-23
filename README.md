@@ -112,6 +112,7 @@ Prob: Find the 10,001st prime
 Clojure 40-50 msecs  
 Type-hinted Clojure 30-50 ms  
 Type-hinted Clojure using sieve 5-8ms  
+Type-hinted Clojure using reducers 0.8ms
 SBCL 90-110 msecs  
 Type hinted SBCL 24ms  
 Type-hinted SBCL using sieves 2ms  
@@ -135,12 +136,14 @@ Haskell 100 msecs
 
 Type-hinted Clojure 3-4ms  
 Further optimised Clojure 0.4ms  
+Crazy clojure technique 0.06ms  
 Type-hinted SBCL 3ms  
 Typed Racket 1ms  
 Haskell <10 ms  
 SML 1 ms  
 C as benchmark 0.25ms  
 Java benchmark 2.5ms  
+Swift 0.32 ms  
 
 ##### Problem no 10
 
@@ -148,10 +151,12 @@ Prob : The sum of all positive primes that less than 2,000,000
 
 Clojure 2,500 msecs  (2.5 secs)  
 Type Hinted Clojure using *unchecked-math* 1,165 msecs  
+Typed Hinted Clojure naive using clojure-1.7 pmap-reducers 360ms (FASTEST for non-sieve)  
 Type-hinted Clojure using sieves 120-140ms  
+Type-hinted Clojure sieve using reducers 15ms!! NEW RECORD  
 SBCL 3,269ms in SBCL 1.2.2  
 Type hinted SBCL 1,236ms  
-The same type hinted version in 32bit windows runs in 832ms  
+The same type hinted version in 32bit windows runs in 832ms   
 Type-hinted SBCL using sieves 30-40ms  
 Haskell 1,320 msecs (1.3 secs)  
 Haskell on Win32 470 msecs   
@@ -162,7 +167,7 @@ Typed Racket in Win32 987 msecs
 Typed Racket using sieves 71-76ms  
 C Benchmark using sieve 24 ms  
 Swift naive 1,421ms  
-Swift sieves 11ms NEW RECORD!!    
+Swift sieves 16ms  
 
 ##### Problem no 12
 
