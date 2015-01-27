@@ -112,7 +112,7 @@ Prob: Find the 10,001st prime
 Clojure 40-50 msecs  
 Type-hinted Clojure 30-50 ms  
 Type-hinted Clojure using sieve 5-8ms  
-Type-hinted Clojure using reducers 0.8ms
+Type-hinted Clojure 1.7 using transducers 0.8ms  
 SBCL 90-110 msecs  
 Type hinted SBCL 24ms  
 Type-hinted SBCL using sieves 2ms  
@@ -153,7 +153,7 @@ Clojure 2,500 msecs  (2.5 secs)
 Type Hinted Clojure using *unchecked-math* 1,165 msecs  
 Typed Hinted Clojure naive using clojure-1.7 pmap-reducers 360ms (FASTEST for non-sieve)  
 Type-hinted Clojure using sieves 120-140ms  
-Type-hinted Clojure sieve using reducers 15ms!! NEW RECORD  
+Type-hinted Clojure 1.7 sieve using reducers 15ms!! NEW RECORD  
 SBCL 3,269ms in SBCL 1.2.2  
 Type hinted SBCL 1,236ms  
 The same type hinted version in 32bit windows runs in 832ms   
