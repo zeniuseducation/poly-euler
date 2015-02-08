@@ -45,7 +45,8 @@ Haskell averaging 10 msecs
 Racket 1 msec  
 Java benchmark 0.05ms  
 C benchmark 0.05ms  
-Swift 0.018ms NEW RECORD !!!  
+Swift 0.018ms  
+Julia 0.009ms NEW RECORD!  
 
 ##### Problem no 2
 
@@ -57,7 +58,8 @@ Haskell ~10 msecs
 Racket less than 1 msec  
 C Benchmark 0.03ms  
 Java benchmark 0.005ms  
-Swift 0.004ms NEW RECORD!!  
+Swift 0.004ms  
+Julia 0.004ms TIGHT with SWIFT!  
 
 ##### Problem no 3
 
@@ -77,6 +79,7 @@ Further optimised Typed Racket 0.4-0.5ms
 C as benchmark 0.2ms  
 Java as benchmark 5ms  
 Swift 0.11ms NEW RECORD!!  
+Julia 0.16ms  
 
 ##### Problem no 4
 
@@ -84,9 +87,11 @@ Prob: Find the largest palindrom that is a product of two 3 digits
 number (can be different numbers).
 
 Clojure 16-18 msecs  
+Clojure with memoization 0.01ms  
 SBCL 11-20 msecs  
 Haskell 30 msecs  
-SML 3 msec -> FASTEST!!!  
+SML 3 msec  
+Julia 0.006ms  FAST! (using memoization)  
 
 ##### Problem no 5
 
@@ -96,6 +101,7 @@ integers from 1 to 20.
 Clojure 0.3 msecs  
 SBCL 0.04 msecs  
 Haskell ~10msecs  
+Julia 0.01ms  
 
 ##### Problem no 6
 
@@ -104,6 +110,7 @@ Prob: Calculate the difference between the sum of squares of the first 100 natur
 Clojure 0.3-0.4 msecs  
 SBCL 0.01 msecs  
 Haskell (it seems that GHCi cannot time under 10msecs)  
+Julia 0.004ms  
 
 ##### Problem no 7
 
@@ -122,7 +129,8 @@ Haskell 30 msecs
 SML 17 msecs  
 C Benchmark using sieve 0.9ms  
 Swift naive using Int32 10ms  
-Swift using sieves 0.7ms NEW RECORD!!  
+Swift using sieves 0.7ms  
+Julia using sieves 0.7ms  
 
 ##### Problem no 8
 
@@ -168,6 +176,7 @@ Typed Racket using sieves 71-76ms
 C Benchmark using sieve 24 ms  
 Swift naive 1,421ms  
 Swift sieves 16ms  
+Julia using sieves 19ms  
 
 ##### Problem no 12
 
