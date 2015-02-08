@@ -345,7 +345,8 @@ triangle_factors lim = looper 2
                   | otherwise = (count_divs (div (succ n) 2)) * (count_divs n)
 
 camps :: Int -> Int
-camps n = foldl1 (*) $ map ((concatMap numcol $ iterate succ 1) !!) [10^i-1| i <- [0..n-1]]
+camps n = foldl1 (*) $ map ((concatMap numcol $ iterate succ 1) !!)
+          [10^i-1| i <- [0..n-1]]
 
 permute n ls
   | n == 1 = [[x]|x<-ls]
@@ -362,9 +363,11 @@ sort_by f ls = sortBy (\x y -> compare (f x) (f y)) ls
 
 -- this one takes 40ms
 
-euler39 lim = last $ sort_by snd $ map (\x-> (head x,length x)) $ (group . sort) result
+euler39 lim = last $ sort_by snd $ map (\x-> (head x,length x))
+              $ (group . sort) result
   where result = [a+b+c | a <- [3..div lim 4], b <- [succ a..div lim 2],
-                  c <- [succ b..div lim 2], a^2+b^2 == c^2, let peri = a+b+c, peri <= lim]
+                  c <- [succ b..div lim 2], a^2+b^2 == c^2,
+                  let peri = a+b+c, peri <= lim]
 
 -- it returns an infinite sequence of pentagonal numbers
 pentagonals :: [Int]
@@ -398,7 +401,8 @@ find_pentals2 m = looper 1
           where num = sumsub_pental (reverse $ take i pentagonals)
 
 
-s_power l = rem (foldl1 (\x y -> x+ (rem y (10^10))) (map (\x -> x^x) [1..l])) (10^10)
+s_power l = rem (foldl1 (\x y -> x+ (rem y (10^10)))
+                 (map (\x -> x^x) [1..l])) (10^10)
 
 max_power lim = maximum [sumdig (a^b)| a <- [1..lim], b <- [1..lim]]
   where sumdig i = sum $ map digitToInt $ show i

@@ -439,6 +439,13 @@
 
 (defparameter cs (make-array 8 :initial-contents '(1 2 5 10 20 50 100 200)))
 
+(defun sumdig (n)
+  (if (< n 10) n (+ (rem n 10) (sumdig (truncate  (/ n 10))))))
+
+(defun euler20 (lim)
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (sumdig (reduce '* (loop for i from 1 to lim collect i))))
 
 
 

@@ -239,9 +239,54 @@ func max_collatz (start : Int, lim : Int) -> Int {
 	return p
 }
 
+func pita (lim : Int) -> Int {
+	var res = 0, a = 3, b = 0, c = 0
+	while res == 0 {
+		b = a + 1
+		c = lim - (a + b)
+		while (b < c && res == 0) {
+			if c*c == (a * a) + (b * b) {
+				res = a * b * c
+			} else {
+				b++
+				c = lim - (a + b)
+			}
+		}
+		a++
+	}
+	return res
+}
+
+func fakFrom (from : Int, to : Int) -> Int {
+	var res : Int = 1
+	for var i = from; i <= to ; i++ {
+		res *= i
+	}
+	return res
+}
+
+func comb (n : Int, k : Int) -> Int {
+	var sisa : Int = n - k
+	if (k > sisa) {
+		return fakFrom (k+1, n) / fakFrom(1,sisa)
+	} else {
+		return fakFrom (sisa+1, n) / fakFrom (1,k)
+	}
+}
+
+func euler15 (n : Int) -> Int {
+	var res : Int = 0
+	var tmp : Int = 0
+	for var i = 1 ; i <= n ; i++ {
+		tmp = comb(n,i)
+		res += tmp * tmp
+	}
+	return res+1
+}
+
 func main () {
 		let start = NSDate()
-		let result = max_collatz(500001, 1000000)
+		let result = euler15(20)
 		let end = NSDate()
 		let timeInterval: Double = end.timeIntervalSinceDate(start) * 1000
 		println ("Time elapsed \(timeInterval) ms")

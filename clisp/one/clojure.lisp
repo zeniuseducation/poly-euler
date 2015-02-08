@@ -16,6 +16,9 @@
 (defmacro fn (body)
   `(lambda (%) ,body))
 
+(defmacro fn2 (body)
+  `(lambda (%1 %2) ,body))
+
 (defun cmap (f lst)
   (mapcar f lst))
 
@@ -123,6 +126,17 @@
       (if (funcall f (first lst))
 	  (drop-while f (rest lst))
 	  lst)))
+
+(defun repeat (n m)
+  (deff)
+  (if (zerop n)
+      nil
+      (cons m (repeat (1- n) m))))
+
+(defun insert (elm n xs)
+  (->> (drop (1- n) xs)
+       (cons elm)
+       (append (take (1- n) xs))))
 
 
 

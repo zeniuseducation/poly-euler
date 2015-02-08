@@ -43,7 +43,7 @@ func funFact () -> Bool {
 
 func main () {
     let start = NSDate()
-    let result = funFact()
+    let result = sumPrimes(2000000)
     let end = NSDate()
     let timeInterval: Double = end.timeIntervalSinceDate(start) * 1000
     println ("Time elapsed \(timeInterval) ms")

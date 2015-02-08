@@ -122,4 +122,76 @@ numerator of the fraction and sum the digits"
        (cmap (fn (reduce '+ (sdigits % 100))))
        (reduce '+)))
 
+(defun sol94 (lim)
+  (deff lim)
+  (cloop (i 2 res 0) (deff i res)
+	 (if (> (inc (* 3 i)) lim)
+	     res
+	     (let* ((a (inc i))
+		    (b (dec i))
+		    (p1 (/ (+ i i a) 2))
+		    (p2 (/ (+ i i b) 2))
+		    (asq (* p1 (- p1 i) (- p1 i) (- p1 a)))
+		    (bsq (* p2 (- p2 i) (- p2 i) (- p2 b))))
+	       (if (psqr? asq)
+		   (if (psqr? bsq)
+		       (recur (inc i)
+			      (+ res
+				 (+ (* 2 i) a)
+				 (+ (* 2 i) b)))
+		       (recur (inc i) (+ res (+ (* 2 i) a))))
+		   (if (psqr? bsq)
+		       (recur (inc i) (+ res (+ (* 2 i) b)))
+		       (recur (inc i) res)))))))
+
+(defun prime? (p)
+  (deff p)
+  (if (evenp p)
+      nil
+      (cloop (i 3) (deff i)
+	     (cond ((> (* i i) p) t)
+		   ((= 0 (rem p i)) nil)
+		   (t (recur (+ i 2)))))))
+
+(defun permute (ls)
+  "Returns all possible permutations of ls"
+  (if (= 1 (length ls))
+      (mapcar 'list ls)
+      (loop for i in ls
+	 append (loop for rs in (permute (remove i ls))
+		   collect (cons i rs)))))
+
+(defun combine (ls n)
+  "Takes n combinations of ls"
+  (if (= 0 n)
+      '(())
+      (loop for i in ls
+	 for j from 1 to (length ls)
+	 append (loop for rs in (combine (drop j ls)
+					 (dec n))
+		   collect (cons i rs)))))
+
+(defun k-permute (xs n)
+  (deff n)
+  (mapcan (fn (permute %)) (combine xs n)))
+
+(defun selipin (xs rl pl)
+  (let* ((bahan (mapcar 'list rl pl)))
+    (-> (fn2 (insert (first %2)
+		     (second %2)
+		     %1))
+	(reduce bahan :initial-value xs))))
+
+(defun primes-d (dig n t)
+  (let* ((bahan (range 10))
+	 (sempalan (repeat n dig))
+	 (digits (range 1 t)))
+    (cloop (korban sempalan res nil)
+	   )))
+
+
+
+
+
+
 

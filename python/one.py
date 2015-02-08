@@ -15,13 +15,31 @@ def is_prime (n) :
 			else :
 				i += 2
 		return res
+		
+def odd_prime (p) :
+	i = 3
+	while (i*i <= p) :
+		if 0 == p % i :
+			return False 
+		else : 
+			i += 2
+	return True
+		
+def sum_primes (lim) :
+	i = 3
+	res = 2
+	while (i < lim) :
+		if odd_prime(i) :
+			res += i
+		i += 2
+	return res
 
 def stupid_iteration (lim) :
 	my_dict = {}
 	for i in range(lim) :
 		my_dict[i] = i * i
 	for i in range(lim) :
-		print my_dict[i]
+		print(my_dict[i])
 
 def find_cycle (n) :
 	refs = {}
@@ -57,7 +75,7 @@ def max_cycle (lim) :
 	return [n,res]
 
 start_time = datetime.now()
-result = max_cycle (1000)
-print result
+result = sum_primes(2000000)
+print(result)
 end_time = datetime.now()
 print('Duration: {}'.format(end_time - start_time))
