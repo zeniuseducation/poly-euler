@@ -180,14 +180,20 @@ numerator of the fraction and sum the digits"
     (-> (fn2 (insert (first %2)
 		     (second %2)
 		     %1))
-	(reduce bahan :initial-value xs))))
+      (reduce bahan :initial-value xs))))
 
-(defun primes-d (dig n t)
-  (let* ((bahan (range 10))
-	 (sempalan (repeat n dig))
-	 (digits (range 1 t)))
-    (cloop (korban sempalan res nil)
-	   )))
+(defun hexal? (n)
+  (deff n)
+  (let ((tmp (double (/ (+ 1 (sqrt (+ 1 (* 8 n)))) 4))))
+    (= (floor tmp) (ceiling tmp))))
+
+(defun euler45 (start)
+  (deff start)
+  (cloop (n start res nil) (deff)
+	 (or res
+	     (clet [cur (div (* n (1- (* 3 n))) 2)]
+		   (recur (1+ n)
+			  (and (hexal? cur) cur))))))
 
 
 

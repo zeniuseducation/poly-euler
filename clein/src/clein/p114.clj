@@ -32,7 +32,7 @@
           (filter res)
           count)
       (recur (inc i)
-             (eduction
+             (sequence
               (comp (mapcat #(list (cons 1 %)
                                    (cons 0 %)))
                     (filter valid-dong?))
@@ -62,3 +62,33 @@
 
 (defn col [xs n]
   (map #(nth % (dec n)) xs))
+
+(def one-block
+  (memoize
+   (fn [base end]
+     (let [r (- end base)]
+       (cond
+        (#{0 1 2 3} r) 0
+        (#{4 5 6} r) 2
+        :else (- r 4))))))
+
+
+(defn sol114
+  [n]
+  (let [post (fn post [^long i]
+               (cond
+                (== i (- n 3)) 0
+                (== i 1) (one-block 0 n)
+                :else (+ (reduce +
+                                 (for [m (range (+ i 2)
+                                                (- n 2))]
+                                   (one-block m n)))
+                         (reduce +
+                                 (map #(one-block %1 %2)
+                                      (range 0 i)
+                                      (range (- n (dec i)) (inc n)))))))]
+    (+ 2 (reduce + (map post (range 1 (- n 2)))))))
+
+
+
+
