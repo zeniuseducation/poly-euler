@@ -8,6 +8,11 @@ deleting old codes.
 
 Note: The logo was taken from <a href="https://sites.google.com/site/adidozsa2/lisp">This blog</a>. Unfortunately nobody noticed that the Johnnie posture is lambda-shaped :)
 
+### The Eulerians:  
+<img src="https://projecteuler.net/profile/squest.png">
+<img src="https://projecteuler.net/profile/skadinyo.png">
+<img src="https://projecteuler.net/profile/memeri.png">
+
 ## About the Lisps
 
 "*Lisp is worth learning for the profound enlightenment experience you
