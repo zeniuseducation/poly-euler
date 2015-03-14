@@ -1,0 +1,101 @@
+(defun prime? (p)
+  (declare (optimize (speed 3))
+	   (fixnum p))
+  (labels ((looper (i)
+	      (declare (fixnum i))
+	      (if (> (* i i) p)
+		  t
+		  (if (= 0 (rem p i))
+		      nil
+		      (looper (+ i 2))))))
+    (looper 3)))
+
+(defun sum-primes (lim)
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (labels ((loopi (i res)
+	      (declare (fixnum i res))
+	      (if (> i lim)
+		  res
+		  (if (prime? i)
+		      (loopi (+ i 2) (+ res i))
+		      (loopi (+ i 2) res)))))
+    (loopi 3 2)))
+
+(defun sum-sieve (lim)
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (let* ((llim (sqrt lim))
+	 (primes (make-array (+ 1 lim) :initial-element t)))
+    (labels
+	((loopi (i res)
+	    (declare (fixnum i res))
+	    (labels
+		((loopj (j)
+		    (if (> j lim)
+			nil
+			(progn (setf (aref primes j) nil)
+			       (loopj (+ j (* 2 i)))))))
+	      (if (> i lim)
+		  res
+		  (if (aref primes i)
+		      (progn (when (<= i llim)
+			       (loopj (* i i)))
+			     (loopi (+ i 2) (+ res i)))
+		      (loopi (+ i 2) res))))))
+      (loopi 3 2))))
+
+(defun sum-sieve2 (lim)
+  (declare (optimize (speed 3))
+           (fixnum lim))
+  (let* ((refs (make-array (1+ lim) :initial-element t))
+         (llim (sqrt lim))
+         (sum 2))
+    (labels ((loopj (j i)
+		(if (> j lim)
+		    nil
+		    (progn (setf (aref refs j) nil)
+			   (loopj (+ j (* i 2)) i))))
+             (loopi (i)
+		(if (> i lim)
+		    sum
+		    (if (aref refs i)
+			(if (<= i llim)
+			    (progn (loopj (* i i) i)
+				   (loopi (+ i 2))
+				   (setf sum (+ sum i)))
+			    (progn (setf sum (+ sum i))
+				   (loopi (+ i 2))))
+			(loopi (+ i 2))))))
+      (loopi 3))))
+
+(defun div (a b) (truncate (/ a b)))
+
+(defun prev-prime (p)
+  (if (evenp p)
+      (prev-prime (- p 1))
+      (if (prime? (- p 2))
+	  (- p 2)
+	  (prev-prime (- p 2)))))
+
+(defun repeating (lim)
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (labels ((loopj (x diva res xs)
+	      (let ((t1 (rem diva x)))
+		(if (member t1 xs)
+		    res
+		    (loopj x (* 10 t1) (+ 1 res) (cons t1 xs)))))
+	   (loopi (i res)
+	      (if (< i (second res))
+		  (first res)
+		  (let ((tmp (loopj i (* 10 (ceiling (log i 10))) 0 nil)))
+		    (if (> tmp (second res))
+			(loopi (prev-prime i) (list i tmp))
+			(loopi (prev-prime i) res))))))
+    (if (prime? lim)
+	(loopi lim (list lim 0))
+	(repeating (prev-prime lim)))))
+
+
+

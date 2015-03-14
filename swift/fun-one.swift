@@ -1,6 +1,3 @@
-import Foundation
-import Darwin
-
 func looperPrime (i : Int32, p : Int32) -> Bool {
     if (i*i) > p {
       return true
@@ -42,11 +39,7 @@ func funFact () -> Bool {
 }
 
 func main () {
-    let start = NSDate()
     let result = sumPrimes(2000000)
-    let end = NSDate()
-    let timeInterval: Double = end.timeIntervalSinceDate(start) * 1000
-    println ("Time elapsed \(timeInterval) ms")
     println (result)
 }
 

@@ -30,7 +30,7 @@ function fibo (lim)
   i = 0
   tlim = 10
   for t = 1:lim
-    tlim *= 10
+    tlim *= (BigInt::10)
   end
   while a < tlim
     tmp = a
@@ -46,13 +46,13 @@ end
 function sum_sieves(n::Int64)
   isprime = ones(Bool, n)
   isprime[1] = false
-  res = 0
+  res = 2
   check = isqrt(n)
-  for i = 2:n
+  for i = 3:2:n
       if isprime[i]
         res += i
         if i < check
-          for j in (i*i):i:n
+          for j in (i*i):i*2:n
             isprime[j] = false
           end
         end
@@ -85,7 +85,6 @@ function euler7(n::Int64)
 end
 
 @time euler7(10001)
-
 
 function euler1(lim)
   res = 0
