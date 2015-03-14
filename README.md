@@ -46,19 +46,21 @@ Implementations:
 Prob: Find the sum of all multiples of 3 or 5 that less than 1000
 
 Clojure averaging 3.2 msecs  
+Clojure 1.7 0.08ms  
 SBCL averaging 0.3 msecs  
 Haskell averaging 10 msecs  
 Racket 1 msec  
 Java benchmark 0.05ms  
 C benchmark 0.05ms  
 Swift 0.018ms  
-Julia 0.009ms NEW RECORD!  
+Julia 0.008ms NEW RECORD!  
 
 ##### Problem no 2
 
 Prob: Find the sum of even-valued fibo numbers less than 4,000,000
 
 Clojure 0.08 msecs  
+Clojure 1.7 0.04ms  
 SBCL less than 0.01 msecs   
 Haskell ~10 msecs  
 Racket less than 1 msec  
@@ -125,7 +127,7 @@ Prob: Find the 10,001st prime
 Clojure 40-50 msecs  
 Type-hinted Clojure 30-50 ms  
 Type-hinted Clojure using sieve 5-8ms  
-Type-hinted Clojure 1.7 using transducers 0.8ms  
+Type-hinted Clojure 1.7 using transducers 0.4ms    
 SBCL 90-110 msecs  
 Type hinted SBCL 24ms  
 Type-hinted SBCL using sieves 2ms  
@@ -142,9 +144,11 @@ Julia using sieves 0.7ms
 
 Prob: Find the largest product of 13 digits in a 1000 digits series
 
-Clojure 45-65 msecs  
+Clojure 45-65 msecs    
+Clojure 1.7 3ms    
 SBCL 23 msecs  
 Haskell 100 msecs  
+Haskell 3ms  
 
 ##### Problem no 9
 
@@ -167,7 +171,8 @@ Clojure 2,500 msecs  (2.5 secs)
 Type Hinted Clojure using *unchecked-math* 1,165 msecs  
 Typed Hinted Clojure naive using clojure-1.7 pmap-reducers 360ms (FASTEST for non-sieve)  
 Type-hinted Clojure using sieves 120-140ms  
-Type-hinted Clojure 1.7 sieve using reducers 15ms!! NEW RECORD  
+Type-hinted Clojure 1.7 sieve using reducers 15ms!!   
+Clojure 1.7 sieve 6ms!! FASTEST!!  
 SBCL 3,269ms in SBCL 1.2.2  
 Type hinted SBCL 1,236ms  
 The same type hinted version in 32bit windows runs in 832ms   
@@ -206,6 +211,7 @@ C Benchmark v2 6 ms
 C Benchmark proto-memoize 3 ms  
 Java Benchmark 11 ms  
 Swift 7ms  
+Julia 9ms  
 
 
 ##### Problem no 14
@@ -223,6 +229,7 @@ Typed Racket 0.9 second (check >500k odds only)
 SML 36 seconds  
 C as benchmark (starting from half a million and check odd only) 179ms   
 Swift 185ms  
+Julia 800ms  
 
 ##### Problem no 15
 
@@ -243,6 +250,7 @@ Problem : The sum of all amicable numbers less than 10,000
 
 Clojure 72 ms    
 Type hinted Clojure 17-22 ms  
+Clojure 1.7 11ms  
 SBCL 51 ms    
 Type hinted SBCL 17-20 ms  
 Haskell compiled 30 ms  
@@ -257,6 +265,7 @@ C using dynamic programming 4.5ms
 Problem : The sum of all integers that cannot be written as the sum of two abundant numbers  
 
 Type-hinted Clojure 240-250ms  
+Clojure 1.7 110ms  
 Type-hinted SBCL 275ms  
 Typed Racket 450-460ms  
 C as benchmark 128ms    
