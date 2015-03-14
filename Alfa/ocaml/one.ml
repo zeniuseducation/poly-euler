@@ -40,7 +40,28 @@ let sumPrimes (lim : int) =
       then looper (i+2) (res+i)
       else looper (i+2) res
   in looper 3 2
-      
+
+let sum_sieve (lim : int) = 
+  let refs = Array.make (lim+1) true in
+  let llim = truncate (sqrt (float lim)) in
+  let res = ref 0 in
+  begin
+    for i = 2 to lim do
+      if refs.(i)
+      then if i < llim
+	   then let j = ref (i*i)
+		in while !j <= lim do
+		     refs.(j) = false;
+		     j := !j + (2*i)
+		   done;
+		   res := !res + i
+	   else res := !res + i
+      else res := !res
+    done;
+    !res
+  end
+    
+
 let time f x =
   let t = Sys.time() in
   let fx = f x in
@@ -48,3 +69,6 @@ let time f x =
   fx ;;
 				    
   
+
+
+
