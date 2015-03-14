@@ -19,8 +19,8 @@ Unfortunately nobody noticed that the Johnnie posture is lambda-shaped :)
 "*Lisp is worth learning for the profound enlightenment experience you
 will have when you finally get it; that experience will make you a
 better programmer for the rest of your days, even if you never
-actually use Lisp itself a lot*." - Eric Raymond, "How to Become a
-Hacker"
+actually use Lisp itself a lot*."   
+- Eric Raymond, "How to Become a Hacker"
 
 ## Rationales
 
