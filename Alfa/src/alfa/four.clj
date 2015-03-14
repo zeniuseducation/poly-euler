@@ -163,6 +163,35 @@
             (recur xs [r rs])
             (recur xs [tm1 tm2])))))))
 
+(defn count-comb
+	[n k]
+	(quot (reduce * (range (+ k 1) (+ 1 n)))
+				(* (reduce * (range 1 (+ k 1)))
+					 (reduce * (range 1 (+ 1 (- n k)))))))
+
+(def memcomb
+	(memoize
+		(fn [n k]
+			(count-comb n k))))
+
+(defn prob493
+	[^long m ^long k]
+	(let [res (for [a (range (inc k))
+									b (range (inc k))
+									c (range (inc k))
+									d (range (inc k))
+									e (range (inc k))
+									f (range (inc k))
+									g (range (inc k))
+									:when (== m (+ a b c d e f g))
+									:let [resi (->> [a b c d e f g]
+																	(filter #(> % 0)))]]
+							(* (count resi)
+								 (transduce
+									 (map #(memcomb 10 %))
+									 *' resi)))]
+		(/ (reduce + res) 1.0)))
+
 
 
 

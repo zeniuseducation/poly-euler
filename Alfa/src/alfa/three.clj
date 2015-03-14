@@ -422,14 +422,62 @@
 					ncur
 					(->> ncur
 							 (map #(sol (+ i 1)
-													(if (== cl 1) cl (if (some #{:l} %) 1 0))
-													lim %))
+													(if (== cl 1) cl (if (some #{:l} %) 1 0)) lim %))
 							 (reduce +)))))))
 
 (defn ^long tsol
 	[^long lim]
 	(->> (pmap #(sol 1 lim %) [[:a] [:l] [:o]])
 			 (reduce +)))
+
+(def primes (filter prime? (iterate #(+ 2 %) 3)))
+
+(defm pfactors
+	[^long n]
+	(loop [p (int n) res [] start (take-while #(< % p) primes)]
+		(cond
+			(== 1 p) res
+			(even? p) (let [[a & _] (drop-while #(== 0 (rem p (expt 2 %)))
+																						(iterate inc 1))]
+									(recur (quot p (expt 2 (- a 1))) (conj res 2) start))
+			(prime? p) (conj res p)
+			:else (let [[cprime & _] (drop-while #(not= 0 (rem p %)) start)
+									[a & _] (->> (iterate inc 1)
+															 (drop-while #(== 0 (rem p (expt cprime %)))))]
+							(recur (quot p (expt cprime (- a 1)))
+										 (conj res cprime)
+										 (drop-while #(<= % cprime) start))))))
+
+(defn ^long sol47
+	[^long n ^long lim]
+	(let [refs (boolean-array (+ lim 1) true)
+				llim (int (Math/sqrt lim))]
+		(do (loop [i (int 3)]
+					(if (> i lim)
+						nil
+						(if (aget refs i)
+							(if (<= i llim)
+								(do (loop [j (int (* i i))]
+											(if (> j lim)
+												nil
+												(recur (do (aset refs j false)
+																	 (+ j (* i 2))))))
+										(recur (+ i 2)))
+								(recur (+ i 2)))
+							(recur (+ i 2)))))
+				(loop [i (int 3)]
+					(let [[j & _] (drop-while #(not (aget refs %)) (iterate #(+ 2 %) (+ i 2)))]
+						(if (< (- j i) (- n 1))
+							(recur j)
+							(let [tmp (loop [m (int (+ i 1))
+															 cur (mapv #(count (pfactors %)) (range m (+ m n)))]
+													(cond
+														(every? #(== n %) cur) m
+														(== (+ m n) j) nil
+														:else (recur (+ m 1)
+																				 (conj (vec (rest cur))
+																							 (count (pfactors (+ m 4)))))))]
+								(if tmp tmp (recur j)))))))))
 
 
 

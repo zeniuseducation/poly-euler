@@ -6,7 +6,8 @@ deleting old codes.
 
 <img src="https://sites.google.com/site/adidozsa2/KeepLisping.jpg">
 
-Note: The logo was taken from <a href="https://sites.google.com/site/adidozsa2/lisp">This blog</a>. Unfortunately nobody noticed that the Johnnie posture is lambda-shaped :)
+Note: The logo was taken from <a href="https://sites.google.com/site/adidozsa2/lisp">This blog</a>. 
+Unfortunately nobody noticed that the Johnnie posture is lambda-shaped :)
 
 ### The Eulerians:  
 <img src="https://projecteuler.net/profile/squest.png">
@@ -448,6 +449,12 @@ Haskell (optimized to the max) 0.23 sec
 Clojure 0.1ms  
 C as benchmark 0.3ms  
 
+##### Problem 47 
+
+Clojure 180ms  
+SBCL 98ms  
+C as benchmark 58ms  
+
 ##### Problem 48
 
 Clojure 53ms  
@@ -473,6 +480,14 @@ Prob : How many a^m have m digits?
 SBCL 0.1 ms  
 Clojure 0.4 ms  
 
+##### Problem 65  
+
+SBCL 0.3ms  
+
+##### Problem 67
+
+Clojure 1.7 15ms  
+
 ##### Problem 75
 
 SBCL 0.2second  
@@ -492,20 +507,57 @@ Problem : which number can be express as the summation of primes in 5000 differe
 SBCL 4ms  
 Clojure 6ms  
 
+##### Problem 80
+
+SBCL 223ms  
+
+##### Problem 82 
+
+Clojure 1.7 8ms  
+
 
 ##### Problem no 85
 
 Clojure 1.5 sec  
 SBCL 0.53 sec  
 
+##### Problem 90
+
+Clojure 3secs  
+
+##### Problem 93
+
+Clojure 500ms  
+
+##### Problem 98 
+
+Clojure 300ms  
+
 ##### Problem no 100
 
 Clojure 0.039 msec  
 SBCL 1.2 msec  
 
+##### Problem 103
+
+Clojure 47ms  
+
+##### Problem 111
+
+Clojure 480ms  
+
 ##### Problem 113
 
 Clojure 12ms  
+
+##### Problem 116  
+
+Clojure 0.6ms  
+SBCL 0.1ms  
+
+##### Problem 118
+
+Clojure 14secs  
 
 ##### Problem no 125
 
@@ -517,6 +569,14 @@ SBCL 0.6-0.8 sec
 SBCL 3ms  
 Haskell interpreted 230ms  
 
+##### Problem 148
+
+Clojure 0.1ms  
+
+##### Problem 164
+
+Clojure 0.3ms  
+
 ##### Problem no 173 
 
 Clojure 0.163 sec  
@@ -526,12 +586,73 @@ Haskell 8.3 sec
 
 Clojure 1.2 sec  
 
+##### Problem 188
+
+Clojure 1.7ms  
+
+##### Problem 191
+
+Clojure 11ms  
+
+##### Problem 204
+
+Haskell 890ms  
+
+##### Problem 211
+
+Racket 393secs    
+
 ##### Problem no 234
 
 Clojure 2.3 sec  
 SBCL 1.4 sec  
 
-#####
+##### Problem 297
+
+Clojure 39ms  
+
+##### Problem 315
+
+Clojure 12secs
+
+##### Problem 345
+
+Clojure 1.1sec
+
+
+##### Problem 346
+
+Clojure 2.6sec  
+
+##### Problem 347
+
+Clojure 1.2sec 
+
+##### Problem 348 
+
+Clojure 10secs 
+
+##### Problem 381  
+
+Clojure 23 secs  
+
+##### Problem 387
+
+Clojure 2 secs 
+
+##### Problem 401
+
+Clojure 33 secs  
+Haskell 26 secs  
+
+##### Problem 491 
+
+Clojure 2 secs   
+
+##### Problem 493 
+
+Clojure TBD
+
 
 
 ## License
