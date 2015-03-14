@@ -299,7 +299,9 @@ SBCL One-liner 1ms
 Racket 3-4 msecs  
 Typed Racket 1 ms  
 Haskell averaging 10 msecs  
+Haskell 0.8ms  
 SML 36 msecs  (SML LargeInt is not efficient)
+Julia 4ms  
 
 ##### Problem no 26 
 
