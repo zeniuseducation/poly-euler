@@ -238,7 +238,12 @@ SBCL 0.018 msec
 
 ##### Problem no 16
 
-Too easy to measure, all in one lines and took less than 1 ms
+Too easy to measure, all in one lines and took less than 1 ms  
+
+##### Problem 18
+
+Julia 0.2ms  
+Haskell 1ms  
 
 ##### Problem no 20
 
@@ -259,6 +264,10 @@ SML 23 ms
 Java benchmark 14ms  
 C as benchmark 7ms   
 C using dynamic programming 4.5ms   
+
+##### Problem 22 
+
+Haskell 90ms  
 
 ##### Problem 23 
 
@@ -496,6 +505,8 @@ SBCL 0.3ms
 ##### Problem 67
 
 Clojure 1.7 15ms  
+Haskell 26ms  
+Julia 4ms  
 
 ##### Problem 75
 
