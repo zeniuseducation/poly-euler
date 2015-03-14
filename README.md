@@ -268,6 +268,7 @@ C using dynamic programming 4.5ms
 ##### Problem 22 
 
 Haskell 90ms  
+Julia 23ms  
 
 ##### Problem 23 
 
