@@ -245,6 +245,10 @@ SBCL 0.018 msec
 
 Too easy to measure, all in one lines and took less than 1 ms  
 
+##### Problem 17
+
+Julia 2ms  
+
 ##### Problem 18
 
 Julia 0.2ms  
