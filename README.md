@@ -13,6 +13,7 @@ Unfortunately nobody noticed that the Johnnie posture is lambda-shaped :)
 <img src="https://projecteuler.net/profile/squest.png">
 <img src="https://projecteuler.net/profile/skadinyo.png">
 <img src="https://projecteuler.net/profile/memeri.png">
+<img src="https://projecteuler.net/profile/JQuest.png">
 
 ## About the Lisps
 
