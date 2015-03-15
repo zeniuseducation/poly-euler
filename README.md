@@ -214,6 +214,10 @@ Java Benchmark 11 ms
 Swift 7ms  
 Julia 9ms  
 
+##### Problem 13
+
+Haskell 3ms  
+Julia 0.3ms  
 
 ##### Problem no 14
 
