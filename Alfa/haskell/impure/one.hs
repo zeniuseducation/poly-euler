@@ -2,6 +2,7 @@ module One where
 
 import Data.List
 import Data.Time
+import Data.List.Split
 
 prime' :: Int -> Bool
 prime' n =
@@ -62,10 +63,61 @@ fibo lim = loop 1 0 1
   where loop :: Integer -> Integer -> Int -> Int
         loop a b i = if a > lim then i else loop (a+b) a (1+i)
 
-time f x = do
-  start <- getCurrentTime
-  let res = f x
+sol4 :: Int -> Int
+sol4 upper =
+  let iskali x =
+        let ks@(k:_) = dropWhile (\i -> 0 /= rem x i) [upper, pred upper..]
+        in if null ks
+           then False
+           else
+             let tmp = div x k
+             in tmp <= upper && k /= tmp
+      cpalin i = read ((show i) ++ (reverse (show i))) :: Int
+  in head $ dropWhile (not.iskali) $ map cpalin [upper,pred upper..1]
+
+sol4b :: Int -> Int -> Int
+sol4b lower upper = maximum sumber
+  where sumber = [num| i <- [upper,upper-1..lower], j <- [upper,upper-1..lower],
+                  let num = i*j, ispalin num]
+        ispalin num = let numst = show num in numst == reverse numst
+
+sol11 :: [[Int]] -> Int
+sol11 xs = maximum [left,right, ldiag, rdiag] 
+  where left = maximum $
+               map (\k -> maximum $
+                          map (product.take 4) $
+                          takeWhile (\x -> length x >= 4) $
+                          iterate tail k) xs
+        right = maximum $
+                map (\k -> maximum $
+                           map (product.take 4) $
+                           takeWhile (\x -> length x >= 4) $
+                           iterate tail k) $
+                transpose xs
+        ldiag = maximum [product $ map (\(x,y) -> (xs!!x)!!y) (zip [i..i+3] [j..j+3]) |
+                         i <- [0..16], j <- [0..16]]
+        rdiag = maximum [product $ map (\(x,y) -> (xs!!x)!!y) (zip [i..i+3] [j,j-1..j-3]) |
+                         i <- [0..16], j <- [3..19]]
+
+readp11 = do
+  input <- readFile "p11.txt"
+  let tmp = map (\x -> map (\k -> read k :: Int) x) $
+            map (take 20) $
+            takeWhile (\x-> (length x) >= 20) $
+            iterate (drop 20) $
+            words input
+      res = sol11 tmp
   print res
+
+readp13 = do
+  input <- readFile "p13.txt"
+  let tmp = take 10 $ show $ sum $ map (\x -> read x :: Integer) $ words input
+  print tmp
+      
+
+time f = do
+  start <- getCurrentTime
+  f
   stop <- getCurrentTime
   print $ diffUTCTime stop start
 
