@@ -273,6 +273,7 @@ SML 23 ms
 Java benchmark 14ms  
 C as benchmark 7ms   
 C using dynamic programming 4.5ms   
+Julia 7ms  
 
 ##### Problem 22 
 
@@ -288,6 +289,7 @@ Clojure 1.7 110ms
 Type-hinted SBCL 275ms  
 Typed Racket 450-460ms  
 C as benchmark 128ms    
+Julia 230ms  
 
 ##### Problem 24
 
