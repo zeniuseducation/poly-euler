@@ -480,7 +480,7 @@ function sol23 (lim::Int)
         end
     end
     res :: Int = div(lim * (lim+1),2)
-    for i = 12:lim
+    for i = 12:div (lim,2) 
         if abuns [i]
             j :: Int = i 
             tres = (i+j) <= lim
@@ -498,6 +498,31 @@ function sol23 (lim::Int)
     end
     return res
 end
+
+function sol24(lim::Int)
+    refs = reverse (map (factorial,0:9))
+    digs = Set (0:9)
+    res = Array (Int,0)
+    t1 :: Int = lim
+    for i in refs
+        j :: Int = 1
+        while (t1 - (j * i)) > 0
+            j += 1
+        end
+        if t1 > i
+            t1 -= (j - 1) * i
+        end
+        tmp = sort (collect (digs))
+        push! (res, tmp [j])
+        delete! (digs,tmp [j])
+    end
+    return apply (string,res)
+end
+
+
+
+
+
 
 
 
