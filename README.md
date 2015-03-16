@@ -298,6 +298,7 @@ Problem: Very nice problem, highly recommended!!
 Clojure 0.23 msec  
 SBCL 0.02 msec  
 Haskell 1 msec  
+Julia 0.07ms  
 
 ##### Problem no 25
 
