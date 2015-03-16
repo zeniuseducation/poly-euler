@@ -325,6 +325,7 @@ Typed Racket 0.6-0.8ms
 SML 0.4-0.6ms  
 C as benchmark 0.12ms  
 Python for benchmark 8.7ms  
+Julia 0.07ms  
 
 ##### Problem 27
 
