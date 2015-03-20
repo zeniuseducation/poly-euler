@@ -262,6 +262,26 @@
               (recur (+ 1 i) res))
             res)))))
 
+(defn ^long sola
+  [^long lim]
+  (let [primes (boolean-array (+ lim 1) true)
+        refs (int-array (range (+ lim 1)))]
+    (loop [i (int 2) res (long 0)]
+      (if (> i lim)
+        res
+        (if (aget primes i)
+          (do (loop [j (int (* i 2))]
+                (if (> j lim)
+                  nil
+                  (do (aset primes j false)
+                      (aset refs j (quot (* (- i 1) (aget refs j)) i))
+                      (recur (+ j i)))))
+              (recur (+ i 1)
+                     (+ res (- i 1))))
+          (recur (+ i 1) (+ res (aget refs i))))))))
+
+
+
 
 
 

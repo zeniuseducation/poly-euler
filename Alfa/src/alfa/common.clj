@@ -184,6 +184,14 @@
             (< i j) (recur j (- j i))
             :else (recur j (- i j))))))
 
+(defn count-digits
+  [a]
+  (count (str a)))
+
+
+
+
+
 
 
 

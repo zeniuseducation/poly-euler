@@ -1,4 +1,4 @@
-(load "clojure.lisp")
+;; (load "clojure.lisp")
 
 (defun sum-sieve (lim)
   (declare (optimize (speed 3))
@@ -94,5 +94,40 @@
 		       (recur (+ i 1) (- res tmp)))
 		     (recur (+ i 1) res))
 		 res)))))
+
+(defun fact (i)
+  (if (<= i 1) 1 (* i (fact (1- i)))))
+
+(defvar digfacts
+  (->> (mapcar 'fact (range 9))
+       (make-array 10 :initial-contents)))
+
+(defun sol34 (lim)
+  (cloop (i 100 res 0) (deff i res)
+	 (if (> i lim)
+	     res
+	     (let ((sum-digfactorial
+		    (cloop (j i resj 0) (deff j resj)
+			   (if (= j 0)
+			       resj
+			       (recur (div j 10)
+				      (+ resj (aref digfacts (rem j 10))))))))
+	       (if (= i sum-digfactorial)
+		   (recur (+ i 1) (+ res i))
+		   (recur (+ i 1) res))))))
+
+(defun sol34b (lim)
+  (labels ((sumdfact (n &optional (res 0))
+	     (if (zerop n)
+		 res
+		 (sumdfact (div n 10)
+			   (+ res (aref digfacts (rem n 10)))))))
+    (loop for i from 100 to lim
+       when (= i (sumdfact i))
+       summing i into sum
+       finally (return sum))))
+
+
+
 
 

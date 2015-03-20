@@ -1,0 +1,219 @@
+using Memoize
+
+function square (n:: Int)
+    n * n 
+end
+
+function prime (n :: Int)
+    if n == 1
+        return false
+    elseif n==2
+        return true
+    elseif iseven (n)
+        return false
+    else
+        lim :: Int = isqrt (n)
+        i :: Int = 3
+        while i <= lim
+            if 0 == n % i
+                return false
+            else
+                i += 2
+            end
+        end
+    end
+    return true
+end
+
+function nextprime (n::Int)
+    if prime (n+2)
+        return n+2
+    else return nextprime (n+2)
+    end
+end
+
+
+function cdivs (n :: Int)
+    res :: Int = 2
+    lim :: Int = isqrt (n)
+    if iseven (n)
+        for i = 2:lim
+            if 0 == n % i
+                if i == lim
+                    res += 1
+                else
+                    res += 2
+                end
+            end
+        end
+    else
+        for i = 3:2:lim
+            if 0 == n % i
+                if i == lim
+                    res += 1
+                else
+                    res += 2
+                end
+            end
+        end
+    end
+    return res
+end
+
+function maxby (f,xs)
+    res = f (first (xs))
+    ires = first (xs)
+    for i in xs
+        tmp = f (i)
+        if tmp > res
+            res = tmp
+            ires = i
+        end
+    end
+    return ires
+end
+
+function numcol (n::Int)
+    map (x -> int (x) - 48, collect ( string (n)))
+end
+
+function sumdig (n :: BigInt)
+    res :: Int = 0
+    i :: BigInt = n
+    while i >= 10
+        res += i % 10
+        i = div (i,10)
+    end
+    return res+i
+end
+
+
+function pdivisors (n::Int)
+    res :: Int = 1
+    lim :: Int = isqrt (n)
+    if iseven (n)
+        for i = 2:lim
+            if 0 == n % i
+                if i*i == n
+                    res += i
+                else
+                    res += i + div (n,i)
+                end
+            end
+        end
+    else
+        for i = 3:2:lim
+            if 0 == n % i
+                if i*i == n
+                    res += i
+                else
+                    res += i + div (n,i)
+                end
+            end
+        end
+    end
+    return res 
+end
+
+function prev_prime (n::Int)
+    if prime (n-2)
+        return n-2
+    else
+        return prev_prime (n-2)
+    end
+end
+
+function colnum (xs)
+    res :: Int = 0
+    lxs :: Int = length (xs)
+    for i in 1:lxs
+        res = (res*10) + xs [i]
+    end
+    return res
+end
+
+
+function triangle (n :: Int)
+    div (n*(n+1),2)
+end
+
+function tri_numbers (lim :: Int)
+    map (triangle,1:lim)
+end
+
+
+
+function ispentagon (n :: Int)
+    tmp = (sqrt (1+(24*n)) + 1) / 6
+    tmp == int (tmp)
+end
+
+function pentagon (n :: Int)
+    div (n * ((3*n) -1),2)
+end
+
+function ishexagon (n :: Int)
+    tmp = (sqrt (1 + (8*n)) + 1) / 4
+    tmp == int (tmp)
+end
+
+function dpfactors (n::Int)
+    p :: Int = n
+    res = Int []    
+    if iseven (p)
+        push! (res,2)
+    end
+    while iseven (p)
+        p = div (p,2)
+    end
+    i :: Int = 3
+    while (!prime (p)) && (p != 1)
+        while 0 != (p % i)
+            i = nextprime (i)
+        end
+        push! (res,i)
+        while 0 == (p % i)
+            p = div (p,i)
+        end
+    end
+    if p == 1
+        return res
+    else
+        return push! (res,p)
+    end
+end
+
+
+function listequal (xs)
+    fst = first (xs)
+    for nxt in xs [2:end]
+        if fst != nxt
+            return false
+        end
+    end
+    return true
+end
+
+
+function isperm (xs)
+    listequal(map (x -> colnum(sort (numcol (x))), xs))
+end
+
+function istwoperm (a,b)
+    colnum (sort (numcol (a))) == colnum (sort (numcol (b)))
+end
+
+
+function iscubic (n::Int)
+    tmp = cbrt (n)
+    int (n) == tmp
+end
+
+function cubperm (n::Int)
+    tmp = sort (numcol (n*n*n))
+    [(colnum (tmp)),(length (tmp))]
+end
+
+
+
+

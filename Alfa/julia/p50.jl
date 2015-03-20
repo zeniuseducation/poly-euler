@@ -1,5 +1,7 @@
 using Memoize
 
+include ("common.jl")
+
 function sol1 (lim :: Int)
     function isat (n :: Int)
         (0 == n % 3) || (0 == n % 5)
@@ -26,25 +28,7 @@ function sol2 (lim :: Int)
     return res
 end
 
-function prime (n :: Int)
-    lim :: Int = isqrt (n)
-    i :: Int = 3
-    while i <= lim
-        if 0 == n % i
-            return false
-        else
-            i += 2
-        end
-    end
-    return true
-end
 
-function nextprime (n::Int)
-    if prime (n+2)
-        return n+2
-    else return nextprime (n+2)
-    end
-end
 
 
 function sol3 (tar :: Int)
@@ -203,32 +187,7 @@ function sol11 ()
     right = maximum (map (i -> maximum (map (x -> prod (sub (bahan1[i], x:x+3)), 1:17)), 1:20))
 end
 
-@memoize function cdivs (n :: Int)
-    res :: Int = 2
-    lim :: Int = isqrt (n)
-    if iseven (n)
-        for i = 2:lim
-            if 0 == n % i
-                if i == lim
-                    res += 1
-                else
-                    res += 2
-                end
-            end
-        end
-    else
-        for i = 3:2:lim
-            if 0 == n % i
-                if i == lim
-                    res += 1
-                else
-                    res += 2
-                end
-            end
-        end
-    end
-    return res
-end
+
 
 function sol12 (tar :: Int)
     res = true
@@ -274,18 +233,7 @@ function sol14 (lim :: Int)
     return itmp
 end
 
-function maxby (f,xs)
-    res = f (first (xs))
-    ires = first (xs)
-    for i in xs
-        tmp = f (i)
-        if tmp > res
-            res = tmp
-            ires = i
-        end
-    end
-    return ires
-end
+
 
 
 function sol14b (lim :: Int)
@@ -321,9 +269,7 @@ function sol16 (n::Int)
     sumdig (^(BigInt (2), n))
 end
 
-function numcol (n::BigInt)
-    map (x -> int (x) - 48, collect ( string (n)))
-end
+
 
 function words (n :: Int)
     refs = ["one", "two", "three","four", "five","six","seven","eight","nine"]
@@ -379,50 +325,17 @@ function sol18 ()
     return first (last (tmp))
 end
 
-function sumdig (n :: BigInt)
-    res :: Int = 0
-    i :: BigInt = n
-    while i >= 10
-        res += i % 10
-        i = div (i,10)
-    end
-    return res+i
-end
 
-function fact (n::BigInt)
-    n == 1 ? 1 : n * factorial (n-1)
+
+@memoize function fact (n::Int)
+    n == 0 ? 1 : n * factorial (n-1)
 end
 
 function sol20 (n)
     sumdig (fact (BigInt (n)))
 end
 
-function pdivisors (n::Int)
-    res :: Int = 1
-    lim :: Int = isqrt (n)
-    if iseven (n)
-        for i = 2:lim
-            if 0 == n % i
-                if i*i == n
-                    res += i
-                else
-                    res += i + div (n,i)
-                end
-            end
-        end
-    else
-        for i = 3:2:lim
-            if 0 == n % i
-                if i*i == n
-                    res += i
-                else
-                    res += i + div (n,i)
-                end
-            end
-        end
-    end
-    return res 
-end
+
 
 function sol21 (lim::Int)
     function isamic (n::Int)
@@ -451,10 +364,7 @@ function readp22 ()
     tmp = sort (tmp)
 end
 
-function getscore (nama :: String)
-    refs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    sum (map (x -> findfirst (refs,x), collect (nama)))
-end
+
 
 function sol22 ()
     tmp = readp22()
@@ -518,6 +428,644 @@ function sol24(lim::Int)
     end
     return apply (string,res)
 end
+
+function sol25 (n :: Int)
+    lim = ^(BigInt (10), n)
+    a :: BigInt, b::BigInt, i::Int = 1,0,1
+    while a < lim
+        tmp = a
+        a += b
+        b = tmp
+        i += 1
+    end
+    return i
+end
+
+
+
+function sol26 (lim :: Int)
+    i :: Int = prev_prime (lim+2)
+    maxi :: Int = 0
+    res :: Int = i
+    refs = falses (i)
+    while maxi < i
+        tres ::Int = 1000 % i
+        ctr :: Int = 1
+        while ! refs [tres]
+            refs [tres] = true
+            tres = (10*tres) % i
+            ctr += 1
+        end
+        if ctr > maxi
+            maxi = ctr
+            res = i
+        end
+        i = prev_prime (i)
+        refs = falses (i)
+    end
+    return res
+end
+
+# 0.03ms
+function sol28 (lim  :: Int)
+    res :: Int = 1
+    t1 :: Int = 1
+    for i = 3:2:lim
+        tmp :: Int = i*i
+        res += sum (tmp:-(i-1):(t1+1))
+        t1 = tmp
+    end
+    return res
+end
+
+function sol29 (lim)
+    refs = Array (BigInt,0)
+    for a in 2:lim
+        for b in 2:lim
+            push! (refs,^(BigInt (a),b))
+        end
+    end
+    return length (Set (refs))
+end
+
+function sumdfive (n :: Int)
+    i :: Int = n
+    res :: Int = 0
+    while i > 0
+        res += (i % 10)^5
+        i = div (i,10)
+    end
+    return res
+end
+
+
+@memoize function sdfive (n::Int)
+    if n < 10
+        return n^5
+    else
+        return (sdfive (div (n,10))) + (sdfive (n % 10))
+    end
+end
+
+function sol30 (upper :: Int)
+    res :: Int = 0
+    for i = 100:upper
+        if i == sumdfive (i)
+            res += i
+        end
+    end
+    return res
+end
+
+
+function sumdfact (n :: Int)
+    i :: Int = n
+    res :: Int = 0
+    while i > 0
+        res += factorial(i % 10)
+        i = div (i,10)
+    end
+    return res
+end
+
+
+function sol34 (lim::Int)
+    res :: Int = 0
+    for i = 10:lim
+        if i == sumdfact (i)
+            res += i
+        end
+    end
+    return res
+end
+
+# 13ms
+
+cs = [200,100,50,20,10,5,2,1]
+
+@memoize function coins (amount::Int, n::Int)
+    coin = cs [n]
+    if amount == 0
+        return 1
+    elseif n == 8
+        return 1
+    else 
+        i :: Int = 0
+        res :: Int = 0
+        while (i*coin) <= amount
+            res += coins (amount-(i*coin), n+1)
+            i += 1
+        end
+        return res 
+    end
+end
+
+function sol32 (lim :: Int)
+    pandig = collect (1:9)
+    res = Array (Int,0)
+    llim :: Int = isqrt (lim)
+    for i = 2:llim
+        digi = digits (i)
+        for j = i:lim
+            digj = digits (j)
+            tmp = vcat (digi,digj,digits (i*j))
+            if length (tmp) == 9
+                if all (x-> in (x,tmp), pandig)
+                    push! (res,i*j)
+                end
+            end
+        end
+    end
+    return sum (Set (res))
+end
+
+
+
+
+function cirprime (n::Int)
+    dxs = digits (n)
+    lxs = length (dxs)
+    if prime (n)
+        return all (prime, map (x -> colnum (circshift (dxs,x)), 1:(lxs-1)))
+    else
+        return false
+    end
+end
+
+function cprime (n::Int)
+    dxs = digits (n)
+    lxs = length (dxs)
+    res = prime (n)
+    i :: Int = 1
+    while res && (i < lxs)
+        tp = colnum (circshift (dxs,i))
+        res = prime (tp)
+        i += 1
+    end
+    return res
+end
+
+function sol35 (lim :: Int)
+    # 20 ms
+    ctr :: Int = 4
+    bahan = [1,3,7,9]
+    tmp = map (x->[x], bahan)
+    for i in 2:lim
+        tmp = Set (collect ([(vcat (xs,[b])) for xs in tmp , b in bahan]))
+        ctr += length (filter (x -> cprime (colnum (x)), tmp))
+    end
+    return ctr
+end
+
+function binpalin (n :: Int)
+    tmp = bin (n)
+    tmp == reverse (tmp)
+end
+
+
+function sol36 (lim :: Int)
+    # 1.3ms
+    res :: Int = 0
+    for i = 1:lim
+        td = dec (i)
+        tr = reverse (td)
+        t1 = int (td*tr)
+        t2 = int ((chop (td)) * tr)
+        if binpalin (t1)
+            res += t1
+        end
+        if binpalin (t2)
+            res += t2
+        end
+    end
+    return res
+end
+
+function lprime (dn)
+    res = isprime (colnum (dn))
+    ln = length (dn)
+    i :: Int = 2
+    while res && (length (dn) >= 2)
+        dn = dn [2:end]
+        tn = colnum (dn)
+        res = isprime (tn)
+        i += 1
+    end
+    return res
+end
+
+function rprime (dn)
+    res = isprime (colnum (dn))
+    ln = length (dn)
+    i :: Int = 1
+    while res && (i < ln)
+        dn = sub (dn, 1:(ln-i))
+        tn = colnum (dn)
+        res = isprime (tn)
+        i += 1
+    end
+    return res
+end
+
+function ltprime (dn)
+    isprime (colnum (dn))
+end
+
+function rtprime (dn)
+    ln = length (dn)
+    if ln == 1
+        return isprime (colnum (dn))
+    elseif isprime (colnum (dn))
+        return rtprime (dn [1:(ln-1)])
+    else
+        return false
+    end
+end
+
+
+function tprime (tar :: Int)
+    res = [2,3,5,7]
+    sumares = Array (Int,0)
+    bahan = [1,3,7,9]
+    while length (sumares) < tar
+        res = filter (ltprime,collect ([(vcat ([b],xs)) for xs in res , b in bahan]))
+        sumares = vcat (sumares, filter (rprime, res))
+    end
+    return sum (map (colnum, sumares))
+end
+
+function ispandig (xs)
+    sort (xs) == [1,2,3,4,5,6,7,8,9]
+end
+
+
+function sol38 ()
+    bahan = apply (vcat ,map ( x -> collect (permutations (x)),collect (combinations ([2,3,5,7],3))))
+    lbahan = reverse (sort (map (x-> colnum (vcat (x,[9])), bahan)))
+    res = false
+    i :: Int = 1
+    t1 :: Int, t2 ::Int = 0,0
+    while !res
+        t1 = lbahan [i]
+        t2 = 2*t1
+        res = ispandig (vcat (digits (t1), digits (t2)))
+        i += 1
+    end
+    return string (t1,t2)
+end
+
+function digpast (n :: Int)
+    if n < 10
+        return n
+    else
+        m :: Int = 9
+        i :: Int = 1
+        t :: Int = n
+        acum :: Int = 0
+        while t > (i*m)
+            t -= m*i
+            acum += m
+            i += 1
+            m *= 10
+        end
+        tmp = acum + div (t+1,i)
+        return (numcol (tmp)) [((t-1) % i)+1]
+    end
+end
+
+function sol40 (lim :: Int)
+    tmp :: Int = 1
+    res = Array (Int,0)
+    tres = Array (Int,0)
+    for i in 1:lim
+        push! (res, digpast (tmp))
+        tmp *= 10
+    end
+    return prod (res) 
+end
+
+function sol41 ()
+    bahan = reverse (sort (map (colnum, collect (permutations ([1,2,3,4,5,6,7])))))
+    res = false
+    i ::Int = 1
+    while !res
+        res = isprime (bahan [i])
+        i += 1
+    end
+    return bahan [i-1]
+end
+
+function istriangle (n::Int)
+    res = (sqrt (1+8*n) - 1) / 2
+    res == int (res)
+end
+
+function getscore (word :: String)
+    refs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    res :: Int = 0
+    for letter in word
+        res += findfirst (refs,letter)
+    end
+    return res 
+end
+
+file_content = split (replace (open (readall, "p42.txt"), "\"" , ""), ",")
+
+function sol42 ()
+    res :: Int = 0
+    for word in file_content
+        if istriangle(getscore (word))
+            res += 1
+        end
+    end
+    return res 
+end
+
+function sol42b ()
+    res :: Int = 0
+    lookup_triangle = falses (500)
+    for i in tri_numbers (20)
+        if i < 500
+            lookup_triangle [i] = true
+        end
+    end
+    for nama in file_content
+        if lookup_triangle [(getscore (nama))]
+            res += 1
+        end
+    end
+    return res 
+end
+
+
+function sol43l ()
+    refs = 0:9
+    res = apply (vcat, (map (x -> collect(permutations (x)),collect (combinations (refs,3)))))
+    i :: Int = 1
+    for p in [2,3,5,7,11,13,17]
+        res = filter (x -> ((colnum (x [i:end])) % p) == 0, res)
+        next_res = Array []
+        for r in res
+            append! (next_res, [(vcat(r,[j])) for j in setdiff(refs,r)])
+        end
+        res = next_res
+        i += 1
+    end
+    return sum (map (x -> colnum (vcat (last (x), x [1:end-1])), res))
+end
+
+function divbyprime (x :: Int, j :: Int, p::Int)
+    tmp ::Int = div (x,j)
+    (tmp > 9) && (tmp != 0) && (0 == (tmp % p))
+end
+
+
+function sol43 ()
+    refs = 0:9
+    res = filter (x -> x > 100,
+                  map (colnum,
+                       apply (vcat, (map (x -> collect(permutations (x)),
+                                          collect (combinations (refs,3)))))))
+    i :: Int = 1000
+    j :: Int = 1
+    for p in [17,13,11,7,5,3,2]
+        res = filter (x-> divbyprime (x,j,p), res)
+        nres = Int []
+        for r in res
+            append! (nres,[(m*i+r) for m in (setdiff (refs,digits (r)))])
+        end
+        res = nres
+        i *= 10
+        j *= 10
+    end
+    return sum (res)
+end
+
+
+
+function sol17b (lim::Int)
+    refs = map (length,["one", "two", "three","four", "five","six","seven","eight","nine"])
+    refp = map (length,["", "twenty", "thirty","forty","fifty","sixty","seventy", "eighty", "ninety"])
+    refu = map (length, vcat(refs,["ten","eleven","twelve","thirteen", "fourteen","fifteen","sixteen","seventeen", "eighteen","nineteen"]))
+    function cwords (n :: Int)
+        
+        if 100 <= n <= 999
+            dep = div (n,100)
+            bel = n % 100
+            if bel == 0
+                return refs [dep] + 7
+            else
+                return refs [dep] + 10 + cwords (n % 100)
+            end
+        elseif 20 <= n <= 99
+            dep = div (n,10)
+            return refp [dep] + cwords (n % 10)
+        elseif 0 == n
+            return 0
+        elseif n == 1000
+            return 11
+        else
+            return refu[n]
+        end
+    end
+    
+    sum (map (cwords,1:lim))
+end
+
+function sol17 (lim::Int)
+    refs = ["one", "two", "three","four", "five","six","seven","eight","nine"]
+    refp = ["", "twenty", "thirty","forty","fifty","sixty","seventy", "eighty", "ninety"]
+    refu = vcat (refs,["ten","eleven","twelve","thirteen", "fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"])
+    function words (n :: Int)
+        if 100 <= n <= 999
+            dep = div (n,100)
+            bel = n % 100
+            if bel == 0
+                return (refs [dep]) * "hundred"
+            else
+                return (refs [dep]) * "hundredand" * (words (n % 100))
+            end
+        elseif 20 <= n <= 99
+            dep = div (n,10)
+            return (refp [dep]) * (words (n % 10))
+        elseif 0 == n
+            return ""
+        elseif n == 1000
+            return "onethousand"
+        else
+            return refu[n]
+        end
+    end
+    sum (map (x -> length(words (x)),1:lim))
+end
+
+
+
+
+function sol44 ()
+    res :: Int = 999999999
+    checki = false
+    i :: Int = 2
+    while !checki
+        j :: Int = i-1
+        penti :: Int = pentagon (i)
+        pentj :: Int = pentagon (j)
+        sump = penti + pentj
+        if sump > res
+            checki = true
+        end 
+        checkj = false
+        while (!checkj) && (j >= 1)
+            if ispentagon (sump)
+                diffp = penti-pentj
+                if diffp > res
+                    checkj = true
+                else
+                    if (ispentagon (diffp)) && (diffp < res)
+                        res = diffp
+                    end
+                end
+            end
+            pentj = pentagon (j)
+            sump = penti + pentj
+            j -= 1
+        end
+        i += 1
+    end
+    return res
+end
+
+
+
+function sol45 (start :: Int)
+    check = false
+    i :: Int = start
+    penta :: Int = 0
+    while !check
+        penta = pentagon (i)
+        if ishexagon (penta)
+            check = true
+        end
+        i += 1
+    end
+    return penta
+end
+
+# m3m3p4sm4l
+function sol45fun (howmany :: Int)
+    i :: Int = 1
+    j :: Int = 0
+    res = Int []
+    penta :: Int = 0
+    while j < howmany
+        penta = pentagon (i)
+        if ishexagon (penta)
+            j += 1
+            push!(res,penta)
+        end
+        i += 1
+    end
+    return res
+end
+
+function sol47 (tar :: Int, lim :: Int)
+    llim :: Int = isqrt (lim)
+    primes = trues (lim)
+    m :: Int = 2
+    check = false
+    i :: Int = 2
+    function nextsieve (n :: Int)
+        im = n+2
+        while ! primes[im]
+            im += 2
+        end
+        return im
+    end
+    
+    function pfactors (n::Int)
+        p :: Int = n
+        res = Int []    
+        if iseven (p)
+            push! (res,2)
+        end
+        while iseven (p)
+            p = div (p,2)
+        end
+        imk :: Int = 3
+        while (!primes [p]) && (p != 1)
+            while 0 != (p % imk)
+                imk = nextsieve (imk)
+            end
+            push! (res,i)
+            while 0 == (p % imk)
+                p = div (p,imk)
+            end
+        end
+        if p == 1
+            return res
+        else
+            return push! (res,p)
+        end
+    end
+    while !check
+        if primes [i]
+            if i <= llim
+                for j = (i*i):i:lim
+                    primes [j] = false
+                end
+            end
+            tmp :: Int = m+1
+            while tmp <= (i-tar)
+                if all (x -> length (pfactors (x)) == tar, tmp:(tmp+(tar-1)))
+                    check = true
+                    return tmp
+                end
+                tmp += 1
+            end
+            m = i
+        end
+        i += 1
+    end
+end
+
+function sol48 (lim :: Int)
+    tmp = 10^10
+    res :: Int = 0
+    for i = 1:lim
+        res = (res+powermod (i,i,tmp)) % tmp
+    end
+    return res
+end
+
+
+
+function sol49 (diff :: Int, howmany :: Int)
+    check = false
+    i :: Int = 1001
+    found :: Int = 1
+    tmp = Int[]
+    members = []
+    while !check
+        if (i+(2*diff)) > 9999
+            return []
+        end
+        members = [i:diff:10000]
+        if isperm (members)
+            if all (prime,members)
+                if found >= howmany 
+                    check = true
+                else
+                    found += 1
+                end
+            end 
+        end
+        i = nextprime (i)
+    end
+    return apply (string,members)
+end
+
+
+
 
 
 

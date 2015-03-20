@@ -1,4 +1,4 @@
-import Foundation
+import Cocoa
 
 func odd_prime(p : Int) -> Bool {
 		var i  = 3

@@ -113,12 +113,62 @@ readp13 = do
   input <- readFile "p13.txt"
   let tmp = take 10 $ show $ sum $ map (\x -> read x :: Integer) $ words input
   print tmp
-      
 
-time f = do
+limfibo :: Integer
+limfibo = 10^999
+
+sol28 :: Int -> Int 
+sol28 lim = succ $ sum $ map (\x-> sum [x*x,x*x- (x-1).. succ $ (x-2)* (x-2)]) [3,5..lim]
+-- 0.4ms
+
+sol29 :: Integer -> Int
+sol29 n = length $ nub [x^y | x <- [2..n] , y <- [2..n]]
+
+sumdfive :: Int -> Int
+sumdfive n = sum $ map (\x -> (rem x 10)^5) $ takeWhile (> 0) $ iterate (`div` 10) n
+
+sdfive :: Int -> Int
+sdfive n = helper n 0
+  where helper i acum = if i < 10 then acum + (i^5) else helper (div i 10) (acum+ (rem i 10)^5)
+
+sol30 :: Int -> Int
+sol30 tar =
+  let helper i acum
+        | i > tar = acum
+        | i == sdfive i = helper (succ i) (acum+i)
+        | otherwise = helper (succ i) acum
+  in helper 10 0
+
+sol30a :: Int -> Int
+sol30a tar = sum $ filter (\x -> x == sumdfive x) [10..tar]
+
+
+allprime' :: Int -> Bool
+allprime' n =
+  let lim = ceiling $ sqrt $ fromIntegral n
+      loopi i
+        | i > lim = True
+        | 0 == rem n i = False
+        | otherwise = loopi $ i + 2
+  in if even n then False else loopi 3
+
+factmod :: Int -> Int -> Int
+factmod _ 0 = 1
+factmod _ 1 = 1
+factmod m x = rem (factmod $ x-1) m
+
+factmods m = (!!) (map (factmod m) [0..])
+
+
+time f x = do
   start <- getCurrentTime
-  f
+  print $ f x
   stop <- getCurrentTime
   print $ diffUTCTime stop start
+
+
+
+
+
 
 
