@@ -6,9 +6,6 @@
    [alfa.common :refer :all])
   (:import (clojure.lang BigInt)))
 
-(defn sol458
-  [tar modi n]
-  (let [korban (fact n)
-        sisa n
-        awali (modex n tar modi)]
-    ))
+
+
+

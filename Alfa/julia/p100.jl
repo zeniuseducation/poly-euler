@@ -631,3 +631,25 @@ function sol99 ()
     ires
 end
 
+function soltest (lim::Int)
+    res :: Int = 2
+    for i = 3:2:lim
+        if prime (i)
+            res += i
+        end
+    end
+    return res
+end
+
+function onesol (lim::Int)
+    res :: Int = 0
+    for i = 2:lim
+        tmp = 2*i*i - 1
+        if prime (tmp)
+            res += 1
+        end
+    end
+    return res 
+end
+
+

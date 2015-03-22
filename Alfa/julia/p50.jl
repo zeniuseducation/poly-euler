@@ -271,29 +271,17 @@ end
 
 
 
-function words (n :: Int)
-    refs = ["one", "two", "three","four", "five","six","seven","eight","nine"]
-    refp = ["", "twenty", "thirty","forty","fifty","sixty","seventy", "eighty", "ninety"]
-    refu = vcat (refs,["ten","eleven","twelve","thirteen", "fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"])
-    if 100 <= n <= 999
-        dep = div (n,100)
-        bel = n % 100
-        if bel == 0
-            return (refs [dep]) * "hundred"
-        else
-            return (refs [dep]) * "hundredand" * (words (n % 100))
-        end
-    elseif 20 <= n <= 99
-        dep = div (n,10)
-        return (refp [dep]) * (words (n % 10))
-    elseif 0 == n
-        return ""
-    elseif n == 1000
-        return "onethousand"
-    else
-        return refu[n]
-    end
-end
+function words (n :: Int) refs = ["one", "two", "three","four",
+    "five","six","seven","eight","nine"] refp = ["", "twenty",
+    "thirty","forty","fifty","sixty","seventy", "eighty", "ninety"]
+    refu = vcat (refs,["ten","eleven","twelve","thirteen",
+    "fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"])
+    if 100 <= n <= 999 dep = div (n,100) bel = n % 100 if bel == 0
+    return (refs [dep]) * "hundred" else return (refs [dep]) *
+    "hundredand" * (words (n % 100)) end elseif 20 <= n <= 99 dep =
+    div (n,10) return (refp [dep]) * (words (n % 10)) elseif 0 == n
+    return "" elseif n == 1000 return "onethousand" else return
+    refu[n] end end
 
 function sol17 (lim::Int)
     sum (map (x -> length(words (x)),1:lim))
@@ -356,13 +344,9 @@ function sol21 (lim::Int)
     return res
 end
 
-function readp22 ()
-    tmp = open (readall, "p22.txt")
-    tmp = chop (tmp)
-    tmp = split (tmp, ",")
-    tmp = map (x -> reverse (chop (reverse (chop (x)))) , tmp)
-    tmp = sort (tmp)
-end
+function readp22 () tmp = open (readall, "p22.txt") tmp = chop (tmp)
+    tmp = split (tmp, ",") tmp = map (x -> reverse (chop (reverse
+    (chop (x)))) , tmp) tmp = sort (tmp) end
 
 
 
@@ -760,14 +744,9 @@ function istriangle (n::Int)
     res == int (res)
 end
 
-function getscore (word :: String)
-    refs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    res :: Int = 0
-    for letter in word
-        res += findfirst (refs,letter)
-    end
-    return res 
-end
+function getscore (word :: String) refs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    res :: Int = 0 for letter in word res += findfirst (refs,letter)
+    end return res end
 
 file_content = split (replace (open (readall, "p42.txt"), "\"" , ""), ",")
 
@@ -872,32 +851,18 @@ function sol17b (lim::Int)
     sum (map (cwords,1:lim))
 end
 
-function sol17 (lim::Int)
-    refs = ["one", "two", "three","four", "five","six","seven","eight","nine"]
-    refp = ["", "twenty", "thirty","forty","fifty","sixty","seventy", "eighty", "ninety"]
-    refu = vcat (refs,["ten","eleven","twelve","thirteen", "fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"])
-    function words (n :: Int)
-        if 100 <= n <= 999
-            dep = div (n,100)
-            bel = n % 100
-            if bel == 0
-                return (refs [dep]) * "hundred"
-            else
-                return (refs [dep]) * "hundredand" * (words (n % 100))
-            end
-        elseif 20 <= n <= 99
-            dep = div (n,10)
-            return (refp [dep]) * (words (n % 10))
-        elseif 0 == n
-            return ""
-        elseif n == 1000
-            return "onethousand"
-        else
-            return refu[n]
-        end
+function sol17 (lim::Int) refs = ["one", "two", "three","four",
+    "five","six","seven","eight","nine"] refp = ["", "twenty",
+    "thirty","forty","fifty","sixty","seventy", "eighty", "ninety"]
+    refu = vcat (refs,["ten","eleven","twelve","thirteen",
+    "fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"])
+    function words (n :: Int) if 100 <= n <= 999 dep = div (n,100) bel
+    = n % 100 if bel == 0 return (refs [dep]) * "hundred" else return
+    (refs [dep]) * "hundredand" * (words (n % 100)) end elseif 20 <= n
+    <= 99 dep = div (n,10) return (refp [dep]) * (words (n % 10))
+    elseif 0 == n return "" elseif n == 1000 return "onethousand" else
+    return refu[n] end end sum (map (x -> length(words (x)),1:lim))
     end
-    sum (map (x -> length(words (x)),1:lim))
-end
 
 
 
@@ -1064,20 +1029,36 @@ function sol49 (diff :: Int, howmany :: Int)
     return apply (string,members)
 end
 
+function sol33 (lim :: Int)
+    bahan = apply (vcat,[(a,b) for a in 10:lim , b in 10:lim])
+    function satisfy (x)
+        (a,b) = x
+        if gcd (a,b) != 1 && (a % 10 != 0) && b < a
+            na = numcol (a)
+            nb = numcol (b)
+            if any (x -> apply (==,x), apply (vcat ,[(i,j) for i in na, j in nb]))
+                sda = setdiff (na,nb)
+                sdb = setdiff (nb,na)
+                if isempty (sda) || isempty (sdb)
+                    return false
+                else
+                    return (a/b) == (first (sda))/(first (sdb))
+                end
+            else
+                return false
+            end
+        else
+            return false
+        end
+    end
+    res = filter (satisfy,bahan)
+    res1 = reduce(*,map (first,res))
+    res2 = reduce(*,map (x -> first (reverse (x)), res))
+    return div (res1,gcd (res1,res2))
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function sol50 (lim :: Int)
+    prs = primes (div (lim,100))
+    reductions (rest,prs)
+end
 
