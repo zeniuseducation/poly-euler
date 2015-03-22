@@ -24,3 +24,10 @@ function moretest (lim :: Int)
     return tis
 end
 
+function moretest (lim :: Int)
+    tis :: Int = 0
+    for i = 1:lim
+        tis += 10
+    end
+    return tis
+end
