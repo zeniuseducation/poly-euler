@@ -15,3 +15,7 @@ include ("common.jl")
         res :: Int = 0
     end
 end
+
+function moretest
+end
+
