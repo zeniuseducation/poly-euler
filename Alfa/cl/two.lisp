@@ -1,4 +1,4 @@
-;; (load "clojure.lisp")
+(load "clojure.lisp")
 
 (defun sum-sieve (lim)
   (declare (optimize (speed 3))
@@ -126,6 +126,20 @@
        when (= i (sumdfact i))
        summing i into sum
        finally (return sum))))
+
+(defun find-one (lim)
+  (labels ((loopi (i res)
+	      (if (> i lim)
+		  res
+		  (progn
+		    (if (= 0 (rem i 50000))
+			(print i))
+		    (if (prime? (- (* 2 i i) 1))
+			(loopi (+ i 1) (+ res 1))
+			(loopi (+ i 1) res))))))
+    (loopi 2 0)))
+
+
 
 
 

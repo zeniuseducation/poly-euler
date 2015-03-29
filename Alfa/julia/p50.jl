@@ -271,17 +271,31 @@ end
 
 
 
-function words (n :: Int) refs = ["one", "two", "three","four",
-    "five","six","seven","eight","nine"] refp = ["", "twenty",
-    "thirty","forty","fifty","sixty","seventy", "eighty", "ninety"]
-    refu = vcat (refs,["ten","eleven","twelve","thirteen",
-    "fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"])
-    if 100 <= n <= 999 dep = div (n,100) bel = n % 100 if bel == 0
-    return (refs [dep]) * "hundred" else return (refs [dep]) *
-    "hundredand" * (words (n % 100)) end elseif 20 <= n <= 99 dep =
-    div (n,10) return (refp [dep]) * (words (n % 10)) elseif 0 == n
-    return "" elseif n == 1000 return "onethousand" else return
-    refu[n] end end
+function words (n :: Int)
+    refs = ["one", "two", "three","four",
+            "five","six","seven","eight","nine"]
+    refp = ["", "twenty","thirty","forty","fifty","sixty","seventy", "eighty", "ninety"]
+    refu = vcat (refs,["ten","eleven","twelve","thirteen", "fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"])
+    if 100 <= n <= 999
+        dep = div (n,100)
+        bel = n % 100
+        if bel == 0
+            return (refs [dep]) * "hundred"
+        else
+            return (refs [dep]) * "hundredand" * (words (n % 100))
+        end
+    elseif 20 <= n <= 99
+        dep = div (n,10)
+        return (refp [dep]) * (words (n % 10))
+    elseif 0 == n
+        return ""
+    elseif n == 1000
+        return "onethousand"
+    else
+        return
+        refu[n]
+    end
+end
 
 function sol17 (lim::Int)
     sum (map (x -> length(words (x)),1:lim))
@@ -344,9 +358,13 @@ function sol21 (lim::Int)
     return res
 end
 
-function readp22 () tmp = open (readall, "p22.txt") tmp = chop (tmp)
-    tmp = split (tmp, ",") tmp = map (x -> reverse (chop (reverse
-    (chop (x)))) , tmp) tmp = sort (tmp) end
+function readp22 ()
+    tmp = open (readall, "p22.txt")
+    tmp = chop (tmp)
+    tmp = split (tmp, ",")
+    tmp = map (x -> reverse (chop (reverse (chop (x)))) , tmp)
+    tmp = sort (tmp)
+end
 
 
 
@@ -744,9 +762,14 @@ function istriangle (n::Int)
     res == int (res)
 end
 
-function getscore (word :: String) refs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    res :: Int = 0 for letter in word res += findfirst (refs,letter)
-    end return res end
+function getscore (word :: String)
+    refs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    res :: Int = 0
+    for letter in word
+        res += findfirst (refs,letter)
+    end
+    return res
+end
 
 file_content = split (replace (open (readall, "p42.txt"), "\"" , ""), ",")
 
@@ -852,17 +875,31 @@ function sol17b (lim::Int)
 end
 
 function sol17 (lim::Int) refs = ["one", "two", "three","four",
-    "five","six","seven","eight","nine"] refp = ["", "twenty",
-    "thirty","forty","fifty","sixty","seventy", "eighty", "ninety"]
-    refu = vcat (refs,["ten","eleven","twelve","thirteen",
-    "fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"])
-    function words (n :: Int) if 100 <= n <= 999 dep = div (n,100) bel
-    = n % 100 if bel == 0 return (refs [dep]) * "hundred" else return
-    (refs [dep]) * "hundredand" * (words (n % 100)) end elseif 20 <= n
-    <= 99 dep = div (n,10) return (refp [dep]) * (words (n % 10))
-    elseif 0 == n return "" elseif n == 1000 return "onethousand" else
-    return refu[n] end end sum (map (x -> length(words (x)),1:lim))
+                                  "five","six","seven","eight","nine"]
+    refp = ["", "twenty", "thirty","forty","fifty","sixty","seventy", "eighty", "ninety"]
+    refu = vcat (refs,["ten","eleven","twelve","thirteen", "fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"])
+    function words (n :: Int)
+        if 100 <= n <= 999
+            dep = div (n,100)
+            bel = n % 100
+            if bel == 0
+                return (refs [dep]) * "hundred"
+            else
+                return (refs [dep]) * "hundredand" * (words (n % 100))
+            end
+        elseif 20 <= n <= 99
+            dep = div (n,10)
+            return (refp [dep]) * (words (n % 10))
+        elseif 0 == n
+            return ""
+        elseif n == 1000
+            return "onethousand"
+        else
+            return refu[n]
+        end
     end
+    sum (map (x -> length(words (x)),1:lim))
+end
 
 
 
@@ -1056,9 +1093,111 @@ function sol33 (lim :: Int)
     res2 = reduce(*,map (x -> first (reverse (x)), res))
     return div (res1,gcd (res1,res2))
 end
+        
 
 function sol50 (lim :: Int)
     prs = primes (div (lim,100))
     reductions (rest,prs)
 end
+
+# This is a typical brute force with some simple filter of b (which
+# must be primes), loop for a only when 1+a+b > 0
+
+function sol27 (upper :: Int)
+    res :: Int = 0
+    maxpair :: Int = 0
+
+    # ingredients for searching b
+    bahanb = primes (upper) 
+    for b in bahanb [2:end]
+        check = true
+
+        # loop the a starting from the largest odd number in the range
+        a :: Int = upper-1
+        while check
+            checkinner = true
+            ctr :: Int = 0
+            n :: Int = 0
+            while checkinner
+                posp :: Int = n*n + n*a + b
+
+                # exit when producing negative value
+                if posp < 0
+                    checkinner = false 
+                elseif prime (posp)
+                    ctr += 1
+                else
+                    checkinner = false
+                end
+                n += 1
+            end
+            if ctr > res
+                res = ctr
+                maxpair = a * b
+            end
+            a -= 2
+            if a+b+1 < 3
+                check = false
+            end
+        end
+    end
+    return maxpair
+end
+
+# The idea is to keep an array for the perimeter
+# Loop a & b, and c 
+# When a requirement is met then add 1 to the content for the given perimeter
+function sol39 (lim :: Int)
+    # initialise the perimeter array
+    peris = zeros (Int,lim)
+    for a = 3:div (lim,4)
+        asqr ::Int = a*a
+
+        # setting the limit for traversing the b
+        limb :: Int = div (lim,2) - a
+        for b = (a+1):limb
+            bsqr ::Int = b * b
+
+            limc :: Int = lim-a-b
+            for c :: Int = (b+1) : limc
+                csqr = c*c
+                if csqr == (asqr+bsqr)
+                    peri :: Int = a+b+c
+
+                    # Add one for this perimeter
+                    peris [peri] += 1
+                end
+            end
+        end
+    end
+    maxby (x -> peris [x], 3:lim)
+end
+
+# Keep an array of odd numbers
+# Iterate over prime numbers and squares
+# Marks the one that can be represented as such
+# After every checking for a certain prime then check whether there
+# exist an odd composite that doesn't satisfy the requirement
+function sol46 (lim::Int)
+    odds = falses (3*lim)
+    prms= primes(div (lim,2))
+    squares = map (square,1:(isqrt (lim)))
+    for p in prms
+        for s in squares
+            tmp = p + (2*s)
+            odds [tmp] = true  
+        end
+        # This part is checking the odd numbers below p that doesn't
+        # satisfy the requirements
+        for i = 3:2:p
+            if (odds [i] == false) && (!prime (i))
+                return i
+            end
+        end
+    end
+end
+
+
+
+
 

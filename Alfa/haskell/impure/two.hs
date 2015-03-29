@@ -35,8 +35,48 @@ sol458 tar =
       perm = rem ((modex (factorials 7) (div tar 7) modi) * sisa) modi
   in hasil - perm
 
-time f x = do
+prime :: Int -> Bool
+prime n = loopi 3
+  where loopi :: Int -> Bool
+        loopi i
+          | i*i > n = True
+          | 0 == rem n i = False
+          | otherwise = loopi $ i + 2
+
+primes = 2:filter prime [3,5..]
+
+insertBy' f x xs = smaller ++ [x] ++ larger
+  where smaller = takeWhile (\k -> f k <= f x) xs
+        larger = dropWhile (\k -> f k <= f x) xs
+
+modi = 500500507
+
+finalise :: [(Int,Int)] -> Int -> Int
+finalise lst target = loopi lst 1 0
+  where loopi ((b,a) :xs) res ctr
+          | ctr >= target = res
+          | otherwise = loopi xs (rem (res * b) modi) (ctr + a)
+
+minDivisor :: Int -> Int
+minDivisor target = loopi raws 0 []
+  where raws = map (\x -> (x, 1)) primes
+        loopi :: [(Int,Int)] -> Int -> [(Int,Int)] -> Int
+        loopi prs counter res
+          | counter >= target = finalise res target
+          | otherwise = loopi (insertBy' fst newOne (tail prs)) (succ counter) (res++ [head prs])
+          where newOne = let (a,b) = head prs in (a^2,b+1)
+
+sol500 :: Int -> Int -> Int -> Int
+sol500 target maxi howmany = foldl (\x y -> rem (x*y) modi) 1 results
+  where results = take target $ sort total
+        total = concat [powers,take target primes]
+        powers = concatMap (\x -> takeWhile (< maxi) $ tail $ iterate square x) (take howmany primes)
+        square i = i * i
+
+time f x i howmany = do
   start <- getCurrentTime
-  print $ f x
+  print $ f x i howmany
   stop <- getCurrentTime
   print $ diffUTCTime stop start
+
+

@@ -528,11 +528,11 @@
 
 (defn sol115
 	[^long lim]
-	(loop [i (int 60)]
-		(let [result (blocks i)]
-			(if (> result lim)
-				[i result]
-				(recur (+ i 1))))))
+	(let [[first-exceeds]
+				(->> (range 100 lim)
+						 (drop-while #(< (blocks %) lim)))]
+		[first-exceeds (blocks first-exceeds)]))
+
 
 
 

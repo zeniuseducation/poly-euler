@@ -88,6 +88,29 @@ function sumdig (n :: BigInt)
 end
 
 
+function sumdifact (n :: Int)
+    res :: Int = 0
+    i :: Int = n
+    while i >= 10
+        tmp = i % 10
+        res += factorial (tmp)
+        i = div (i,10)
+    end
+    return res+factorial (i)
+end
+
+function sumdigsquare (n :: Int)
+    res :: Int = 0
+    i :: Int = n
+    while i >= 10
+        tmp :: Int = i % 10
+        res += tmp * tmp
+        i = div (i,10)
+    end
+    return res+(i*i)
+end
+
+
 function pdivisors (n::Int)
     res :: Int = 1
     lim :: Int = isqrt (n)
@@ -157,6 +180,12 @@ function ishexagon (n :: Int)
     tmp == int (tmp)
 end
 
+function ispalin (n :: Int)
+    xs = numcol (n)
+    return xs == reverse (xs)
+end
+    
+
 function dpfactors (n::Int)
     p :: Int = n
     res = Int []    
@@ -213,7 +242,4 @@ function cubperm (n::Int)
     tmp = sort (numcol (n*n*n))
     [(colnum (tmp)),(length (tmp))]
 end
-
-
-
 

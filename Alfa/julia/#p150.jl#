@@ -196,8 +196,6 @@ function create_nexts (dic)
     end
     return res
 end
-    
-
 
 function sol110 (lim :: Int)
     function satisfy (st)

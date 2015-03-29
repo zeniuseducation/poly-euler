@@ -1,7 +1,7 @@
 open List;
 
-fun prime' (n : int64) =
-    let fun loopi (i : int64) =
+fun prime' (n : int) =
+    let fun loopi (i : int) =
 	    if (i*i) > n
 	    then true
 	    else if 0 = (n mod i)
@@ -10,8 +10,8 @@ fun prime' (n : int64) =
     in loopi 3
     end;
 
-fun sum_primes (lim : int64) =
-    let fun loopi (i : int64) (res : int64) =
+fun sum_primes (lim : int) =
+    let fun loopi (i : int) (res : int) =
 	    if i > lim
 	    then res
 	    else if prime' i
