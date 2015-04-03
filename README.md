@@ -336,7 +336,8 @@ SBCL 36-38ms
 SBCL using proto-memoize 10ms  
 Haskell 80ms  
 SML 3,290ms (Very sloow)  
-C as benchmark 20ms    
+C as benchmark 20ms   
+Julia 41ms  
 
 ##### Problem 28
 
@@ -344,8 +345,9 @@ Prob: Some fun stuffs
 
 Clojure 0.082ms  
 SBCL 0.023ms  
-Haskell < 10ms  
+Haskell 0.4ms  
 C as benchmark 0.042ms  
+Julia 0.03ms  
 
 ##### Problem 29
 
@@ -353,6 +355,7 @@ Clojure 0.065 msec
 SBCL 0.019 msec  
 Haskell (one liner) 1.2 sec  
 SML 2.4 sec (Very inefficient sml)  
+Julia 15ms  
 
 ##### Problem no 30
 
@@ -364,6 +367,7 @@ New version Haskell 170ms
 SML 1,620ms  
 SML new version 315ms  
 C Benchmark 287ms     
+Julia 19ms  
 
 ##### Problem 31
 
@@ -374,6 +378,7 @@ Haskell 20-30ms
 SBCL 4ms  
 SML 3ms  
 C Benchmark 0.5ms  
+Julia 17ms  
 
 ##### Problem 32
 
@@ -385,9 +390,11 @@ Haskell compiled 19 sec
 Haskell v2 ~60ms  
 SML 77ms  
 
+
 ##### Problem 33 
 
 SBCL 0.8 msec  
+Julia 17ms  
 
 ##### Problem 34
 
@@ -396,6 +403,7 @@ Prob: find the sum of all numbers that are equal to the sum of factorials of the
 SBCL 0.76 sec  
 Haskell compiled 0.46sec & 5.3 sec depends on limit  
 SML 0.349 & 1.349 depends on limit  
+Julia 11ms  
 
 ##### Problem no 35
 
@@ -411,6 +419,7 @@ Haskell v2 20-30ms
 SML 360ms  
 SML v2 10-12ms    
 C as benchmark 10ms    
+Julia 17ms  
 
 ##### Problem no 36 
 
@@ -422,6 +431,7 @@ SBCL v2 3ms
 Haskell 770ms    
 SML 860ms  
 SML v2 ~1ms  
+Julia 1.3ms  
 
 ##### Problem no 37
 
@@ -432,6 +442,7 @@ Clojure 1,500ms
 Clojure v2 1.3-2.5ms  
 Haskell 720ms    
 SML ~1ms  
+Julia 2ms  
 
 ##### Problem 38
 
@@ -439,6 +450,7 @@ SBCL 0.1ms
 Clojure 1-2ms  
 Haskell < 10ms  
 SML < 1ms  
+Julia 0.08ms  
 
 ##### Problem no 39
 
@@ -448,6 +460,7 @@ Clojure 12ms
 Clojure v2 2-3ms  
 Haskell 10ms  
 Haskell bruteforce 40ms  
+Julia 22ms  
 
 ##### Problem no 40
 
@@ -456,6 +469,7 @@ C benchmark tricky version 0.045ms
 Java benchmark tricky version 0.054ms  
 Haskell 10ms  
 Clojure 31ms  
+Julia 0.03ms  
 
 ##### Problem no 41
 
@@ -464,12 +478,14 @@ Problem : The sum of all pandigital primes
 Haskell (one liner) 10ms  
 Clojure 2ms (fast)  
 Common Lisp 0.15ms (Uberfast!)  
+Julia 1.3ms  
 
 ##### Problem 43 
 
 Substring divisibility 
 
 SBCL 0.5ms  
+Julia 1ms  
 
 ##### Problem 44
 
@@ -477,35 +493,74 @@ Laziness stuff
 
 Clojure (using pmap) 0.21 sec  
 Haskell (optimized to the max) 0.23 sec  
+Julia 41ms  
 
 ##### Problem 45
 
 Clojure 0.1ms  
 C as benchmark 0.3ms  
+Julia 0.7ms  
+
+##### Problem 46 
+
+Julia 22ms  
 
 ##### Problem 47 
 
 Clojure 180ms  
 SBCL 98ms  
 C as benchmark 58ms  
+Julia 220ms  
 
 ##### Problem 48
 
 Clojure 53ms  
 SBCL 14ms  
+Julia 1.7ms  
+
 
 ##### Problem 49
 
 SBCL 0.3 ms  
+Julia 1.5ms  
 
 ##### Problen no 51
 
 Haskell 320ms  
 
+##### Problem 52 
+
+Julia 76ms  
+
+##### Problem 53 
+
+Julia 0.8ms 
+
+##### Problem 55
+
+Julia 28ms  
+
+##### Problem 56 
+
+Julia 11ms  
+
+##### Problem 57
+
+Julia 98ms  
+
+##### Problem 58
+
+Julia 0.4sec
+
+##### Problem 59
+
+Julia 76ms  
+
 ##### Problem 62
 
 Clojure 43ms  
 SBCL 820ms  
+Julia 24ms  
 
 ##### Problem 63
 
@@ -513,16 +568,34 @@ Prob : How many a^m have m digits?
 
 SBCL 0.1 ms  
 Clojure 0.4 ms  
+Julia 0.07ms  
 
 ##### Problem 65  
 
 SBCL 0.3ms  
+Julia 1.3ms  
 
 ##### Problem 67
 
 Clojure 1.7 15ms  
 Haskell 26ms  
 Julia 4ms  
+
+##### Problem 69
+
+Julia 0.1ms  
+
+##### Problem 71  
+
+Julia 0.03ms 
+
+##### Problem 72
+
+Julia 102ms  
+
+##### Problem 73 
+
+Julia 1.2sec
 
 ##### Problem 75
 
@@ -535,6 +608,7 @@ Problem : How many ways 100 can be written as the sum of positive integers
 Clojure 0.05ms (memoization)  
 SBCL 5600ms  
 Haskell 2,300ms  
+Julia 6ms  
 
 ##### Problem 77
 
@@ -551,23 +625,43 @@ SBCL 223ms
 
 Clojure 1.7 8ms  
 
+##### Problem 81 
+
+Julia 8ms  
 
 ##### Problem no 85
 
 Clojure 1.5 sec  
 SBCL 0.53 sec  
+Julia 11ms  
+
+##### Problem 87
+
+Julia 0.72sec  
 
 ##### Problem 90
 
 Clojure 3secs  
 
+##### Problem 92 
+
+Julia 98ms  
+
 ##### Problem 93
 
 Clojure 500ms  
 
+##### Problem 95
+
+Julia 178ms 
+
 ##### Problem 98 
 
 Clojure 300ms  
+
+##### Problem 99
+
+Julia 2ms  
 
 ##### Problem no 100
 
@@ -575,6 +669,14 @@ Clojure 0.039 msec
 SBCL 1.2 msec  
 
 ##### Problem 103
+
+Clojure 47ms  
+
+##### Problem 108
+
+Julia 16ms  
+
+##### Problem 110
 
 Clojure 47ms  
 
@@ -586,14 +688,35 @@ Clojure 480ms
 
 Clojure 12ms  
 
+##### Problem 114
+
+Clojure 20ms  
+
+##### Problem 115
+
+Clojure 0.3ms  
+
 ##### Problem 116  
 
 Clojure 0.6ms  
 SBCL 0.1ms  
+Julia 1.6ms  
+
+##### Problem 117
+
+Julia 7ms  
 
 ##### Problem 118
 
 Clojure 14secs  
+
+##### Problem 119
+
+Julia 0.4ms  
+
+##### Problem 123
+
+Julia 234ms 
 
 ##### Problem no 125
 
@@ -609,6 +732,11 @@ Haskell interpreted 230ms
 
 Clojure 0.1ms  
 
+##### Problem 159 
+
+Clojure 213ms  
+Julia 1.56sec  
+
 ##### Problem 164
 
 Clojure 0.3ms  
@@ -617,18 +745,26 @@ Clojure 0.3ms
 
 Clojure 0.163 sec  
 Haskell 8.3 sec  
+Julia 23ms  
 
 ##### Problem no 174
 
 Clojure 1.2 sec  
+Julia 36ms  
+
+##### Problem 179 
+
+Julia 1.8sec
 
 ##### Problem 188
 
 Clojure 1.7ms  
+Julia 6ms  
 
 ##### Problem 191
 
 Clojure 11ms  
+Julia 0.5ms  
 
 ##### Problem 204
 
@@ -643,13 +779,21 @@ Racket 393secs
 Clojure 2.3 sec  
 SBCL 1.4 sec  
 
+##### Problem 286 
+
+Clojure 98ms  
+
 ##### Problem 297
 
 Clojure 39ms  
 
 ##### Problem 315
 
-Clojure 12secs
+Clojure 12secs  
+
+##### Problem 303
+
+Clojure 57sec  
 
 ##### Problem 345
 
@@ -681,6 +825,10 @@ Clojure 2 secs
 Clojure 33 secs  
 Haskell 26 secs  
 
+##### Problem 429
+
+Clojure 9.3sec  
+
 ##### Problem 491 
 
 Clojure 2 secs   
@@ -689,6 +837,10 @@ Clojure 2 secs
 
 Clojure TBD
 
+##### Problem 500
+
+Julia 192ms  
+Haskell 8.5sec  
 
 
 ## License
