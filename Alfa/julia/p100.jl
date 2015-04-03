@@ -681,7 +681,6 @@ function sol75 (lim :: Int)
     length ( filter(x -> peris [x] == 1, 3:lim))
 end
 
-global state :: Int = 0
 
 # Runs in 28 ms
 
@@ -1187,5 +1186,43 @@ function sol100 (target :: Int)
     return blue
 end
 
+# TOLOL
+function sol77 (lim::Int)
+    @memoize function sumprime (amount::Int, n::Int)
+        if amount == 0
+            return 1
+        elseif amount < 2
+            return 0
+        elseif amount == 3
+            return 1
+        elseif amount == 2
+            return 1
+        elseif amount == n
+            return 1
+        elseif n == 2
+            return 1
+        else
+            res :: Int = 0
+            i :: Int = 0
+            imn :: Int = i * n
+            while imn <= amount
+                ttr :: Int = amount-imn
+                if ttr < 2 && ttr != 0
+                    return 0
+                else
+                    if ttr < 2 && ttr != 0
+                        res += 1
+                    else
+                        res += sumprime (ttr,prevprime (ttr))
+                    end
+                    i += 1
+                    imn = i*n
+                end
+            end
+            return res
+        end
+    end
 
-
+    j :: Int = 10
+    sumprime (j,prevprime (j))
+end            

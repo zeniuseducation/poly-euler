@@ -1,7 +1,7 @@
 using Memoize
 
 function square (n:: Int)
-    n * n 
+    n * n
 end
 
 function prime (n :: Int)
@@ -26,9 +26,36 @@ function prime (n :: Int)
 end
 
 function nextprime (n::Int)
-    if prime (n+2)
+    if iseven (n)
+        if prime (n+1)
+            return n+1
+        else
+            return nextprime (n+1)
+        end
+    elseif prime (n+2)
         return n+2
-    else return nextprime (n+2)
+    else 
+        return nextprime (n+2)
+    end
+end
+
+function prevprime (n::Int)
+    if n < 2
+        return 2
+    elseif n == 2
+        return 2
+    elseif n== 3
+        return 2
+    elseif iseven (n)
+        if prime (n-1)
+            return n-1
+        else
+            return prevprime (n-1)
+        end
+    elseif prime (n-2)
+        return n-2
+    else
+        return prevprime (n-2)
     end
 end
 
@@ -87,6 +114,16 @@ function sumdig (n :: BigInt)
     return res+i
 end
 
+function sumdig (n :: Int)
+    res :: Int = 0
+    i :: Int = n
+    while i >= 10
+        res += i % 10
+        i = div (i,10)
+    end
+    return res+i
+end
+
 
 function sumdifact (n :: Int)
     res :: Int = 0
@@ -135,16 +172,10 @@ function pdivisors (n::Int)
             end
         end
     end
-    return res 
+    return res
 end
 
-function prev_prime (n::Int)
-    if prime (n-2)
-        return n-2
-    else
-        return prev_prime (n-2)
-    end
-end
+
 
 function colnum (xs)
     res :: Int = 0
@@ -184,11 +215,11 @@ function ispalin (n :: Int)
     xs = numcol (n)
     return xs == reverse (xs)
 end
-    
+
 
 function dpfactors (n::Int)
     p :: Int = n
-    res = Int []    
+    res = Int []
     if iseven (p)
         push! (res,2)
     end
@@ -243,3 +274,5 @@ function cubperm (n::Int)
     [(colnum (tmp)),(length (tmp))]
 end
 
+
+    

@@ -1,4 +1,5 @@
 open List;
+open Array;
 
 fun prime' (n : int) =
     let fun loopi (i : int) =
@@ -19,7 +20,25 @@ fun sum_primes (lim : int) =
 	    else loopi (i+2) res
     in loopi 3 2
     end;
-			
+
+fun sum_sieves (lim:int) =
+    let val primes = array (lim+1,true)
+        fun outer (i:int) (res: int) =
+            let fun inner (j:int) =
+                    if j < lim
+                    then (update (primes,j,false); inner (j + (2 * i)))
+                    else 0
+            in if i < lim
+               then if (sub (primes,i))
+                    then if i <= (lim div i)
+                         then (inner (i*i) ;
+                               outer (i + 2) (res + i))
+                         else outer (i+2) (res + i)
+                    else outer (i+2) res
+               else res
+            end
+    in outer 3 2
+    end;			
 
 fun time f x =
     let val start = Time.toMilliseconds (Time.now())

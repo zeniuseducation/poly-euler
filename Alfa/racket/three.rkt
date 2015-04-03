@@ -2,6 +2,16 @@
 
 (require math)
 
+(define (sol179 lim)
+  (define (loop (i 2) (res 0))
+    (if (> i lim)
+        res 
+        (if (= (length (divisors i))
+               (length (divisors (+ i 1))))
+            (loop (+ i 1) (+ res 1))
+            (loop (+ i 1) res))))
+  (loop))
+
 (define modi (expt 10 9))
 
 (define tar (expt 10 12))

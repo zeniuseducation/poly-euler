@@ -73,6 +73,8 @@ sol500 target maxi howmany = foldl (\x y -> rem (x*y) modi) 1 results
         powers = concatMap (\x -> takeWhile (< maxi) $ tail $ iterate square x) (take howmany primes)
         square i = i * i
 
+
+
 time f x i howmany = do
   start <- getCurrentTime
   print $ f x i howmany
