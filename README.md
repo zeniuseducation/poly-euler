@@ -1,6 +1,6 @@
 # Polyglottic Euler in 5 Lambdas
 
-Polyglottic attempts to euler in Clojure, Common Lisp (SBCL), Racket, SML and
+Polyglottic attempts to euler in Clojure, Common Lisp (SBCL), Racket, Julia, SML and
 Haskell. The codes will be refactored from time to time without 
 deleting old codes. 
 
@@ -28,19 +28,21 @@ actually use Lisp itself a lot*."
 1. The need for benchmark for a particular euler problem in terms of speed
 2. Encouragement for others to come up with faster/better solutions
 3. PE problems are good practice for optimising codes, which is critical skill in the era of big-data
+4. Finding interesting ideas for creating problems :)  
 
 In every source code, time-elapsed for each solution will be listed.
 
 ## Performance Comparison on MBA i5 1.6GHz
 
 Implementations:  
-1. Clojure using Clojure on JVM  
+1. Clojure using Clojure (Mostly 1.7) on JDK 1.8 (Also used for Java)  
 2. Clojurescript on NodeJS  
-3. Common Lisp using SBCL  
+3. Common Lisp using SBCL 1.2.x  
 4. Haskell using GHC compiled using -O2 optimisation   
 5. SML using SMLNJ  
-6. Racket mostly using Typed Racket  
+6. Racket mostly using Racket 6.1.x and Typed Racket  
 7. C using whatever there is on Macbook, optimized to the max using -Ofast  
+8. Julia using Julia 0.3.x (soon to be upgraded to 0.4)  
 
 ##### Problem no 1
 
