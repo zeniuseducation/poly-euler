@@ -43,6 +43,7 @@ Implementations:
 6. Racket mostly using Racket 6.1.x and Typed Racket  
 7. C using whatever there is on Macbook, optimized to the max using -Ofast  
 8. Julia using Julia 0.3.x (soon to be upgraded to 0.4)  
+9. Python using pypy  
 
 ##### Problem no 1
 
