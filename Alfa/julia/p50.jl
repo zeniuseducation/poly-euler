@@ -1197,6 +1197,56 @@ function sol46 (lim::Int)
     end
 end
 
+function getdate (days, m,y)
+    if m == 2
+        if days <= 28
+            return [days,m,y]
+        elseif days == 29
+            if y % 4 != 0
+                return [1,3,y]
+            else
+                return [29,2,y]
+            end
+        else
+            if y % 4 == 0
+                return [days-29,3,y]
+            else
+                return [days-28,3,y]
+            end
+        end
+    elseif in (m,[4,6,9,11])
+        if days <= 30
+            return [days,m,y]
+        else
+            return [days-30,m+1,y]
+        end
+    elseif in (m,[1,3,5,7,8,10])
+        if days <= 31
+            return [days,m,y]
+        else
+            return [days-31,m+1,y]
+        end
+    else
+        if days <= 31
+            return [days,m,y]
+        else
+            return [days-1,1,y+1]
+        end
+    end
+end
+
+function sol19 ()
+    start = [6,1,1901]
+    ctr = Array []
+    (d,m,y) = start
+    while y < 2001
+        if d == 1 
+            push! (ctr,[d,m,y])
+        end
+        (d, m, y) = getdate (d+7,m,y)
+    end
+    return ctr
+end
 
 
 

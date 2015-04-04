@@ -1187,7 +1187,7 @@ function sol100 (target :: Int)
 end
 
 # TOLOL
-function sol77 (lim::Int)
+function sol77a (lim::Int)
     @memoize function sumprime (amount::Int, n::Int)
         if amount == 0
             return 1
@@ -1226,3 +1226,89 @@ function sol77 (lim::Int)
     j :: Int = 10
     sumprime (j,prevprime (j))
 end            
+
+# This runs in 2ms 
+function sol77 (target::Int)
+    # Calculate the number of partitions for a given amount with a
+    # particular prime n
+    @memoize function parti (amount :: Int, n :: Int)
+        if amount == 0
+            return 1
+        elseif (amount < 0) || (amount == 1)
+            return 0
+        elseif n == 2
+            if 0 == amount % 2
+                return 1
+            else
+                return 0
+            end
+        else
+            pp :: Int = prevprime (n)
+            return sum (x -> parti (amount-(n*x), pp), 0:div (amount,n))
+        end
+    end
+    n :: Int = 10
+
+    # Iterate until finding the prime
+    while true
+        if parti (n, prevprime (n)) > target
+            return n
+        end
+        n += 1
+    end
+end
+
+function stupidprime (n :: Int, tar :: Int)
+    tmp = numcol (n)
+    ltmp = length (tmp)
+    for i = 0:ltmp
+        for j = i+1:ltmp+1
+            for k = j+1:ltmp+2
+                pmp = Int []
+                for x = 0:9
+                    if i==0
+                        imp = vcat ([x], tmp)
+                        jmp = vcat (imp [1:j],[x],imp [j+1:end])
+                        kmp = vcat (jmp [1:k],[x],jmp [k+1:end])
+                        jpmp = colnum (kmp)
+                        if prime (jpmp) && jpmp >= (10^(ltmp+2))
+                            push! (pmp, jpmp)
+                            end
+                    else
+                        imp = vcat (tmp [1:i],[x],tmp [i+1:end])
+                        jmp = vcat (imp [1:j],[x],imp [j+1:end])
+                        kmp = vcat (jmp [1:k],[x],jmp [k+1:end])
+                        jpmp = colnum (kmp)
+                        if prime (jpmp) && jpmp >= (10^(ltmp+2))
+                            push! (pmp, jpmp)
+                        end
+                    end
+                end
+                if length (pmp) >= tar
+                    return [(length (pmp)),(sort (pmp))]
+                end
+            end
+        end
+    end
+    return [0,123]
+end
+
+function sol51 (tar :: Int)
+    i :: Int = 2
+    while true
+        xs = stupidprime (i,tar)
+        if (xs [1] >= tar) 
+            return xs
+        end
+        i += 1
+    end
+end
+
+function playcard (st)
+    st = split (st," ")
+    return ((st [1:5]),(st [6:10]))
+end
+
+function sol54 ()
+    bahan = map(chop,open (readlines, "poker.txt"))
+end

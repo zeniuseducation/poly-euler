@@ -176,7 +176,6 @@ function pdivisors (n::Int)
 end
 
 
-
 function colnum (xs)
     res :: Int = 0
     lxs :: Int = length (xs)
@@ -194,7 +193,6 @@ end
 function tri_numbers (lim :: Int)
     map (triangle,1:lim)
 end
-
 
 
 function ispentagon (n :: Int)

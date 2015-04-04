@@ -1,20 +1,27 @@
 from datetime import datetime
 
+
+def timex (f,x):
+    start_time = time.time()
+    tmp = f(x)
+    print("--- %s seconds ---" % (time.time() - start_time))
+    return tmp
+
 def is_prime (n) :
-	if n == 2 :
-		return True
-	elif 0 == n % 2 :
-		return False
-	else :
-		i = 3
+        if n == 2 :
+                return True
+        elif 0 == n % 2 :
+                return False
+        else :
+                i = 3
 		res = True
-		while (i*i <= n) and res :
-			if 0 == n % i :
-				res = False
-				return False
-			else :
+                while (i*i <= n) and res :
+                        if 0 == n % i :
+                                res = False
+                                return False
+                        else :
 				i += 2
-		return res
+                                return res
 		
 def odd_prime (p) :
 	i = 3
@@ -79,3 +86,4 @@ result = sum_primes(2000000)
 print(result)
 end_time = datetime.now()
 print('Duration: {}'.format(end_time - start_time))
+
