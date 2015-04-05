@@ -1312,3 +1312,23 @@ end
 function sol54 ()
     bahan = map(chop,open (readlines, "poker.txt"))
 end
+
+function sol66 (lim::Int)
+    refs = zeros (Int,lim)
+    for i = 2:lim*20
+        for j = 2:i-1
+            isqr=i*i
+            jsqr=j*j
+            if isqr % jsqr == 1
+                tmp = div (isqr,jsqr)
+                if tmp <= lim 
+                    if refs [tmp] == 0
+                        refs [tmp] = i
+                    end
+                end
+            end
+        end
+    end
+    maxby (x->refs [x],1:lim)
+end
+
