@@ -533,10 +533,14 @@ Haskell 320ms
 
 ##### Problem 52 
 
+Problem : What is the smalles number where n,2n,3n,4n,5n,6n contain the same digit with different order  
+
+Clojure (1.7) 201ms  
 Julia 76ms  
 
 ##### Problem 53 
 
+Clojure 1.7 (bruteforce) 2ms  
 Julia 0.8ms 
 
 ##### Problem 55
