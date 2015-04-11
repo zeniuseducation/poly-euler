@@ -602,7 +602,11 @@ Julia 1.2sec
 
 ##### Problem 75
 
+Problem : How many L <= 1,500,000 that can form a right-triangle only once.
+
 SBCL 0.2second  
+Clojure 1.7 61ms  
+Julia 47ms  
 
 ##### Problem no 76 
 
