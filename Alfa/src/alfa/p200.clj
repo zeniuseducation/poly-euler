@@ -107,6 +107,8 @@
 
 
 (def sum-two-alfa
+  "Do this in binary style, but instead of doing the actual binary,
+  it simply carry the information about the next smaller power"
   (memoize
     (fn [n]
       (if (zero? n)

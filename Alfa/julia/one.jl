@@ -1,5 +1,7 @@
 using Memoize
 
+include ("common.jl")
+
 function sol1 (lim::Int)
     res::Int = 0
     for i = 1:(lim-1)
@@ -304,7 +306,39 @@ function sol425 (lim)
     end
 end
 
+function cube (n :: Int)
+    n * n *n
+end
 
+function quad (n :: Int)
+    n * cube (n)
+end
+
+# Runs in 0.15sec
+function sol87 (lim::Int)
+    # The array to mark the number reached by the loop
+    refs = falses (lim)
+
+    # Top loop for squares
+    for i in primes (isqrt (lim))
+
+        # The loop for cubes
+        for j in primes (int (cbrt (lim)))
+
+            # And the fourth
+            for k in primes (int (sqrt (sqrt (lim))))
+                tmp :: Int = square (i)+cube (j)+quad (k)
+                if tmp < lim
+                    refs [tmp] = true
+                else
+                    break
+                end
+            end
+        end
+    end
+    res :: Int = 0
+    sum (refs)
+end
 
 
 

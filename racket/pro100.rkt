@@ -1,5 +1,9 @@
 #lang racket
 
+(require math)
+
+
+
 (define (sol153 lim)
   (let ([refs (list->vector (map (λ(x) 
                                    (let ([n (remainder x 9)])
@@ -25,3 +29,5 @@
                        (loopi (+ i 1) (+ res (vector-ref refs i))))
                 (loopi (+ i 1) (+ res (vector-ref refs i)))))))
     (loopi 2 0)))
+
+

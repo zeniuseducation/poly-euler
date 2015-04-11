@@ -1313,7 +1313,7 @@ function sol54 ()
     bahan = map(chop,open (readlines, "poker.txt"))
 end
 
-function sol66 (lim::Int)
+function sol66a (lim::Int)
     refs = zeros (Int,lim)
     for i = 2:lim*20
         for j = 2:i-1
@@ -1331,4 +1331,56 @@ function sol66 (lim::Int)
     end
     maxby (x->refs [x],1:lim)
 end
+
+function sol66 (lim :: Int, n::Int)
+    ctr :: Int = 0
+    refs = zeros (Int,lim)
+    i :: Int = 2
+    while ctr < (lim-n)
+        isqr ::Int = i * i
+        for j = 1:(i-1)
+            jsqr :: Int = j * j
+            for k in filter (x -> isqr-(x*jsqr) == 1, 0:div (isqr,jsqr))
+                if k <= lim 
+                    if refs [k] == 0
+                        refs [k] = i
+                        ctr += 1
+                    end
+                end
+            end
+        end
+        i += 1
+    end
+    maxby (x -> refs [x], 1:lim)
+end
+
+function sol75 (lim :: Int)
+    refs = zeros (Int,lim)
+    for m = 2:div (lim,2)
+        msqr = m*m
+        for n = 1:(m-1)
+            nsqr = n*n
+            a = msqr-nsqr
+            b = 2*m*n
+            c = msqr+nsqr
+            peri = a+b+c
+            if peri > lim
+                break
+            end
+            if (iseven (m) || iseven (n)) && (gcd (m,n) == 1)
+                for i = peri:peri:lim
+                    refs [i] += 1
+                end
+            end
+        end
+    end
+    ctr :: Int = 0
+    for i = 12:2:lim
+        if refs [i] == 1
+            ctr += 1
+        end
+    end
+    return ctr
+end
+
 

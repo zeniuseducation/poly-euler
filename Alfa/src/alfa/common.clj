@@ -1,10 +1,19 @@
 (ns alfa.common
   (:require
-   [clojure.set :refer [union]]
-   [clojure.core.reducers :as r]))
+    [clojure.set :refer [union]]
+    [clojure.core.reducers :as r]))
 
 (defmacro defm [nama binding body]
   `(def ~nama (memoize (fn ~binding ~body))))
+
+(defn psqr?
+  [n]
+  (let [tmp (Math/sqrt n)]
+    (== tmp (long tmp))))
+
+(defn square
+  [n]
+  (* n n))
 
 (defn ^longs divisors
   [^long n]
@@ -31,15 +40,15 @@
 (defn ^boolean prime?
   [^long n]
   (cond
-   (== n 2) true
-   (even? n) false
-   :else (let [llim (int (Math/sqrt n))]
-           (loop [i (int 3)]
-             (if (> i llim)
-               true
-               (if (== 0 (rem n i))
-                 false
-                 (recur (+ i 2))))))))
+    (== n 2) true
+    (even? n) false
+    :else (let [llim (int (Math/sqrt n))]
+            (loop [i (int 3)]
+              (if (> i llim)
+                true
+                (if (== 0 (rem n i))
+                  false
+                  (recur (+ i 2))))))))
 
 (defn ^long next-prime
   [^long n]
