@@ -11,6 +11,10 @@
   (let [tmp (Math/sqrt n)]
     (== tmp (long tmp))))
 
+(defn triangle
+  [^long n]
+  (quot (* n (+ 1 n)) 2))
+
 (defn square
   [n]
   (* n n))
@@ -246,6 +250,10 @@
   [a b]
   (/ (Math/log b)
      (Math/log a)))
+
+(defn pascal
+  [^long lim]
+  (take lim (iterate #(vec (cons 1 (map +' % (conj (vec (rest %)) 0)))) [1 1])))
 
 
 
