@@ -24,12 +24,12 @@
 
 (define (sol458 tar modi n)
   (let* ((hasil (modular-expt n tar modi))
-	 (perms (modular-expt (factorial n)
-			      (quotient tar n)
-			      modi)))
+         (perms (modular-expt (factorial n)
+                              (quotient tar n)
+                              modi)))
     (modulo (- hasil (modulo (* (factorial n)
-				(modular-expt n (- tar n) modi))
-			     modi)) modi)))
+                                (modular-expt n (- tar n) modi))
+                             modi)) modi)))
 
 (define (fibo lim (a 1) (b 0) (i 2))
   (if (> a lim) i (fibo lim (+ a b) a (+ 1 i))))
@@ -81,6 +81,25 @@
                   (loopi (+ i 1) (+ res (- i 1))))
               (loopi (+ i 1) (+ res (mytot i))))))
     (loopi 2 0)))
+
+(define (sol10 lim)
+  (let ((refs (make-vector (+ lim 1) true))
+        (llim (ceiling (sqrt lim))))
+    (define (loopi i res)
+      (define (loopj j)
+        (if (> j lim)
+            false 
+            (begin (vector-set! refs j false)
+                   (loopj (+ j (* 2 i))))))
+      (if (> i lim) 
+          res
+          (if (vector-ref refs i)
+              (if (<= i llim)
+                  (begin (loopj (* i i))
+                         (loopi (+ i 2) (+ i res)))
+                  (loopi (+ i 2) (+ i res)))
+              (loopi (+ i 2) res))))
+    (loopi 3 2)))
 
 
 
