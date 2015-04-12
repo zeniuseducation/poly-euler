@@ -58,6 +58,7 @@ Java benchmark 0.05ms
 C benchmark 0.05ms  
 Swift 0.018ms  
 Julia 0.008ms NEW RECORD!  
+Pypy 0.05ms  
 
 ##### Problem no 2
 
@@ -72,6 +73,7 @@ C Benchmark 0.03ms
 Java benchmark 0.005ms  
 Swift 0.004ms  
 Julia 0.004ms TIGHT with SWIFT!  
+Pypy 0.02ms  
 
 ##### Problem no 3
 
@@ -92,6 +94,7 @@ C as benchmark 0.2ms
 Java as benchmark 5ms  
 Swift 0.11ms NEW RECORD!!  
 Julia 0.16ms  
+Pypy 1.6ms  
 
 ##### Problem no 4
 
@@ -104,6 +107,7 @@ SBCL 11-20 msecs
 Haskell 30 msecs  
 SML 3 msec  
 Julia 0.006ms  FAST! (using memoization)  
+Pypy 9ms  
 
 ##### Problem no 5
 
@@ -114,6 +118,7 @@ Clojure 0.3 msecs
 SBCL 0.04 msecs  
 Haskell ~10msecs  
 Julia 0.01ms  
+Pypy 0.15ms  
 
 ##### Problem no 6
 
@@ -123,6 +128,7 @@ Clojure 0.3-0.4 msecs
 SBCL 0.01 msecs  
 Haskell (it seems that GHCi cannot time under 10msecs)  
 Julia 0.004ms  
+Pypy 0.4ms  
 
 ##### Problem no 7
 
@@ -143,6 +149,7 @@ C Benchmark using sieve 0.9ms
 Swift naive using Int32 10ms  
 Swift using sieves 0.7ms  
 Julia using sieves 0.7ms  
+Pypy 6ms  
 
 ##### Problem no 8
 
@@ -192,6 +199,7 @@ C Benchmark using sieve 24 ms
 Swift naive 1,421ms  
 Swift sieves 16ms  
 Julia using sieves 19ms  
+Pypy 56ms  
 
 ##### Problem no 12
 
