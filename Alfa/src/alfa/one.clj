@@ -1,9 +1,9 @@
 (ns alfa.one
   (:require
-   [clojure.set :refer [union difference intersection subset?]]
-   [clojure.core.reducers :as r]
-   [clojure.string :refer [split-lines]]
-   [alfa.common :refer :all]))
+    [clojure.set :refer [union difference intersection subset?]]
+    [clojure.core.reducers :as r]
+    [clojure.string :refer [split-lines]]
+    [alfa.common :refer :all]))
 
 (def cm (set! *unchecked-math* true))
 
@@ -25,6 +25,7 @@
   (- (+ (apply + (range 3 lim 3))
         (apply + (range 5 lim 5)))
      (apply + (range 15 lim 15))))
+
 
 ;; 0.11 msec
 
@@ -96,17 +97,17 @@
           (let [strn (str n)
                 cnt (count strn)]
             (if (some (set (str "02468")) strn) false
-                (loop [i 0]
-                  (if (== i cnt)
-                    true
-                    (let [front (take i strn)
-                          back (drop i strn)
-                          hsl (concat back front)
-                          res (->> (apply str hsl)
-                                   read-string int)]
-                      (if (aget refs res)
-                        (recur (+ 1 i))
-                        false)))))))]
+                                                (loop [i 0]
+                                                  (if (== i cnt)
+                                                    true
+                                                    (let [front (take i strn)
+                                                          back (drop i strn)
+                                                          hsl (concat back front)
+                                                          res (->> (apply str hsl)
+                                                                   read-string int)]
+                                                      (if (aget refs res)
+                                                        (recur (+ 1 i))
+                                                        false)))))))]
     (do (loop [i (int 3)]
           (when (<= i lim)
             (if (aget refs i)
@@ -199,24 +200,24 @@
 
 (def cdiv
   (memoize
-   (fn [^long x]
-     (if (== 0 (rem x 2))
-       (loop [i (int 2) res (int 2)]
-         (if (>= (* i i) x)
-           (if (> (* i i) x) res (+ 1 res))
-           (recur (+ i 1)
-                  (if (== 0 (rem x i))
-                    (+ res 2)
-                    res))))
-       (loop [i (int 3) res (int 2)]
-         (if (>= (* i i) x)
-           (if (> (* i i) x) res (+ 1 res))
-           (recur (+ i 2)
-                  (if (== 0 (rem x i))
-                    (+ res 2)
-                    res))))))))
+    (fn [^long x]
+      (if (== 0 (rem x 2))
+        (loop [i (int 2) res (int 2)]
+          (if (>= (* i i) x)
+            (if (> (* i i) x) res (+ 1 res))
+            (recur (+ i 1)
+                   (if (== 0 (rem x i))
+                     (+ res 2)
+                     res))))
+        (loop [i (int 3) res (int 2)]
+          (if (>= (* i i) x)
+            (if (> (* i i) x) res (+ 1 res))
+            (recur (+ i 2)
+                   (if (== 0 (rem x i))
+                     (+ res 2)
+                     res))))))))
 
-(defn ^long sol12 
+(defn ^long sol12
   [^long tar]
   (loop [i (int 10)]
     (let [fact (if (== 0 (rem i 2))
@@ -227,22 +228,22 @@
       (if (> fact tar) (quot (* i (+ i 1)) 2) (recur (+ i 1))))))
 
 (defm max-palin
-  [^long i]
-  (loop [n (int i)]
-    (let [pal (int (+ (* 1000 n)
-                      (->> (str n)
-                           reverse
-                           (apply str) 
-                           bigint)))]
-      (if (some #(== 0 (rem pal %)) (range 999 101 -1))
-        (let [jerad (->> (range 999 101 -1)
-                         (drop-while #(not= 0 (rem pal %)))
-                         first)
-              jared (quot pal jerad)]
-          (if (or (> jared 999) (== jerad jared))
-            (recur (- n 1))
-            pal))
-        (recur (- n 1))))))
+      [^long i]
+      (loop [n (int i)]
+        (let [pal (int (+ (* 1000 n)
+                          (->> (str n)
+                               reverse
+                               (apply str)
+                               bigint)))]
+          (if (some #(== 0 (rem pal %)) (range 999 101 -1))
+            (let [jerad (->> (range 999 101 -1)
+                             (drop-while #(not= 0 (rem pal %)))
+                             first)
+                  jared (quot pal jerad)]
+              (if (or (> jared 999) (== jerad jared))
+                (recur (- n 1))
+                pal))
+            (recur (- n 1))))))
 
 (def nums
   (->> (slurp "resources/p8.txt")
@@ -259,26 +260,26 @@
        (apply max)))
 
 (defm sumproper
-  [^long x]
-  (if (== 0 (rem x 2))
-    (loop [i (int 2) res (int 1)]
-      (if (>= (* i i) x)
-        (if (> (* i i) x)
-          res
-          (+ i res))
-        (recur (+ i 1)
-               (if (== 0 (rem x i))
-                 (+ res i (quot x i))
-                 res))))
-    (loop [i (int 3) res (int 1)]
-      (if (>= (* i i) x)
-        (if (> (* i i) x)
-          res
-          (+ i res))
-        (recur (+ i 2)
-               (if (== 0 (rem x i))
-                 (+ res i (quot x i))
-                 res))))))
+      [^long x]
+      (if (== 0 (rem x 2))
+        (loop [i (int 2) res (int 1)]
+          (if (>= (* i i) x)
+            (if (> (* i i) x)
+              res
+              (+ i res))
+            (recur (+ i 1)
+                   (if (== 0 (rem x i))
+                     (+ res i (quot x i))
+                     res))))
+        (loop [i (int 3) res (int 1)]
+          (if (>= (* i i) x)
+            (if (> (* i i) x)
+              res
+              (+ i res))
+            (recur (+ i 2)
+                   (if (== 0 (rem x i))
+                     (+ res i (quot x i))
+                     res))))))
 
 (defn ^long amicables
   [^long lim]
@@ -292,16 +293,16 @@
                  res))))))
 
 (defm  psumprop
-  [^long x]
-  (if (== 0 (rem x 2))
-    (->> (range 2 (Math/sqrt x))
-         (keep #(when (== 0 (rem x %))
-                  (+ % (quot x %))))
-         (reduce + 1))
-    (->> (range 3 (Math/sqrt x) 2)
-         (keep #(when (== 0 (rem x %))
-                  (+ % (quot x %))))
-         (reduce + 1))))
+       [^long x]
+       (if (== 0 (rem x 2))
+         (->> (range 2 (Math/sqrt x))
+              (keep #(when (== 0 (rem x %))
+                      (+ % (quot x %))))
+              (reduce + 1))
+         (->> (range 3 (Math/sqrt x) 2)
+              (keep #(when (== 0 (rem x %))
+                      (+ % (quot x %))))
+              (reduce + 1))))
 
 (defn ^long amics
   [^long lim]
@@ -376,8 +377,8 @@
   (let [bahan (permutes (range 10) 5)
         check [9 1 7 0]]
     (-> #(let [num (colnum (concat [1] % check))]
-           (not= (take-nth 2 (numcol (* num num)))
-                 [1 2 3 4 5 6 7 8 9 0]))
+          (not= (take-nth 2 (numcol (* num num)))
+                [1 2 3 4 5 6 7 8 9 0]))
         (drop-while  bahan)
         first
         (concat check)
@@ -427,10 +428,10 @@
                     distinct))
         (recur (+ i 1)
                (distinct
-                (eduction
-                 (filter #(all-diff? % n :not))
-                 (for [r res m [0 1]]
-                   (conj r m)))))))))
+                 (eduction
+                   (filter #(all-diff? % n :not))
+                   (for [r res m [0 1]]
+                     (conj r m)))))))))
 
 (defn divs
   [^long x]
@@ -496,8 +497,8 @@
               (recur (+ i 1) res))))
         (->> (range 2 (+ 1 lim))
              (pmap #(if (aget refs %)
-                      6
-                      (* 6 (- % (totient %)))))
+                     6
+                     (* 6 (- % (totient %)))))
              (reduce +)))))
 
 (defn ^long sumdig
@@ -520,7 +521,7 @@
                          [1 0 1 1 1 0 0]
                          [1 1 1 1 1 1 1]
                          [1 0 1 1 1 1 1]])
-        
+
         dig (fn [^long n]
               (loop [i (int n) res (transient [])]
                 (if (< i 10)
@@ -528,7 +529,7 @@
                   (let [d (rem i 10)]
                     (recur (quot i 10)
                            (conj! res d))))))
-        
+
         trans (fn [xs1 xs2]
                 (let [nc1 (map refs xs1)
                       nc2 (map refs xs2)]
@@ -539,7 +540,7 @@
                       (+ res (->> (cons l1 ls1)
                                   (apply concat)
                                   (reduce +)))))))
-        
+
         diff (fn [^long n]
                (loop [i (int n) idig (dig i)
                       sam (int 0) max (->> (map #(apply + (refs %)) idig)
@@ -555,7 +556,7 @@
                             (+ sam (* 2 (->> (map #(apply + (refs %)) idig)
                                              (apply +))))
                             (+ max (trans idig nexcol)))))))
-        llim (int (Math/sqrt end))] 
+        llim (int (Math/sqrt end))]
     (loop [i (int 3) res (long 0)]
       (if (> i end)
         res
@@ -580,9 +581,9 @@
     (if (> np lim)
       0
       (+ 1 (transduce
-            (comp (drop-while #(< % p))
-                  (map #(cham np % lim)))
-            + prime100)))))
+             (comp (drop-while #(< % p))
+                   (map #(cham np % lim)))
+             + prime100)))))
 
 (defn rcham
   [^long lim]
@@ -592,7 +593,7 @@
   [^long lim ^long nlim]
   (let [refs
         (boolean-array (+ 1 lim) true)
-        
+
         pfactors
         (fn [^long n]
           (loop [p (int n) i (int 3) r (transient #{})]
@@ -611,16 +612,16 @@
                   (recur p (->> (iterate #(+ 2 %) (+ 2 i))
                                 (drop-while #(not (aget refs %)))
                                 first) r))))))
-        
+
         toti (memoize
-              (fn toti [^long i]
-                (cond (== i 2) 2
-                      (aget refs i) (+ 1 (toti (- i 1)))
-                      :else (let [nexi
-                                  (let [pts (pfactors i)]
-                                    (quot (* i (reduce * (map dec pts)))
-                                          (reduce * pts)))]
-                              (+ 1 (toti nexi))))))
+               (fn toti [^long i]
+                 (cond (== i 2) 2
+                       (aget refs i) (+ 1 (toti (- i 1)))
+                       :else (let [nexi
+                                   (let [pts (pfactors i)]
+                                     (quot (* i (reduce * (map dec pts)))
+                                           (reduce * pts)))]
+                               (+ 1 (toti nexi))))))
         llim (int (Math/sqrt lim))]
     (loop [i (int 2) res (long 0)]
       (if (> i lim)
@@ -661,7 +662,7 @@
                                   (recur (if (odd? ts)
                                            (+ x 1)
                                            (- x 1))))))]
-                        (recur (- i 1) tmp (+ 1 ts) (conj! res tmp)))))))]    
+                        (recur (- i 1) tmp (+ 1 ts) (conj! res tmp)))))))]
     (loop [i (int 3) res (long 0)]
       (if (> i lim)
         res
@@ -743,15 +744,15 @@
   (let [bahan (permute bhn 4)
         fd (fn ([a] (if (== a 0) 1 (/ a)))
              ([a b]
-                (if (== 0 b)
-                  1
-                  (/ a b)))
+              (if (== 0 b)
+                1
+                (/ a b)))
              ([a b c]
-                (if (== 0 b)
-                  1
-                  (if (== 0 c)
-                    (/ a b)
-                    (/ a b c)))))
+              (if (== 0 b)
+                1
+                (if (== 0 c)
+                  (/ a b)
+                  (/ a b c)))))
         opr [+ - fd *]
         oprs (permutes opr 3)
         res (->> (for [[a b c d] bahan [k l m] oprs]
@@ -836,11 +837,11 @@
                (let [diff (int (diffs st))]
                  (== 0 (rem diff 11))))]
     (sequence
-     (comp (filter div?)
-           (map #(vector (mapv (fn [x] (get digs x)) %)
-                         (mapv (fn [x] (get digs x))
-                               (difference sdigs %)))))
-     choices)))
+      (comp (filter div?)
+            (map #(vector (mapv (fn [x] (get digs x)) %)
+                          (mapv (fn [x] (get digs x))
+                                (difference sdigs %)))))
+      choices)))
 
 (defn sol
   [bahan]
@@ -860,6 +861,19 @@
     (->> (pmap cprob total)
          (reduce +))))
 
+(defn ^long sol1
+  [^long lim]
+  (transduce
+    (filter #(or (== 0 (rem % 3))
+                 (== 0 (rem % 5))))
+    + (range lim)))
+
+(defn ^long sol1a
+  [^long lim]
+  (let [[a b c] (pvalues (apply + (range 3 lim 3))
+                         (apply + (range 5 lim 5))
+                         (apply + (range 15 lim 15)))]
+    (- (+ a b) c)))
 
 
 

@@ -11,6 +11,25 @@
 		   false
 		   (recur (+ i 2)))))))
 
+(defun sol5 (lim)
+  (deff lim)
+  (let ((refs (->> (cons 1 (range 1 lim))
+		   (make-array (+ lim 1) :initial-contents))))
+    (cloop (i 2 res 1) (deff i res)
+	   (if (> i lim)
+	       res
+	       (let ((tmpi (aref refs i)))
+		 (progn (cloop (j (+ i 1)) (deff j)
+			       (if (> j lim)
+				   false
+				   (let ((tmpj (aref refs j)))
+				     (if (= 0 (rem tmpj tmpi))
+					 (progn (setf (aref refs j)
+						      (div tmpj tmpi))
+						(recur (+ j 1)))
+					 (recur (+ j 1))))))
+			(recur (+ i 1) (* res tmpi))))))))
+
 (defun sol10 (lim)
   (deff lim)
   (let ((refs (make-array (+ lim 1) :initial-element true))
@@ -32,6 +51,8 @@
 		       (recur (+ i 2)
 			      (+ res i)))
 		   (recur (+ i 2) res))))))
+
+
 
 
 

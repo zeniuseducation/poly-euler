@@ -109,6 +109,22 @@ function sol5 (lim :: Int)
     return prod (res)
 end
 
+function sol5a (lim::Int)
+    refs = collect (1:lim)
+    for i = 2:lim
+        tmpi ::Int = refs [i]
+        for j = i+1:lim
+            tmpj :: Int = refs [j]
+            if tmpj % tmpi == 0
+                refs [j] = div (tmpj,tmpi)
+            end
+        end
+    end
+    prod (refs)
+end
+
+
+
 function sol6 (lim :: Int)
     tmp = (div (lim,2)) * (lim+1)
     (tmp*tmp) - sum (map (x -> x * x, 1:lim))
@@ -136,10 +152,10 @@ function sol7 (tar::Int)
     return res
 end
 
-function sol8 (lim :: Int)
+function sol8 ()
     bahan = replace (open (readall, "p8.txt"), "\n", "")
     tmp = map (x -> int (x) - 48, collect (bahan))
-    maximum (map (x -> prod (sub (tmp,x:x+12)), x:(lim-12)))
+    maximum (map (x -> prod (sub (tmp,x:x+12)), 1:(length (tmp)-12)))
 end
 
 function sol9 (lim :: Int)
@@ -161,6 +177,30 @@ function sol9 (lim :: Int)
         a += 1
     end
     return tres
+end
+
+function sol9a (lim :: Int)
+    for m = 2:div (lim,2)
+        msqr = m*m
+        for n = 1:(m-1)
+            nsqr = n*n
+            a = msqr-nsqr
+            b = 2*m*n
+            c = msqr+nsqr
+            peri = a+b+c
+            if peri > lim
+                break
+            end
+            if (iseven (m) || iseven (n)) && (gcd (m,n) == 1)
+                for i = peri:peri:lim
+                    if i == lim
+                        tmp = div (i,peri)
+                        return (a*b*c)*(tmp^3)
+                    end
+                end
+            end
+        end
+    end
 end
 
 function sol10 (lim::Int)

@@ -56,7 +56,7 @@ def sol3(target):
 
 def is_palin(n) :
     tmp = str(n)
-    return list(tmp) == list(reversed(tmp))
+    return tmp == tmp[::-1]
 
 def sol4(lim):
     res = 0
@@ -94,6 +94,34 @@ def sol6(lim) :
     def square (x) :
         return x * x
     return square(sum(range(1,lim+1))) - sum(map(square,range(1,lim+1)))
+
+def gcd(a,b) :
+    if b == 0 :
+        return a
+    elif a == 0:
+        return b
+    elif a < b :
+        return gcd(b-a,a)
+    else :
+        return gcd(a-b,b)
+
+def sol9(lim) :
+    for m in range(2,1+(lim/2)):
+        msqr = m * m
+        for n in range(1,m-1):
+            nsqr = n * n
+            a = msqr-nsqr
+            b = 2*m*n
+            c = msqr+nsqr
+            peri = a+b+c
+            if peri > lim :
+                break
+            if (m % 2 == 0 or n % 2 == 0) and (gcd(m,n) == 1):
+                for i in range(peri,lim+1,peri):
+                    if i == lim :
+                        tmp = i / peri
+                        return (a*b*c)*(tmp**3)
+
 
 # This is number 10
 def sol10 (lim):
