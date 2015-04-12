@@ -160,6 +160,7 @@ Clojure 1.7 3ms
 SBCL 23 msecs  
 Haskell 100 msecs  
 Haskell 3ms  
+Julia 0.7ms  
 
 ##### Problem no 9
 
@@ -173,6 +174,8 @@ SML 1 ms
 C as benchmark 0.25ms  
 Java benchmark 2.5ms  
 Swift 0.32 ms  
+Julia 0.006ms  
+Pypy 0.03ms  
 
 ##### Problem no 10
 
