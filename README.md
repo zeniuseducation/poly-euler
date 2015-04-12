@@ -194,7 +194,7 @@ SML 736 msecs!! (0.736 secs)
 Racket 4-6K msecs  
 Typed Racket 2,200 msecs (Faster than Clojure)  
 Typed Racket in Win32 987 msecs  
-Typed Racket using sieves 71-76ms  
+Typed Racket using sieves 29ms  
 C Benchmark using sieve 24 ms  
 Swift naive 1,421ms  
 Swift sieves 16ms  
