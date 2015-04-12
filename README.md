@@ -114,8 +114,8 @@ Pypy 9ms
 Prob: Find the smallest number that can be evenly divided by all
 integers from 1 to 20.
 
-Clojure 0.3 msecs  
-SBCL 0.04 msecs  
+Clojure 0.3 ms  
+SBCL 0.02 ms   
 Haskell ~10msecs  
 Julia 0.01ms  
 Pypy 0.15ms  
