@@ -531,3 +531,210 @@ function sol123 (target :: Int, lim ::Int)
 end
 
 
+function sol136 (lim::Int)
+    refs = zeros (Int,lim-1)
+    for a = 1:lim
+        for b = (div (a,4)):a-1
+            n = a*(4*b-a)
+            if 0 < n < lim
+                refs [n] += 1
+            elseif n >= lim 
+                break
+            end
+        end
+    end
+    length (filter (x-> x==10, refs))
+end
+
+function sol127 (lim::Int)
+    prs = trues (lim)
+    refs = ones (Int,lim)
+    llim = isqrt (lim)
+    for i = 2:llim
+        if prs [i]
+            for j = i*i:i:lim
+                prs [j]= false
+            end
+        end
+    end
+    for i = 2:lim
+        if prs [i]
+            for j = i:i:lim
+                refs [j] *= i
+            end
+        end
+    end
+    res :: Int = 0
+    for a = 1:div (lim,2)
+        rada :: Int = refs [a]
+        for b = a+1:lim
+            c = a+b
+            if c >= lim
+                break
+            end
+            if (gcd (a,b)==1)
+                if (rada*refs [b]*refs [c]) < c
+                    res += c
+                end
+            end
+        end
+    end
+    return res
+end
+
+function sol139 (lim :: Int)
+    refs = zeros (Int,lim)
+    for m = 2:div (lim,2)
+        msqr = m*m
+        for n = 1:(m-1)
+            nsqr = n*n
+            a = msqr-nsqr
+            b = 2*m*n
+            c = msqr+nsqr
+            peri = a+b+c
+            if peri > lim
+                break
+            end
+            if (iseven (m) || iseven (n)) && (gcd (m,n) == 1)
+                tmp1 = 2*a*b
+                tmp2 = isqrt (c*c-tmp1)
+                if 0 == c % tmp2
+                    for i = peri:peri:lim
+                        refs [i] += 1
+                    end
+                end
+            end
+        end
+    end
+    sum (refs)
+end
+
+function maxi (refs)
+    if isempty (refs)
+        return 0
+    else
+        x = first (refs)
+        nmax = maxi (rest (refs))
+        if nmax > x
+            return nmax
+        else
+            return x
+        end
+    end
+end
+
+function repdiv (n :: Int)
+    if gcd (n,10) == 1
+        x,k :: Int = 1,1
+        while true
+            if x == 0
+                return k
+            else
+                x = (1+10*x) % n
+                k += 1
+            end
+        end
+    else
+        return 0
+    end
+end
+
+function sol130 (lim::Int)
+    i :: Int = 3
+    res :: Int = 0
+    ctr :: Int = 0
+    while true
+        if ctr == lim
+            return res
+        else
+            if !prime (i)
+                an = repdiv (i)
+                if an != 0
+                    if 0 == (i-1) % an
+                        ctr += 1
+                        res += i
+                    end
+                end
+            end
+            i += 1
+        end
+    end
+end
+
+function sol129 (lim::Int)
+    i :: Int = lim+1
+    while true
+        if repdiv (i) > lim
+            return i
+        else
+            i += 2
+        end
+    end
+end
+
+function sol142tol ()
+    i :: Int = 4
+    solved = false
+    while !solved
+        a = i*i
+        j :: Int = 3
+        while j < i && !solved
+            c = j * j
+            f = a-c
+            if f <= 0 || isqrt (f) == sqrt (f)
+                j += 1
+            else
+                kstart = (j % 2 == 1) ? 1 : 2
+                for k = kstart:2:(j-1)
+                    d = k*k
+                    e = a-d
+                    b = c-e
+                    if b <= 0 || e <= 0 
+                        j += 1
+                    elseif (isqrt (b) != sqrt (b)) || isqrt (e) != sqrt (e)
+                        j += 1
+                    else
+                        x = div (d+c, 2)
+                        y = div (e+f, 2)
+                        z = div (c-d, 2)
+                        return x+y+z
+                    end
+                end
+            end
+        end
+        i += 1
+    end
+end
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -101,6 +101,49 @@
               (loopi (+ i 2) res))))
     (loopi 3 2)))
 
+(define (cube n)
+  (eval-poly (map (lambda (x) (if (even? x) 1 -1)) (range 0 11)) n))
+
+(define (soltol n)
+  (define (fn a b)
+    (let ((ai (+ 1 a))
+	  (bi (+ 1 b)))
+      (expt ai b)))
+  (let* ((matcol (list->matrix n 1 (map cube (range 1 (+ n 1)))))
+	 (matm (build-matrix n n fn)))
+    (array->list (matrix-solve matm matcol))))
+
+(define (eval-poly xs n)
+  (foldl + 0 (map (lambda (x y) (* x (expt n y)))
+		  xs (range (length xs)))))
+
+(define (soltar lim)
+  (foldl + 0 (map (lambda (x y) (eval-poly x y))
+		  (map soltol (range 1 lim))
+		  (range 2 (+ lim 1)))))
+
+(define (abc-hits lim)
+  (let ((lima (- (quotient lim 2) 1))
+	(res 0))
+    (define (loopi a)
+      (define (loopj b)
+	(let ((c (+ a b)))
+	  (if (>= c lim)
+	      false
+	      (if (pairwise-coprime? a b c)
+		  (if (< (foldl * 1 (prime-divisors (* a b c))) c)
+		      (begin (set! res (+ res 1))
+			     (loopj (+ b 1)))
+		      (loopj (+ b 1)))
+		  (loopj (+ b 1))))))
+      (if (> a lima)
+	  res
+	  (begin (loopj (+ a 1))
+		 (loopi (+ a 1)))))
+    (loopi 1)))
+
+
+
 
 
 

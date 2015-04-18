@@ -74,6 +74,12 @@ mul35 = filter (\x -> rem x 3 == 0 or rem x 5) [1..]
 
 sol1 lim = sum $ takeWhile (<lim) mul35
 
+maxi (x: []) = x
+maxi (x:xs) = let nmax = maxi xs
+              in if nmax > x then nmax else x
+
+
+
 main = do
    start <- getCurrentTime
    let result = maxPFactor 600851475143

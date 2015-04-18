@@ -1383,4 +1383,35 @@ function sol75 (lim :: Int)
     return ctr
 end
 
+# Runs in 0.3sec
+function sol87 (lim::Int)
+    # The array to mark the number reached by the loop
+    refs = falses (lim)
+    primei = primes (isqrt (lim))
+    primej = primes (int (cbrt (lim)))
+    primek = primes (int (sqrt (sqrt (lim))))
+
+    # Top loop for squares
+    for i in primei
+
+        # The loop for cubes
+        for j in primej
+
+            # And the fourth
+            for k in primek
+                tmp :: Int = square (i)+cube (j)+quad (k)
+                if tmp < lim
+                    refs [tmp] = true
+                else
+                    break
+                end
+            end
+        end
+    end
+    # Accumulate the ones that are true
+    sum(refs)
+ end
+
+
+
 

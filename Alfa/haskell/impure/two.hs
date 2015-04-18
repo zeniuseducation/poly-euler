@@ -73,6 +73,20 @@ sol500 target maxi howmany = foldl (\x y -> rem (x*y) modi) 1 results
         powers = concatMap (\x -> takeWhile (< maxi) $ tail $ iterate square x) (take howmany primes)
         square i = i * i
 
+wall ls@(x:xs)
+  | x == 3 = [0:ls]
+  | x == 2 = [0:ls]
+  | x == 1 = []
+  | x == 0 = [ls]
+  | otherwise = let mpa = wall (x-2:ls)
+                    mpb = wall (x-3:ls)
+                in if null mpa
+                   then mpb
+                   else if null mpb
+                        then mpa
+                        else mpa ++ mpb
+
+walls = map (rest.init) $ wall [32]
 
 
 time f x i howmany = do

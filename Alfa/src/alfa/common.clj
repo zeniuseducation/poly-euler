@@ -255,6 +255,42 @@
   [^long lim]
   (take lim (iterate #(vec (cons 1 (map +' % (conj (vec (rest %)) 0)))) [1 1])))
 
+(defn ^longs radical
+  [^long n]
+  (let [start (->> (iterate #(/ % 2) n)
+                   (take-while integer?)
+                   last)]
+    (loop [i (int start) p (int 3) res (if (even? n) 2 1)]
+      (if (== 1 i)
+        res
+        (if (== 0 (rem i p))
+          (recur (->> (iterate #(/ % p) i)
+                      (take-while integer?)
+                      last)
+                 (next-prime p)
+                 (* res p))
+          (recur i (next-prime p) res))))))
+
+(defn hexa
+  [n]
+  (let [refs (into {} (map #(vector % %2) (range 16)
+                           [0 1 2 3 4 5 6 7 8 9 "A" "B" "C" "D" "E" "F"]))]
+    (loop [i (int n) res []]
+      (if (< i 16)
+        (apply str (cons (get refs i) res))
+        (recur (quot i 16)
+               (cons (get refs (rem i 16)) res))))))
+
+(defn repeating-decimal?
+  [a b]
+  (loop [n (int a) res []]
+    (let [m (quot n b)
+          mi (rem n b)]
+      (if (== mi 0)
+        (- a)
+        (if (some #(== mi %) res)
+          a
+          (recur (* mi 10) (conj res mi)))))))
 
 
 
