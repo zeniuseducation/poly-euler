@@ -692,6 +692,10 @@ Julia 2ms
 Clojure 0.039 msec  
 SBCL 1.2 msec  
 
+##### Problem 101
+
+Racket 6ms (Need to use matrix-solve)  
+
 ##### Problem 103
 
 Clojure 47ms  
@@ -747,10 +751,29 @@ Julia 234ms
 Clojure 0.5 sec  
 SBCL 0.6-0.8 sec  
 
+##### Problem no 129
+
+Clojure 52ms  
+Julia 35ms  
+
+##### Problem no 130
+
+Clojure 219ms  
+Julia 97ms  
+
 ##### Problem no 131
 
 SBCL 3ms  
 Haskell interpreted 230ms  
+
+##### Problem no 136 
+
+Julia 3.6sec  
+
+##### Problem no 139
+
+Clojure 12sec  
+Julia 2sec  
 
 ##### Problem 148
 
@@ -765,6 +788,10 @@ Julia 1.56sec
 
 Clojure 0.3ms  
 
+##### Problem no 169  
+
+Clojure 1ms (memoized)  
+
 ##### Problem no 173 
 
 Clojure 0.163 sec  
@@ -778,7 +805,11 @@ Julia 36ms
 
 ##### Problem 179 
 
-Julia 1.8sec
+Julia 1.8sec  
+
+##### Problem 183
+
+Clojure 67sec  
 
 ##### Problem 188
 
@@ -797,6 +828,10 @@ Haskell 890ms
 ##### Problem 211
 
 Racket 393secs    
+
+##### Problem 215
+
+Clojure 249ms  (once the crack matrix has been built)  
 
 ##### Problem no 234
 
