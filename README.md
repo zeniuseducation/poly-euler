@@ -232,6 +232,7 @@ Julia 9ms
 
 ##### Problem 13
 
+Clojure 1.3ms  
 Haskell 3ms  
 Julia 0.3ms  
 
@@ -254,12 +255,17 @@ Julia 800ms
 
 ##### Problem no 15
 
-Clojure 0.53 msec  
+Clojure 0.14 msec  
 SBCL 0.018 msec  
+Haskell 0.08ms  
+Julia 0.07ms  
 
 ##### Problem no 16
 
-Too easy to measure, all in one lines and took less than 1 ms  
+Clojure 1.3ms  
+Julia 0.8ms  
+Haskell 0.2ms  
+Pypy 2ms  
 
 ##### Problem 17
 
@@ -267,12 +273,15 @@ Julia 2ms
 
 ##### Problem 18
 
+Clojure 1ms  
 Julia 0.2ms  
 Haskell 1ms  
 
 ##### Problem no 20
 
-Too easy to measure, all in one lines and took less than 1 ms
+Clojure 0.7ms  
+Julia 0.4ms  
+Haskell 0.1ms  
 
 ##### Problem no 21
 
@@ -410,6 +419,7 @@ SML 77ms
 ##### Problem 33 
 
 SBCL 0.8 msec  
+Clojure 18ms  
 Julia 17ms  
 
 ##### Problem 34
@@ -519,6 +529,8 @@ Julia 0.7ms
 
 ##### Problem 46 
 
+Clojure 2.5ms  
+Haskell 2.5ms  
 Julia 22ms  
 
 ##### Problem 47 
@@ -530,10 +542,10 @@ Julia 220ms
 
 ##### Problem 48
 
-Clojure 53ms  
-SBCL 14ms  
+Clojure 3.6ms  
+Haskell 4.3ms  
+SBCL 4ms  
 Julia 1.7ms  
-
 
 ##### Problem 49
 
@@ -546,7 +558,7 @@ Haskell 320ms
 
 ##### Problem 52 
 
-Problem : What is the smalles number where n,2n,3n,4n,5n,6n contain the same digit with different order  
+Problem : What is the smallest number where n,2n,3n,4n,5n,6n contain the same digit with different order  
 
 Clojure (1.7) 201ms  
 Julia 76ms  
