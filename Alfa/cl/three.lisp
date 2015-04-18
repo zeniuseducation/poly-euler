@@ -52,6 +52,21 @@
 			      (+ res i)))
 		   (recur (+ i 2) res))))))
 
+(defun modex (a b modi)
+  (deff a b modi)
+  (cond ((= b 0) 1)
+	((= b 1) (rem a modi))
+	(:else (let ((modexi (modex a (div b 2) modi)))
+		 (if (evenp b)
+		     (rem (* modexi modexi) modi)
+		     (rem (* a modexi modexi) modi))))))
+
+(defun sol48 (lim modi)
+  (deff lim modi)
+  (rem (->> (range 1 lim)
+	 (mapcar (fn (modex % % modi)))
+	 (reduce '+)) modi))
+
 
 
 

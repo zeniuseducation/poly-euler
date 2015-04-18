@@ -114,15 +114,15 @@
 
 (defn collatz
 	([^long n]
-		(if (== n 1)
-			1
-			(collatz n 0)))
+	 (if (== n 1)
+		 1
+		 (collatz n 0)))
 	([^long n ^long res]
-		(if (== n 1)
-			(+ 1 res)
-			(if (even? n)
-				(collatz (quot n 2) (+ res 1))
-				(collatz (+ 1 (* 3 n)) (+ res 1))))))
+	 (if (== n 1)
+		 (+ 1 res)
+		 (if (even? n)
+			 (collatz (quot n 2) (+ res 1))
+			 (collatz (+ 1 (* 3 n)) (+ res 1))))))
 
 (defn sol14
 	[^long lim]
@@ -140,7 +140,77 @@
 									(reduce + (take 4 (iterate #(- % (- n 1)) (* n n)))))]
 		(+ 1 (reduce + (map spirals (range 3 (+ lim 1) 2))))))
 
+(defn sol13
+	[]
+	(let [raw (slurp "resources/p13.txt")]
+		(->> (cs/split-lines raw)
+				 (map bigint)
+				 (reduce +)
+				 str
+				 (take 10)
+				 (apply str))))
 
+(defn gen-pascal
+	[lim]
+	(->> [1]
+			 (iterate #(mapv + (cons 0 %)
+											 (conj % 0)))
+			 (take lim)))
+
+(defn sol15
+	[size]
+	(->> [1]
+			 (iterate #(mapv + (cons 0 %) (conj % 0)))
+			 (drop size)
+			 first
+			 (map #(* % %))
+			 (reduce +)))
+
+(defn sol16
+	[n]
+	(sum-digits (expt 2 n)))
+
+(defn sol33
+	[^long lim]
+	(->> (for [i (range 10 lim)
+						 j (range (+ 1 i) lim)
+						 :let [ni (numcol i)
+									 nj (numcol j)
+									 nir (remove (set nj) ni)
+									 njr (remove (set ni) nj)
+									 cnjr (colnum njr)]
+						 :when (and (not= 0 (rem i 10))
+												(not= 0 (rem j 10))
+												(not= ni nir)
+												(not= nj njr)
+												(if (or (= njr [0])
+																(= njr [])
+																(= nir []))
+													false
+													(== (/ i j) (/ (colnum nir) cnjr))))]
+				 (/ i j))
+			 (reduce *)
+			 denominator))
+
+(defn sol46
+	[]
+	(loop [i (int 9)]
+		(if (prime? i)
+			(recur (+ i 2))
+			(let [tmp (loop [j (int 1)]
+									(let [tmpj (* 2 j j)]
+										(if (> tmpj i)
+											false
+											(if (prime? (- i tmpj))
+												true
+												(recur (+ j 1))))))]
+				(if tmp (recur (+ i 2)) i)))))
+
+(defn sol48
+	[^long lim ^long modi]
+	(rem (transduce
+				 (comp (map #(modex % % modi)))
+				 + (range 1 lim)) modi))
 
 
 

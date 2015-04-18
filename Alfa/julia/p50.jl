@@ -294,7 +294,7 @@ function sol14b (lim :: Int)
     return res 
 end
 
-function sol15 (n :: Int)
+function sol15a (n :: Int)
     res :: Int = 0
     for i = 0:n
         tmp :: Int = binomial (n,i)
@@ -303,7 +303,15 @@ function sol15 (n :: Int)
     return res
 end
 
-
+function sol15 (n::Int)
+    start = [1]
+    for i = 1:n
+        mstart = vcat ([0], start)
+        nstart = vcat (start,[0])
+        start = map (+,mstart,nstart)
+    end
+    sum (map (x -> x*x, start))
+end
 
 function sol16 (n::Int)
     sumdig (^(BigInt (2), n))
@@ -369,15 +377,13 @@ end
 
 
 
-@memoize function fact (n::Int)
+@memoize function fact (n::BigInt)
     n == 0 ? 1 : n * factorial (n-1)
 end
 
 function sol20 (n)
     sumdig (fact (BigInt (n)))
 end
-
-
 
 function sol21 (lim::Int)
     function isamic (n::Int)
@@ -1010,7 +1016,7 @@ function sol45fun (howmany :: Int)
     return res
 end
 
-function sol47 (tar :: Int, lim :: Int)
+function sol47a (tar :: Int, lim :: Int)
     llim :: Int = isqrt (lim)
     primes = trues (lim)
     m :: Int = 2
@@ -1069,6 +1075,29 @@ function sol47 (tar :: Int, lim :: Int)
         i += 1
     end
 end
+
+function sol47 (lim :: Int, n ::Int)
+    prs = trues (lim)
+    llim = isqrt (lim)
+    refs = fill ({},lim)
+    for i = 2:lim
+        if prs [i]
+            if i <= llim
+                for j = i*i:i:lim
+                    prs [j] = false
+                end
+            end
+            for j = 2*i:i:lim
+                refs [j] = union(refs [j],i)
+            end
+        end
+        if all (x-> length (refs [x]) == n, i+1:i+n)
+            return i+1
+        end
+    end
+end
+
+
 
 function sol48 (lim :: Int)
     tmp = 10^10

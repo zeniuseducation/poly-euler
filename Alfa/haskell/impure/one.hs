@@ -159,6 +159,9 @@ factmod m x = rem (factmod $ x-1) m
 
 factmods m = (!!) (map (factmod m) [0..])
 
+sol15 size = take size $
+             iterate (\x -> map (\(a,b) -> a+b) $ zip (0:x) (x ++ [0])) [1]
+
 
 time f x = do
   start <- getCurrentTime

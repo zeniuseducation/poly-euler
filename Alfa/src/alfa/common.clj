@@ -292,6 +292,14 @@
           a
           (recur (* mi 10) (conj res mi)))))))
 
+(defn sum-digits
+  [n]
+  (loop [p n res (int 0)]
+    (if (< p 10)
+      (+ p res)
+      (recur (quot p 10)
+             (+ res (rem p 10))))))
+
 
 
 
