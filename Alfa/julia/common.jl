@@ -100,6 +100,19 @@ function maxby (f,xs)
     return ires
 end
 
+function minby (f,xs)
+    res = f (first (xs))
+    ires = first (xs)
+    for i in xs
+        tmp = f (i)
+        if tmp < res
+            res = tmp
+            ires = i
+        end
+    end
+    return ires
+end
+
 function numcol (n::Int)
     map (x -> int (x) - 48, collect ( string (n)))
 end

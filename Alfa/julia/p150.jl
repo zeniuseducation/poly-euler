@@ -706,28 +706,56 @@ function sol142tol ()
     end
 end
 
-    
+function sol145 (lim::Int)
+    res :: Int = 0
+    for i = 1:lim-1
+        tmp = numcol (i)
+        tmp1 = colnum (tmp)
+        tmp2 = colnum(digits (i))
+        tmpj = numcol (tmp2)
+        if length (tmpj) == length (tmp)
+            if all (isodd,digits (tmp1+tmp2))
+                res += 1
+            end
+        end
+    end
+    return res
+end
 
+function gradient (a,b)
+    atan2 ((b [2]-a [2]),(b [1]-a [1]))
+end
 
+function check (xs)
+    for x in xs
+        m = gradient (x,(0,0))
+        tmp = filter (k -> k != x, xs)
+        m1 = gradient (x,tmp [1])
+        m2 = gradient (x,tmp [2])
+        println (m1," ", m," ",m2)
+        status = (m1 <= m <= m2) || (m2 <= m <= m1)
+        if !status
+            return false
+        end
+    end
+    return true
+end
 
+function masukin (xs)
+    tmp = Tuple []
+    for i = 1:2:5
+        push! (tmp,(xs [i],xs [i+1]))
+    end
+    return tmp
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function sol102 ()
+    tmp = map(x -> split (x,","),map (chomp,open (readlines,"p102.txt")))
+    tmp = map (x-> map (int,x), tmp)
+    tmp1 = map (masukin,tmp)
+    print (length (tmp1))
+    return length(filter (check,tmp1))
+end
 
 
 
