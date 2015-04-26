@@ -3,7 +3,8 @@
     [clojure.set :refer [union difference intersection subset?]]
     [clojure.core.reducers :as r]
     [clojure.string :refer [split-lines]]
-    [alfa.common :refer :all]))
+    [alfa.common :refer :all]
+    [clojure.string :as cs]))
 
 (def fast-expt
   (fn [^long n]
@@ -528,6 +529,65 @@
                (into [] (concat res cpab))
                (+ ctr (count cpab)))))))
 
+(def bahan
+  (let [mentah (->> (slurp "resources/p107.txt")
+                    (cs/split-lines)
+                    (map #(cs/replace % #"-" "nil"))
+                    (map #(cs/split % #","))
+                    (mapv #(mapv read-string %)))]
+    (loop [i (int 0) [x & xs] mentah res {}]
+      (if (== i 40)
+        res
+        (let [tmp (loop [j (+ i 1) [k & ks] x resi {}]
+                    (if (== j 40)
+                      resi
+                      (if k
+                        (recur (+ j 1) ks (assoc resi [i j] k))
+                        (recur (+ j 1) ks resi))))]
+          (recur (+ i 1) xs (merge res tmp)))))))
+
+
+
+(defn checkone
+  [[x & xs]]
+  (reduce #(let [r (last (last %1))]
+            (if (> (- %2 r) 1)
+              (conj %1 [%2])
+              (conj (vec (butlast %1))
+                    (conj (last %1) %2)))) [[x]] xs))
+
+(defn ^long digsquare
+  [^long n]
+  (loop [i (int n) res (int 0)]
+    (if (< i 10)
+      (+ res (* i i))
+      (recur (quot i 10)
+             (let [m (rem i 10)]
+               (+ res (* m m)))))))
+
+(defn ^long sol92
+  [^long lim]
+  (let [refs (int-array (+ lim 1) 0)]
+    (loop [i (int 1) res (int 0)]
+      (let [ndig (digsquare i)]
+        (if (> ndig 0)
+          nil
+          (cond (== 1 ndig) (aset refs i 1)
+                (== 89 ndig) (aset refs i 2)
+                :else nil))))))
+
+(defn ^long sdigsquare
+  [^long n]
+  (cond (== n 1) 0
+        (== n 89) 1
+        :else (sdigsquare (digsquare n))))
+
+(defn ^long sol92a
+  [^long lim]
+  (loop [i (int 1) res (int 0)]
+    (if (> i lim)
+      res
+      (recur (+ i 1) (+ res (sdigsquare i))))))
 
 
 

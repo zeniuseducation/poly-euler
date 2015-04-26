@@ -118,6 +118,29 @@
             [(+ a b) b]
             [a (+ a b)]))))))
 
+(def sol
+  (memoize
+    (fn [i cl lim cur]
+      (let [nums (map #(conj cur %) (if (== cl 1) [:a :o] [:a :l :o]))
+            ncur (->> nums
+                      (map #(vec (rest %)))
+                      (filter #(not-every? #{:a} %)))]
+        (if (== i (- lim 1))
+          (count ncur)
+          (->> ncur
+               (map #(recur (+ i 1)
+                            (if (== cl 1) cl (if (some #{:l} %) 1 0))
+                            lim %))
+               (reduce +)))))))
+
+(defn ^long tsol
+  [^long lim]
+  (->> (permutes [:a :l :o] 3)
+       (filter #(<= (count (filter (fn [x] (= :l x)) %)) 1))
+       (filter #(not-every? #{:a} %))
+       (pmap #(sol 3 (if (some #{:l} %) 1 0) lim %))
+       (reduce +)))
+
 
 
 

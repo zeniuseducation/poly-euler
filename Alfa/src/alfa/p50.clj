@@ -3,7 +3,8 @@
 		[clojure.set :refer [union difference intersection subset?]]
 		[clojure.core.reducers :as r]
 		[clojure.string :as cs]
-		[alfa.common :refer :all]))
+		[alfa.common :refer :all])
+	(:import (java.util Vector)))
 
 (defn ^long sol1
 	[^long lim]
@@ -170,6 +171,33 @@
 	[n]
 	(sum-digits (expt 2 n)))
 
+(defn proper-not-proper
+	[num]
+	(let [facs (filter #(== 0 (rem num %)) (range 1 (+ 1 (int (Math/sqrt num)))))]
+		(distinct (concat facs (map #(quot num %) (rest facs))))))
+
+(defn sumproper
+	[^long x]
+	(if (== 0 (rem x 2))
+		(loop [i (int 2) res (int 1)]
+			(if (>= (* i i) x)
+				(if (> (* i i) x)
+					res
+					(+ i res))
+				(recur (+ i 1)
+							 (if (== 0 (rem x i))
+								 (+ res i (quot x i))
+								 res))))
+		(loop [i (int 3) res (int 1)]
+			(if (>= (* i i) x)
+				(if (> (* i i) x)
+					res
+					(+ i res))
+				(recur (+ i 2)
+							 (if (== 0 (rem x i))
+								 (+ res i (quot x i))
+								 res))))))
+
 (defn sol33
 	[^long lim]
 	(->> (for [i (range 10 lim)
@@ -211,6 +239,35 @@
 	(rem (transduce
 				 (comp (map #(modex % % modi)))
 				 + (range 1 lim)) modi))
+
+(defn abundants
+	[^long lim]
+	(let [abuns (boolean-array (+ lim 1))
+				sumabuns (boolean-array (+ lim 1) true)]
+		(do (loop [i (int 1)]
+					(if (>= i lim)
+						nil
+						(do (let [propi (sumproper i)]
+									(aset abuns i (> propi i)))
+								(recur (+ i 1)))))
+				(loop [i (int 12) res (long (quot (* lim (- lim 1)) 2))]
+					(if (>= i (+ 1 (quot lim 2)))
+						res
+						(if (aget abuns i)
+							(let [tmp (loop [j (int i) resj (int 0)]
+													(let [jum (+ j i)]
+														(if (>= jum lim)
+															resj
+															(if (aget abuns j)
+																(if (aget sumabuns jum)
+																	(do (aset sumabuns jum false)
+																			(recur (+ j 1) (+ resj jum)))
+																	(recur (+ j 1) resj ))
+																(recur (+ j 1) resj)))))]
+								(recur (+ i 1) (- res tmp)))
+							(recur (+ i 1) res)))))))
+
+
 
 
 
