@@ -54,7 +54,7 @@ Prob: Find the sum of all multiples of 3 or 5 that less than 1000
 Clojure averaging 3.2 msecs  
 Clojure 1.7 0.08ms  
 SBCL averaging 0.3 msecs  
-Haskell averaging 10 msecs  
+Haskell 0.07ms
 Racket 1 msec  
 Java benchmark 0.05ms  
 C benchmark 0.05ms  
