@@ -69,7 +69,7 @@ Prob: Find the sum of even-valued fibo numbers less than 4,000,000
 Clojure 0.08 msecs  
 Clojure 1.7 0.04ms  
 SBCL less than 0.01 msecs   
-Haskell 0.06ms
+Haskell 0.06ms  
 Racket less than 1 msec  
 C Benchmark 0.03ms  
 Java benchmark 0.005ms  
@@ -87,7 +87,7 @@ Further optimised type-hinted Clojure 0.3-0.4ms
 SBCL 37-42 msecs  
 Type hinted SBCL 4-6ms  
 Further optimised SBCL 0.45ms  
-Haskell compiled optimised less than 10 ms    
+Haskell 0.5ms  
 SML 2 ms  
 Racket 50-60 ms  
 Typed Racket 6ms   
@@ -106,7 +106,7 @@ number (can be different numbers).
 Clojure 16-18 msecs  
 Clojure with memoization 0.01ms  
 SBCL 11-20 msecs  
-Haskell 30 msecs  
+Haskell 4ms  
 SML 3 msec  
 Julia 0.006ms  FAST! (using memoization)  
 Pypy 9ms  
@@ -118,7 +118,7 @@ integers from 1 to 20.
 
 Clojure 0.3 ms  
 SBCL 0.02 ms   
-Haskell ~10msecs  
+Haskell 0.07ms    
 Julia 0.01ms  
 Pypy 0.15ms  
 
@@ -128,7 +128,7 @@ Prob: Calculate the difference between the sum of squares of the first 100 natur
 
 Clojure 0.3-0.4 msecs  
 SBCL 0.01 msecs  
-Haskell (it seems that GHCi cannot time under 10msecs)  
+Haskell 0.1ms  
 Julia 0.004ms  
 Pypy 0.4ms  
 
@@ -145,7 +145,7 @@ Type hinted SBCL 24ms
 Type-hinted SBCL using sieves 2ms  
 Typed Racket 35-38ms  
 Typed Racket using sieve  2-4ms  
-Haskell 30 msecs   
+Haskell 25ms  
 SML 17 msecs  
 C Benchmark using sieve 0.9ms  
 Swift naive using Int32 10ms  
@@ -160,7 +160,6 @@ Prob: Find the largest product of 13 digits in a 1000 digits series
 Clojure 45-65 msecs    
 Clojure 1.7 3ms    
 SBCL 23 msecs  
-Haskell 100 msecs  
 Haskell 3ms  
 Julia 0.7ms  
 
@@ -171,7 +170,7 @@ Further optimised Clojure 0.4ms
 Crazy clojure technique 0.06ms  
 Type-hinted SBCL 3ms  
 Typed Racket 1ms  
-Haskell <10 ms  
+Haskell 13ms  
 SML 1 ms  
 C as benchmark 0.25ms  
 Java benchmark 2.5ms  
