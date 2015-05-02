@@ -69,7 +69,7 @@ Prob: Find the sum of even-valued fibo numbers less than 4,000,000
 Clojure 0.08 msecs  
 Clojure 1.7 0.04ms  
 SBCL less than 0.01 msecs   
-Haskell ~10 msecs  
+Haskell 0.06ms
 Racket less than 1 msec  
 C Benchmark 0.03ms  
 Java benchmark 0.005ms  
