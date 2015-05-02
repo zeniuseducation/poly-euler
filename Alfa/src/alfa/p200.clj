@@ -128,9 +128,9 @@
         (if (== i (- lim 1))
           (count ncur)
           (->> ncur
-               (map #(recur (+ i 1)
-                            (if (== cl 1) cl (if (some #{:l} %) 1 0))
-                            lim %))
+               (map #(sol (+ i 1)
+                          (if (== cl 1) cl (if (some #{:l} %) 1 0))
+                          lim %))
                (reduce +)))))))
 
 (defn ^long tsol
@@ -140,6 +140,85 @@
        (filter #(not-every? #{:a} %))
        (pmap #(sol 3 (if (some #{:l} %) 1 0) lim %))
        (reduce +)))
+
+(defn spfun
+  [x]
+  (* (Math/pow 2 (Math/floor (- 30.403243784 (* x x))))
+     1/1000000000))
+
+(defn sol197
+  [n]
+  (loop [i 0 un -1 uni -1]
+    (if (== i n)
+      (+ un uni)
+      (recur (+ i 1) uni (spfun uni)))))
+
+(def cal-perm
+  (memoize
+    (fn [mp]
+      (let [useful (filter #(< (val %) 3) mp)]
+        (count useful)))))
+
+(def bf-172
+  (memoize
+    (fn [mp x]
+      (let [all (reduce + (vals mp))]
+        (if (== all 10)
+          (cal-perm mp)
+          (let [useful (into {} (filter #(and (>= (key %) x)
+                                              (< (val %) 3)) mp))]
+            (transduce
+              (comp (map #(merge-with + mp {(key %) 1}))
+                    (map bf-172))
+              + useful)))))))
+
+(defn check
+  [mpv]
+  (== 12
+      (reduce + (map #(nth %1 %2) mpv (range 4)))
+      (reduce + (map #(nth %1 %2) mpv (reverse (range 4))))))
+
+(def bahan166
+  (->> (permutes (range 10) 4)
+       (group-by #(reduce + %))))
+
+(defn sol166a
+  [bahan n]
+  (let [satu (group-by first bahan)
+        dua (group-by second bahan)
+        tiga (group-by #(nth % 2) bahan)
+        empat (group-by #(nth % 3) bahan)]
+    (->> (for [b bahan
+               :let [lsatu (first b)
+                     ldua (second b)
+                     ltiga (nth b 2)
+                     lempat (nth b 3)]]
+           (->> (for [i (satu lsatu)
+                      :let [ixs (rest i)]]
+                  (->> (for [j (dua ldua)
+                             :let [jxs (rest j)
+                                   akj (map + ixs jxs)]
+                             :when (every? #(<= % n) akj)]
+                         (->> (for [k (tiga ltiga)
+                                    :let [kxs (rest k)
+                                          akk (map + kxs akj)]
+                                    :when (every? #(<= % n) akk)]
+                                (->> (for [l (empat lempat)
+                                           :let [lxs (rest l)
+                                                 akl (map + lxs akk)]
+                                           :when (and (every? #(== % n) akl)
+                                                      (check [i j k l]))] 1)
+                                     (reduce +)))
+                              (reduce +)))
+                       (reduce +)))
+                (reduce +)))
+         (reduce +))))
+
+(defn sol166
+  []
+  (reduce + (pmap #(do (println (key %))
+                      (sol166a (val %) (key %)))
+                 bahan166)))
 
 
 
