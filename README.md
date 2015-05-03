@@ -346,6 +346,7 @@ Prob: Very nice problem, find the max recurring digits of recyprocal 1/d where d
 Type-hinted Clojure 0.5-0.6ms  
 Type-hinted SBCL 1.2ms  
 Typed Racket 0.6-0.8ms  
+Haskell 11ms  
 SML 0.4-0.6ms  
 C as benchmark 0.12ms  
 Python for benchmark 8.7ms  
