@@ -312,6 +312,7 @@ Type-hinted Clojure 240-250ms
 Clojure 1.7 110ms  
 Type-hinted SBCL 275ms  
 Typed Racket 450-460ms  
+Haskell 14 seconds  
 C as benchmark 128ms    
 Julia 230ms  
 
