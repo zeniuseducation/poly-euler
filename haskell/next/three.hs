@@ -310,6 +310,18 @@ euler35 bates = (loop [[1],[7],[3],[9]] 1 [[1],[7],[3],[9]])
           where mentah = [xs ++ [x] | xs <- xss, x <- [1,3,7,9]]
                 hasil = filter isCprime mentah
 
+numToBin :: Int -> [Int]
+numToBin n
+  | n < 2 = [n]
+  | otherwise = (rem n 2) : numToBin (div n 2)
+
+isPalin :: Eq a => [a] -> Bool
+isPalin xs = xs == reverse xs
+
+euler36 :: Int -> Int
+euler36 lim = sum $ filter (\x-> (isPalin $ numToBin x) && isPalindrome x) [1..lim]
+
+
 
 time f x = do
   start <- getCurrentTime

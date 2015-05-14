@@ -93,7 +93,7 @@ def sol5(lim):
 def sol6(lim) :
     def square (x) :
         return x * x
-    return square(sum(range(1,lim+1))) - sum(map(square,range(1,lim+1)))
+    return square(sum (range (1,lim+1))) - sum ( map (square,range(1,lim+1)))
 
 def gcd(a,b) :
     if b == 0 :
@@ -170,5 +170,13 @@ def timex (f,x):
     tmp = f(x)
     print("--- %s seconds ---" % (time.time() - start_time))
     return tmp
+
                 
                     
+
+
+
+
+
+
+
