@@ -35,7 +35,7 @@ actually use Lisp itself a lot*."
 
 In every source code, time-elapsed for each solution will be listed.
 
-## Performance Comparison on MBA i5 1.6GHz
+## Performance Comparison on MBA i7 1.7GHz
 
 Implementations:  
 1. Clojure using Clojure (Mostly 1.7) on JDK 1.8 (Also used for Java)  
@@ -401,8 +401,9 @@ Julia 19ms
 Problem : How many ways we can write 200 as the sum of coins 1,2,5,10,20,50,100,200  
 
 Clojure using memoization 7.2ms & 0.1ms for subsequent calls  
+Clojure without memoization 3ms  
 Racket without memoization 5ms  
-Haskell 20-30ms  
+Haskell 4ms  
 SBCL 4ms  
 SML 3ms  
 C Benchmark 0.5ms  
