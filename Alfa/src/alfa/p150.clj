@@ -589,6 +589,31 @@
       res
       (recur (+ i 1) (+ res (sdigsquare i))))))
 
+;; no 141
+
+(defn split-divs
+  "Split the divisors of n into three seqs"
+  [^long n]
+  (partition-by #(== (Math/sqrt n) %) (divisors n)))
+
+(defn psqr-progressive
+  "Returns the list of perfect progressives from a,b,c"
+  [^long a ^long b ^long c]
+  (filter psqr? [(+ a (* b c)) (+ b (* a c))]))
+
+(defn sol141
+  [^long lim]
+  (let [llim (int (Math/sqrt lim))]
+    (loop [i (int 1) res #{}]
+      (if (> i lim)
+        (reduce + res)
+        (let [[a [b] c] (split-divs i)
+              resi (sequence
+                     (filter #(<= % lim))
+                     (mapcat #(psqr-progressive %1 b %2) a c))]
+          (recur (+ i 1) (union res resi)))))))
+
+
 
 
 

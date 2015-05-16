@@ -4,7 +4,8 @@
   :jvm-opts ^:replace []
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.7.0-alpha6"]
+  :dependencies [[org.clojure/clojure "1.7.0-beta3"]
+                 [defun "0.2.0-RC"]
                  [org.clojure/math.combinatorics "0.1.0"]
                  [org.clojure/math.numeric-tower "0.0.4"]])
 
