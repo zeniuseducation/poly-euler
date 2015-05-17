@@ -1,4 +1,3 @@
-
 defmodule E100 do
 	import Range
 	import Enum
