@@ -62,6 +62,7 @@ C benchmark 0.05ms
 Swift 0.018ms  
 Julia 0.008ms NEW RECORD!  
 Pypy 0.05ms  
+Elixir 0.1ms  
 
 ##### Problem no 2
 
@@ -77,6 +78,7 @@ Java benchmark 0.005ms
 Swift 0.004ms  
 Julia 0.004ms TIGHT with SWIFT!  
 Pypy 0.02ms  
+Elixir 0.008ms  
 
 ##### Problem no 3
 
@@ -98,6 +100,7 @@ Java as benchmark 5ms
 Swift 0.11ms NEW RECORD!!  
 Julia 0.16ms  
 Pypy 1.6ms  
+Elixir 3.5ms  
 
 ##### Problem no 4
 
