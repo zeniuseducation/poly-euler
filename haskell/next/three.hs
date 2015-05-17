@@ -323,6 +323,8 @@ euler36 lim = sum $ filter (\x-> (isPalin $ numToBin x) && isPalindrome x) [1..l
 
 
 
+
+
 time f x = do
   start <- getCurrentTime
   print $ f x
