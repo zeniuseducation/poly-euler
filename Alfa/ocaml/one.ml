@@ -6,7 +6,7 @@ let rec evenfibo a b res tar =
   then res
   else evenfibo (a+b) a(if 0 == a mod 2 then a else 0) tar;;
   
-let sumfibo tar = evenfibo 1 0 0 tar;;
+
   
 let oddPrime (p : int) = 
   let rec looper (i : int) = 

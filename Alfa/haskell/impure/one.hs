@@ -1,4 +1,4 @@
-module One where 
+module One where
 
 import Data.List
 import Data.Time
@@ -20,6 +20,7 @@ sum_primes lim =
         | prime' i = loop (i+2) (res+i)
         | otherwise = loop (i+2) res
   in loop 3 2
+  
 
 createTriad :: String -> [[Int]]
 createTriad raw =
@@ -82,7 +83,7 @@ sol4b lower upper = maximum sumber
         ispalin num = let numst = show num in numst == reverse numst
 
 sol11 :: [[Int]] -> Int
-sol11 xs = maximum [left,right, ldiag, rdiag] 
+sol11 xs = maximum [left,right, ldiag, rdiag]
   where left = maximum $
                map (\k -> maximum $
                           map (product.take 4) $
@@ -117,7 +118,7 @@ readp13 = do
 limfibo :: Integer
 limfibo = 10^999
 
-sol28 :: Int -> Int 
+sol28 :: Int -> Int
 sol28 lim = succ $ sum $ map (\x-> sum [x*x,x*x- (x-1).. succ $ (x-2)* (x-2)]) [3,5..lim]
 -- 0.4ms
 
@@ -168,10 +169,3 @@ time f x = do
   print $ f x
   stop <- getCurrentTime
   print $ diffUTCTime stop start
-
-
-
-
-
-
-

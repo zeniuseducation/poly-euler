@@ -50,28 +50,17 @@ defmodule E100 do
 
 	def sum_sieve(lim) do
 		refs = take(Stream.cycle([true]), lim+1)
-		llim = Float.ceil(:math.sqrt(lim))
-		iter_j = fn(j, step) ->
-			if j > lim do
-				false
-			else
-				replace_at(refs,j,false);
-				iter_j.(j+step, step)
+		llim = round(Float.ceil(:math.sqrt(lim)))
+		for i <- :lists.seq(3,llim,2) do
+			if at(refs,i) do
+				if i <= llim do
+					for j <- :lists.seq(i*i,lim,2*i) do
+						refs = replace_at(refs,j,false)
+					end
+				end
 			end
 		end
-		iter_i = fn(i, res) ->
-			cond do
-				i > lim -> res
-				at(refs,i) -> if i <= llim do
-												iter_j.(i*i, 2*i);
-												iter_i.(i+2,i+res);
-											else
-												iter_i.(i+2, i+res)
-											end
-				true -> iter_i.(i+2, res)
-			end
-		end
-		iter_i(3,2)
+		sum(filter(:lists.seq(3,lim,2), fn(x) -> at(refs, x) end))
 	end
 
 	def timex(f, i) do

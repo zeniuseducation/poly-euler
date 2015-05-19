@@ -321,10 +321,6 @@ isPalin xs = xs == reverse xs
 euler36 :: Int -> Int
 euler36 lim = sum $ filter (\x-> (isPalin $ numToBin x) && isPalindrome x) [1..lim]
 
-
-
-
-
 time f x = do
   start <- getCurrentTime
   print $ f x
