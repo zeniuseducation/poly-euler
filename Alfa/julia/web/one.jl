@@ -6,7 +6,7 @@ app = Morsel.app()
 tmpl = open (readall,"one.html")
 
 route(app, GET | POST | PUT, "/<user>") do req, res
-    nama = convert (ASCIIString, req.state [:route_params] ["user"])
+    nama = convert (ASCIIString, req.state [:routeparam] ["user"])
     render (tmpl,{"nama" => nama})
 end
 

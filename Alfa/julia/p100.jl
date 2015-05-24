@@ -1413,5 +1413,66 @@ function sol87 (lim::Int)
  end
 
 
+function lupa_sieve (lim :: Int)
+    refs = trues(lim)
+    llim :: Int = isqrt (lim)
+    res :: Int = 2
+    for i in 3:2:lim
+        if refs [i]
+            if i <= llim
+                for j in (i*i):2*i:lim
+                    refs [j] = false
+                end
+            end
+            res += i
+        end
+    end
+    return res
+end
+
+function sqr (x :: Int)
+    x*x
+end
+
+function distance (p1,p2)
+    (x1,y1) = p1
+    (x2,y2) = p2
+    sqr (x2-x1)+sqr (y2-y1)
+end
+
+function psqr (n::Int)
+    sqrt (n) == isqrt (n)
+end
+
+function sol91 (n::Int)
+    res :: Int = 0
+    for x1 in 0:n
+        for y1 in 0:n
+            p1 = [x1,y1]
+            a = distance (p1,[0,0])
+            if p1 != [0,0] 
+                for x2 in 0:n
+                    for y2 in 0:n
+                        p2 = [x2,y2]
+                        if (p2 != [0,0]) && (p2 != p1)
+                            b = distance (p2,[0,0])
+                            c = distance (p1,p2)
+                            if (a == b+c) || (b == a+c) || (c == a+b)
+                                res += 1
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    div (res,2)
+end
+
+function sol98()
+    tmp = split (open (readall, "p98.txt"), ",")
+    tmp = map (x -> chop (x [2:end]), tmp)
+end
+
 
 

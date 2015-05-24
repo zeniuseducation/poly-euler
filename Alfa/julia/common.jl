@@ -285,5 +285,13 @@ function cubperm (n::Int)
     [(colnum (tmp)),(length (tmp))]
 end
 
+function ispandig (xs :: Array)
+    m = length (xs)
+    sort (xs) == [1:m]
+end
 
-    
+function pandig9 (xs :: Array)
+    sort (xs) == [1:9]
+end
+
+

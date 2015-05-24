@@ -486,7 +486,7 @@ function sol145 (start::Int,lim::Int)
 end
 
 function sol113(lim :: Int)
-    function up (n :: Int, dig :: Int )
+    @memoize function up (n :: Int, dig :: Int )
         if dig == 1
             return 1
         else
@@ -494,7 +494,7 @@ function sol113(lim :: Int)
         end
     end
 
-    function down (n::Int, dig ::Int)
+    @memoize function down (n::Int, dig ::Int)
         if dig==2
             if n==0
                 return 1
@@ -716,6 +716,9 @@ function sol145 (lim::Int)
         if length (tmpj) == length (tmp)
             if all (isodd,digits (tmp1+tmp2))
                 res += 1
+                if res % 1000 == 0
+                    println (i)
+                end
             end
         end
     end
@@ -756,6 +759,27 @@ function sol102 ()
     print (length (tmp1))
     return length(filter (check,tmp1))
 end
+
+function sol104()
+    i :: Int,a :: BigInt ,b :: BigInt = 1,1,1
+    lim :: BigInt = ^(BigInt (10),9)
+    while true
+        if a > lim 
+            tmp = digits (a)
+            if pandig9(tmp [1:9])
+                println (i)
+                if pandig9 (tmp [end-8:end])
+                    return i
+                end
+            end
+        end
+        i += 1
+        atmp = a
+        a += b
+        b = atmp
+    end
+end
+    
 
 
 
