@@ -6,21 +6,21 @@ const int true = 1;
 const int false = 0;
 
 long sum_sieves (int lim) {
-	int refs[2000000] = {0};
-	int i = 3, llim = ceil(sqrt(lim));
-	long res = 0;
+	short refs[2000001] = {0};
+	int i = 3, llim = sqrtl(lim);
+	long res = 2;
 	while (i < lim) {
-		if ((i <= llim) && (!refs[i])) {
-			for (int j = i*i; j < lim; j += (2*i)) {
-				refs[j] = true;
-			};
-		};
 		if (!refs[i]) {
 			res += i;
+			if (i <= llim) {
+				for (int j = i*i; j < lim ; j += (2*i)) {
+					refs[j] = true;
+				}
+			}
 		};
 		i += 2;
 	}
-	return 2+res;
+	return res;
 }
 
 int nth_sieves (int m, int n) {
@@ -575,8 +575,8 @@ int main(int argc, char *argv[]) {
 	double time_spent;
 
 	begin = clock();
-    int tmp = disprime(11,4);
-	printf("%d", tmp);
+    long tmp = sum_sieves(2000000);
+	printf("%ld", tmp);
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 

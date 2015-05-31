@@ -393,6 +393,38 @@ function sol76 (lim :: Int)
     intpartition (lim,lim-1)
 end
 
+function sol76a (lim :: Int)
+    m = Array (Dict,lim)
+    for k = 1:lim
+        m [k] = Dict ()
+    end
+    function iter (n :: Int, i :: Int)
+        if n == 0
+            return 1
+        elseif i < 1
+            return 0
+        elseif i == 1
+            return 1
+        else
+            tmpres = get (m [i],n,-1)
+            if tmpres >= 0
+                return tmpres
+            else 
+                res :: Int = 0
+                mapi = m [i-1]
+                for j in map (x -> i*x, 0:div (n,i))
+                    res += get(mapi,n- j, iter (n-j, i-1))
+                end
+                merge!(m [i],{n => res})
+                return res
+            end
+        end
+    end
+    return iter (lim, lim-1)
+end
+
+
+
 function sol73 (lim::Int)
     res :: Int = 0
     for i = 5:lim
@@ -1474,5 +1506,73 @@ function sol98()
     tmp = map (x -> chop (x [2:end]), tmp)
 end
 
+@memoize function cat_prime (a :: Int, b :: Int)
+    avec = numcol (a)
+    bvec = numcol (b)
+    isprime (colnum (vcat (avec,bvec))) && isprime (colnum (vcat (bvec,avec)))
+end
 
+function sol60 (lim :: Int, times :: Int)
+    bahan = primes (lim) [2:end]
+    res = Set []
+    for p in bahan
+        push! (res,Set (p))
+    end
+    
+    for i = 1:times
+        tmpres = Set []
+        for r in res
+            for p in bahan
+                if all (x -> cat_prime (x,p), r)
+                    push! (tmpres,union (r,Set (p)))
+                end
+            end
+        end
+        res = Set (tmpres)
+    end
+    return minimum (map (x-> sum (x), res))
+end
+
+function sol60a (lim :: Int, times :: Int)
+    refs = map (x -> [x], 1:lim)
+    prs = trues (lim)
+    llim :: Int = isqrt (lim)
+    res = Array []
+    for i = 3:2:lim
+        if prs [i]
+            if i <= llim
+                for j = (i*i):2*i:lim
+                    prs [j] = false
+                end
+            end
+            for p = 3:2:i-1
+                if all (x -> cat_prime (i,x), refs [p])
+                    refs [p] = push! (refs [p],i)
+                    woops = refs [p]
+                    if length (woops) == times
+                        push! (res, woops)
+                    end
+                end
+            end
+        end
+    end
+    return minimum (map (x -> sum (x), res))
+end
+
+function polygonals(f, i :: Int, j :: Int)
+    n :: Int = 1
+    res = Int []
+    while true
+        it = f (n)
+        if it > j
+            return res
+        else
+            if it > i
+                push! (res, it)
+            end
+        end
+        n += 1
+    end
+    return res
+end
 

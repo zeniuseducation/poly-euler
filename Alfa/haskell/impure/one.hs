@@ -156,16 +156,45 @@ allprime' n =
 factmod :: Int -> Int -> Int
 factmod _ 0 = 1
 factmod _ 1 = 1
-factmod m x = rem (factmod $ x-1) m
+factmod m x = rem (factmod m $ x-1) m
 
 factmods m = (!!) (map (factmod m) [0..])
 
 sol15 size = take size $
              iterate (\x -> map (\(a,b) -> a+b) $ zip (0:x) (x ++ [0])) [1]
 
+coins :: [Int]
+coins = [1,2,5,10,20,50,100,200]
+
+-- solution no 31
+sumCoins :: Int -> Int -> Int
+sumCoins amount i
+  | amount == 0 = 1
+  | i == 0 = 1
+  | otherwise = sum $ map (\x -> sumCoins (amount-x) (pred i)) bahan
+  where coin = coins !! i
+        bahan = takeWhile (\x -> x <= amount) $ map (\x -> coin*x) [0..]
+
+sol31 :: Int -> Int
+sol31 amount = sumCoins amount 7
+
+sumInt :: Int -> Int -> Int
+sumInt n i
+  | n == 0 = 1
+  | i == 1 = 1
+  | otherwise = sum $ map (\x -> sumInt (n-x) (pred i)) bahan
+  where bahan = takeWhile (\x -> x <= n) $ map (\x -> i*x) [0..]
+
+euler76 :: Int -> Int
+euler76 target = sumInt target (pred target)
 
 time f x = do
   start <- getCurrentTime
   print $ f x
   stop <- getCurrentTime
   print $ diffUTCTime stop start
+
+
+
+
+

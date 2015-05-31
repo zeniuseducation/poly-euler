@@ -34,7 +34,7 @@ function nextprime (n::Int)
         end
     elseif prime (n+2)
         return n+2
-    else 
+    else
         return nextprime (n+2)
     end
 end
@@ -293,5 +293,31 @@ end
 function pandig9 (xs :: Array)
     sort (xs) == [1:9]
 end
+
+function permutes(xs, times :: Int)
+    res = map (x -> [x], xs)
+    for i  = 1:times-1
+        tmpres = []
+        for r in res
+            tmpvcat = map (x -> vcat (r, [x]), xs)
+            tmpres = vcat (tmpres, tmpvcat)
+        end
+        res = tmpres
+    end
+    return res
+end
+
+function hexagon (n :: Int)
+    n * (2*n-1)
+end
+
+function heptagon (n :: Int)
+    div (n * (5*n-3), 2)
+end
+
+function octagon (n :: Int)
+    n * (3*n-2)
+end
+
 
 

@@ -44,7 +44,8 @@ int find_cycle (int n) {
 				i = rems;
 				res2++;
 			} else {
-				refs[i] = true;								i = rems;
+				refs[i] = true;								
+				i = rems;
 				res++;
 			}
 			
