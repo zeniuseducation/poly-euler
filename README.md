@@ -273,11 +273,16 @@ Pypy 2ms
 ##### Problem 17
 
 Julia 2ms  
+Haskell 1ms  
 
 ##### Problem 18
 
 Clojure 1ms  
 Julia 0.2ms  
+Haskell 1ms  
+
+##### Problem 19 
+
 Haskell 1ms  
 
 ##### Problem no 20
@@ -462,6 +467,7 @@ Clojure 45-54ms
 SBCL 4,700 ms  
 SBCL v2 3ms   
 Haskell 770ms    
+Haskell v2 2.6ms  
 SML 860ms  
 SML v2 ~1ms  
 Julia 1.3ms  
