@@ -3,6 +3,7 @@ module Three where
 import Data.List
 import Data.Time
 import qualified Data.Map as Map
+import Common
 
 toWords :: Int -> String
 toWords n
@@ -54,10 +55,70 @@ euler19b dates = length $ filter (\ (a,b,c) -> a == 1) $
                  takeWhile (\ (a,b,c) -> c < 2001) $
                  iterate nextSunday dates
 
+bincol :: Int -> [Int]
+bincol n = iter n []
+  where iter i res
+          | i < 2 = i : res
+          | otherwise = iter (div i 2) (rem i 2 : res)
+
+isPalin :: Eq a => [a] -> Bool
+isPalin xs = xs == reverse xs
+
+binPalin :: Int -> Bool
+binPalin n = (isPalin . bincol) $ n
+
+euler36 :: Int -> Int
+euler36 lim = (listPalin oddConvert lim) + (listPalin evenConvert lim)
+  where oddConvert n = let ncol = toDigits n
+                       in toNumber $ ncol ++ (reverse $ init ncol)
+        evenConvert n = let ncol = toDigits n
+                        in toNumber $ ncol ++ (reverse ncol)
+        listPalin f lim = sum $ filter binPalin $ map f [1..lim]
+
+createFun a b = \x -> x^2 + a*x + b
+
+consPrime :: (Int,Int) -> Int
+consPrime (a,b) = let f = createFun a b
+                  in length $ takeWhile prime' $ map f [0..]
+
+euler27 :: Int -> (Int,Int)
+euler27 lim = maxBy consPrime [(a,b)| a <- [-999,-997..lim], b <- primesUnder lim]
+
+-- it returns true if xs is either a left/right-truncatable primes
+-- left/right truncatability depends on function f, for left it's init
+-- and tail for right
+lrPrime xs f = all prime' $ map toNumber $ takeWhile (not.null) $ iterate f xs
+
+lrPrime' n f = all prime' $ map toNumber $ takeWhile (not.null) $ iterate f $ toDigits n
+
+euler37' :: Int -> Int
+euler37' target = iter [2,3,5,7] []
+  where iter bahan res
+          | length res >= target = sum res
+          | otherwise = iter lPrimes $ res ++ filter (\x -> lrPrime' x tail) lPrimes
+          where lPrimes = filter (\x -> lrPrime' x init) [a*10+b | a <- bahan, b <- [1,3,7,9]]
+
+euler37 :: Int -> Int
+euler37 target = iter (map (\x -> [x]) [2,3,5,7]) []
+  where iter bahan res
+          | length res >= target = sum $ map toNumber res
+          | otherwise = iter lPrimes $ res ++ filter (\x -> lrPrime x tail) lPrimes
+          where lPrimes = filter (\x -> lrPrime x init)
+                          [a++ [b] | a <- bahan, b <- [1,3,7,9]]
+
+euler38 :: [Int] -> Int
+euler38 xs = maximum $ map toNumber $ filter pandig' result
+  where result = [[9]++a++ (toDigits $ 2*c) | a <- permutate xs 3, let c = toNumber $ 9:a]
+
 time f x = do
   start <- getCurrentTime
   print $ f x
   stop <- getCurrentTime
   print $ diffUTCTime stop start
+
+
+
+
+
 
 
