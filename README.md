@@ -480,6 +480,7 @@ SBCL proto-memoize 0.4ms
 Clojure 1,500ms    
 Clojure v2 1.3-2.5ms  
 Haskell 720ms    
+Haskell 0.5ms  
 SML ~1ms  
 Julia 2ms  
 
@@ -487,7 +488,7 @@ Julia 2ms
 
 SBCL 0.1ms  
 Clojure 1-2ms  
-Haskell < 10ms  
+Haskell 0.2ms  
 SML < 1ms  
 Julia 0.08ms  
 
