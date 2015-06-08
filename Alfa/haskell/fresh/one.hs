@@ -68,9 +68,24 @@ sol48 :: Integral a => a -> a -> a
 sol48 lim modi = rem (sum $ map (\x-> modex x x modi) [1..lim]) modi
 
 
+sol22 raw =
+  let bahan :: [(String,Int)]
+      bahan = zip raw [1..]
+      refs = zip "ABCDEFGHIJKLMNOPQRSTUVWXYZ" [1..]
+      allInt x = case x of
+                      Just x -> x
+                      Nothing -> 0
+      score (x,sc) = sc * (sum $ map allInt (map (\k -> lookup k refs) x))
+  in sum $ map score bahan
 
-time f x y = do
+readp22 = do
+  input <- readFile "p22.txt"
+  let tmp = sort $ read input :: [String]
+      res = sol22 tmp
+  return res
+
+time f = do
   start <- getCurrentTime
-  print $ f x y
+  print $ f
   stop <- getCurrentTime
   print $ diffUTCTime stop start

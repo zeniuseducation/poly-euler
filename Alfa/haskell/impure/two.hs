@@ -88,8 +88,6 @@ wall ls@(x:xs)
 
 walls = map (rest.init) $ wall [32]
 
-
-
 time f x i howmany = do
   start <- getCurrentTime
   print $ f x i howmany

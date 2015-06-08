@@ -16,7 +16,11 @@
 
 (defn pascalim
   [^long lim ^long llim]
-  (take lim (iterate #(vec (take-while (fn [x] (<= x llim)) (cons 1 (map +' % (conj (vec (rest %)) 0))))) [1 1])))
+  (->> [1 1]
+       (iterate #(->> (cons 1 (map +' % (conj (vec (rest %)) 0)))
+                      (take-while (fn [x] (<= x llim)))
+                      vec))
+       (take lim)))
 
 (defn sol53
   [^long lim]
@@ -110,6 +114,15 @@
                 (recur (+ i 2) (+ res i)))
             (recur (+ i 2) (+ res i)))
           (recur (+ i 2) res))))))
+
+(def blocks
+  "The blocks for the monopoly stuff"
+  (for [i (range 10)
+        j (range 10)
+        :when (<= (+ (* 10 i) j) 39)]
+    (str i j)))
+
+
 
 
 

@@ -5,13 +5,13 @@ import Data.Time
 import Data.List.Split
 
 prime' :: Int -> Bool
-prime' n =
+prime' n = 
   let lim = ceiling $ sqrt $ fromIntegral n
       loopi i
         | i > lim = True
         | 0 == rem n i = False
         | otherwise = loopi $ i + 2
-  in loopi 3
+  in if n < 2 then False else if n == 2 then True else if even n then False else loopi 3
 
 sum_primes :: Int -> Int
 sum_primes lim =
@@ -187,6 +187,36 @@ sumInt n i
 
 euler76 :: Int -> Int
 euler76 target = sumInt target (pred target)
+
+numcol :: Int -> [Int]
+numcol n = iter n []
+  where iter i res
+          | i < 10 = i:res
+          | otherwise = iter (div i 10) ((rem i 10):res)
+
+colnum :: [Int] -> Int
+colnum lst = iter lst 0
+  where iter [] 0 = 0
+        iter (x: []) res = x + (10*res)
+        iter (x:xs) res = iter xs (x+10*res)
+
+lPrime :: Int -> Bool
+lPrime n = all (prime' . colnum) $ takeWhile (not . null) $ iterate init $ numcol n
+
+rPrime :: Int -> Bool
+rPrime n = all (prime' . colnum) $ takeWhile (not . null) $ iterate tail $ numcol n
+
+tPrime :: Int -> Bool
+tPrime n = lPrime n && rPrime n
+
+sol37 :: Int -> [Int]
+sol37 i = iter [2,3,5,7] []
+  where iter :: [Int] -> [Int] -> [Int]
+        iter xs res
+          | i <= length res = res
+          | otherwise = iter lprimes (tprimes ++ res)
+          where lprimes = filter lPrime [colnum $ x: (numcol y) | x <- [1,3,7,9] , y <- xs]
+                tprimes = filter rPrime lprimes
 
 time f x = do
   start <- getCurrentTime

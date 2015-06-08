@@ -325,12 +325,12 @@ function sieve (lim :: Int)
     result :: Array = [2]
     for i = 3:2:lim
         if is_prime [i]
+            push! (result,i)
             if i <= llim
                 for j = i*i:2*i:lim
                     is_prime [j] = false
                 end
-            end
-            push! (result,i)
+            end 
         end
     end
     return result
