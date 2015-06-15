@@ -110,6 +110,79 @@ euler38 :: [Int] -> Int
 euler38 xs = maximum $ map toNumber $ filter pandig' result
   where result = [[9]++a++ (toDigits $ 2*c) | a <- permutate xs 3, let c = toNumber $ 9:a]
 
+
+digNums = scanl1 (+) (0:zipWith (*) [1..] (map (\x -> 9*10^x) [0..]))
+
+refs = map (\x -> 10^x - 1) [0..]
+
+numDigs :: Integer -> [Integer]
+numDigs i = iter i []
+  where iter n res
+          | n < 10 = n:res
+          | otherwise = iter (div n 10) (rem n 10 : res)
+
+digNum :: Int -> Int
+digNum i = hasil
+  where weter = takeWhile (< i) digNums
+        numOfs = length weter
+        jums = (-) i (last weter)
+        rems = rem jums numOfs
+        divs = if rems == 0
+               then pred $ div jums numOfs
+               else div jums numOfs
+        hasil = (toDigits $ ((!!) refs (pred numOfs) + (succ divs))) !! if rems == 0 then pred numOfs else (pred rems)
+
+-- this one is very very cool 0.05ms
+sol40 :: [Int] -> Int
+sol40 xs = product $ map digNum $ map (10^) xs
+
+pandig :: Int -> Bool
+pandig n = xs == [1..7]
+  where xs = sort $ toDigits n
+
+sol41 :: Int -> Int
+sol41 start = maximum $ filter pandig $ filter prime' [start..10^7]
+
+-- this one runs in only 13ms
+sol41b :: [Int] -> Int
+sol41b lim = maximum $ filter prime' $ map toNumber $ permutations lim
+
+modex :: Int -> Int -> Int -> Int
+modex a m modi
+  | m == 0 = 1
+  | m == 1 = rem a modi
+  | even m = rem (tmp * tmp) modi
+  | otherwise = rem (a * tmp * tmp) modi
+  where tmp = modex a (div m 2) modi
+
+sol48 modi = rem (sum [modex i i modi | i <- [1..1000]]) modi
+
+rapihin :: String -> [String]
+rapihin st = iter st [] []
+  where iter [] resi res = filter (not.null) (resi:res)
+        iter (x:xs) resi res
+          | elem x ['A'..'Z'] = iter xs (x:resi) res
+          | otherwise = iter xs [] (resi:res)
+
+value :: String -> Int
+value xs = sum $ map convert $ map (\x -> lookup x mp) xs
+  where mp = zip ['A'..'Z'] [1..]
+        convert x = case x of
+          Just x -> x
+          Nothing -> 0
+
+triangles :: [Int]
+triangles = scanl1 (+) [1..]
+
+elemMax :: Int -> [Int] -> Bool
+elemMax x xs = elem x $ takeWhile (<= x) xs
+
+-- runs in 10ms
+readp42 = do
+  input <- readFile "p42.txt"
+  let tmp = length $ filter (\x-> elemMax x triangles) $ map value $ rapihin input
+  return tmp
+
 time f x = do
   start <- getCurrentTime
   print $ f x

@@ -332,7 +332,7 @@ function crazy (lim::Int)
     end
 end
 
-function sol193 (lim::Int)
+function sol193a (lim::Int)
     refs = trues (lim)
     llim = isqrt (lim)
     res :: BigInt = BigInt (ifloor (0.75 * lim * lim))
@@ -392,5 +392,13 @@ function sol188 (a:: Int, b::Int, modi::Int)
 
     hyper_expt (a,b)
 end
+
+
+
+
+
+
+
+
 
 

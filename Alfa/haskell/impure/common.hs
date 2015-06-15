@@ -44,3 +44,9 @@ permutate xs n = iter (map (\x -> [x]) xs) 1
           | otherwise = iter [r ++ [a] | r <- res ,
                               a <- Set.toList $
                                    Set.difference setXs (Set.fromList r)] (succ i)
+
+
+
+
+
+
