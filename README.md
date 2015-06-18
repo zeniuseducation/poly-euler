@@ -821,6 +821,7 @@ Clojure 1ms (memoized)
 ##### Problem no 173 
 
 Clojure 0.163 sec  
+Clojure loop version 39ms  
 Haskell 8.3 sec  
 Julia 23ms  
 
