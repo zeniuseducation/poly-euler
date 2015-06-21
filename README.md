@@ -520,12 +520,17 @@ Clojure 2ms (fast)
 Common Lisp 0.15ms (Uberfast!)  
 Julia 1.3ms  
 
+##### Problem 42 
+
+Haskell 10ms  
+
 ##### Problem 43 
 
 Substring divisibility 
 
 SBCL 0.5ms  
 Julia 1ms  
+Haskell 51ms  
 
 ##### Problem 44
 
@@ -565,6 +570,7 @@ Julia 1.7ms
 
 SBCL 0.3 ms  
 Julia 1.5ms  
+Haskell 1.4ms  
 
 ##### Problen no 51
 
@@ -876,6 +882,10 @@ Clojure 249ms  (once the crack matrix has been built)
 
 Clojure 2.3 sec  
 SBCL 1.4 sec  
+
+##### Problem 249 
+
+Clojure 1001seconds  
 
 ##### Problem 286 
 
