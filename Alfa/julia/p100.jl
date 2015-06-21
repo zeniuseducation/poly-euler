@@ -1577,3 +1577,47 @@ function polygonals(f, i :: Int, j :: Int)
 end
 
 
+function read54()
+    tmp = map(words, map (chop,open (readlines,"p54.txt")))
+end
+
+function suits(hand)
+    map (x-> x [2:2], hand)
+end
+    
+
+function ranks (hand)
+    rankings = map (x -> x [1], hand)
+    dic = {'T' => 10, 'J' => 11, 'Q' => 12, 'K' => 13, 'A' => 14}
+    res :: Array = Int []
+    for r in rankings
+        if in (r,"123456789")
+            push! (res,int (r)-48)
+        else
+            push! (res,dic [r])
+        end
+    end
+    return res 
+end
+
+function isstraight (hand)
+    tmp = sort(map (x-> x [1], ranks (hand)))
+    tmp == [(tmp [1]):(tmp [1]+4)]
+end
+
+function isflush (hand)
+    tmp = suits (hand)
+    all (x -> x == tmp [1], tmp)
+end
+
+function isstrflush (hand)
+    isflush (hand) && isstraight (hand)
+end
+
+function royalflush (hand)
+    tmp = sort (map (x->x [1], ranks (hand)))
+    tmp [1] == 10 && isflush (hand) && isstraight (hand)
+end
+
+    
+

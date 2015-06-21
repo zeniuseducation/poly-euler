@@ -45,6 +45,18 @@ permutate xs n = iter (map (\x -> [x]) xs) 1
                               a <- Set.toList $
                                    Set.difference setXs (Set.fromList r)] (succ i)
 
+nextPrime :: Int -> Int
+nextPrime n
+  | n < 2 = 2
+  | n == 2 = 3
+  | otherwise = loopi n
+  where loopi i
+          | even i = if prime'(i+1) then i+1 else loopi $ succ i
+          | prime' (i+2) = i+2
+          | otherwise = nextPrime $ i + 2
+
+permutation' :: Int -> Int -> Bool
+permutation' a b = (sort (toDigits a)) == (sort (toDigits b))
 
 
 

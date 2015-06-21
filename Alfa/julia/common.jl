@@ -53,7 +53,7 @@ end
 
 function prevprime (n::Int)
     if n < 2
-        return 2
+        return 0
     elseif n == 2
         return 2
     elseif n== 3
@@ -364,6 +364,48 @@ function sumprimes(lim :: Int)
     end
     return result
 end
+
+function mergewith (f, m1 :: Dict, m2 :: Dict)
+    km1 = keys (m1)
+    km2 = keys (m2)
+    res :: Dict = Dict ()
+    for k in km1
+        if haskey (m2, k)
+            res [k] = f (m1 [k], m2 [k])
+        else
+            res [k] = m1 [k]
+        end
+    end
+    for k in km2
+        if !haskey (m1,k)
+            res [k] = m2 [k]
+        end
+    end
+    return res
+end
+
+function words (s :: String)
+    res :: Array = String []
+    resi = ""
+    for w in s
+        if w == ' '
+            if resi != ""
+                push! (res,resi)
+                resi = ""
+            end
+        else
+            resi = string (resi,w)
+        end
+    end
+    if resi != ""
+        push! (res, resi)
+    end
+    return res
+end
+
+
+
+
 
 
 

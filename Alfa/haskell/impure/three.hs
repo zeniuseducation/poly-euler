@@ -3,6 +3,7 @@ module Three where
 import Data.List
 import Data.Time
 import qualified Data.Map as Map
+import qualified Data.Set as Set
 import Common
 
 toWords :: Int -> String
@@ -182,6 +183,25 @@ readp42 = do
   input <- readFile "p42.txt"
   let tmp = length $ filter (\x-> elemMax x triangles) $ map value $ rapihin input
   return tmp
+
+sol43 :: [Int] -> Int
+sol43 bahan = loopi (permutate bahan 3) 2 1
+  where sbahan = Set.fromList bahan
+        loopi bhn p r
+          | p == 19 = sum $ map toNumber bhn
+          | otherwise = loopi remo (nextPrime p) $ succ r
+          where result = [xs++ [x] | xs <- bhn , x <- Set.toList (Set.difference sbahan (Set.fromList xs))]
+                remo = filter (\x -> 0 == rem (toNumber (drop r x)) p) result
+                
+sol49 :: Int -> Int
+sol49 diff = loopi (nextPrime 1000)
+  where loopi n
+          | n == 1487 = loopi $ n + 2
+          | prime' n && permutation' n1 n && prime' n1 && permutation' n2 n && prime' n2 =
+            toNumber $ (toDigits n) ++ (toDigits n1) ++ (toDigits n2)
+          | otherwise = loopi $ n + 2
+          where n1 = n + diff
+                n2 = n1 + diff 
 
 time f x = do
   start <- getCurrentTime

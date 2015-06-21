@@ -26,7 +26,7 @@ function wall (ls)
     end
 end
 
-function sol249 (lim :: Int)
+function sol249b (lim :: Int)
     prs = sieve (lim)
     rprs = reverse (prs)
     refs = sieve (sum (prs))
@@ -66,6 +66,122 @@ function sol249 (lim :: Int)
     end
     return resti
 end
+
+function sol249 (lim :: Int)
+    modi :: BigInt = ^(10,16)
+    prs :: Array = sieve (lim)
+    npr :: Dict = Dict ()
+    nprs :: Dict = Dict ()
+    nprss :: Dict = Dict ()
+
+    function mergi (x,y)
+        return rem (x+y, modi)
+    end
+    
+    for p in prs
+        tmp = keys (npr)
+        tmp1 = map (x-> x+p, tmp)
+        nprs = Dict ()
+        for t in tmp1
+            nprs [t] = npr [t-p]
+        end
+        nprs = mergewith (+, nprs,{p => 1})
+        nprss = mergewith (mergi, npr,nprs)
+        npr = nprss
+        println (p)
+    end
+    res :: BigInt = 0
+    for p in nprss
+        if prime (p [1])
+            res += p [2]
+            if res > modi
+                res %= modi
+            end
+        end
+    end
+    return rem (res,modi)
+end
+
+
+#=  (defn sol249d
+   [^long lim]
+     (loop [[x & xs] primes npr {}]
+      (if x
+       (let [nprs (->> (map #(+ x %) (keys npr))
+                        (map #(vector % (npr (- % x))))
+                         (into {})
+                         (merge-with + {x 1}))
+                        nprss (merge-with +' npr nprs)]
+                   (do (println x)
+                    (recur xs nprss)))
+             (loop [[i & is] (keys npr) res (bigint 0)]
+              (if i
+               (if (aget refs i)
+                (recur is (rem (+ res (npr i)) modi))
+                (recur is res))
+               res)))))))
+               =#
+
+function index (n::Int,a::Array)
+    i :: Int = 1
+    for p in a
+        if p == n
+            return i
+        end
+        i += 1
+    end
+end
+
+
+function sol249c (lim :: Int)
+    prs = sieve (lim)
+    refs = zeros (Int,sum (prs))
+    for i = 1:length (prs)
+        p = prs [i]
+        refs [p] += 1
+        for r in prs [(1+i):end]
+            refs [p+r] += 1
+        end
+    end
+    res :: Int = 0
+    modi :: Int = 10^16
+    for i = 1:length (refs)
+        if prime (i)
+            res += refs [i]
+            if res > modi
+                res -= modi
+            end
+        end
+    end
+    return res
+end
+
+function sol249d (lim :: Int)
+    prs = sieve (lim)
+    refs = sieve (sum (prs))
+    modi :: BigInt = ^(BigInt (10),16)
+    @memoize function check (n :: Int)
+        if n == 0
+            return BigInt (1)
+        elseif n == 1
+            return BigInt (0)
+        elseif n < 0
+            return BigInt (0)
+        elseif in (n,prs)
+            return BigInt (1)
+        else
+            p = prevprime (n)
+            r = n-p
+            return check (r) + check (prevprime (r))
+        end
+    end
+
+    return length (prs)+ rem (BigInt (sum (map (check, refs))), modi)
+end
+
+
+
+
 
 
 

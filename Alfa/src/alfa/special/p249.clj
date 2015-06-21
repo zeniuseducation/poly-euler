@@ -36,25 +36,25 @@
         llim (reduce + (sieve lim))
         lllim (int (Math/sqrt llim))
         refs (boolean-array (inc llim) true)]
-    (do (doseq [i (range 3 (inc lllim) 2)
+    (do (doseq [i (range 2 (inc lllim))
                 :when (aget refs i)]
           (doseq [j (range (* i i) (inc llim) i)]
             (aset refs j false)))
-        (loop [[x & xs] primes sum (bigint (count primes)) npr {}]
+        (loop [[x & xs] primes npr {}]
           (if x
             (let [nprs (->> (map #(+ x %) (keys npr))
                             (map #(vector % (npr (- % x))))
                             (into {})
                             (merge-with + {x 1}))
-                  nprss (merge-with +' npr nprs)
-                  resi (for [i (filter even? (keys nprs)) j xs
-                             :when (aget refs (+ i j))] i)
-                  reso (reduce +' (map nprs resi))]
+                  nprss (merge-with +' npr nprs)]
               (do (println x)
-                  (recur xs
-                         (rem (+' sum reso) modi)
-                         nprss)))
-            sum)))))
+                  (recur xs nprss)))
+            (loop [[i & is] (keys npr) res (bigint 0)]
+              (if i
+                (if (aget refs i)
+                  (recur is (rem (+ res (npr i)) modi))
+                  (recur is res))
+                res)))))))
 
 (defn sol249f
   [^long lim]
