@@ -1,6 +1,8 @@
 using Memoize
 using Lazy
 
+include("common.jl")
+
 function wall (ls)
     x = ls [1]
     if x == 3
@@ -23,4 +25,50 @@ function wall (ls)
         end
     end
 end
+
+function sol249 (lim :: Int)
+    prs = sieve (lim)
+    rprs = reverse (prs)
+    refs = sieve (sum (prs))
+    modi :: BigInt = ^(BigInt (10),16)
+    @memoize function count (n)
+        if n == 1
+            return 0
+        elseif n < 0
+            return 0
+        elseif n == 0
+            return 1
+        else
+            res :: BigInt = 0
+            for p in rprs
+                r = n-p
+                if r <= p
+                    res += count (r)
+                    if res > modi
+                        res -= modi
+                    end
+                elseif r > p
+                    res += count (r)
+                    if res > modi
+                        res -= modi
+                    end
+                end
+            end
+            return res
+        end
+    end
+    resti :: BigInt = 0
+    for p in refs
+        resti += count (p)
+        if resti > modi
+            resti -= modi
+        end
+    end
+    return resti
+end
+
+
+
+
+
 

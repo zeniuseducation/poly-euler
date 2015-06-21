@@ -54,6 +54,14 @@
                   false
                   (recur (+ i 2))))))))
 
+(defn ^boolean odd-prime?
+  [^long n]
+  (let [lim (long (Math/sqrt n))]
+    (loop [i (int 3)]
+      (cond (> i lim) true
+            (== 0 (rem n i)) false
+            :else (recur (+ i 2))))))
+
 (defn ^long next-prime
   [^long n]
   (if (even? n)
@@ -63,6 +71,19 @@
     (if (prime? (+ n 2))
       (+ n 2)
       (next-prime (+ n 2)))))
+
+(defn ^long prev-prime
+  [^long n]
+  (cond
+    (== n 3) 2
+    (<= n 2) nil
+    :else (if (even? n)
+            (if (prime? (- n 1))
+              (- n 1)
+              (prev-prime (- n 1)))
+            (if (prime? (- n 2))
+              (- n 2)
+              (prev-prime (- n 2))))))
 
 
 (defn subseqs
@@ -185,20 +206,22 @@
 
 (defn ^longs sieve
   [^long lim]
-  (let [refs (boolean-array (+ 1 lim) true)
-        llim (int (Math/sqrt lim))]
-    (loop [i (int 3) res (transient [2])]
-      (if (> i lim)
-        (persistent! res)
-        (if (aget refs i)
-          (do (when (<= i llim)
-                (loop [j (int (* i i))]
-                  (if (> j lim)
-                    nil
-                    (do (aset refs j false)
-                        (recur (+ j (* 2 i)))))))
-              (recur (+ i 2) (conj! res i)))
-          (recur (+ i 2) res))))))
+  (if (< lim 2)
+    []
+    (let [refs (boolean-array (+ 1 lim) true)
+          llim (int (Math/sqrt lim))]
+      (loop [i (int 3) res (transient [2])]
+        (if (> i lim)
+          (persistent! res)
+          (if (aget refs i)
+            (do (when (<= i llim)
+                  (loop [j (int (* i i))]
+                    (if (> j lim)
+                      nil
+                      (do (aset refs j false)
+                          (recur (+ j (* 2 i)))))))
+                (recur (+ i 2) (conj! res i)))
+            (recur (+ i 2) res)))))))
 
 (defn remove-one
   [a col]

@@ -25,6 +25,18 @@ function prime (n :: Int)
     return true
 end
 
+function oddprime (n :: Int)
+    lim :: Int = isqrt (n)
+    for i = 3:lim
+        if 0 == rem (n,i)
+            return false
+        end
+        i += 2
+    end
+    return true
+end
+
+
 function nextprime (n::Int)
     if iseven (n)
         if prime (n+1)
@@ -352,4 +364,16 @@ function sumprimes(lim :: Int)
     end
     return result
 end
+
+
+
+
+
+
+
+
+
+
+
+
 
