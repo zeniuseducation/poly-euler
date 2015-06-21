@@ -184,6 +184,7 @@ readp42 = do
   let tmp = length $ filter (\x-> elemMax x triangles) $ map value $ rapihin input
   return tmp
 
+-- runs in 51ms
 sol43 :: [Int] -> Int
 sol43 bahan = loopi (permutate bahan 3) 2 1
   where sbahan = Set.fromList bahan
@@ -192,7 +193,8 @@ sol43 bahan = loopi (permutate bahan 3) 2 1
           | otherwise = loopi remo (nextPrime p) $ succ r
           where result = [xs++ [x] | xs <- bhn , x <- Set.toList (Set.difference sbahan (Set.fromList xs))]
                 remo = filter (\x -> 0 == rem (toNumber (drop r x)) p) result
-                
+
+-- runs in 1.4ms
 sol49 :: Int -> Int
 sol49 diff = loopi (nextPrime 1000)
   where loopi n
