@@ -679,6 +679,10 @@ Clojure 1.7 8ms
 
 Julia 8ms  
 
+##### Problem 84
+
+Clojure 600ms  
+
 ##### Problem no 85
 
 Clojure 1.5 sec  
@@ -725,6 +729,10 @@ Racket 6ms (Need to use matrix-solve)
 ##### Problem 103
 
 Clojure 47ms  
+
+##### Problem 107
+
+Clojure 30ms  
 
 ##### Problem 108
 
@@ -804,6 +812,10 @@ Julia 2sec
 ##### Problem 148
 
 Clojure 0.1ms  
+
+##### Problem 150
+
+Clojure 44sec  
 
 ##### Problem 159 
 
