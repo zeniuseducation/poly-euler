@@ -44,7 +44,7 @@ fun time f x =
     let val start = Time.toMilliseconds (Time.now())
 	val result = f x
 	val endi = Time.toMilliseconds (Time.now())
-    in (print (Int.toString result) ; endi-start)
+    in (print (Int.toString result) ; " " ;endi-start)
     end;
 		     
 
