@@ -2,8 +2,8 @@ module Three where
 
 import Data.List
 import Data.Time
-import qualified Data.Map as Map
-import qualified Data.Set as Set
+import qualified Data.Map as M
+import qualified Data.Set as S
 import Common
 
 toWords :: Int -> String
@@ -172,6 +172,58 @@ value xs = sum $ map convert $ map (\x -> lookup x mp) xs
           Just x -> x
           Nothing -> 0
 
+sieve :: Int -> [Int]
+sieve lim = loopi (M.fromList [(i,True) | i <- [3,5..lim]]) 3
+  where llim = ceiling $ sqrt $ fromIntegral lim
+        loopi refs i
+          | i <= llim = if convert $ M.lookup i refs
+                        then loopi (loopj refs (i*i)) $ i + 2
+                        else loopi refs $ i + 2
+          | otherwise = map fst $ M.toList $ M.filter (== True) refs
+          where convert x = case x of
+                  Just x -> x
+                  Nothing -> False
+                loopj refj j 
+                  | j > lim = refj
+                  | otherwise = loopj (M.insert j False refj) $ j + (2*i)
+
+sum_sieve :: Int -> Int 
+sum_sieve lim = loopi (M.fromList [(i,True) | i <- [3,5..lim]]) 3 2
+  where llim = ceiling $ sqrt $ fromIntegral lim
+        loopi refs i res 
+          | i <= llim = if convert $ M.lookup i refs
+                        then loopi (loopj refs (i*i))  (i + 2) (res+i)
+                        else loopi refs (i+2) res
+          | i <= lim = if convert $ M.lookup i refs
+                              then loopi refs (i+2) (res+i)
+                              else loopi refs (i+2) res 
+          | otherwise = res 
+          where convert x = case x of
+                  Just x -> x
+                  Nothing -> False
+                loopj refj j 
+                  | j > lim = refj
+                  | otherwise = loopj (M.insert j False refj) $ j + (2*i)
+
+
+lsum_sieve :: Int -> Int 
+lsum_sieve lim = loopi (M.fromList []) 3 2
+  where llim = ceiling $ sqrt $ fromIntegral lim
+        loopi refs i res 
+          | i <= llim = if convert $ M.lookup i refs
+                        then loopi (loopj refs (i*i))  (i + 2) (res+i)
+                        else loopi refs (i+2) res
+          | i <= lim = if convert $ M.lookup i refs
+                              then loopi refs (i+2) (res+i)
+                              else loopi refs (i+2) res 
+          | otherwise = res 
+          where convert x = case x of
+                  Just x -> x
+                  Nothing -> True
+                loopj refj j 
+                  | j > lim = refj
+                  | otherwise = loopj (M.insert j False refj) $ j + (2*i)
+  
 triangles :: [Int]
 triangles = scanl1 (+) [1..]
 
@@ -187,11 +239,11 @@ readp42 = do
 -- runs in 51ms
 sol43 :: [Int] -> Int
 sol43 bahan = loopi (permutate bahan 3) 2 1
-  where sbahan = Set.fromList bahan
+  where sbahan = S.fromList bahan
         loopi bhn p r
           | p == 19 = sum $ map toNumber bhn
           | otherwise = loopi remo (nextPrime p) $ succ r
-          where result = [xs++ [x] | xs <- bhn , x <- Set.toList (Set.difference sbahan (Set.fromList xs))]
+          where result = [xs++ [x] | xs <- bhn , x <- S.toList (S.difference sbahan (S.fromList xs))]
                 remo = filter (\x -> 0 == rem (toNumber (drop r x)) p) result
 
 -- runs in 1.4ms
@@ -203,7 +255,15 @@ sol49 diff = loopi (nextPrime 1000)
             toNumber $ (toDigits n) ++ (toDigits n1) ++ (toDigits n2)
           | otherwise = loopi $ n + 2
           where n1 = n + diff
-                n2 = n1 + diff 
+                n2 = n1 + diff
+
+sumPrimes :: Int -> Int
+sumPrimes lim = loopi 3 2
+  where loopi i res
+          | i > lim = res
+          | oddPrime' i = loopi (i+2) (res+i)
+          | otherwise = loopi (i+2) res
+
 
 time f x = do
   start <- getCurrentTime

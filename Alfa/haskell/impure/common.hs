@@ -25,6 +25,13 @@ prime' n
           | rem n i == 0 = False
           | otherwise = iter (i+2)
 
+oddPrime' :: Int -> Bool
+oddPrime' n = loopi 3
+  where loopi i
+          | (i*i) > n = True
+          | 0 == rem n i = False
+          | otherwise = loopi $ i + 2
+
 primes :: [Int]
 primes = 2 : filter prime' [3,5..]
 
