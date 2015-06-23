@@ -12,7 +12,7 @@
 
 (def cm (set! *unchecked-math* true))
 
-(defn sum-sieve
+(defn ^long sum-sieve
   [^long lim]
   (let [refs (boolean-array (+ 1 lim) true)
         llim (int (Math/sqrt lim))]
