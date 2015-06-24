@@ -1,5 +1,7 @@
 module One
 
+open System
+open System.IO
 open System.Diagnostics
 open System.Collections.Generic
 
@@ -44,6 +46,7 @@ let ispalin (n : int) =
   let xs = numcol n
   xs = List.rev xs;;
 
+// 6ms
 let sol4 maxi =
   let tabs = new Dictionary<string,int> ()
   let rec loopi a b =
@@ -62,6 +65,7 @@ let sol4 maxi =
                            (tabs.Add(muls,ans);ans)
   loopi 999 999;;
 
+// 1-2ms
 let sol4b (a:int) (b:int) =
   let rec outer i res =
     let rec inner j =
@@ -79,12 +83,14 @@ let sol4b (a:int) (b:int) =
              if resj > res then outer (i-1) resj else outer (i-1) res
   outer 999 0;;
 
+// 13ms
 let sol4c (lower : int) =
   List.max [for i in lower..998 ->
               List.max [for j in (i+1)..999 ->
                 let mul = i*j
                 if ispalin mul then mul else 0]];;
 
+// less than 1ms
 let sol5 lst =
   let rec outer xs res =
     match xs with
@@ -97,17 +103,25 @@ let sol5 lst =
                   outer tl (inner res hd)
   outer lst [1];;
 
-let lcm lst =
-  let rec outer xs res =
+let lcm (lst : int64 list) =
+  let rec outer (xs : int64 list) (res : int64 list) =
     match xs with
-      | [] -> List.fold (fun a b -> a * b) 1 res
+      | [] -> List.fold (fun a b -> a * b) 1L res
       | hd::tl -> let rec inner xres resi =
                     match xres with
                       | [] -> resi::res
-                      | hdx::tlx -> if 0 = resi % hdx then inner tlx (resi/hdx)
+                      | hdx::tlx -> if 0L = resi % hdx then inner tlx (resi/hdx)
                                     else inner tlx resi
                   outer tl (inner res hd)
-  outer lst [1];;
+  outer lst [1L];;
+
+// less than 1 ms
+let sol6 lim =
+  let bahan = [1..lim]
+  let squares = List.sumBy square bahan
+  let sums = List.sum bahan
+  let sumsquares = sums*sums
+  sumsquares - squares;;
 
 let sum_primes (lim) =
   let rec loopi i res =
@@ -116,12 +130,42 @@ let sum_primes (lim) =
       else loopi (i+2L) res
   loopi 3L 2L;;
 
+// less than 1ms
+let sol7 (tar : int) (mul : int) =
+  let lim = tar * mul
+  let primes = Array.zeroCreate<bool> (lim+5)
+  Array.fill primes 0 lim true
+  let rec outer (i:int) (idx : int) =
+    match primes.[i] with
+      | true -> if idx = (tar-1) then i
+                elif i <= lim / i then
+                  let rec inner (j : int) =
+                    if j > lim then ()
+                    else (Array.set primes j false; inner(j+2*i))
+                  (inner (i*i) ; outer (i+2) (idx+1))
+                else outer (i+2) (idx+1)
+      | _ -> outer (i+2) idx
+  outer 3 1;;
+
+let prod xs = List.reduce (*) xs;;
+
+// this runs in 5ms
+let sol8 nmax =
+  let raw = Array.fold (+) "" <| File.ReadAllLines "p8.txt"
+  let sumxs a b = prod [for i in raw.[a..b] -> int64 (string i)]
+  let rec iter i (maxi : int64) =
+    match i with
+      | _ when i = nmax-15 -> maxi
+      | _ -> let this_max = sumxs i (i+12)
+             iter (i+1) (if this_max > maxi then this_max else maxi)
+  iter 0 0L;;
+
 let sum_sieve (lim:int) =
   let primes = Array.zeroCreate<bool> (lim+5)
   Array.fill primes 3 lim true
   let rec outer (i:int) (res : int64) =
     let rec inner (j:int) =
-      if j > lim then 0
+      if j > lim then ()
       else (Array.set primes j false; inner (j+2*i))
     if i > lim then res
     elif primes.[i] then
@@ -138,8 +182,8 @@ let fibo (tar:bigint) =
 
 // runs in about 9-11ms
 let sol10 (lim:int) =
-  let primes = Array.zeroCreate<bool> (lim + 5)
-  Array.fill primes 0 lim true
+  let primes = Array.zeroCreate (lim + 5)
+  Array.fill primes 0 (lim+1) true
   let rec outer (i : int) (res : int64) =
     let rec inner (j : int) =
       match j with
@@ -158,7 +202,7 @@ let sieve (lim:int) =
   let rec outer (i:int) (res : int64) =
     let rec inner (j:int) =
       match j with
-        | _ when j > lim -> 0
+        | _ when j > lim -> ()
         | _ -> (Array.set primes j false; inner (j + 2*i))
     match primes.[i] with
       | true -> if i <= lim / i then (inner (i*i) ; outer (i+2) (res + (int64 i)))

@@ -6,6 +6,8 @@ val fromInt = LargeInt.fromInt;
 val fromLarge = LargeInt.fromLarge;
 val toInt = LargeInt.toInt;
 
+val dir = "/users/questmac/Public/lambdas/poly-euler/Alfa/ml/";
+
 fun range (i:int) (j:int) (step:int) =
     let fun loopi a res =
 	    if a >= j
@@ -13,6 +15,12 @@ fun range (i:int) (j:int) (step:int) =
 	    else loopi (a+step) (a::res)
     in loopi i []
     end;
+
+fun read file =
+let val inStream = TextIO.openIn (dir ^ file)
+in
+    TextIO.inputAll inStream
+end
 
 fun range2 (i:int)(j:int) = range i j 1;
 fun range1 (i:int) = range 0 i 1;
@@ -200,7 +208,7 @@ fun sol7b (tar : int) =
 			      then (update (primes,j,false);
 				    inner (j+(2*i)))
 			      else 0
-		      in (inner(i*i);outer (i+2) (idx+1))
+		      in (inner(i*i);outer (i+2) (idx+1)) 
 		      end
 		 else outer (i+2) (idx+1)
 	    else outer (i+2) idx
