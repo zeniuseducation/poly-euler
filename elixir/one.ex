@@ -16,6 +16,12 @@ defmodule E100 do
 		end
 	end
 
+	def sol1_b(lim) do
+		res = 0
+		funi = &()
+		res
+	end
+
 	def sol2(lim, a \\ 1, b \\ 1, res \\ 0) do
 		cond do
 			a > lim -> res
@@ -51,16 +57,20 @@ defmodule E100 do
 	def sum_sieve(lim) do
 		refs = take(Stream.cycle([true]), lim+1)
 		llim = round(Float.ceil(:math.sqrt(lim)))
+		res = 2
 		for i <- :lists.seq(3,llim,2) do
 			if at(refs,i) do
 				if i <= llim do
 					for j <- :lists.seq(i*i,lim,2*i) do
 						refs = replace_at(refs,j,false)
-					end
+					end;
+					res = res + i
+				else
+					res = res + i
 				end
 			end
 		end
-		sum(filter(:lists.seq(3,lim,2), fn(x) -> at(refs, x) end))
+		res
 	end
 
 	def timex(f, i) do

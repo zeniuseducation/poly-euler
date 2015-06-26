@@ -1,12 +1,11 @@
-(ql:quickload :ningle)
 (load "clojure.lisp")
 
-(defvar *app* (make-instance 'ningle:<app>))
+(defun str (&rest args)
+  (apply 'concatenate 'string args))
 
-(defun slurp (fname)
-  (open fname :direction :input))
+(defun create-db (host dbname)
+  (str host dbname))
 
-(setf (ningle:route *app* "/")
-      (slurp "one.html"))
+(defvar cdb (create-db "http://localhost:5984/" "sibego"))
 
-(clack:clackup *app*)
+

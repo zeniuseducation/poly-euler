@@ -1,5 +1,8 @@
 (load "clojure.lisp")
 
+(defun fibo (a b i lim)
+  (if (> a lim) i (fibo (+ a b) a (1+ i) lim)))
+
 (defun prime? (p)
   (deff p)
   (let ((llim (isqrt p)))
