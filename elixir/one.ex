@@ -18,7 +18,7 @@ defmodule E100 do
 
 	def sol1_b(lim) do
 		res = 0
-		funi = &()
+	
 		res
 	end
 

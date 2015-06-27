@@ -22,8 +22,6 @@ function sum_primes (lim::Int64)
   return res
 end
 
-@time sum_primes(2000000)
-
 function fibo (lim)
   a = 1
   b = 0
@@ -44,8 +42,7 @@ end
 @time fibo(34)
 
 function sum_sieves(n::Int64)
-  isprime = ones(Bool, n)
-  isprime[1] = false
+  isprime = trues(n)
   res = 2
   check = isqrt(n)
   for i = 3:2:n

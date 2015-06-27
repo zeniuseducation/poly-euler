@@ -3,6 +3,13 @@ import time
 def sol1(lim):
     return sum(range(3,lim,3)) + sum(range(5,lim,5)) - sum(range(15,lim,15))
 
+def sol1loop(lim):
+    res = 0
+    for i in xrange(1,lim) :
+        if 0 == rem(i,3) or 0 == rem(i,5):
+            res += i
+    return res
+
 def sol2r(a,b,lim,res):
     if a > lim :
         return res
@@ -42,9 +49,9 @@ def is_prime(n) :
             i += 2
         return True
 
-def sol3(target):
+def sol3(tar) :
     i = 3
-    n = target
+    n = tar
     while True:
         while n % i == 0:
             n /= i
@@ -53,6 +60,31 @@ def sol3(target):
         i += 2
         while not is_prime(i):
             i += 2
+
+def oddprime(n) :
+    i = 3
+    while True :
+        if i > n / i :
+            return True
+        elif 0 == n % i :
+            return False
+        else :
+            i += 2
+
+
+def sol3a (tar) :
+    i, n = 3 , tar
+    while True :
+        if n == 1 :
+            return i-2
+        elif 0 == n % i :
+            if oddprime(i) :
+                n /= i
+            i += 2
+        else :
+            i += 2
+
+
 
 def is_palin(n) :
     tmp = str(n)
@@ -165,18 +197,16 @@ def sum_digits(n):
         return (n % 10) + sum_digits(n / 10)
 
 
-def timex (f,x):
+def timex (st,f,x):
+    print(st)
     start_time = time.time()
     tmp = f(x)
     print("--- %s seconds ---" % (time.time() - start_time))
     return tmp
 
-                
-                    
-
-
-
-
-
-
-
+timex ("Soal no 1 : ", sol1, 1000)
+timex ("Soal no 1 loop : ", sol1, 1000)
+timex ("Soal no 2 : ", sol2loop, 4000000)
+timex ("Soal no 3 : ", sol3, 600851475143)
+timex ("Soal no 3 cara lain ", sol3a, 600851475143)
+timex ("Soal no 4 : ", sol4, 999)

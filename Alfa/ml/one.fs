@@ -9,6 +9,9 @@ let square x = x * x;;
 
 let cube x = x*x*x;;
 
+let sol1 (lim : int64) =
+  List.sum [for i in [1L..lim] do if (0L = i % 3L) || (0L = i % 5L) then yield i]
+
 let odd_prime (x : int64) =
   let rec loopi i =
     match i with
@@ -218,3 +221,5 @@ let timed funi data =
     timer.Stop()
     printf "elapsed %d ms \n" timer.ElapsedMilliseconds
     result
+
+  

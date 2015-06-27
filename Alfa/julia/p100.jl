@@ -7,7 +7,26 @@ function istricky (xs,b)
     xs == colnum (sort (numcol (b)))
 end
 
-# 76ms 
+function sum_sieve (lim :: Int)
+  res :: Int = 2
+  llim :: Int = isqrt(lim)
+  primes = trues(lim)
+  for i = 3:2:lim
+    if primes[i]
+      if i <= llim
+        for j = (i*i):(2*i):lim
+          primes[j] = false
+        end
+      end
+      res += i
+    end
+  end
+  res
+end
+
+@time sum_sieve(2000000)
+
+# 76ms
 function sol52 (start :: Int)
     i :: Int = start
     tar :: Int = 6
@@ -16,7 +35,7 @@ function sol52 (start :: Int)
         j :: Int = 2
         itmp = colnum (sort (numcol (i)))
         while !check
-            if ! istricky (itmp,i*j) 
+            if ! istricky (itmp,i*j)
                 check = true
             elseif j == tar
                 return i
@@ -47,7 +66,7 @@ function sol58l (lim :: Int, tar)
                 dtmp :: Int = itmp - 1
                 cprimes += length (filter (x -> primes [x], [i-dtmp,i-(2*dtmp), i-(3*dtmp)]))
                 corners += 4
-                if (cprimes/corners) < tar 
+                if (cprimes/corners) < tar
                     return itmp
                 end
             end
@@ -64,7 +83,7 @@ function sol58 (tar :: Real)
         dtmp :: Int = i - 1
         cprimes += length (filter (x -> prime (x), [isqr-dtmp,isqr-(2*dtmp), isqr-(3*dtmp)]))
         corners += 4
-        if (cprimes/corners) < tar 
+        if (cprimes/corners) < tar
             return [i,isqr]
         end
         i += 2
@@ -84,19 +103,19 @@ function buildpascal (n :: Int , lim :: Int)
             if tmp <= lim
                 res += 2
             else
-                return res 
-            end 
+                return res
+            end
         end
         i += 1
     end
-end 
+end
 
 function sol53 (n :: Int, lim :: Int)
     res :: Int = triangle (n+1) - 1
     for i = 1:n
         res -= buildpascal (i,lim)
     end
-    return res 
+    return res
 end
 
 function sol56 (lower :: Int , upper :: Int)
@@ -116,13 +135,13 @@ end
 function sol56l (lim :: Int)
     res :: Int = 0
     i :: Int = lim
-    while true 
+    while true
         j :: Int = lim
         ilog = log10 (i)
         slin = 8 * ceil(j * ilog)
         if slin < res
             return res
-        end 
+        end
         check = false
         while !check
             slin = 8 * ceil(j * ilog)
@@ -157,7 +176,7 @@ function sol59l ()
                                  map ((x,y) -> x $ y, testcase, cycle ([i,j,k]))))
                 if contains (tmp," the ")
                     return (apply(string, map (char,[i,j,k])) , (sum (map ((x,y) -> x $ y, bahan, cycle ([i,j,k])))))
-                end 
+                end
             end
         end
     end
@@ -266,7 +285,7 @@ function sol63 (lim::Int)
             j += 1
         end
     end
-    return res + 1 
+    return res + 1
 end
 
 function readp67 ()
@@ -326,7 +345,7 @@ function sol72 (lim :: Int)
             res += refs [i]
         end
     end
-    return res 
+    return res
 end
 
 function sol73 (lim :: Int)
@@ -369,7 +388,7 @@ function sol73 (lim :: Int)
             end
         end
     end
-    return ires 
+    return ires
 end
 
 @memoize function intpartition (amount::Int, n::Int)
@@ -377,7 +396,7 @@ end
         return 1
     elseif n == 1
         return 1
-    else 
+    else
         i :: Int = 0
         res :: Int = 0
         nextn :: Int = n-1
@@ -385,7 +404,7 @@ end
             res += intpartition(amount-(i*n), nextn)
             i += 1
         end
-        return res 
+        return res
     end
 end
 
@@ -409,7 +428,7 @@ function sol76a (lim :: Int)
             tmpres = get (m [i],n,-1)
             if tmpres >= 0
                 return tmpres
-            else 
+            else
                 res :: Int = 0
                 mapi = m [i-1]
                 for j in map (x -> i*x, 0:div (n,i))
@@ -490,7 +509,7 @@ end
 function sol73p (lim :: Int)
     sum (pmap (countfractions,5:lim))
 end
-    
+
 
 function sol81 ()
     refs = map(int,map (x -> split (x,","), (map (chop,open (readlines,"p81.txt")))))
@@ -503,9 +522,9 @@ function sol81 ()
             right :: Int = findmin (a,b+1)
             down :: Int = findmin (a+1,b)
             if right < down
-                return right + refs [a] [b] 
+                return right + refs [a] [b]
             else
-                return down + refs [a] [b] 
+                return down + refs [a] [b]
             end
         end
     end
@@ -517,7 +536,7 @@ function modpartition (amount :: Int , n :: Int)
         return 1
     elseif n == 1
         return 1
-    else 
+    else
         i :: Int = 0
         res :: Int = 0
         nextn :: Int = n-1
@@ -525,7 +544,7 @@ function modpartition (amount :: Int , n :: Int)
             res = res + ((modpartition ((amount-(i*n)), nextn)) % 1000000)
             i += 1
         end
-        return res 
+        return res
     end
 end
 
@@ -682,7 +701,7 @@ function solamin (n :: Int)
 end
 
 # The idea is to keep an array for the perimeter
-# Loop a & b, and c 
+# Loop a & b, and c
 # When a requirement is met then add 1 to the content for the given
 # perimeter
 # This is still very very very slow, need to upgrade
@@ -694,7 +713,7 @@ function sol75 (lim :: Int)
         println (a)
         # setting the limit for traversing the b
         limb :: Int = div (lim,2) - a
-        
+
         for b = (a+1):limb
             bsqr ::Int = b * b
 
@@ -992,7 +1011,7 @@ function sol95b (lim :: Int)
                         check = true
                         if len > longest
                             lchain = i
-                            longest = len 
+                            longest = len
                         elseif (len == longest) && (i < lchain)
                             lchain = i
                         end
@@ -1005,8 +1024,8 @@ function sol95b (lim :: Int)
                         if lenchain > 0
                             lminima = minimum (tempchain)
                         end
-                        check = true 
-                        if lenchain > longest 
+                        check = true
+                        if lenchain > longest
                             lchain = lminima
                             longest = lenchain
                         elseif (lenchain == longest) && (lminima < lchain)
@@ -1032,7 +1051,7 @@ function sol95c (lim::Int)
     empty! (chain)
     longest :: Int = 0
     least_inchain :: Int = 0
-    
+
     for i = 1 : lim
         curnum :: Int = pdivisors (i)
         if curnum < lim
@@ -1046,7 +1065,7 @@ function sol95c (lim::Int)
                         longest = len
                     end
                     empty! (chain)
-                    check = true 
+                    check = true
                 elseif in (curnum, chain)
                     empty! (chain)
                     check = true
@@ -1084,12 +1103,12 @@ function sol95(lim::Int)
             divisors [j] += i
         end
     end
-    
+
 
     for i = 2 : lim
         if !visited [i]
 
-            # start of the chain 
+            # start of the chain
             curnum :: Int = divisors [i]
 
             # only interested with the one less than lim (1 mil)
@@ -1102,7 +1121,7 @@ function sol95(lim::Int)
                     if curnum == i
                         for k in chain
                             visited [k] = true
-                        end 
+                        end
                         len = length (chain)
                         if len > longest
                             least_inchain = i
@@ -1143,20 +1162,20 @@ end
 function sol57l (howmany :: Int)
     function confract (n :: Int, lim ::Int)
         if n == 0
-            return 1 + (BigInt (1) // confract (n+1, lim)) 
+            return 1 + (BigInt (1) // confract (n+1, lim))
         elseif n == lim
             return 2
         else
             return 2 + (BigInt (1) // confract (n+1, lim))
         end
     end
-    
+
     function interesting (rat)
         denom = den (rat)
         numer = num (rat)
         return ceil (log10 (numer)) > ceil (log10 (denom))
     end
-    
+
     length (filter (k-> interesting (k),map (x -> confract (0,x), 1:howmany)))
 end
 
@@ -1168,7 +1187,7 @@ function sol57 (lim :: Int)
 
     # starting expansion (from the bottom up)
     current = 2
-    
+
     for i = 1:lim
 
         # The current i-th expansion
@@ -1199,12 +1218,12 @@ function sol100 (target :: Int)
         pblue = blue
         blue = ifloor(rat * blue)
         blue2 :: Int = blue-1
-        camp = ifloor(rat * camp) 
+        camp = ifloor(rat * camp)
         camp2 :: Int = camp-1
         tmp = 0.0
         while true
             tmp = (blue//camp) * (blue2//camp2)
-            if tmp < 1/2 
+            if tmp < 1/2
                 break
             end
             camp += 1
@@ -1257,9 +1276,9 @@ function sol77a (lim::Int)
 
     j :: Int = 10
     sumprime (j,prevprime (j))
-end            
+end
 
-# This runs in 2ms 
+# This runs in 2ms
 function sol77 (target::Int)
     # Calculate the number of partitions for a given amount with a
     # particular prime n
@@ -1329,7 +1348,7 @@ function sol51 (tar :: Int)
     i :: Int = 2
     while true
         xs = stupidprime (i,tar)
-        if (xs [1] >= tar) 
+        if (xs [1] >= tar)
             return xs
         end
         i += 1
@@ -1353,7 +1372,7 @@ function sol66a (lim::Int)
             jsqr=j*j
             if isqr % jsqr == 1
                 tmp = div (isqr,jsqr)
-                if tmp <= lim 
+                if tmp <= lim
                     if refs [tmp] == 0
                         refs [tmp] = i
                     end
@@ -1373,7 +1392,7 @@ function sol66 (lim :: Int, n::Int)
         for j = 1:(i-1)
             jsqr :: Int = j * j
             for k in filter (x -> isqr-(x*jsqr) == 1, 0:div (isqr,jsqr))
-                if k <= lim 
+                if k <= lim
                     if refs [k] == 0
                         refs [k] = i
                         ctr += 1
@@ -1482,7 +1501,7 @@ function sol91 (n::Int)
         for y1 in 0:n
             p1 = [x1,y1]
             a = distance (p1,[0,0])
-            if p1 != [0,0] 
+            if p1 != [0,0]
                 for x2 in 0:n
                     for y2 in 0:n
                         p2 = [x2,y2]
@@ -1518,7 +1537,7 @@ function sol60 (lim :: Int, times :: Int)
     for p in bahan
         push! (res,Set (p))
     end
-    
+
     for i = 1:times
         tmpres = Set []
         for r in res
@@ -1584,7 +1603,7 @@ end
 function suits(hand)
     map (x-> x [2:2], hand)
 end
-    
+
 
 function ranks (hand)
     rankings = map (x -> x [1], hand)
@@ -1597,7 +1616,7 @@ function ranks (hand)
             push! (res,dic [r])
         end
     end
-    return res 
+    return res
 end
 
 function isstraight (hand)
@@ -1619,5 +1638,5 @@ function royalflush (hand)
     tmp [1] == 10 && isflush (hand) && isstraight (hand)
 end
 
-    
+
 
