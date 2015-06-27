@@ -42,11 +42,12 @@ Implementations:
 2. Clojurescript on NodeJS  
 3. Common Lisp using SBCL 1.2.x  
 4. Haskell using GHC compiled using -O2 optimisation   
-5. SML using SMLNJ  
+5. SML using SMLNJ & MLTON (take the faster one, although in general MLTON is much faster)  
 6. Racket mostly using Racket 6.1.x and Typed Racket  
 7. C using whatever there is on Macbook, optimized to the max using -Ofast  
 8. Julia using Julia 0.3.x (soon to be upgraded to 0.4)  
 9. Python using pypy  
+10. F3 using Mono on Mac  
 
 ##### Problem no 1
 
@@ -56,13 +57,15 @@ Clojure averaging 3.2 msecs
 Clojure 1.7 0.08ms  
 SBCL averaging 0.3 msecs  
 Haskell 0.07ms
-Racket 1 msec  
+Racket less than 1 msec  
 Java benchmark 0.05ms  
 C benchmark 0.05ms  
 Swift 0.018ms  
 Julia 0.008ms NEW RECORD!  
-Pypy 0.05ms  
-Elixir 0.1ms  
+Elixir 0.1ms 
+F# less than 1ms  
+SML 0.016ms  
+Pypy 0.027ms  
 
 ##### Problem no 2
 
@@ -99,8 +102,9 @@ C as benchmark 0.2ms
 Java as benchmark 5ms  
 Swift 0.11ms NEW RECORD!!  
 Julia 0.16ms  
-Pypy 1.6ms  
+Pypy 1.5ms  
 Elixir 3.5ms  
+F# less than 1 ms  
 
 ##### Problem no 4
 
@@ -111,9 +115,10 @@ Clojure 16-18 msecs
 Clojure with memoization 0.01ms  
 SBCL 11-20 msecs  
 Haskell 4ms  
-SML 3 msec  
+SML 1.3 msec  
 Julia 0.006ms  FAST! (using memoization)  
-Pypy 9ms  
+Pypy 5.5ms  
+F# 1ms  
 
 ##### Problem no 5
 
@@ -124,7 +129,9 @@ Clojure 0.3 ms
 SBCL 0.02 ms   
 Haskell 0.07ms    
 Julia 0.01ms  
-Pypy 0.15ms  
+Pypy 0.1ms  
+SML 0.007ms  
+F# less than 1ms  
 
 ##### Problem no 6
 
@@ -135,6 +142,9 @@ SBCL 0.01 msecs
 Haskell 0.1ms  
 Julia 0.004ms  
 Pypy 0.4ms  
+F# less than 1ms  
+SML 0.007ms  
+
 
 ##### Problem no 7
 
@@ -199,6 +209,7 @@ Type-hinted SBCL using sieves 30-40ms
 Haskell 1,320 msecs (1.3 secs)  
 Haskell on Win32 470 msecs   
 SML 736 msecs!! (0.736 secs)    
+SML sieve 18ms  
 Racket 4-6K msecs  
 Typed Racket 2,200 msecs (Faster than Clojure)  
 Typed Racket in Win32 987 msecs  
@@ -207,7 +218,8 @@ C Benchmark using sieve 24 ms
 Swift naive 1,421ms  
 Swift sieves 16ms  
 Julia using sieves 19ms  
-Pypy 56ms  
+Pypy 75ms  
+F# 10ms  
 
 ##### Problem no 12
 
@@ -347,7 +359,9 @@ Typed Racket 1 ms
 Haskell averaging 10 msecs  
 Haskell 0.8ms  
 SML 36 msecs  (SML LargeInt is not efficient)  
+SML MLTON 1.5ms  
 Julia 4ms  
+F# 1ms  
 
 ##### Problem no 26 
 
