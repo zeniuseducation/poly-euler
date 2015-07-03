@@ -166,6 +166,8 @@ Swift naive using Int32 10ms
 Swift using sieves 0.7ms  
 Julia using sieves 0.7ms  
 Pypy 6ms  
+SML 1ms  
+F# less than 0.5ms  
 
 ##### Problem no 8
 
@@ -176,6 +178,7 @@ Clojure 1.7 3ms
 SBCL 23 msecs  
 Haskell 3ms  
 Julia 0.7ms  
+F# 3ms  
 
 ##### Problem no 9
 
@@ -237,13 +240,14 @@ Racket v2 42 ms
 Haskell compiled 660 ms      
 Haskell v2 30ms  
 SML 730ms    
-SML v2 13 ms    
+SML v2 11 ms    
 C Benchmark 580 ms  
 C Benchmark v2 6 ms  
 C Benchmark proto-memoize 3 ms  
 Java Benchmark 11 ms  
-Swift 7ms  
+Swift 7ms   
 Julia 9ms  
+F# 7ms    
 
 ##### Problem 13
 
@@ -267,6 +271,7 @@ SML 36 seconds
 C as benchmark (starting from half a million and check odd only) 179ms   
 Swift 185ms  
 Julia 800ms  
+F# with Dynamic programming 471ms  
 
 ##### Problem no 15
 
@@ -292,6 +297,7 @@ Haskell 1ms
 Clojure 1ms  
 Julia 0.2ms  
 Haskell 1ms  
+F# less than 0.5ms  
 
 ##### Problem 19 
 
