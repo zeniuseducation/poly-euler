@@ -235,6 +235,31 @@ fun sol7 (tar : int) =
     in outer 3 2
     end;
 
+fun cdivs (n : int) : int =
+    let val step = if 0 = n mod 2 then 1 else 2
+	fun iter (i : int) (res : int) : int =
+	    if i > n div i
+	    then if i*i = n then res+1 else res
+	    else if 0 = n mod i
+	    then iter (i+step) (res+2)
+	    else iter (i+step) res
+    in if 0 = n mod 2
+       then iter 2 2
+       else iter 3 2
+    end;
+
+fun sol12 (tar : int) : Int64.int =
+    let fun iter (n : int) =
+	    if 0 = n mod 2
+	    then if (cdivs (n div 2)) * (cdivs (n+1)) > tar
+		 then (Int64.fromInt n) * (Int64.fromInt (n+1)) div 2
+		 else iter (n+1)
+	    else if (cdivs n) * (cdivs ((n+1) div 2)) > tar
+            then (Int64.fromInt n) * (Int64.fromInt (n+1)) div 2
+            else iter (n+1)
+    in iter 12
+    end;
+
 fun sol25 (tar : IntInf.int) : int =
     let fun loopi (a : IntInf.int) (b:IntInf.int) (i:int) =
 	    if a > tar
@@ -292,5 +317,7 @@ time sol6 100 "#6";
 time sol7 10000 "#7";
 time sol7b 10001 "#7b";
 timed sol10 2000000 "#10";
+timed sol12 500 "#12";
 time sol25 (IntInf.pow(10,999)) "#25";
+
 

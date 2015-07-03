@@ -137,6 +137,33 @@
                                          (apply min)
                                          (min num))))))))))
 
+(defn count-divs
+  [^long n]
+  (let [step (int (if (== 0 (rem n 2)) 1 2))
+        lim (int (Math/sqrt n))]
+    (loop [i (int (if (== 0 (rem n 2)) 2 3)) res (int 2)]
+      (if (>= i lim)
+        (if (== (* i i) n) (+ 1 res) res)
+        (if (== 0 (rem n i))
+          (recur (+ i step) (+ res 2))
+          (recur (+ i step) res))))))
+
+(defn ^long sol12
+  [^long tar]
+  (loop [i (long 12)]
+    (if (== 0 (rem i 2))
+      (if (> (* (count-divs (quot i 2))
+                (count-divs (+ i 1)))
+             tar)
+        (quot (* i (+ 1 i)) 2)
+        (recur (+ i 1)))
+      (if (> (* (count-divs i)
+                (count-divs (quot (+ i 1) 2)))
+             tar)
+        (quot (* i (+ 1 i)) 2)
+        (recur (+ i 1))))))
+
+
 
 
 

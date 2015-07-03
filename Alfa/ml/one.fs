@@ -68,6 +68,30 @@ let sol4 maxi =
                            (tabs.Add(muls,ans);ans)
   loopi 999 999;;
 
+let collatz (n : int64) =
+  match n with
+    | _ when 0L = n % 2L -> n / 2L
+    | _ -> (3L*n) + 1L
+
+// 471ms
+let sol14 (lim : int64) =
+  let refs = new Dictionary<int64,int> ()
+  let rec iter (n : int64) =
+    match n with
+      | 1L -> 1
+      | _ when refs.ContainsKey(n) -> refs.[n]
+      | _ -> let result = 1 + (iter <| collatz n)
+             (refs.Add (n, result); result)
+  let rec finder (i : int64) (maxi : int) (sumber : int64)=
+    let tmp = iter i
+    match tmp with
+      | _ when i >= lim -> if tmp > maxi then i else sumber
+      | _ when tmp > maxi -> finder (i+2L) tmp i
+      | _ -> finder (i+2L) maxi sumber
+  finder 500001L 1 1L;;
+
+
+
 // 1-2ms
 let sol4b (a:int) (b:int) =
   let rec outer i res =
@@ -163,6 +187,51 @@ let sol8 nmax =
              iter (i+1) (if this_max > maxi then this_max else maxi)
   iter 0 0L;;
 
+let sol18 fname =
+  let rows = Array.map (fun (x: String) -> x.Split [|' '|]) <| File.ReadAllLines fname
+  let res = Array.map (fun x -> Array.map int x) rows
+  let start = (Array.length res) - 2
+  let rec iter i =
+    let rec inner j =
+      match j with
+        | _ when j > i -> ()
+        | _ -> let a = res.[i+1].[j]
+               let b = res.[i+1].[j+1]
+               if a > b then (Array.set res.[i] j (res.[i].[j] + a); inner (j+1))
+               else (Array.set res.[i] j (res.[i].[j] + b); inner (j+1))
+    match i with
+      | 0 -> let a = res.[1].[0]
+             let b = res.[1].[1]
+             if a > b then res.[0].[0] + a
+             else res.[0].[0] + b
+      | _ -> (inner 0; iter (i-1))
+  iter start;;
+
+
+let ispsqr x =
+  let xsqrt = sqrt (float x)
+  let flx = int64 (floor xsqrt)
+  let clx = int64 (ceil xsqrt)
+  flx = clx;;
+
+let count_divisor (n : int) =
+  let step = if n % 2 = 0 then 1 else 2
+  let rec iter (i : int) (res : int) =
+    match i with
+      | _ when i > n / i -> res
+      | _ when i*i = n -> res+1
+      | _ when n % i = 0 -> iter (i+step) (res+2)
+      | _ -> iter (i+step) res
+  iter 1 0;;
+
+let sol12 (tar : int) =
+  let rec iter (n : int) =
+    let cdiv = count_divisor
+    match n with
+      | _ when n % 2 = 0 -> if (cdiv (n / 2)) * (cdiv (n+1)) > tar then ((int64 n)*(int64 (n+1)))/2L else iter (n+1)
+      | _ -> if (cdiv ((n+1)/ 2)) * (cdiv n) > tar then ((int64 n)*(int64 (n+1)))/2L else iter (n+1)
+  iter 12;;
+
 let sum_sieve (lim:int) =
   let primes = Array.zeroCreate<bool> (lim+5)
   Array.fill primes 3 lim true
@@ -222,4 +291,10 @@ let timed funi data =
     printf "elapsed %d ms \n" timer.ElapsedMilliseconds
     result
 
-  
+let timex funi data =
+    let timer = new Stopwatch()
+    timer.Start()
+    let result = funi data
+    timer.Stop()
+    printf "elapsed %d ms \n" timer.ElapsedMilliseconds
+    result
