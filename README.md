@@ -104,7 +104,7 @@ Swift 0.11ms NEW RECORD!!
 Julia 0.16ms  
 Pypy 1.5ms  
 Elixir 3.5ms  
-F# less than 1 ms  
+F# less than 0.5 ms  
 
 ##### Problem no 4
 
@@ -131,7 +131,7 @@ Haskell 0.07ms
 Julia 0.01ms  
 Pypy 0.1ms  
 SML 0.007ms  
-F# less than 1ms  
+F# less than 0.5ms  
 
 ##### Problem no 6
 
@@ -222,7 +222,7 @@ Swift naive 1,421ms
 Swift sieves 16ms  
 Julia using sieves 19ms  
 Pypy 75ms  
-F# 10ms  
+F# 7ms  
 
 ##### Problem no 12
 
@@ -240,7 +240,7 @@ Racket v2 42 ms
 Haskell compiled 660 ms      
 Haskell v2 30ms  
 SML 730ms    
-SML v2 11 ms    
+SML v2 9.5 ms    
 C Benchmark 580 ms  
 C Benchmark v2 6 ms  
 C Benchmark proto-memoize 3 ms  
@@ -257,6 +257,8 @@ Julia 0.3ms
 
 ##### Problem no 14
 
+Problem : Longest collatz sequence that started from n below 1million  
+
 Clojure 5.3 seconds  
 Type hinted Clojure 1.2-1.3 seconds  
 Type hinted Clojure using memoize 0.8-0.9 second  
@@ -268,6 +270,7 @@ Haskell compiled 4.36 seconds
 Typed Racket 3.3 seconds (even better than Haskell)  
 Typed Racket 0.9 second (check >500k odds only)  
 SML 36 seconds  
+SML MLTON 627ms  
 C as benchmark (starting from half a million and check odd only) 179ms   
 Swift 185ms  
 Julia 800ms  
@@ -279,6 +282,8 @@ Clojure 0.14 msec
 SBCL 0.018 msec  
 Haskell 0.08ms  
 Julia 0.07ms  
+SML 0.012ms  
+F# less than 0.5ms   
 
 ##### Problem no 16
 
@@ -286,6 +291,7 @@ Clojure 1.3ms
 Julia 0.8ms  
 Haskell 0.2ms  
 Pypy 2ms  
+F# 1ms  
 
 ##### Problem 17
 
@@ -308,6 +314,7 @@ Haskell 1ms
 Clojure 0.7ms  
 Julia 0.4ms  
 Haskell 0.1ms  
+F# less than 0.5ms  
 
 ##### Problem no 21
 
@@ -320,11 +327,12 @@ SBCL 51 ms
 Type hinted SBCL 17-20 ms  
 Haskell compiled 30 ms  
 Typed Racket 24ms  
-SML 23 ms  
+SML 7ms  
 Java benchmark 14ms  
 C as benchmark 7ms   
 C using dynamic programming 4.5ms   
 Julia 7ms  
+F# using list 5ms, and 4ms using loop  
 
 ##### Problem 22 
 
@@ -652,6 +660,8 @@ Julia 1.3ms
 Clojure 1.7 15ms  
 Haskell 26ms  
 Julia 4ms  
+F# 1ms  
+
 
 ##### Problem 69
 
