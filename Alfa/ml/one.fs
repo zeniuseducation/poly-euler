@@ -111,7 +111,16 @@ let sol14 (lim : int64) =
       | _ -> finder (i+2L) maxi sumber
   finder 500001L 1 1L;;
 
-
+let sum_pdivs (n : int) =
+  let k = if 0 = n % 2 then 1 else 2
+  let lim = int (sqrt (float n))
+  let rec iter i res =
+    match i with
+      | _ when i > lim -> res
+      | _ when i*i = n -> res + i
+      | _ when 0 = n % i -> iter (i+k) (res + i + (n/i))
+      | _ -> iter (i+k) res
+  iter (if 0 = n % 2 then 2 else 3) 1;;
 
 // 1-2ms
 let sol4b (a:int) =
@@ -229,6 +238,21 @@ let sol18 fname =
       | _ -> (inner 0; iter (i-1))
   iter start;;
 
+let sol22 () =
+  let raw = File.ReadAllLines "p22.txt"
+  let iraw = raw.[0].Split [|','|]
+  let jraw = Array.sort iraw
+  let tabs = new Dictionary<char,int> ()
+  let abjad = '"'::['A'..'Z']
+  let rec init_dict i =
+    if i > 26 then () else (tabs.Add (abjad.[i], i) ; init_dict (i+1))
+  let cal = Array.length jraw
+  let score i st = i * List.sum [for l in st -> tabs.[l]]
+  let rec iter i res =
+    if i = cal then res else iter (i+1) (res + score (i+1) jraw.[i])
+  (init_dict 0; iter 0 0);;
+
+
 let sol67 fname =
   let rows = Array.map (fun (x: String) -> x.Split [|' '|]) <| File.ReadAllLines fname
   let res = Array.map (fun x -> Array.map int x) rows
@@ -286,6 +310,70 @@ let sum_sieve (lim:int) =
       else outer (i+2) (res + (int64 i))
     else outer (i+2) res
   outer 3 2L;;
+
+let sol23 (lim : int) =
+  let refs = Array.zeroCreate<bool> (lim+5)
+  Array.fill refs 1 (lim+1) false
+  let sum_abuns = Array.zeroCreate<bool> (lim+2)
+  Array.fill sum_abuns 1 (lim+1) false
+  let rec init_refs i =
+    let isum = sum_pdivs i
+    match i with
+      | _ when i > lim -> ()
+      | _ when isum > i -> (Array.set refs i true; init_refs (i+1))
+      | _ -> (Array.set refs i false ; init_refs (i+1))
+  let rec iter i =
+    let rec iterj j =
+      let n = i+j
+      match n with
+        | _ when n > lim -> ()
+        | _ when refs.[j] -> (Array.set sum_abuns n true ; iterj (j+1))
+        | _ -> iterj (j+1)
+    match i with
+      | _ when i > (lim / 2) -> ()
+      | _ when refs.[i] -> (iterj i; iter (i+1))
+      | _ -> iter (i+1)
+  let rec outer i res =
+    match i with
+      | _ when i > lim -> res
+      | _ when sum_abuns.[i] -> outer (i+1) (res+i)
+      | _ -> outer (i+1) res
+  init_refs 2
+  iter 1
+  (List.sum [1..lim])-(outer 1 0);;
+
+let remove elm lst =
+  let rec iter xs hxs =
+    match xs with
+      | [] -> List.rev hxs
+      | (hd::tl) -> if elm = hd then (List.rev hxs) @ tl else iter tl (hd::hxs)
+  iter lst [];;
+
+let rec fact (i : int) : int =
+  match i with
+    | 0 -> 1
+    | 1 -> 1
+    | _ -> i * fact (i-1)
+
+let colnum lst =
+  let rec iter xs res =
+    match xs with
+      | [] -> res
+      | (hd :: []) -> (int64 hd) + (10L*res)
+      | (hd :: tl) -> iter tl ((int64 hd) + (10L * res))
+  iter lst 0L;;
+
+let sol24 (n : int) =
+  let rec iter i raw res =
+    match raw with
+      | [] -> List.rev res
+      | (x :: []) -> List.rev (x :: res)
+      | _  -> let faks = fact ((List.length raw) - 1)
+              let divs = i / faks
+              let elm = raw.[divs]
+              iter (i % faks) (remove elm raw) (elm :: res)
+  colnum <| iter n [0..9] []
+
 
 // runs in 1ms-an
 let sol25 (tar:bigint) =
@@ -352,15 +440,7 @@ let factorial (n : int) =
 let sol20 (tar : int) =
   List.sum <| bnumcol (factorial tar);;
 
-let sum_pdivs (n : int) =
-  let k = if 0 = n % 2 then 1 else 2
-  let lim = int (sqrt (float n))
-  let rec iter i res =
-    match i with
-      | _ when i > lim -> res
-      | _ when 0 = n % i -> iter (i+k) (res + i + (n/i))
-      | _ -> iter (i+k) res
-  iter (if 0 = n % 2 then 2 else 3) 1;;
+
 
 let sol21 (lim : int) =
   let is_amic (n : int) =
@@ -430,5 +510,8 @@ let main () =
     timed sol18 "p18.txt" "#18"
     timed sol20 100 "#20"
     timed sol21 10000 "#21"
+    timed sol22 () "#22"
+    timed sol23 28123 "#23"
+    timex sol24 999999 "#24"
     timeb sol25 (bexpt 10I 999) "#25"
     timed sol67 "p67.txt" "#67"

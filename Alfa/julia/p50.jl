@@ -412,8 +412,6 @@ function readp22 ()
     tmp = sort (tmp)
 end
 
-
-
 function sol22 ()
     tmp = readp22()
     res :: Int = 0
@@ -456,6 +454,38 @@ function sol23 (lim::Int)
     end
     return res
 end
+
+function sol23b (lim :: Int)
+    abuns = falses (lim)
+    sumabuns = falses (lim)
+    for i = 12:lim
+        tmp = pdivisors (i)
+        if tmp > i
+            abuns [i]= true
+        end
+    end
+    for i = 12:div (lim,2)
+        if abuns [i]
+            for j = i:lim
+                n :: Int = i + j
+                if n > lim
+                    break
+                end
+                if abuns [j]
+                    sumabuns [n] = true
+                end
+            end
+        end
+    end
+    res :: Int = div (lim* (lim+1),2)
+    for i = 24:lim
+        if sumabuns [i]
+            res -= i
+        end
+    end
+    res
+end
+
 
 function sol24(lim::Int)
     refs = reverse (map (factorial,0:9))

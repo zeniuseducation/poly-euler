@@ -254,11 +254,72 @@ fun sum_pdivs (n : int) : int =
 	val start = if n mod 2 = 0 then 2 else 3
 	val lim = ceil (Math.sqrt (Real.fromInt n))
 	fun iter i res =
-	    if i > lim then res
-	    else if i*i = n then iter (i+k) (res + i)
+	    if i >= lim then if i*i = n then res+i else res
 	    else if n mod i = 0 then iter (i+k) (res + i + (n div i))
-	    else iter (i+k) res	  
+	    else iter (i+k) res
     in iter start 1
+    end;
+
+fun fact 0 = 1
+  | fact 1 = 1
+  | fact n = n * (fact (n-1));
+
+fun remove elm lst =
+    let fun iter [] res = rev res
+	  | iter (x::xs) res = if x = elm then (rev res) @ xs
+			       else iter xs (x::res)
+    in iter lst []
+    end;
+
+fun colnum lst =
+    let fun iter [] res = res
+	  | iter (x::[]) res = (Int64.fromInt x) + (res * 10)
+	  | iter (x::xs) res = iter xs ((Int64.fromInt x)+(res*10))
+    in iter lst (Int64.fromInt 0)
+    end;
+
+fun sol24 (n : int) =
+    let fun iter i [] res = rev res
+	  | iter i (x::[]) res = rev (x::res) 
+	  | iter i raw res =
+	    let val faks = fact ((List.length raw)-1)
+		val divs = i div faks
+		val elm = nth (raw, divs)
+	    in iter (i mod faks) (remove elm raw) (elm::res)
+	    end
+    in colnum (iter n (range2 0 10) [])
+    end;
+	    
+
+fun sol23 (lim : int) : int =
+    let val abun = array (lim+2, false)
+	val sums = array (lim+2, false)
+	fun init_abun (i : int) : unit =
+	    if i > lim then ()
+	    else let val isum = sum_pdivs i
+		 in if isum > i then (update (abun, i, true);
+				      init_abun(i+1))
+		    else init_abun (i+1)
+		 end
+	fun init_sums (i: int) : unit =
+	    let fun iterj (j:int) : unit =
+		    let val n = i+j
+		    in if n > lim then ()
+		       else if sub(abun,j)
+		       then (update (sums, n, true); iterj(j+1))
+		       else iterj (j+1)
+		    end
+	    in if i > (lim div 2) then ()
+	       else if sub(abun, i) then (iterj i ; init_sums (i+1))
+	       else init_sums(i+1)
+	    end
+	fun iter (i : int) (res : int ) : int =
+	    if i > lim then res
+	    else if sub(sums, i) then iter (i+1) (res + i)
+	    else iter (i+1) res
+    in (init_abun 2 ;
+	init_sums 2 ;
+	(sum (range2 1 (lim+1))) - (iter 12 0))
     end;
 
 fun is_amic (n:int) : bool =
@@ -389,6 +450,8 @@ timed sol12 500 "#12";
 timed sol15 20 "#15";
 time sol21 10000 "#21";
 time sol21b 10000 "#21b";
+time sol23 28123 "#23";
+timed sol24 999999 "#24";
 time sol25 (IntInf.pow(10,999)) "#25";
 
 
