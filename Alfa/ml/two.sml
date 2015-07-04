@@ -5,7 +5,8 @@ val toLarge = Int.toLarge;
 val fromInt = LargeInt.fromInt;
 val fromLarge = LargeInt.fromLarge;
 val toInt = LargeInt.toInt;
-
+val floor = Real.floor;
+val ceil = Real.ceil;
 val dir = "/users/questmac/Public/lambdas/poly-euler/Alfa/ml/";
 
 fun range (i:int) (j:int) (step:int) =
@@ -248,6 +249,38 @@ fun cdivs (n : int) : int =
        else iter 3 2
     end;
 
+fun sum_pdivs (n : int) : int =
+    let val k = if n mod 2 = 0 then 1 else 2
+	val start = if n mod 2 = 0 then 2 else 3
+	val lim = ceil (Math.sqrt (Real.fromInt n))
+	fun iter i res =
+	    if i > lim then res
+	    else if i*i = n then iter (i+k) (res + i)
+	    else if n mod i = 0 then iter (i+k) (res + i + (n div i))
+	    else iter (i+k) res	  
+    in iter start 1
+    end;
+
+fun is_amic (n:int) : bool =
+    let val next = sum_pdivs n
+    in if next = n then false
+       else if n = (sum_pdivs next) then true
+       else false
+    end;
+
+fun sol21 (lim:int) : int =
+    let fun plus (x,y) = x+y
+    in List.foldl plus 0 (List.filter is_amic (range2 2 (lim+1)))
+    end;
+
+fun sol21b (lim : int ) : int =
+    let fun iter i res =
+	    if i > lim then res
+	    else if is_amic i then iter (i+1) (res+i)
+	    else iter (i+1) res
+    in iter 2 0
+    end;
+
 fun sol12 (tar : int) : Int64.int =
     let fun iter (n : int) =
 	    if 0 = n mod 2
@@ -259,6 +292,41 @@ fun sol12 (tar : int) : Int64.int =
             else iter (n+1)
     in iter 12
     end;
+
+fun sol14 (lim : Int64.int) : Int64.int =
+    let fun next n = if 0 = n mod 2 then n div 2 else (3*n)+1
+	fun collatz 1 = 1
+	  | collatz n = 1 + collatz(next n)
+	fun iter i res source =
+	    if i > lim
+	    then source
+	    else let val nnext = collatz i
+		 in if res > nnext
+		    then iter (i+2) res source
+		    else iter (i+2) nnext i
+		 end
+    in iter 500001 0 0
+    end;
+
+fun pascal (row : int) =
+    let fun fsum (x : Int64.int ,y : Int64.int) : Int64.int = x+y
+	fun iter i res =
+	    if i = row
+	    then res
+	    else let val raw = ListPair.zip ((0::res) ,(res @ [0]))
+		     val sumi = List.map fsum raw
+		 in iter (i+1) sumi
+		 end
+    in iter 0 [1]
+    end;
+
+fun sol15 (lim : int) =
+    let fun sqr x = x * x
+	fun plus (x,y) = x+y
+    in
+	List.foldl plus 0 (List.map sqr (pascal lim))
+    end;
+					 
 
 fun sol25 (tar : IntInf.int) : int =
     let fun loopi (a : IntInf.int) (b:IntInf.int) (i:int) =
@@ -318,6 +386,9 @@ time sol7 10000 "#7";
 time sol7b 10001 "#7b";
 timed sol10 2000000 "#10";
 timed sol12 500 "#12";
+timed sol15 20 "#15";
+time sol21 10000 "#21";
+time sol21b 10000 "#21b";
 time sol25 (IntInf.pow(10,999)) "#25";
 
 

@@ -9,8 +9,29 @@ let square x = x * x;;
 
 let cube x = x*x*x;;
 
-let sol1 (lim : int64) =
-  List.sum [for i in [1L..lim] do if (0L = i % 3L) || (0L = i % 5L) then yield i]
+let rec bexpt (a: bigint) (m : int) =
+  match m with
+    | 0 -> 1I
+    | 1 -> a
+    | _ -> let half = bexpt a (m/2)
+           if m % 2 = 0 then half*half else a*half*half
+
+let rec expt (a: int64) (m : int) =
+ match m with
+   | 0 -> 1L
+   | 1 -> a
+   | _ -> let half = expt a (m/2)
+          if m % 2 = 0 then half*half else a*half*half
+
+let sol1 (lim : int) =
+  List.sum [for i in [1..lim] do if (0 = i % 3) || (0 = i % 5) then yield i]
+
+let sol2 (lim : int) =
+  let rec fibo a b res =
+    match a with
+      | _ when a > lim -> res
+      | _ -> fibo (a+b) a (if 0 = a % 2 then a + res else res)
+  fibo 2 1 0;;
 
 let odd_prime (x : int64) =
   let rec loopi i =
@@ -93,7 +114,8 @@ let sol14 (lim : int64) =
 
 
 // 1-2ms
-let sol4b (a:int) (b:int) =
+let sol4b (a:int) =
+  let b = 900
   let rec outer i res =
     let rec inner j =
       let mul = i*j
@@ -158,8 +180,8 @@ let sum_primes (lim) =
   loopi 3L 2L;;
 
 // less than 1ms
-let sol7 (tar : int) (mul : int) =
-  let lim = tar * mul
+let sol7 (tar : int) =
+  let lim = tar * 12
   let primes = Array.zeroCreate<bool> (lim+5)
   Array.fill primes 0 lim true
   let rec outer (i:int) (idx : int) =
@@ -207,6 +229,25 @@ let sol18 fname =
       | _ -> (inner 0; iter (i-1))
   iter start;;
 
+let sol67 fname =
+  let rows = Array.map (fun (x: String) -> x.Split [|' '|]) <| File.ReadAllLines fname
+  let res = Array.map (fun x -> Array.map int x) rows
+  let start = (Array.length res) - 2
+  let rec iter i =
+    let rec inner j =
+      match j with
+        | _ when j > i -> ()
+        | _ -> let a = res.[i+1].[j]
+               let b = res.[i+1].[j+1]
+               if a > b then (Array.set res.[i] j (res.[i].[j] + a); inner (j+1))
+               else (Array.set res.[i] j (res.[i].[j] + b); inner (j+1))
+    match i with
+      | 0 -> let a = res.[1].[0]
+             let b = res.[1].[1]
+             if a > b then res.[0].[0] + a
+             else res.[0].[0] + b
+      | _ -> (inner 0; iter (i-1))
+  iter start;;
 
 let ispsqr x =
   let xsqrt = sqrt (float x)
@@ -247,7 +288,7 @@ let sum_sieve (lim:int) =
   outer 3 2L;;
 
 // runs in 1ms-an
-let fibo (tar:bigint) =
+let sol25 (tar:bigint) =
   let rec loopi a b (i:int) =
     if a > tar then i else loopi (a+b) a (i+1)
   loopi 1I 0I 1;;
@@ -283,18 +324,111 @@ let sieve (lim:int) =
                  else outer (i+2) res
   2::outer 3 2L;;
 
-let timed funi data =
-    let timer = new Stopwatch()
-    timer.Start()
-    let result = funi data
-    timer.Stop()
-    printf "elapsed %d ms \n" timer.ElapsedMilliseconds
-    result
+let pascal (row:int) =
+  let rec lastRow i res =
+    match i with
+      | _ when i = row -> res
+      | _ -> lastRow (i+1) (List.map2 (fun x y -> x + y) (0L::res) (List.append res [0L]))
+  lastRow 0 [1L];;
 
-let timex funi data =
+let sol15 (row : int) =
+  List.sum <| List.map (fun x -> x*x) (pascal row);;
+
+let bnumcol (n : bigint) =
+  let rec iter i res =
+    match i with
+      | _ when i < 10I -> (int i)::res
+      | _ -> iter (i/10I) (int(i%10I) :: res)
+  iter n [];;
+
+let sol16 (m : int) =
+  List.sum <| bnumcol (bexpt 2I m)
+
+let factorial (n : int) =
+  let rec iter i (res : bigint) =
+    if i = n then (bigint i) * res else iter (i+1) ((bigint i) * res)
+  iter 1 1I;;
+
+let sol20 (tar : int) =
+  List.sum <| bnumcol (factorial tar);;
+
+let sum_pdivs (n : int) =
+  let k = if 0 = n % 2 then 1 else 2
+  let lim = int (sqrt (float n))
+  let rec iter i res =
+    match i with
+      | _ when i > lim -> res
+      | _ when 0 = n % i -> iter (i+k) (res + i + (n/i))
+      | _ -> iter (i+k) res
+  iter (if 0 = n % 2 then 2 else 3) 1;;
+
+let sol21 (lim : int) =
+  let is_amic (n : int) =
+    let next = sum_pdivs n
+    match next with
+      | _ when next = n -> false
+      | _ when n = sum_pdivs next -> true
+      | _ -> false
+  let rec summing i res =
+    match i with
+      | _ when i > lim -> res
+      | _ when is_amic i -> summing (i+1) (res+i)
+      | _ -> summing (i+1) res
+  summing 2 0;;
+
+let sol21b (lim : int) =
+  let tabs = new Dictionary<int,bool> ()
+  let is_amic (n : int) =
+    if tabs.ContainsKey(n) then tabs.[n]
+    else let next = sum_pdivs n
+         match next with
+          | _ when next = n -> (tabs.Add(n, false); false)
+          | _ when n = sum_pdivs next -> (tabs.Add(n, true); tabs.Add(next, true); true)
+          | _ -> (tabs.Add(n, false) ;false)
+  List.sum <| List.filter is_amic [2..lim];;
+
+let timed funi data msg =
     let timer = new Stopwatch()
     timer.Start()
     let result = funi data
     timer.Stop()
+    printf "This is the answer for %s : %i \n" msg result
     printf "elapsed %d ms \n" timer.ElapsedMilliseconds
-    result
+
+
+let timex funi data msg =
+    let timer = new Stopwatch()
+    timer.Start()
+    let result = funi data
+    timer.Stop()
+    printf "This is the answer for %s : %i \n" msg result
+    printf "elapsed %d ms \n" timer.ElapsedMilliseconds
+
+let timeb funi data msg =
+    let timer = new Stopwatch()
+    timer.Start()
+    let result = funi data
+    timer.Stop()
+    printf "This is the answer for %s : %i \n" msg result
+    printf "elapsed %d ms \n" timer.ElapsedMilliseconds
+
+let main () =
+    timed sol1 1000 "#1"
+    timed sol2 4000000 "#2"
+    timex sol3 600851475143L "#3"
+    timed sol4 900000 "#4a"
+    timed sol4b 900 "#4b"
+    timed sol5 [1..20] "#5"
+    timed sol6 100 "#6"
+    timed sol7 10001 "#7"
+    timex sol8 1000 "#8"
+    timex sol10 2000000 "#10"
+    timex sol12 500 "#12"
+    timex sol14 1000000L "#14"
+    timex sol15 20 "#15"
+    timed sol16 1000 "#16"
+    timed sol18 "p18.txt" "#18"
+    timed sol20 100 "#20"
+    timed sol21 10000 "#21"
+    timeb sol25 (bexpt 10I 999) "#25"
+    timed sol67 "p67.txt" "#67"
