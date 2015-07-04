@@ -338,6 +338,7 @@ F# using list 5ms, and 4ms using loop
 
 Haskell 90ms  
 Julia 23ms  
+F# 108ms  
 
 ##### Problem 23 
 
@@ -346,10 +347,12 @@ Problem : The sum of all integers that cannot be written as the sum of two abund
 Type-hinted Clojure 240-250ms  
 Clojure 1.7 110ms  
 Type-hinted SBCL 275ms  
-Typed Racket 450-460ms  
+Typed Racket 450-460ms   
 Haskell 14 seconds  
 C as benchmark 128ms    
 Julia 230ms  
+SML MLTON 132ms  
+F# 102ms  
 
 ##### Problem 24
 
@@ -359,6 +362,7 @@ Clojure 0.23 msec
 SBCL 0.02 msec  
 Haskell 1 msec  
 Julia 0.07ms  
+SML 0.007ms  
 
 ##### Problem no 25
 
