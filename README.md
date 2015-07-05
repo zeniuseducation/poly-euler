@@ -989,6 +989,15 @@ Clojure TBD
 Julia 192ms  
 Haskell 8.5sec  
 
+##### Problem 504 
+
+Julia 28seconds  
+Clojure 62seconds  
+
+##### Problem 512
+
+Julia 49seconds  
+
 
 ## License
 
