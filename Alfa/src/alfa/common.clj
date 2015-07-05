@@ -335,6 +335,21 @@
       (recur (quot p 10)
              (+ res (rem p 10))))))
 
+(defn ^long sum-sieve
+  [^long lim]
+  (let [llim (int (Math/sqrt lim))
+        refs (boolean-array (+ lim 1) true)]
+    (loop [i (int 3) res (long 2)]
+      (if (> i lim)
+        res
+        (if (aget refs i)
+          (if (<= i llim)
+            (do (loop [j (int (* i i))]
+                  (when (<= j lim) (aset refs j false) (recur (+ j i i))))
+                (recur (+ i 2) (+ res i)))
+            (recur (+ i 2) (+ res i)))
+          (recur (+ i 2) res))))))
+
 
 
 

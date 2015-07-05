@@ -179,6 +179,28 @@ function sol249d (lim :: Int)
     return length (prs)+ rem (BigInt (sum (map (check, refs))), modi)
 end
 
+function sol204 (lim :: Int)
+    bahan :: Array = sieve (100)
+    res = list (1)
+    for prime in bahan
+        resi = takewhile (x -> x < lim, iterate (x-> x*prime, prime))
+        println (prime)
+        for r in res
+            resj = Int []
+            for ri in resi
+                tmp = r * ri
+                if tmp > lim
+                    break
+                end
+                push! (resj, tmp)
+            end
+            res = concat (res, apply (list, resj))
+        end
+    end
+    length (res)
+end
+
+
 
 
 

@@ -403,6 +403,9 @@ function words (s :: String)
     return res
 end
 
+function ispsqr (n :: Int)
+    sqrt (n) == isqrt (n)
+end
 
 
 

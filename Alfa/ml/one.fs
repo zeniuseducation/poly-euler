@@ -311,6 +311,7 @@ let sum_sieve (lim:int) =
     else outer (i+2) res
   outer 3 2L;;
 
+
 let sol23 (lim : int) =
   let refs = Array.zeroCreate<bool> (lim+5)
   Array.fill refs 1 (lim+1) false
@@ -439,6 +440,7 @@ let factorial (n : int) =
 
 let sol20 (tar : int) =
   List.sum <| bnumcol (factorial tar);;
+
 
 
 

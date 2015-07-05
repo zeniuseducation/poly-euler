@@ -12,7 +12,7 @@ function sol1 (lim :: Int)
             res += i
         end
     end
-    return res 
+    return res
 end
 
 function sol2 (lim :: Int)
@@ -27,9 +27,6 @@ function sol2 (lim :: Int)
     end
     return res
 end
-
-
-
 
 function sol3 (tar :: Int)
     function loop (p :: Int, i :: Int)
@@ -71,16 +68,16 @@ function sol4 (upper::Int)
             end
             i -= 1
         end
-        return res 
+        return res
     end
 
     function cpalin (x :: Int )
         int (string (x, reverse (string (x))))
-    end 
-    
+    end
+
     resi :: Int = 0
     j :: Int = upper
-    
+
     while resi == 0
         tmpl :: Int = cpalin (j)
         if iskali(tmpl)
@@ -291,7 +288,7 @@ function sol14b (lim :: Int)
     end
     res = maxby (x -> x [2], pmap (twist,600001:2:lim))
     gc_enable ()
-    return res 
+    return res
 end
 
 function sol15a (n :: Int)
@@ -394,7 +391,7 @@ function sol21 (lim::Int)
         else
             return 0
         end
-        
+
     end
 
     res :: Int = 0
@@ -418,7 +415,7 @@ function sol22 ()
     for i = 1:length (tmp)
         res += i * getscore (tmp [i])
     end
-    return res 
+    return res
 end
 
 function sol22b ()
@@ -436,9 +433,9 @@ function sol23 (lim::Int)
         end
     end
     res :: Int = div(lim * (lim+1),2)
-    for i = 12:div (lim,2) 
+    for i = 12:div (lim,2)
         if abuns [i]
-            j :: Int = i 
+            j :: Int = i
             tres = (i+j) <= lim
             while tres
                 if abuns [j]
@@ -627,14 +624,14 @@ cs = [200,100,50,20,10,5,2,1]
         return 1
     elseif n == 8
         return 1
-    else 
+    else
         i :: Int = 0
         res :: Int = 0
         while (i*coin) <= amount
             res += coins (amount-(i*coin), n+1)
             i += 1
         end
-        return res 
+        return res
     end
 end
 
@@ -819,7 +816,7 @@ function sol40 (lim :: Int)
         push! (res, digpast (tmp))
         tmp *= 10
     end
-    return prod (res) 
+    return prod (res)
 end
 
 function sol41 ()
@@ -856,7 +853,7 @@ function sol42 ()
             res += 1
         end
     end
-    return res 
+    return res
 end
 
 function sol42b ()
@@ -872,7 +869,7 @@ function sol42b ()
             res += 1
         end
     end
-    return res 
+    return res
 end
 
 
@@ -926,7 +923,7 @@ function sol17b (lim::Int)
     refp = map (length,["", "twenty", "thirty","forty","fifty","sixty","seventy", "eighty", "ninety"])
     refu = map (length, vcat(refs,["ten","eleven","twelve","thirteen", "fourteen","fifteen","sixteen","seventeen", "eighteen","nineteen"]))
     function cwords (n :: Int)
-        
+
         if 100 <= n <= 999
             dep = div (n,100)
             bel = n % 100
@@ -946,7 +943,7 @@ function sol17b (lim::Int)
             return refu[n]
         end
     end
-    
+
     sum (map (cwords,1:lim))
 end
 
@@ -991,7 +988,7 @@ function sol44 ()
         sump = penti + pentj
         if sump > res
             checki = true
-        end 
+        end
         checkj = false
         while (!checkj) && (j >= 1)
             if ispentagon (sump)
@@ -1059,10 +1056,10 @@ function sol47a (tar :: Int, lim :: Int)
         end
         return im
     end
-    
+
     function pfactors (n::Int)
         p :: Int = n
-        res = Int []    
+        res = Int []
         if iseven (p)
             push! (res,2)
         end
@@ -1153,12 +1150,12 @@ function sol49 (diff :: Int, howmany :: Int)
         members = [i:diff:10000]
         if isperm (members)
             if all (prime,members)
-                if found >= howmany 
+                if found >= howmany
                     check = true
                 else
                     found += 1
                 end
-            end 
+            end
         end
         i = nextprime (i)
     end
@@ -1192,7 +1189,7 @@ function sol33 (lim :: Int)
     res2 = reduce(*,map (x -> first (reverse (x)), res))
     return div (res1,gcd (res1,res2))
 end
-        
+
 
 function sol50 (lim :: Int)
     prs = primes (div (lim,100))
@@ -1207,7 +1204,7 @@ function sol27 (upper :: Int)
     maxpair :: Int = 0
 
     # ingredients for searching b
-    bahanb = primes (upper) 
+    bahanb = primes (upper)
     for b in bahanb [2:end]
         check = true
 
@@ -1222,7 +1219,7 @@ function sol27 (upper :: Int)
 
                 # exit when producing negative value
                 if posp < 0
-                    checkinner = false 
+                    checkinner = false
                 elseif prime (posp)
                     ctr += 1
                 else
@@ -1244,7 +1241,7 @@ function sol27 (upper :: Int)
 end
 
 # The idea is to keep an array for the perimeter
-# Loop a & b, and c 
+# Loop a & b, and c
 # When a requirement is met then add 1 to the content for the given perimeter
 function sol39 (lim :: Int)
     # initialise the perimeter array
@@ -1284,7 +1281,7 @@ function sol46 (lim::Int)
     for p in prms
         for s in squares
             tmp = p + (2*s)
-            odds [tmp] = true  
+            odds [tmp] = true
         end
         # This part is checking the odd numbers below p that doesn't
         # satisfy the requirements
@@ -1339,14 +1336,10 @@ function sol19 ()
     ctr = Array []
     (d,m,y) = start
     while y < 2001
-        if d == 1 
+        if d == 1
             push! (ctr,[d,m,y])
         end
         (d, m, y) = getdate (d+7,m,y)
     end
     return ctr
 end
-
-
-
-

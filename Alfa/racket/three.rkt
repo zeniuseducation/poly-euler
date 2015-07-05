@@ -12,6 +12,20 @@
             (loop (+ i 1) res))))
   (loop))
 
+(define (f n)
+  (let ((tmp (totient n)))
+    (remainder (foldl + 0 (map (lambda (x)
+                                 (* tmp (expt n x)))
+                               (range n)))
+               (+ n 1))))
+
+(define (g n)
+  (foldl + 0 (map f (range 1 (+ n 1)))))
+
+(define (sol512 lim)
+  (foldl + 0 (map totient (range 1 (+ lim 1) 2))))
+                               
+
 (define modi (expt 10 9))
 
 (define tar (expt 10 12))

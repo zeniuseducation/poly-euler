@@ -393,6 +393,30 @@ function sol188 (a:: Int, b::Int, modi::Int)
     hyper_expt (a,b)
 end
 
+function sol187 (lim :: Int)
+    primes = sieve (div (lim,2))
+    ctr = length (primes)
+    llim = isqrt (lim)
+    res = 0
+    j = ctr
+    for i = 1:ctr
+        pi = primes [i]
+        if pi > llim
+            return res
+        end
+        while true
+            pj = primes [j]
+            tmp = pi*pj
+            if tmp < lim
+                res += j-i+1
+                break
+            end
+            j -= 1
+        end
+    end
+    res
+end
+
 
 
 
