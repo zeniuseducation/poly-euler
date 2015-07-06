@@ -789,6 +789,7 @@ Clojure 480ms
 ##### Problem 113
 
 Clojure 12ms  
+Julia 6ms  
 
 ##### Problem 114
 
