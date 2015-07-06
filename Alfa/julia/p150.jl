@@ -513,6 +513,36 @@ function sol113(lim :: Int)
     return res
 end
 
+function sol113b (lim :: Int)
+    @memoize function up (n:: Int, dig::Int)
+        if dig == 1
+            return 1
+        else
+            return sum (map (x-> up (x,dig-1), n:9))
+        end
+    end
+
+    @memoize function down (n::Int, dig::Int)
+        if dig == 2
+            if n==0
+                return 1
+            else
+                return n+1
+            end
+        else 
+            return sum (map (x-> down (x,dig-1), 0:n))
+        end 
+    end
+    res :: Int = 0
+    for i = 1:lim
+        res += sum (map (x->up (x,i), 1:9))
+    end
+    for i = 2:lim
+        res += sum (map (x-> down (x,i), 1:9)) - 9
+    end
+    res
+end
+
 
 function sol123 (target :: Int, lim ::Int)
     # Generates the necessary primes
@@ -780,7 +810,9 @@ function sol104()
     end
 end
 
-    
+
+
+
 
 
 

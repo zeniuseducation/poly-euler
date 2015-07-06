@@ -20,4 +20,24 @@ function max_primes (lim :: Int)
     end
 end
 
+function sol407 (lim :: Int)
+    nref = zeros (Int,lim)
+    for a = 2:lim
+        asd = a*a-a
+        diva = divisors (asd)
+        for n in diva
+            if n <= a
+                continue
+            end
+            if n > lim 
+                break
+            end
+            if a > nref [n]
+                nref [n] = a
+            end
+        end
+    end
+    sum (nref)
+end
+
 
