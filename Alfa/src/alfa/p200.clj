@@ -217,8 +217,8 @@
 (defn sol166
   []
   (reduce + (pmap #(do (println (key %))
-                      (sol166a (val %) (key %)))
-                 bahan166)))
+                       (sol166a (val %) (key %)))
+                  bahan166)))
 
 (defn primes-to
   "Returns a lazy sequence of prime numbers less than lim"
@@ -231,6 +231,78 @@
           (doseq [j (range (* i i) lim i)]
             (aset refs j false)))
         (filter #(aget refs %) (range 2 lim)))))
+
+(defn cut-paper
+  [[x & xs]]
+  (if (== x 5)
+    xs
+    (loop [i x res []]
+      (if (== i 5)
+        (shuffle (concat res xs))
+        (recur (+ i 1) (conj res (+ i 1)))))))
+
+(defn batch-job
+  []
+  (loop [i 1 pope [1] ctr 0]
+    (cond (== i 1)
+          (recur (+ i 1) (cut-paper pope) ctr)
+          (== i 16)
+          ctr
+          :else (recur (+ i 1)
+                       (cut-paper pope)
+                       (+ ctr (if (== 1 (count pope)) 1 0))))))
+
+(defn sol151b
+  [^long lim]
+  (loop [i (int 1) res {}]
+    (if (> i lim)
+      (let [tots (reduce + (vals res))]
+        [(->> res
+              (map #(* (key %) 1.0 (/ (val %) tots)))
+              (reduce +))
+         res])
+      (recur (+ i 1)
+             (merge-with + res {(batch-job) 1})))))
+
+(def mc-paper
+  (memoize
+    (fn [lst]
+      (loop [[x & xs] lst res []]
+        (if x
+          (let [tmp (loop [i x resi []]
+                      (if (== i 5)
+                        resi
+                        (recur (+ i 1) (conj resi (+ i 1)))))
+                st (concat tmp (remove-one x lst))]
+            (recur xs (if (empty? st) res (conj res st))))
+          res)))))
+
+
+
+(def jobs
+  (memoize
+    (fn [lst res]
+      (cond
+        (= lst [5])
+        {res 1}
+        :else
+        (let [fori (if (== 1 (count lst))
+                     (+ res 1) res)]
+          (->> (mc-paper lst)
+               (map #(jobs % fori))
+               (apply merge-with +)))))))
+
+(defn sol151
+  []
+  (let [res (jobs [1] -1)
+        tots (reduce + (vals res))]
+    [res (->> res
+              (map #(/ (* 1.0 (key %) (val %)) tots))
+              (reduce +))]))
+
+
+
+
 
 
 

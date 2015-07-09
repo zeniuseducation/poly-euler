@@ -417,6 +417,61 @@ function sol187 (lim :: Int)
     res
 end
 
+function cutpaper (lst)
+    len = length (lst)
+    if len == 1
+        fpap = lst [1]
+        for i = fpap:4
+            push! (lst, i+1)
+        end
+        return lst [2:end]
+    else
+        tmp = rand (1:len)
+        fpap = lst [tmp]
+        if fpap == 5
+            return vcat (lst [1:tmp-1], lst [tmp+1:end])
+        else
+            for i = fpap:4
+                push! (lst, i+1)
+            end
+            return vcat (lst [1:tmp-1], lst [tmp+1:end])
+        end
+    end
+end
+
+function batchjob ()
+    pope = Int [1]
+    ctr :: Int = 0
+    for i = 1:15
+        if i == 1
+            pope = cutpaper (pope)
+        else
+            if length (pope) == 1
+                ctr += 1
+            end
+            pope = cutpaper (pope)
+        end
+    end
+    return ctr
+end
+
+function sol151 (lim :: Int)
+    res :: Dict = {0=>0, 1=>0, 2=>0, 3=>0, 4=>0}
+    for i = 1:lim
+        tmp = batchjob ()
+        res [tmp] += 1
+    end
+    tots :: Int = sum (values (res))
+    ctr :: Real = 0.0
+    for i in keys (res)
+        ctr += i*(res [i])/tots
+    end
+    ctr
+end
+
+
+
+
 
 
 

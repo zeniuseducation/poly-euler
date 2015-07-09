@@ -172,9 +172,6 @@ function p512b (lim :: Int)
             res += (i-1)
         else
             res += tots [i]
-            if 0 == rem (i,1000001)
-                println (i)
-            end
         end
     end
     res

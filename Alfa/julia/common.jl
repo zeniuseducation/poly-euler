@@ -4,6 +4,29 @@ function square (n:: Int)
     n * n
 end
 
+function divisors (n :: Int)
+    step :: Int = 1
+    start :: Int = 2
+    if 1 == n % 2
+        step = 2
+        start = 3
+    end
+    dep = Int [1]
+    bel = Int [n]
+    for i = start:step:isqrt (n)
+        if i*i == n
+            return vcat (dep, [i], reverse (bel))
+        else
+            if 0 == n % i
+                push! (dep,i)
+                push! (bel,div (n,i))
+            end
+        end
+    end
+    vcat (dep,reverse (bel))
+end
+
+
 function prime (n :: Int)
     if n == 1
         return false

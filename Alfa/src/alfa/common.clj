@@ -351,6 +351,58 @@
           (recur (+ i 2) res))))))
 
 
+(defn ffibo
+  [^long i]
+  (cond (== i 0) 0
+        (== i 1) 1
+        :else (let [sqrt5 (Math/sqrt 5)
+                    Phi (/ (+ 1 sqrt5) 2)
+                    phi (/ (- 1 sqrt5) 2)]
+                (bigint (/ (- (Math/pow Phi i) (Math/pow phi i))
+                           sqrt5)))))
+
+(defn fibo
+  [^long n]
+  (loop [a 1 b 0 i 1]
+    (if (== i n) a (recur (+' a b) a (+ i 1)))))
+
+(defn sum
+  [[x & xs]]
+  (if x (+ x (sum xs)) 0))
+
+(defn tree-sum
+  [[x xb & xs :as lst]]
+  (cond (nil? x) 0
+        (nil? xb) x
+        :else (let [[dep bel] (split-at (quot (count lst) 2) lst)]
+                (+ (tree-sum dep) (tree-sum bel)))))
+
+
+(defn qsort
+  [[x & xs :as lst]]
+  (cond (nil? x) []
+        (nil? xs) [x]
+        :else (concat (qsort (filter #(<= % x) xs))
+                      [x]
+                      (qsort (filter #(> % x) xs)))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
