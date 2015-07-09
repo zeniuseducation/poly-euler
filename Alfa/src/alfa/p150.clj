@@ -280,13 +280,7 @@
         rmax))
     (if x x 0)))
 
-(defn qsort
-  [[x & xs]]
-  (if xs
-    (concat (qsort (filter #(<= % x) xs))
-            [x]
-            (qsort (filter #(> % x) xs)))
-    (if x [x] [])))
+
 
 (defn isort
   [[x & xs]]
@@ -388,19 +382,7 @@
             (aset refs j false)))
         (filter #(aget refs %) (range 2 lim)))))
 
-(defn sum-sieve
-  [lim]
-  (let [refs (boolean-array (+ lim 1) true)
-        root (int (Math/sqrt lim))
-        res (atom (int 2))]
-    (do (doseq [i (range 3 lim 2)
-                :when (aget refs i)]
-          (if (<= i root)
-            (do (doseq [j (range (* i i) lim (* 2 i))]
-                  (aset refs j false))
-                (swap! res + i))
-            (swap! res + i)))
-        @res)))
+
 
 (defn primes-to1
   "Computes lazy sequence of prime numbers up to a given number using sieve of Eratosthenes"
@@ -612,6 +594,7 @@
                      (filter #(<= % lim))
                      (mapcat #(psqr-progressive %1 b %2) a c))]
           (recur (+ i 1) (union res resi)))))))
+
 
 
 

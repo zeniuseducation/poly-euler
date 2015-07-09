@@ -24,7 +24,7 @@ function sum_sieve (lim :: Int)
   res
 end
 
-@time sum_sieve(2000000)
+@time sum_sieve(20000000)
 
 # 76ms
 function sol52 (start :: Int)

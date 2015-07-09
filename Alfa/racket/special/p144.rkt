@@ -37,10 +37,7 @@
     (if (f= x x1) 
         (list x2 (which-one x x2))
         (list x1 (which-one x x1)))))
-    
-    
-(define (something else)
-  else)
+
 
 (define (next-impact p1 p2)
   (match-let* (((list x1 y1) p1)

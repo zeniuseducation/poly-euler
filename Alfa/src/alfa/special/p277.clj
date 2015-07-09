@@ -76,7 +76,8 @@
   [^long lim]
   (let [primes (boolean-array (+ lim 1) true)
         llim (long (Math/sqrt lim))
-        tots (long-array (range (+ lim 2)))]
+        tots (
+               -array (range (+ lim 2)))]
     (loop [i (int 3) res (long 1)]
       (if (<= i lim)
         (let [p (aget primes i)]
