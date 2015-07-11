@@ -1,6 +1,5 @@
 (ns alfa.beta.one-donna)
 
-
 (def fibo
   (memoize
     (fn [x]
