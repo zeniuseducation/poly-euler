@@ -75,6 +75,13 @@ sol5 xs = iter [] xs
                           | 0 == rem i lx = iterone lxs (div i lx)
                           | otherwise = iterone lxs i
 
+sol25 :: Integral a => Int
+sol25 lim = iter 1 0 0
+  where
+    iter a b i
+      | a > lim = i
+      | otherwise = iter (a+b) a (succ i)
+
 time f x = do
   start <- getCurrentTime
   print $ f x

@@ -21,6 +21,8 @@
                          lim %))
               (reduce +')))))))
 
+
+
 (defn ^long tsol
   [^long lim]
   (->> (permutes [:a :l :o] 3)
@@ -480,7 +482,8 @@
 
 (defn pascal
   "Building pascal pyramid, where layer is the nth layer in the
-  pyramid" [^long layer ^long modi]
+  pyramid"
+  [^long layer ^long modi]
   (let [facts (long-array (map #(reduce (fn [a b]
                                           (rem (* a b) modi))
                                         1
