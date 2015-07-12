@@ -243,7 +243,7 @@ let sol22 () =
   let iraw = raw.[0].Split [|','|]
   let jraw = Array.sort iraw
   let tabs = new Dictionary<char,int> ()
-  let abjad = '"'::['A'..'Z']
+  let abjad = ['A'..'Z']
   let rec init_dict i =
     if i > 26 then () else (tabs.Add (abjad.[i], i) ; init_dict (i+1))
   let cal = Array.length jraw
@@ -413,6 +413,30 @@ let sieve (lim:int) =
                  else outer (i+2) res
   2::outer 3 2L;;
 
+let sol47 (lim:int) =
+  let primes = Array.zeroCreate<bool> (lim+2)
+  let refs = Array.zeroCreate<int> (lim+2)
+  Array.fill refs 0 lim 0
+  Array.fill primes 0 lim true
+  let allPrime i = [true;true;true;true] = List.map (fun x -> refs.[x] = 4) [i..i+3]
+  let rec outer (i:int) =
+    let rec inner (j:int) =
+      match j with
+        | _ when j > lim -> ()
+        | _ -> (Array.set primes j false; inner (j+i))
+    let rec innerRef (j : int) =
+      match j with
+        | _ when j > lim -> ()
+        | _ -> (Array.set refs j (1 + refs.[j]) ; innerRef (j+i))
+    match primes.[i] with
+      | true -> if i <= lim/i then (inner (i*i); innerRef i; outer (i+1))
+                else (innerRef i ; outer (i+1))
+      | false -> if i > lim
+                 then if allPrime i then i else outer (i+1)
+                 else if allPrime i then i else outer (i+1)
+  outer 2;;
+
+
 let pascal (row:int) =
   let rec lastRow i res =
     match i with
@@ -437,12 +461,6 @@ let factorial (n : int) =
   let rec iter i (res : bigint) =
     if i = n then (bigint i) * res else iter (i+1) ((bigint i) * res)
   iter 1 1I;;
-
-let sol20 (tar : int) =
-  List.sum <| bnumcol (factorial tar);;
-
-
-
 
 let sol21 (lim : int) =
   let is_amic (n : int) =
@@ -510,10 +528,9 @@ let main () =
     timex sol15 20 "#15"
     timed sol16 1000 "#16"
     timed sol18 "p18.txt" "#18"
-    timed sol20 100 "#20"
     timed sol21 10000 "#21"
-    timed sol22 () "#22"
     timed sol23 28123 "#23"
     timex sol24 999999 "#24"
     timeb sol25 (bexpt 10I 999) "#25"
+    timed sol47 150000 "#47"
     timed sol67 "p67.txt" "#67"
