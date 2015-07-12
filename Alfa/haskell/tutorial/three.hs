@@ -31,3 +31,57 @@ rev' lst = iter lst []
 	where
 		iter [] res = res
 		iter (x : xs) res = iter xs (x:res)
+
+trev :: [a] -> [a]
+trev [] = []
+trev (x:[]) = [x]
+trev xs = trev lpart ++ trev fpart
+	where
+		lcount = div (length xs) 2
+		fpart = take lcount xs
+		lpart = drop lcount xs
+
+
+remove :: Eq a => a -> [a] -> [a]
+remove elmt lst = iter lst []
+	where
+		iter [] res = res
+		iter (x : xs) res
+			| x == elmt = (rev' res) ++ xs
+			| otherwise = iter xs (x:res)
+
+removeAll :: Eq a => a -> [a] -> [a]
+removeAll elmt lst = iter lst []
+	where
+		iter [] res = res
+		iter (x : xs) res
+			| x == elmt = (rev' res) ++ (removeAll elmt xs)
+			| otherwise = iter xs (x:res)
+
+member :: Eq a => a -> [a] -> Bool
+member elmt lst = iter lst
+	where
+		iter [] = False
+		iter (x:xs) = if x == elmt then True else False
+
+
+qsort :: Ord a => [a] -> [a]
+qsort [] = []
+qsort (x:[]) = [x]
+qsort (x:xs) = qsort (filter (<= x) xs) ++ [x] ++ qsort (filter (> x) xs)
+
+is_prime :: Integral a => a -> Bool
+is_prime 2 = True
+is_prime n = if odd n then iter 3 else False
+	where
+		lim = ceiling $ sqrt $ fromIntegral n
+		iter i
+			| i > lim = True
+			| 0 == rem n i = False
+			| otherwise = iter $ i+2
+
+odd_prime :: Int -> Bool
+odd_prime n = all (\x -> rem n x /= 0) $ takeWhile (\x-> x <= div n x) [3,5..]
+
+sum_primes :: Int -> Int
+sum_primes lim = sum $ filter odd_prime [3,5..lim]
