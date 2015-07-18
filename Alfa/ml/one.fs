@@ -512,6 +512,32 @@ let timeb funi data msg =
     printf "This is the answer for %s : %i \n" msg result
     printf "elapsed %d ms \n" timer.ElapsedMilliseconds
 
+let sol72 (lim : int) =
+  let primes = Array.zeroCreate<bool> (lim+5)
+  Array.fill primes 2 lim true
+  let tots = Array.init (lim+2) (fun idx -> idx)
+  let rec outer (i : int) =
+    let rec inner (j:int) =
+      match j with
+        | _ when j > lim -> ()
+        | _ -> (Array.set primes j false; inner (j+i))
+    match primes.[i] with
+      | true -> if i <= lim/i
+                then (inner (i*i); outer (i+1))
+                else outer (i+1)
+      | false -> if i > lim then () else outer (i+1)
+  let rec tots_outer (i : int) (res:int64) =
+    let rec tots_inner (j:int) =
+      match j with
+        | _ when j > lim -> ()
+        | _ -> let tmp = (int64 tots.[j]) * (int64 (i-1))
+               (Array.set tots j (int (tmp/(int64 i))); tots_inner (j+i))
+    match primes.[i] with
+      | _ when i > lim -> res
+      | true -> (tots_inner (2*i); tots_outer (i+1) (res + (int64 (i-1))))
+      | false -> tots_outer (i+1) (res + (int64 tots.[i]))
+  (outer 2; tots_outer 2 0L);;
+
 let main () =
     timed sol1 1000 "#1"
     timed sol2 4000000 "#2"
@@ -534,3 +560,4 @@ let main () =
     timeb sol25 (bexpt 10I 999) "#25"
     timed sol47 150000 "#47"
     timed sol67 "p67.txt" "#67"
+    timex sol72 1000000 "#72"

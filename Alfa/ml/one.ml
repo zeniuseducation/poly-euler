@@ -1,17 +1,14 @@
-  
-let square x = x * x;;
-  
-let rec evenfibo a b res tar =
+et square x = x * x;;
+
+l rec evenfibo a b res tar =
   if a > tar
   then res
   else evenfibo (a+b) a(if 0 == a mod 2 then a else 0) tar;;
-  
-
-  
-let oddPrime (p : int) = 
-  let rec looper (i : int) = 
-    if i*i > p 
-    then true
+    
+let oddPrime (p : int) =
+  lt rec looper (i : int) =
+    f i*i > p
+    ten true
     else
       if 0 == p mod i
       then false
@@ -30,8 +27,8 @@ let lprime (n : int) =
     then looper (p / i) 3
     else looper p (i+2)
   in looper n 3;;
-  
-let sumPrimes (lim : int) =
+
+let surimes (lim : int) =
   let rec looper (i : int) (res : int) =
     if i > lim
     then res
@@ -70,5 +67,3 @@ let time f x =
   let fx = f x in
   Printf.printf "Execution time: %fs\n" (Sys.time() -. t);
   fx;;
-
-

@@ -57,7 +57,7 @@ numcol n = iter n []
           | otherwise = iter (div i 10) $ (rem i 10):res
 
 colnum :: Integral a => [a] -> a
-colnum lst = iter lst 1
+colnum lst = iter lst 0
   where iter [] _ = 0
         iter (x: []) res = (+) x $ res*10
         iter (x:xs) res = iter xs $ (res * 10) + x

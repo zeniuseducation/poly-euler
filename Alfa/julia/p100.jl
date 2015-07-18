@@ -24,7 +24,6 @@ function sum_sieve (lim :: Int)
   res
 end
 
-@time sum_sieve(20000000)
 
 # 76ms
 function sol52 (start :: Int)
@@ -1638,5 +1637,28 @@ function royalflush (hand)
     tmp [1] == 10 && isflush (hand) && isstraight (hand)
 end
 
-
+function sol72b (lim :: Int)
+    primes = trues (lim)
+    tots = [1:lim]
+    llim = isqrt (lim)
+    for i = 2:llim
+        if primes [i]
+            for j = i*i:i:lim
+                primes [j] = false
+            end
+        end
+    end
+    res :: Int = 0
+    for i = 2:lim
+        if primes [i]
+            res += i-1
+            for j = i+i:i:lim
+                tots [j] = div (tots [j]*(i-1), i)
+            end
+        else
+            res += tots [i]
+        end
+    end
+    res
+end
 
