@@ -674,10 +674,12 @@ Julia 0.1ms
 ##### Problem 71  
 
 Julia 0.03ms 
+Haskell less than 1ms  
 
 ##### Problem 72
 
 Julia 102ms  
+F# 53ms  
 
 ##### Problem 73 
 
