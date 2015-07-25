@@ -347,6 +347,7 @@ Problem : The sum of all integers that cannot be written as the sum of two abund
 
 Type-hinted Clojure 240-250ms  
 Clojure 1.7 110ms  
+Clojure 1.7 v2 50ms  
 Type-hinted SBCL 275ms  
 Typed Racket 450-460ms   
 Haskell 14 seconds  
