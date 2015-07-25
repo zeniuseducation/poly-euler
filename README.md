@@ -102,6 +102,7 @@ C as benchmark 0.2ms
 Java as benchmark 5ms  
 Swift 0.11ms NEW RECORD!!  
 Julia 0.16ms  
+Juliabox-0.4 v2 0.043ms  
 Pypy 1.5ms  
 Elixir 3.5ms  
 F# less than 0.5 ms  
