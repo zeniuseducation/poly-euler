@@ -356,6 +356,7 @@ Julia 230ms
 Julia v2 on Juliabox-0.4 runs in 22ms  
 SML MLTON 132ms  
 F# 102ms  
+F# v2 27ms  
 
 ##### Problem 24
 
