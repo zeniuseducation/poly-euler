@@ -4,6 +4,22 @@
 
 (set! *unchecked-math* true)
 
+(defn max
+  [a b]
+  (if (> a b) a b))
+
+(defn maxi
+  [[x & xs]]
+  (if (empty? xs)
+    x
+    (max x (maxi xs))))
+
+(defn revs
+  [[x & xs]]
+  (if x
+    (conj (revs xs) x)
+    []))
+
 (defn ^long prime?
   [^long n]
   (loop [i (int 3)]

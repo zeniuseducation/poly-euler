@@ -1,5 +1,5 @@
 using Lazy
-using Memoize
+ using Memoize
 
 function sqr (x)
 	return x*x
@@ -30,7 +30,7 @@ function sol1 (lim :: Int)
 end
 
 function sum_sieve (lim :: Int)
-	llim :: Int, res :: Int = isqrt(lim), 0
+    llim :: Int, res :: Int = isqrt(lim), 0
 	refs = trues(lim)
 	for i = 3:2:lim
 		if refs[i]
@@ -44,3 +44,5 @@ function sum_sieve (lim :: Int)
 	end
 	return res
 end
+
+

@@ -26,8 +26,8 @@ primep n
   | even n = False
   | otherwise = iter 3
   where iter i
-          | 0 == rem n i = False
           | i > div n i = True
+          | 0 == rem n i = False
           | otherwise = iter $ i + 2
 
 oddprime :: Integral a => a -> Bool
@@ -56,13 +56,19 @@ numcol n = iter n []
           | i < 10 = i:res
           | otherwise = iter (div i 10) $ (rem i 10):res
 
+isPalin :: Integral a => a -> Bool
+isPalin n = tmp == reverse tmp
+  where tmp = numcol n
+
+pascal = iterate (\x -> zipWith (+) (0:x) (x ++ [0])) [1]
+fibo = 1:2:zipWith (+) fibo (tail fibo)
+faks = scanl1 (*) [1..]
+
 colnum :: Integral a => [a] -> a
 colnum lst = iter lst 0
   where iter [] _ = 0
         iter (x: []) res = (+) x $ res*10
         iter (x:xs) res = iter xs $ (res * 10) + x
-
-fibo = 1:2:zipWith (+) fibo (tail fibo)
 
 intp :: Double -> Bool
 intp x = floor x == ceiling x
@@ -82,6 +88,19 @@ hexa n = n * (2*n-1)
 
 hexas :: [Int]
 hexas = map hexa [1..]
+
+rdiv (a,b) (c,d) = rmul (a,b) (d,c)
+
+radd (a1,b1) (a2,b2) = (div plus gcd1, div kali gcd1)
+  where plus = (a1*b2) + (a2*b1)
+        kali = b1*b2
+        gcd1 = gcd plus kali
+
+rmul (a1,b1) (a2,b2) = (div atas tmp, div bawah tmp)
+  where atas = a1*a2
+        bawah = b1*b2
+        tmp = gcd atas bawah
+
 
 
 

@@ -83,12 +83,63 @@ sol71 lim = starti
   where (start:_) = dropWhile (\x -> 0 /= rem x 7) [lim,lim-1..]
         starti = 3* (div start 7) - 1
 
+isParty :: Int -> Bool
+isParty n = all (\x -> (sort $ numcol x) == tmp) $ map (*n) [2..6]
+  where tmp = sort $ numcol n
 
+sol52 :: Int -> Int
+sol52 start = head $ dropWhile (not.isParty) $ [start..]
+
+isLychrel :: Integral a => a -> Bool
+isLychrel n = b >= 50
+  where f (a,b) = (a + (colnum $ reverse $ numcol a), b+1)
+        ((a,b):_) = dropWhile (\(a,b) -> (not.isPalin $ a) && b < 50) $ iterate f (f (n,0))
+
+sol55 :: Integral a => a -> Int
+sol55 lim = length $ filter isLychrel [1..lim]
+
+corners :: Int -> [Int]
+corners i = take 4 $ iterate (\x -> x - (i-1)) (i*i)
+
+sol58 :: Int -> (Int,Int,Int)
+sol58 n = head $ dropWhile (\(a,b,c) -> (g a b) >= n) $ iterate f (f (1,0,1))
+  where f (a,b,c) = (a+4, (+) b $ length $ filter primep $ corners $ 2+c, c+2)
+        g a b = div (100*b) a
+
+jumdig = length.show
+
+sol63 n = sum $ map f [1..n]
+  where f i = length $ takeWhile (\x -> x == (jumdig $ i^x)) [1..]
+
+sqrt2 lim = iter lim (1,1)
+  where iter i (a,b)
+          | i == 1 = radd (a,b) (1,2)
+          | otherwise = iter (i-1) $ radd (a,b) (rdiv (1,1) $ radd (2,1) (1,2))
+
+sol73 lim = iter 5 0
+  where iter i res
+          | i > lim = res
+          | otherwise = iter (i+1) (res+resi)
+          where start = 1 + (div i 3)
+                end = 1 + (div i 2)
+                resi = length $ filter (\x -> 1 == gcd i x) $
+                       takeWhile (< end) $ [start..]
+
+sol73b lim = sum $ [length $ filter (\i -> 1 == gcd x i) s | x <- [5..lim],
+                    let s = takeWhile (< (1+(div x 2))) [(1+(div x 3))..]]
+
+intersperse' a [x] = [x]
+intersperse' a (x:xs) = x:a:intersperse' a xs
+        
 time f x = do
   start <- getCurrentTime
   print $ f x
   stop <- getCurrentTime
   print $ diffUTCTime stop start
+
+
+
+
 
 
 

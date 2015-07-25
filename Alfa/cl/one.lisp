@@ -1,5 +1,7 @@
 (defconstant target (expt 10 999))
 
+(load "clojure.lisp")
+
 (defun fibo (a b i lim)
   (if (> a lim) i (fibo (+ a b) a (1+ i) lim)))
 
@@ -45,6 +47,28 @@
 		      (t (loopi (+ i 2) res)))))
       (loopi 3 2))))
 
+(defun sum-sieve2 (lim)
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (let ((primes (make-array (1+ lim) :initial-element t))
+        (llim (isqrt lim)))
+    (labels ((outer (i step)
+               (when (<= i lim)
+                 (setf (aref primes i) nil)
+                 (outer (+ i step) step)))
+             (inner (i res)
+	       (declare (optimize (speed 3))
+			(fixnum i res))
+               (if (> i lim)
+                   res
+                   (if (aref primes i)
+                       (if (<= i llim)
+                           (progn (outer (* i i) (* 2 i))
+				  (inner (+ i 2) (+ i res)))
+                           (inner (+ i 2) (+ i res)))
+                       (inner (+ i 2) res)))))
+      (inner 3 2))))
+
 (defun idem (x)
   (declare (optimize (speed 3) (safety 0)) (fixnum x))
   (labels ((loopi (i)
@@ -59,3 +83,21 @@
      summing (idem i) into sum
      finally (return sum)))
 
+(defun prime? (n)
+  (declare (optimize (speed 3))
+	   (fixnum n))
+  (let ((lim (isqrt n)))
+    (labels ((outer (i)
+               (if (> i lim)
+                   t 
+                   (if (zerop (rem n i))
+                       nil 
+                       (outer (+ i 2))))))
+      (outer 3))))
+
+(defun sum-primes (lim)
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (->> (loop for i from 3 to lim by 2 collect i)
+    (remove-if-not 'prime?)
+    (reduce '+ )))

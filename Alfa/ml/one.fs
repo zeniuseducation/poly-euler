@@ -188,6 +188,7 @@ let sum_primes (lim) =
       else loopi (i+2L) res
   loopi 3L 2L;;
 
+
 // less than 1ms
 let sol7 (tar : int) =
   let lim = tar * 12
@@ -205,7 +206,7 @@ let sol7 (tar : int) =
       | _ -> outer (i+2) idx
   outer 3 1;;
 
-let prod xs = List.reduce (*) xs;;
+let prod xs = List.reduce (*) xs
 
 // this runs in 5ms
 let sol8 nmax =
@@ -217,6 +218,38 @@ let sol8 nmax =
       | _ -> let this_max = sumxs i (i+12)
              iter (i+1) (if this_max > maxi then this_max else maxi)
   iter 0 0L;;
+
+let jumfak (lim : int) =
+  let faks = Array.zeroCreate<int> (lim + 1)
+  Array.fill faks 0 (lim+1) 1
+  let rec outer (i : int) =
+    let isqr = i*i
+    let rec inner (j : int) =
+      match j with
+        | _ when j <= lim -> (Array.set faks j (faks.[j] + i + j/i); inner(j+i))
+        | _ -> ()
+    match i with
+      | _ when isqr <= lim -> (Array.set faks isqr (faks.[isqr] + i); inner(isqr+i); outer(i+1))
+      | _ -> List.filter (fun x -> faks.[x] > x ) [2..lim]
+  outer 2;;
+
+let sol23b (lim : int) =
+  let hlim = lim/2
+  let abuns = List.toArray <| jumfak lim
+  let refs = Array.zeroCreate<bool> (lim+1)
+  let maxi = Array.length refs
+  Array.fill refs 0 lim false
+  let rec outer (i : int) =
+    let iref = abuns.[i]
+    let rec inner (j : int) =
+      let jref = abuns.[j]
+      match j with
+        | _ when iref+jref <= lim -> (Array.set refs (iref+jref) true; inner (j+1))
+        | _ -> ()
+    match iref with
+      | _ when iref <= hlim -> (inner i; outer (i+1))
+      | _ -> ( (lim * (lim+1))/2) - (List.sum (List.filter (fun x -> refs.[x]) [12..lim]))
+  outer 0;;
 
 let sol18 fname =
   let rows = Array.map (fun (x: String) -> x.Split [|' '|]) <| File.ReadAllLines fname
@@ -537,6 +570,7 @@ let sol72 (lim : int) =
       | true -> (tots_inner (2*i); tots_outer (i+1) (res + (int64 (i-1))))
       | false -> tots_outer (i+1) (res + (int64 tots.[i]))
   (outer 2; tots_outer 2 0L);;
+
 
 let main () =
     timed sol1 1000 "#1"
