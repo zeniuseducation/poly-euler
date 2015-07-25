@@ -351,6 +351,7 @@ Typed Racket 450-460ms
 Haskell 14 seconds  
 C as benchmark 128ms    
 Julia 230ms  
+Julia v2 on Juliabox-0.4 runs in 22ms  
 SML MLTON 132ms  
 F# 102ms  
 
