@@ -9,6 +9,28 @@ let square x = x * x;;
 
 let cube x = x*x*x;;
 
+let sumSieve (lim : int) =
+  let primes = Array.zeroCreate<bool> (lim + 3)
+  Array.fill primes 0 lim true
+  let llim = int (sqrt (float lim))
+  let initstuff = if 0 = llim % 2 then llim + 1 else llim + 2
+  let rec iouter (i : int) (res : int64) =
+    let rec inner (j : int) =
+      match j with
+        | _ when (j <= lim) -> (Array.set primes j false; inner (j+2*i))
+        | _ -> ()
+    match primes.[i] with
+      | _ when (i*i > lim) -> res
+      | true -> (inner (i*i) ; iouter (i+2) (res + (int64 i)))
+      | false -> iouter (i+2) res
+  let rec outer (i : int) (res : int64) =
+    match primes.[i] with
+      | _ when i > lim -> res
+      | true -> outer (i+2) (res + (int64 i))
+      | false -> outer (i+2) res
+  outer initstuff (iouter 3 2L);;
+
+
 let rec bexpt (a: bigint) (m : int) =
   match m with
     | 0 -> 1I
