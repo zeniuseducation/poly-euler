@@ -880,14 +880,19 @@ Clojure 1ms (memoized)
 ##### Problem no 173 
 
 Clojure 0.163 sec  
-Clojure loop version 39ms  
+Clojure loop version 32ms  
 Haskell 8.3 sec  
 Julia 23ms  
+Julia v2 2ms  
+F# 2ms  
 
 ##### Problem no 174
 
 Clojure 1.2 sec  
+Clojure v2 64ms  
 Julia 36ms  
+Julia-0.4 v2 18ms  
+F# 10ms  
 
 ##### Problem 179 
 
