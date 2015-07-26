@@ -1,10 +1,10 @@
 (ns alfa.under200.four
   (:require
-   [clojure.set :refer [union difference intersection subset?]]
-   [clojure.core.reducers :as r]
-   [clojure.string :refer [split-lines]]
-   [alfa.common :refer :all]
-   [clojure.string :as cs]))
+    [clojure.set :refer [union difference intersection subset?]]
+    [clojure.core.reducers :as r]
+    [clojure.string :refer [split-lines]]
+    [alfa.common :refer :all]
+    [clojure.string :as cs]))
 
 (defn palin?
   [^long i]
@@ -56,3 +56,5 @@
        (let [acc (f x l)]
         (cons acc (lazy-seq (redux f acc ls))))
        [])))
+
+

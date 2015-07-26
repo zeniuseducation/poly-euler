@@ -43,7 +43,21 @@ let rec expt (a: int64) (m : int) =
    | 0 -> 1L
    | 1 -> a
    | _ -> let half = expt a (m/2)
-          if m % 2 = 0 then half*half else a*half*half
+          if m % 2 = 0 then half*half else a*half*half;;
+
+let sol173 (lim : int) =
+  let rec outer (i : int) (res : int) =
+    let isqr = i*i
+    let tmp = ((i+2) *(i+2))-isqr
+    if tmp > lim then res
+    else let rec inner (j : int) (resj : int) =
+           let jsqr = j*j
+           if jsqr - isqr > lim then resj
+           else inner (j+2) (1+resj)
+         outer (i+1) (res + (inner (i+2) 0))
+  outer 1 0;;
+
+
 
 let sol1 (lim : int) =
   List.sum [for i in [1..lim] do if (0 = i % 3) || (0 = i % 5) then yield i]
@@ -115,6 +129,25 @@ let collatz (n : int64) =
   match n with
     | _ when 0L = n % 2L -> n / 2L
     | _ -> (3L*n) + 1L
+
+let collatzi (n : int) =
+  match n with
+    | _ when 0 = n % 2 -> n / 2
+    | _ -> (3*n) + 1
+
+// 408ms
+let sol14b (lim : int64) =
+  let rec iter (n : int64) (res : int) =
+    match n with
+      | 1L -> res
+      | _ -> iter (collatz n) (1+res)
+  let rec finder (i : int64) (maxi : int) (source : int64) =
+    let tmp = iter i 0
+    match tmp with
+      | _ when i > lim -> source
+      | _ when tmp > maxi -> finder (i+2L) tmp i
+      | _ -> finder (i+2L) maxi source
+  finder 500001L 1 1L;;
 
 // 471ms
 let sol14 (lim : int64) =
@@ -593,6 +626,26 @@ let sol72 (lim : int) =
       | false -> tots_outer (i+1) (res + (int64 tots.[i]))
   (outer 2; tots_outer 2 0L);;
 
+let sol174 (lim : int) =
+  let ctr = Array.zeroCreate<int> (1+lim)
+  Array.fill ctr 0 lim 0
+  let rec outer (i : int) =
+    let isqr = i*i
+    let tmp = ((i+2) *(i+2))-isqr
+    if tmp > lim then ()
+    else let rec inner (j : int) =
+            let jsqr = j*j
+            let t = jsqr - isqr
+            if t > lim then ()
+            else (Array.set ctr t ((ctr.[t]) + 1) ; inner (j+2))
+         (inner (i+2) ; outer (i+1))
+  let rec counter (i : int) (res : int) =
+    if i > lim then res
+    else let tmp = ctr.[i]
+         match tmp with
+          | _ when (1 <= tmp) && (tmp <= 10) -> counter (i+4) (res+1)
+          | _ -> counter (i+4) res
+  (outer 1 ; counter 4 0);;
 
 let main () =
     timed sol1 1000 "#1"
@@ -617,3 +670,7 @@ let main () =
     timed sol47 150000 "#47"
     timed sol67 "p67.txt" "#67"
     timex sol72 1000000 "#72"
+    timex sumSieve 2000000 "#10b"
+    timex sol14b 1000000L "#14b"
+    timed sol173 1000000 "#173"
+    timed sol174 1000000 "#174"
