@@ -649,6 +649,7 @@ Julia 76ms
 Clojure 43ms  
 SBCL 820ms  
 Julia 24ms  
+F# 30ms  
 
 ##### Problem 63
 
