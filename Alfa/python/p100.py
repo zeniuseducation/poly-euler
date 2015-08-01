@@ -83,9 +83,7 @@ def sol3a (tar) :
             i += 2
         else :
             i += 2
-
-
-
+            
 def is_palin(n) :
     tmp = str(n)
     return tmp == tmp[::-1]
@@ -201,6 +199,7 @@ def timex (st,f,x):
     print(st)
     start_time = time.time()
     tmp = f(x)
+    print (tmp)
     print("--- %s seconds ---" % (time.time() - start_time))
     return tmp
 
@@ -214,4 +213,4 @@ timex ("Soal no 5 : ", sol5, 20)
 timex ("Soal no 6 : ", sol6, 100)
 timex ("Soal no 7 : ", sol7, 10001)
 timex ("Soal no 9 : ", sol9, 1000)
-timex ("Soal no 10 : ", sol10, 20000000)
+timex ("Soal no 10 : ", sol10, 2000000)
