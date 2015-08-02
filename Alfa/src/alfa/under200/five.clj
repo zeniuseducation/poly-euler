@@ -6,6 +6,43 @@
     [alfa.common :refer :all]
     [clojure.string :as cs]))
 
+(defn ^long sol5
+  [^long lim]
+  (let [faks (int-array (range (+ lim 1)))]
+    (loop [i (int 2) res (int 1)]
+      (if (> i lim)
+        res
+        (let [p (aget faks i)]
+          (do (loop [j (int (* i 2))]
+                (when (<= j lim)
+                  (aset faks j (quot (aget faks j) p))
+                  (recur (+ j i))))
+              (recur (+ i 1) (* res p))))))))
+
+(defn ^long sol10
+  [^long lim]
+  (let [llim (int (Math/sqrt lim))
+        hlim (if (even? llim) (+ llim 1) (+ llim 2))
+        primes (boolean-array (+ lim 1) true)
+        res (loop [i (int 3) res (int 2)]
+              (if (> i llim)
+                res
+                (if (aget primes i)
+                  (do (loop [j (int (* i i))]
+                        (when (<= j lim)
+                          (aset primes j false)
+                          (recur (+ j i i))))
+                      (recur (+ i 2)
+                             (+ res i)))
+                  (recur (+ i 2) res))))]
+    (loop [i (int hlim) resi res]
+      (if (> i lim)
+        resi
+        (if (aget primes i)
+          (recur (+ i 2)
+                 (+ i resi))
+          (recur (+ i 2) resi))))))
+
 (defn ^long sol173
   [^long lim]
   (loop [i (int 1) res (int 0)]
@@ -28,7 +65,7 @@
           (let [isqr (* i i)
                 t (- (* (+ i 2) (+ i 2)) isqr)]
             (when (<= t lim)
-              (loop [j (int (+ i 2)) ]
+              (loop [j (int (+ i 2))]
                 (let [jsqr (* j j)
                       t (- jsqr isqr)]
                   (when (<= t lim)

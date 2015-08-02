@@ -160,18 +160,14 @@
 	  (lcons start (lrange (inc start) 1))
 	  (lcons 0 (lrange 1 1)))))
 
-(defun range (&rest args)
-  (deff)
-  (cond ((= 1 (length args))
-	 (loop for i from 0 to (first args) collect i))
-	((= 2 (length args))
-	 (loop for i from (first args) to (second args) collect i))
-	((= 3 (length args))
-	 (let ((a (first args))
-	       (b (second args)))
-	   (if (<= a b)
-	       (loop for i from a to b by (third args) collect i)
-	       (loop for i from a downto b by (third args) collect i))))))
+(defmacro range (a &optional b step)
+  (if b
+      (if step
+	  (if (< a b)
+	      `(loop for i from ,a to ,b by ,step collect i)
+	      `(loop for i from ,a downto ,b by ,step collect i))
+	  `(range ,a ,b 1))
+      `(range 0 ,a 1)))
 
 (defun take (n lst)
   (deff n)
@@ -199,7 +195,7 @@
 
 (defmethod filter (f (lst list))
   (deff)
-  (remove-if-not 'f lst))
+  (remove-if-not f lst))
 
 (defmethod filter (f (lst lazy-seq))
   (deff)
@@ -272,19 +268,19 @@
 	((evenp p) false)
 	(:else (clet (lim (sqrt p))
 		 (cloop (i 3) (deff i)
-		   (if (> i lim)
-		       true
-		       (if (div? p i)
-			   false
-			   (recur (+ 2 i)))))))))
+			(if (> i lim)
+			    true
+			    (if (div? p i)
+				false
+				(recur (+ 2 i)))))))))
 
 (defun fold (f g lst)
   (deff)
   (cloop (i (head lst) xs (tail lst)) (deff)
-    (if (funcall g i)
-	i
-	(recur (funcall f i (head xs))
-	       (tail xs)))))
+	 (if (funcall g i)
+	     i
+	     (recur (funcall f i (head xs))
+		    (tail xs)))))
 
 (defun flatten (lst)
   (deff)
@@ -299,6 +295,12 @@
 (defun distinct (lst)
   (deff)
   (remove-duplicates lst))
+
+(defmacro sum (lst)
+  `(loop for i in ,lst
+      summing i into sumi
+      finally (return sumi)))
+
 
 
 

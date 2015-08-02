@@ -12,6 +12,19 @@ let numcol (i : int64) =
       | _ -> loop (n/10L) (n % 10L :: xs)
   loop i [];;
 
+let sol5 (lim : int) =
+  let faks = Array.init (lim+2) (fun i -> i)
+  let rec outer (i : int) (res : int64) =
+    let p = faks.[i]
+    let rec inner (j : int) =
+      match j with
+        | _ when j > lim -> ()
+        | _ -> (Array.set faks j (faks.[j] / p) ; inner (j+i))
+    match i with
+      | _ when i > lim -> res
+      | _ -> (inner (2*i); outer (i+1) (res * (int64 p)))
+  outer 2 1L;;
+
 let sol62 (lim : int) =
   let tabs = new Dictionary<int64 list,int64 list> ()
   let rec iter (i : int64) =
@@ -43,7 +56,6 @@ let sumSieve (lim : int) =
       | false -> counter (i+2) res
   counter t (outer 3 2L);;
 
-
 let timed funi data msg =
     let timer = new Stopwatch()
     timer.Start()
@@ -54,3 +66,4 @@ let timed funi data msg =
 
 let main () =
   timed sumSieve 2000000 "#sumSieve to 2000000"
+  timed sol5 20 "#No5"

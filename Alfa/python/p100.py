@@ -83,7 +83,7 @@ def sol3a (tar) :
             i += 2
         else :
             i += 2
-            
+
 def is_palin(n) :
     tmp = str(n)
     return tmp == tmp[::-1]
@@ -119,6 +119,17 @@ def sol5(lim):
             if tmpj % tmpi == 0:
                 refs[j] /= tmpi
     return product(refs)
+
+def sol5b(lim):
+    faks = range(0,lim+2)
+    res = 1
+    for i in xrange(2,lim):
+        p = faks[i]
+        for j in xrange(i*2,lim,i):
+            faks[j] /= p
+        res *= p
+    return res
+
 
 def sol6(lim) :
     def square (x) :
@@ -209,7 +220,7 @@ timex ("Soal no 2 : ", sol2loop, 4000000)
 timex ("Soal no 3 : ", sol3, 600851475143)
 timex ("Soal no 3 cara lain ", sol3a, 600851475143)
 timex ("Soal no 4 : ", sol4, 999)
-timex ("Soal no 5 : ", sol5, 20)
+timex ("Soal no 5 : ", sol5b, 20)
 timex ("Soal no 6 : ", sol6, 100)
 timex ("Soal no 7 : ", sol7, 10001)
 timex ("Soal no 9 : ", sol9, 1000)

@@ -142,7 +142,7 @@ fun lcm lst =
     end;
 
 fun sol6 lim =
-    let val squares = sum (List.map (fn x => x*x) (range2 1 (lim+1))) 
+    let val squares = sum (List.map (fn x => x*x) (range2 1 (lim+1)))
 	val sums = sum (range2 1 (lim+1))
 	val squaresums = sums * sums
     in squaresums - squares
@@ -196,6 +196,32 @@ fun sol10 (lim:int) =
     in outer 3 2
     end;
 
+fun sol10b (lim : int) =
+	let val primes = array(lim+1,true)
+		val llim = Real.ceil (Math.sqrt (Real.fromInt lim))
+		val hlim = if 0 = llim mod 2 then llim + 1 else llim + 2
+		fun outer (i:int) (res : Int64.int)=
+			let fun inner (j:int) =
+					if j < lim
+					then (update (primes,j,false); inner (j + (2*i)))
+					else ()
+			in if i <= llim
+			   then if (sub (primes,i))
+			   		then (inner (i * i);
+						  outer (i + 2) (res + (Int64.fromInt i)))
+					else outer (i+2) res
+			   else res
+			end
+		fun accum (i:int) (res:Int64.int) =
+			if i <= lim
+			then if (sub(primes,i))
+				 then accum (i+2) (res + (Int64.fromInt i))
+				 else accum (i+2) res
+			else res
+	in accum hlim (outer 3 2)
+	end;
+
+
 fun sol7b (tar : int) =
     let val lim = 12 * tar
 	val primes = array (lim+1,true)
@@ -209,7 +235,7 @@ fun sol7b (tar : int) =
 			      then (update (primes,j,false);
 				    inner (j+(2*i)))
 			      else 0
-		      in (inner(i*i);outer (i+2) (idx+1)) 
+		      in (inner(i*i);outer (i+2) (idx+1))
 		      end
 		 else outer (i+2) (idx+1)
 	    else outer (i+2) idx
@@ -280,7 +306,7 @@ fun colnum lst =
 
 fun sol24 (n : int) =
     let fun iter i [] res = rev res
-	  | iter i (x::[]) res = rev (x::res) 
+	  | iter i (x::[]) res = rev (x::res)
 	  | iter i raw res =
 	    let val faks = fact ((List.length raw)-1)
 		val divs = i div faks
@@ -289,7 +315,7 @@ fun sol24 (n : int) =
 	    end
     in colnum (iter n (range2 0 10) [])
     end;
-	    
+
 
 fun sol23 (lim : int) : int =
     let val abun = array (lim+2, false)
@@ -387,7 +413,7 @@ fun sol15 (lim : int) =
     in
 	List.foldl plus 0 (List.map sqr (pascal lim))
     end;
-					 
+
 
 fun sol25 (tar : IntInf.int) : int =
     let fun loopi (a : IntInf.int) (b:IntInf.int) (i:int) =
@@ -446,6 +472,7 @@ time sol6 100 "#6";
 time sol7 10000 "#7";
 time sol7b 10001 "#7b";
 timed sol10 2000000 "#10";
+timed sol10b 2000000 "#10b";
 timed sol12 500 "#12";
 timed sol15 20 "#15";
 time sol21 10000 "#21";
@@ -453,5 +480,3 @@ time sol21b 10000 "#21b";
 time sol23 28123 "#23";
 timed sol24 999999 "#24";
 time sol25 (IntInf.pow(10,999)) "#25";
-
-
