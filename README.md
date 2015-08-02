@@ -126,12 +126,13 @@ F# 1ms
 Prob: Find the smallest number that can be evenly divided by all
 integers from 1 to 20.
 
-Clojure 0.3 ms  
-SBCL 0.02 ms   
+Clojure 0.1 ms  
+SBCL 0.006 ms   
 Haskell 0.07ms    
-Julia 0.01ms  
-Pypy 0.1ms  
-SML 0.007ms  
+Julia 0.005ms  
+Pypy 0.07ms  
+SML 0.006ms  
+Racket less than 0.5ms  
 F# less than 0.5ms  
 
 ##### Problem no 6
@@ -157,9 +158,9 @@ Type-hinted Clojure using sieve 5-8ms
 Type-hinted Clojure 1.7 using transducers 0.4ms    
 SBCL 90-110 msecs  
 Type hinted SBCL 24ms  
-Type-hinted SBCL using sieves 2ms  
+Type-hinted SBCL using sieves 2ms    
 Typed Racket 35-38ms  
-Typed Racket using sieve  2-4ms  
+Typed Racket using sieve  1-2ms  
 Haskell 25ms  
 SML 17 msecs  
 C Benchmark using sieve 0.9ms  
@@ -221,7 +222,7 @@ Typed Racket using sieves 29ms
 C Benchmark using sieve 24 ms  
 Swift naive 1,421ms  
 Swift sieves 16ms  
-Julia using sieves 19ms  
+Julia using sieves 9ms  
 Pypy 75ms  
 F# 7ms  
 
