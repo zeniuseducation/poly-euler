@@ -100,6 +100,7 @@ Typed Racket 6ms
 Further optimised Typed Racket 0.4-0.5ms  
 C as benchmark 0.2ms  
 Java as benchmark 5ms  
+Java v2 0.02ms  
 Swift 0.11ms NEW RECORD!!  
 Julia 0.16ms  
 Juliabox-0.4 v2 0.043ms  
@@ -118,6 +119,7 @@ Clojure with memoization 0.01ms
 SBCL 11-20 msecs  
 Haskell 4ms  
 SML 1.3 msec  
+Java 2ms  
 Julia 0.006ms  FAST! (using memoization)  
 Pypy 5.5ms  
 F# 1ms  
@@ -133,6 +135,7 @@ Haskell 0.07ms
 Julia 0.005ms  
 Pypy 0.07ms  
 SML 0.006ms  
+Java 0.004ms  
 Racket less than 0.5ms  
 F# less than 0.5ms  
 
@@ -145,6 +148,7 @@ SBCL 0.01 msecs
 Haskell 0.1ms  
 Julia 0.004ms  
 Pypy 0.4ms  
+Java 0.005ms  
 F# less than 1ms  
 SML 0.007ms  
 
@@ -167,6 +171,7 @@ SML 17 msecs
 C Benchmark using sieve 0.9ms  
 Swift naive using Int32 10ms  
 Swift using sieves 0.7ms  
+Java 1.2ms  
 Julia using sieves 0.7ms  
 Pypy 6ms  
 SML 1ms  
@@ -194,6 +199,7 @@ Haskell 13ms
 SML 1 ms  
 C as benchmark 0.25ms  
 Java benchmark 2.5ms  
+Java v2 1.1ms  
 Swift 0.32 ms  
 Julia 0.006ms  
 Pypy 0.03ms  
@@ -216,6 +222,7 @@ Haskell 1,320 msecs (1.3 secs)
 Haskell on Win32 470 msecs   
 SML 736 msecs!! (0.736 secs)    
 SML sieve 18ms  
+Java sieve 6.3ms  
 Racket 4-6K msecs  
 Typed Racket 2,200 msecs (Faster than Clojure)  
 Typed Racket in Win32 987 msecs  
@@ -249,6 +256,7 @@ C Benchmark 580 ms
 C Benchmark v2 6 ms  
 C Benchmark proto-memoize 3 ms  
 Java Benchmark 11 ms  
+Java v2 1.2ms  
 Swift 7ms   
 Julia 9ms 
 Julia v2 0.2ms  
@@ -277,6 +285,7 @@ Typed Racket 0.9 second (check >500k odds only)
 SML 36 seconds  
 SML MLTON 627ms  
 C as benchmark (starting from half a million and check odd only) 179ms   
+Java 55ms  
 Swift 185ms  
 Julia 800ms  
 Julia v2 39ms  
@@ -336,6 +345,7 @@ Haskell compiled 30 ms
 Typed Racket 24ms  
 SML 7ms  
 Java benchmark 14ms  
+Java 2.2ms  
 C as benchmark 7ms   
 C using dynamic programming 4.5ms   
 Julia 7ms  
