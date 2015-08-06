@@ -160,14 +160,14 @@
 	  (lcons start (lrange (inc start) 1))
 	  (lcons 0 (lrange 1 1)))))
 
-(defmacro range (a &optional b step)
+(defun range (a &optional b step)
   (if b
       (if step
 	  (if (< a b)
-	      `(loop for i from ,a to ,b by ,step collect i)
-	      `(loop for i from ,a downto ,b by ,step collect i))
-	  `(range ,a ,b 1))
-      `(range 0 ,a 1)))
+	      (loop for i from a to b by step collect i)
+	      (loop for i from a downto b by step collect i))
+	  (range a b 1))
+      (range 0 a 1)))
 
 (defun take (n lst)
   (deff n)

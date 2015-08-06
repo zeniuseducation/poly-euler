@@ -96,6 +96,30 @@
                 (map first))
           (range 2 (+ lim 1))))))
 
+
+;; runs in 2.4ms
+(defn ^long sol21
+  [^long n]
+  (let [lim (int (* 3 n))
+        llim (int (Math/sqrt lim))
+        faks (int-array (+ lim 1) 1)]
+    (loop [i (int 2)]
+      (when (<= i llim)
+        (let [isqr (* i i)]
+          (aset faks isqr (+ (aget faks isqr) i))
+          (loop [j (+ isqr i)]
+            (when (<= j lim)
+              (aset faks j (+ (aget faks j) i (quot j i)))
+              (recur (+ j i))))
+          (recur (+ i 1)))))
+    (loop [i (int 2) res (int 0)]
+      (if (< i n)
+        (let [itmp (aget faks i)]
+          (if (and (not= i itmp) (== i (aget faks itmp)))
+            (recur (+ i 1) (+ res i))
+            (recur (+ i 1) res)))
+        res))))
+
 (defn sol23
   [^long lim]
   (let [tmp (int-array (jumlah-faktor lim))

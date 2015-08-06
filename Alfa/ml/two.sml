@@ -368,6 +368,33 @@ fun sol21b (lim : int ) : int =
     in iter 2 0
     end;
 
+fun sol21c (n : int) : int =
+	let val lim = 3*n
+		val faks = array (lim+1,1)
+		fun iter (i:int) : int =
+			if i > lim div i
+			then 0
+			else let val isqr = i*i
+					 fun inner (j:int) : unit =
+					 	 if j > lim
+						 then ()
+						 else (update(faks,j, ( (sub (faks,j)) + i + (i div j)) ) ;
+						 	   inner (j+i))
+				 in (update (faks, isqr, (sub (faks,isqr) + i) ) ;
+				     inner (i+ isqr) ;
+					 iter (i + 1))
+				 end
+		fun acum (i : int) (res : int) : int =
+			if i > n
+			then res
+			else let val itmp = sub(faks,i)
+				 in if (i <> itmp) andalso (i = sub(faks,itmp))
+				 	then acum (i+1) (res+i)
+					else acum (i+1) res
+				 end
+	in acum 1 (iter 1)
+	end;
+
 fun sol12 (tar : int) : Int64.int =
     let fun iter (n : int) =
 	    if 0 = n mod 2
@@ -477,6 +504,7 @@ timed sol12 500 "#12";
 timed sol15 20 "#15";
 time sol21 10000 "#21";
 time sol21b 10000 "#21b";
+time sol21c 10000 "#21c";
 time sol23 28123 "#23";
 timed sol24 999999 "#24";
 time sol25 (IntInf.pow(10,999)) "#25";

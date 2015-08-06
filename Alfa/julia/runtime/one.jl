@@ -48,6 +48,29 @@ function sol10(lim::Int)
     res
 end
 
+# runs in 2.5ms FIXME needs to put on github
+function sol21(n::Int)
+    lim :: Int = 3*n
+    llim :: Int = isqrt(lim)
+    faks :: Array{Int,1} = ones(Int,lim)
+    for i = 2:llim
+        isqr :: Int = i*i
+        faks[isqr] += i
+        for j = isqr+i:i:lim
+            faks[j] += i + div(j,i)
+        end
+    end
+    res :: Int = 0
+    for i = 2:n
+        itmp = faks[i]
+        if faks[itmp] == i && i != itmp
+            res += i
+        end
+    end
+    res
+end
+
+
 
 
 

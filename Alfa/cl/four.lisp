@@ -69,5 +69,70 @@
 		when (= cur tar)
 		return i)))))
 
+;; Runs in 8ms
+(defun sol21 (n)
+  (deff n)
+  (let* ((lim (* 3 n))
+	 (llim (isqrt lim))
+	 (faks (make-array (1+ lim) :initial-element 1)))
+    (loop for i from 2 to llim
+       do (let ((isqr (* i i)))
+	    (setf (aref faks isqr) (+ (aref faks isqr) i))
+	    (loop for j from (+ isqr i) to lim by i
+	       do (setf (aref faks j) (+ (aref faks j) i (div j i))))))
+    (loop for i from 1 to n
+       for itmp = (aref faks i)
+       when (and (not (= i itmp)) (= i (aref faks itmp)))
+       summing i into sumi
+       finally (return sumi))))
+
+
+
+
+(defun abuns (lim)
+  (deff lim)
+  (let* ((llim (isqrt lim))
+	 (faks (make-array (+ lim 1) :initial-element 1)))
+    (loop for i from 2 to llim
+       do (let ((isqr (* i i)))
+	    (setf (aref faks isqr) (+ (aref faks isqr) i))
+	    (loop for j from (+ isqr i) to lim by i
+	       do (setf (aref faks j) (+ (aref faks j) i (div j i))))))
+    (labels ((iter (i res)
+	       (if (> i lim)
+		   res
+		   (if (> (aref faks i) i)
+		       (iter (+ i 1) (cons i res))
+		       (iter (+ i 1) res)))))
+      (reverse (iter 1 nil)))))
+
+;; Runs in 102ms
+(defun sol23 (lim)
+  (deff lim)
+  (let* ((abunj (abuns lim))
+	 (len (length abunj))
+	 (abun (make-array len :initial-contents abunj))
+	 (llim (/ lim 2))
+	 (sums (make-array (+ lim 1) :initial-element nil)))
+    (loop for i from 0 to (1- len)
+       for itmp = (aref abun i)
+       when (> itmp llim)
+       return (- (/ (* lim (+ lim 1)) 2)
+		 (sum (filter (fn (aref sums %)) (range 1 lim 1))))
+       do (loop for j from i to (1- len)
+	     for jtmp = (aref abun j)
+	     for ijtmp = (+ itmp jtmp)
+	     when (<= ijtmp lim)
+	     do (setf (aref sums ijtmp) t)
+	     when (> ijtmp lim)
+	     return nil))))
+
+
+
+
+
+
+
+
 
 
