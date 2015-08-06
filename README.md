@@ -103,6 +103,7 @@ Java as benchmark 5ms
 Swift 0.11ms NEW RECORD!!  
 Julia 0.16ms  
 Juliabox-0.4 v2 0.043ms  
+Juliabox-0.4 v3 0.019ms    
 Pypy 1.5ms  
 Elixir 3.5ms  
 F# less than 0.5 ms  
@@ -232,10 +233,11 @@ Prob: Triangle number that has more than 500 factors
 
 Clojure 1,700 ms    
 Type hinted Clojure 560 ms    
-Clojure v2 using memoized 13ms    
+Clojure v2 using memoized 13ms  
 SBCL 2,400 ms    
 Type hinted SBCL 590 ms    
 SBCL v2 21 ms    
+SBCL v3 sieve-like 8ms  
 SBCL using proto-memoize 1ms  
 Typed Racket 1000 ms    
 Racket v2 42 ms    
@@ -248,7 +250,8 @@ C Benchmark v2 6 ms
 C Benchmark proto-memoize 3 ms  
 Java Benchmark 11 ms  
 Swift 7ms   
-Julia 9ms  
+Julia 9ms 
+Julia v2 0.2ms  
 F# 7ms    
 
 ##### Problem 13
@@ -276,6 +279,7 @@ SML MLTON 627ms
 C as benchmark (starting from half a million and check odd only) 179ms   
 Swift 185ms  
 Julia 800ms  
+Julia v2 39ms  
 F# with Dynamic programming 471ms  
 
 ##### Problem no 15
@@ -325,6 +329,7 @@ Problem : The sum of all amicable numbers less than 10,000
 Clojure 72 ms    
 Type hinted Clojure 17-22 ms  
 Clojure 1.7 11ms  
+Clojure v2 2.4ms  
 SBCL 51 ms    
 Type hinted SBCL 17-20 ms  
 Haskell compiled 30 ms  
@@ -334,7 +339,9 @@ Java benchmark 14ms
 C as benchmark 7ms   
 C using dynamic programming 4.5ms   
 Julia 7ms  
+Juliabox v2 1.3ms  
 F# using list 5ms, and 4ms using loop  
+F# v2 less than 1ms  
 
 ##### Problem 22 
 
@@ -350,6 +357,7 @@ Type-hinted Clojure 240-250ms
 Clojure 1.7 110ms  
 Clojure 1.7 v2 50ms  
 Type-hinted SBCL 275ms  
+SBCL sieve-like 102ms  
 Typed Racket 450-460ms   
 Haskell 14 seconds  
 C as benchmark 128ms    
