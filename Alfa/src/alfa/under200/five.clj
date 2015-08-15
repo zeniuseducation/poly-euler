@@ -6,6 +6,20 @@
     [alfa.common :refer :all]
     [clojure.string :as cs]))
 
+(defn ^long sol3
+  [^long tar]
+  (loop [i (int 3) n tar]
+    (cond
+      (== i n) i
+      (== 0 (rem n i)) (if (odd-prime? i)
+                         (let [tmp (loop [m n]
+                                     (if (== 0 (rem m i))
+                                       (recur (quot m i))
+                                       m))]
+                           (recur (+ i 2) tmp))
+                         (recur (+ i 2) n))
+      :else (recur (+ i 2) n))))
+
 (defn ^long sol5
   [^long lim]
   (let [faks (int-array (range (+ lim 1)))]
@@ -42,6 +56,52 @@
           (recur (+ i 2)
                  (+ i resi))
           (recur (+ i 2) resi))))))
+
+(defn ^long sol14b
+  [^long lim]
+  (let [refs (ref {1 1})
+        colat (fn colat [n]
+                (if-let [tmp (@refs n nil)]
+                  tmp
+                  (let [tmpi (if (even? n)
+                               (+ 1 (colat (quot n 2)))
+                               (+ 1 (colat (+ 1 (* 3 n)))))]
+                    (dosync (alter refs assoc n tmpi))
+                    tmpi)))]
+    (->> [(range 1 200001)
+          (range 200001 400001)
+          (range 400001 600001)
+          (range 600001 800001)
+          (range 800001 (+ lim 1))]
+         (pmap #(apply max-key colat %))
+         (apply max-key colat))))
+
+(defn ^long sol14
+  [^long lim]
+  (let [refs (int-array (+ lim 1) 0)
+        collat (fn collat [^long n]
+                 (if (<= n lim)
+                   (let [tmp (aget refs n)]
+                     (if (== 0 tmp)
+                       (let [tmpi (+ 1 (if (even? n)
+                                         (collat (quot n 2))
+                                         (collat (+ 1 (* 3 n)))))]
+                         (aset refs n tmpi)
+                         tmpi)
+                       tmp))
+                   (if (even? n)
+                     (+ 1 (collat (quot n 2)))
+                     (+ 1 (collat (+ 1 (* 3 n)))))))]
+    (aset refs 1 1)
+    (loop [i (int 1) cur (int 1) maxi (int 1)]
+      (if (> i lim)
+        [cur maxi]
+        (let [tmp (collat i)]
+          (if (> tmp maxi)
+            (recur (+ i 1) i tmp)
+            (recur (+ i 1) cur maxi)))))))
+
+
 
 (defn ^long sol173
   [^long lim]
