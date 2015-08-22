@@ -7,7 +7,14 @@
 
 (* ::Input:: *)
 (*sol1 [lim_] := Fold[Plus,Select[Range[1,lim], (Mod[#,3] == 0) || (Mod[#,5]==0) &]];*)
-(*Timing[sol1[1000]]*)
+(**)
+(*sol1a[lim_] :=*)
+(*Module[{i=1,sum=0},*)
+(*While[i< lim,*)
+(*If[Mod[i,3]==0 || Mod[i,5]==0, sum+= i];*)
+(*i++];*)
+(*Return[sum]];*)
+(*RepeatedTiming[sol1a[1000]]*)
 
 
 (* ::Input:: *)
@@ -17,7 +24,7 @@
 
 
 (* ::Input:: *)
-(*Timing[sol2[4000000]]*)
+(*RepeatedTiming[sol2[4000000]]*)
 
 
 (* ::Input:: *)
@@ -41,4 +48,36 @@
 
 
 (* ::Input:: *)
-(*Timing[sol3[600851475143]]*)
+(*RepeatedTiming[sol3[600851475143]]*)
+
+
+(* ::Input:: *)
+(*isPalin[xs_] := Reverse[xs]== xs*)
+
+
+(* ::InheritFromParent:: *)
+(*sol4[lim_] := *)
+(*Block[{tor =Select[Apply[Join,Table[{i,j}, {i,900,lim},{j,900,lim}]],Block[{t1=#[[1]],t2=#[[2]]}, t1!= t2 && isPalin[IntegerDigits[t1*t2]]]&]},*)
+(*Max [Map[#[[1]]*#[[2]]&,tor]]]*)
+(*RepeatedTiming[sol4[999]]*)
+
+
+(* ::Input:: *)
+(*sol4a [lim_] :=*)
+(*Module[{cur = 0},*)
+(*For[i=lim, i >= 900, i--, *)
+(*For[j=i-1, j >= 900, j--,*)
+(*Block[{tmp = i*j},*)
+(*If[isPalin[IntegerDigits[tmp]],*)
+(*If[tmp> cur,*)
+(*cur = tmp]]]]];*)
+(*cur];*)
+(*RepeatedTiming[sol4a[999]]*)
+
+
+(* ::Input:: *)
+(**)
+
+
+(* ::Input:: *)
+(**)
