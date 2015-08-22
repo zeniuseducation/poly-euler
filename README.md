@@ -66,6 +66,7 @@ Elixir 0.1ms
 F# less than 1ms  
 SML 0.016ms  
 Pypy 0.027ms  
+Mathematica 2ms  
 
 ##### Problem no 2
 
@@ -82,6 +83,7 @@ Swift 0.004ms
 Julia 0.004ms TIGHT with SWIFT!  
 Pypy 0.02ms  
 Elixir 0.008ms  
+Mathematica 0.08ms  
 
 ##### Problem no 3
 
@@ -108,6 +110,7 @@ Juliabox-0.4 v3 0.019ms
 Pypy 1.5ms  
 Elixir 3.5ms  
 F# less than 0.5 ms  
+Mathematica 3.4ms  
 
 ##### Problem no 4
 
@@ -123,6 +126,7 @@ Java 2ms
 Julia 0.006ms  FAST! (using memoization)  
 Pypy 5.5ms  
 F# 1ms  
+Mathematica 16ms  
 
 ##### Problem no 5
 
