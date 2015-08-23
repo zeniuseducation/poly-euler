@@ -142,6 +142,7 @@ SML 0.006ms
 Java 0.004ms  
 Racket less than 0.5ms  
 F# less than 0.5ms  
+Mathematica 0.034ms  
 
 ##### Problem no 6
 
@@ -155,6 +156,7 @@ Pypy 0.4ms
 Java 0.005ms  
 F# less than 1ms  
 SML 0.007ms  
+Mathematica 0.12ms  
 
 
 ##### Problem no 7
