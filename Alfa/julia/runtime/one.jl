@@ -1,6 +1,8 @@
 using Memoize
 using Lazy
 
+include("Common.jl")
+
 function sol1(lim :: Int)
     res :: Int = 0
     for i = 1:lim
