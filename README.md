@@ -35,7 +35,7 @@ actually use Lisp itself a lot*."
 
 In every source code, time-elapsed for each solution will be listed.
 
-## Performance Comparison on MBA i7 1.7GHz
+### Performance Comparison on MBA i7 1.7GHz
 
 Implementations:  
 1. Clojure using Clojure (Mostly 1.7) on JDK 1.8 (Also used for Java)  
