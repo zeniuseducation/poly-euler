@@ -84,6 +84,10 @@ readp22 = do
       res = sol22 tmp
   return res
 
+gesek n ms mk f
+  | f <= n * ms = (- f, "statis")
+  | otherwise = (- (n * mk), "kinetis")
+
 time f = do
   start <- getCurrentTime
   print $ f

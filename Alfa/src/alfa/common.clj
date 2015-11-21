@@ -377,7 +377,6 @@
         :else (let [[dep bel] (split-at (quot (count lst) 2) lst)]
                 (+ (tree-sum dep) (tree-sum bel)))))
 
-
 (defn qsort
   [[x & xs :as lst]]
   (cond (nil? x) []

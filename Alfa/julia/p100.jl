@@ -1426,7 +1426,7 @@ function sol75 (lim :: Int)
     end
     ctr :: Int = 0
     for i = 12:2:lim
-        if refs [i] == 1
+        if refs[i] == 1
             ctr += 1
         end
     end

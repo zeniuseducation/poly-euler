@@ -127,6 +127,32 @@
 	     when (> ijtmp lim)
 	     return nil))))
 
+(defun pitas (lim)
+  (declare (optimize (speed 3))
+	   (fixnum lim))
+  (time
+   (let ((refs (make-array (+ 1 lim) :initial-element 0)))
+     (progn (loop for m from 2 to (/ lim 2)
+	       do (loop for n from 1 to (- m 1)
+		     for a = (- (* m m) (* n n))
+		     for b = (* 2 m n)
+		     for c = (+ (* m m) (* n n))
+		     for peri = (+ a b c)
+		     while (<= peri lim)
+		     when (and (or (evenp m) (evenp n))
+			       (= 1 (gcd m n)))
+		     do (loop for idx from peri to lim by peri
+			   do (let ((tmp (aref refs idx)))
+				(setf (aref refs idx) (+ tmp 1))))))
+	    (let ((res 0) (ires 0))
+	      (loop for idx from 12 to lim by 2
+		 for tmp = (aref refs idx)
+		 when (> tmp res)
+		 do (progn (setf res tmp)
+			   (setf ires idx))
+		 counting (= 1 tmp) into counter
+		 finally (return (list counter ires res))))))))
+
 
 
 
